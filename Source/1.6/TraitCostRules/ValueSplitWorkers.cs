@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Base class for workers that split off a fraction of base materials and

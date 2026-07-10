@@ -3,7 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     public partial class Dialog_WeaponCustomization
     {
@@ -130,7 +130,7 @@ namespace UniqueWeaponsUnbound
                             // so the visual cue and the explanatory tip share an identity.
                             // Hex matches ColorLibrary.Yellow (#ffff14).
                             TooltipHandler.TipRegion(chipRect,
-                                "<color=#ffff14>" + "UWU_LastTraitSourceWarning".Translate() + "</color>");
+                                "<color=#ffff14>" + "PWU_LastTraitSourceWarning".Translate() + "</color>");
                         }
 
                         // Click: switch to traits tab and scroll trait into view
@@ -162,7 +162,7 @@ namespace UniqueWeaponsUnbound
                 Text.Anchor = TextAnchor.MiddleLeft;
                 if (!hasSurplus)
                     GUI.color = Color.gray;
-                string refundLabel = "UWU_NetRefund".Translate();
+                string refundLabel = "PWU_NetRefund".Translate();
                 float refundLabelWidth = Text.CalcSize(refundLabel).x;
                 Widgets.Label(
                     new Rect(refundArea.x, refundArea.y,
@@ -185,7 +185,7 @@ namespace UniqueWeaponsUnbound
                     Widgets.Label(
                         new Rect(refundArea.x + refundLabelWidth, refundArea.y,
                             refundArea.width - refundLabelWidth, refundArea.height),
-                        "UWU_RefundNone".Translate());
+                        "PWU_RefundNone".Translate());
                     GUI.color = Color.white;
                 }
                 Text.Anchor = TextAnchor.UpperLeft;
@@ -198,7 +198,7 @@ namespace UniqueWeaponsUnbound
                 Text.Anchor = TextAnchor.MiddleLeft;
                 if (hasNetCost)
                 {
-                    string costLabel = "UWU_NetCost".Translate();
+                    string costLabel = "PWU_NetCost".Translate();
                     float labelWidth = Text.CalcSize(costLabel).x;
                     Widgets.Label(
                         new Rect(netCostArea.x, netCostArea.y, labelWidth, netCostArea.height),
@@ -215,7 +215,7 @@ namespace UniqueWeaponsUnbound
                 }
                 else
                 {
-                    string costPrefix = "UWU_NetCost".Translate();
+                    string costPrefix = "PWU_NetCost".Translate();
                     float prefixWidth = Text.CalcSize(costPrefix).x;
                     Widgets.Label(
                         new Rect(netCostArea.x, netCostArea.y, prefixWidth, netCostArea.height),
@@ -225,7 +225,7 @@ namespace UniqueWeaponsUnbound
                     Widgets.Label(
                         new Rect(netCostArea.x + prefixWidth, netCostArea.y,
                             netCostArea.width - prefixWidth, netCostArea.height),
-                        "UWU_CostFree".Translate());
+                        "PWU_CostFree".Translate());
                     GUI.color = prevFreeColor;
                 }
                 Text.Anchor = TextAnchor.UpperLeft;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Converts all costs into spacer components by market value.

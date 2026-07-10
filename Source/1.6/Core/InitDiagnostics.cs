@@ -6,7 +6,7 @@ using System.Text;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Passive recorder for Initialize-phase failures and the printer for the
@@ -24,7 +24,7 @@ namespace UniqueWeaponsUnbound
 
         public void RecordFailure(string name, Exception ex)
         {
-            Log.Error("[Unique Weapons Unbound] " + name + ".Initialize failed: " + ex);
+            Log.Error("[Persona Weapons Unbound] " + name + ".Initialize failed: " + ex);
             failedPhases.Add(name);
         }
 
@@ -33,7 +33,7 @@ namespace UniqueWeaponsUnbound
             try { LogSummaryInner(); }
             catch (Exception ex)
             {
-                Log.Error("[Unique Weapons Unbound] Init diagnostic failed: " + ex);
+                Log.Error("[Persona Weapons Unbound] Init diagnostic failed: " + ex);
             }
         }
 
@@ -47,7 +47,7 @@ namespace UniqueWeaponsUnbound
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 
             var sb = new StringBuilder();
-            sb.Append("[Unique Weapons Unbound] v").Append(version).AppendLine(" initialized");
+            sb.Append("[Persona Weapons Unbound] v").Append(version).AppendLine(" initialized");
             if (failedPhases.Count > 0)
             {
                 sb.Append("  Initialization phases failed: ")

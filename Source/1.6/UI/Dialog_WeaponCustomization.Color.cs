@@ -2,7 +2,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     public partial class Dialog_WeaponCustomization
     {
@@ -17,7 +17,7 @@ namespace UniqueWeaponsUnbound
                 Color prevColor = GUI.color;
                 GUI.color = Color.gray;
                 Widgets.Label(rect,
-                    "UWU_SelectTraitsForColor".Translate());
+                    "PWU_SelectTraitsForColor".Translate());
                 GUI.color = prevColor;
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
@@ -43,7 +43,7 @@ namespace UniqueWeaponsUnbound
                 Rect msgRect = new Rect(rect.x, blockY, rect.width, 20f);
                 GUI.color = new Color(0.8f, 0.8f, 0.5f);
                 Widgets.Label(msgRect,
-                    "UWU_ColorDeterminedBy".Translate(forcingTraitName));
+                    "PWU_ColorDeterminedBy".Translate(forcingTraitName));
                 GUI.color = Color.white;
 
                 // Show forced color swatch
@@ -77,29 +77,29 @@ namespace UniqueWeaponsUnbound
             // --- Weapon colors ---
             Text.Font = GameFont.Small;
             Widgets.Label(new Rect(startX, curY, scrollWidth, SectionHeaderHeight),
-                "UWU_WeaponColors".Translate());
+                "PWU_WeaponColors".Translate());
             curY += SectionHeaderHeight;
 
             DrawColorGrid(ref curY, startX, cols, availableWeaponColors, false);
 
             // --- Ideology colors (Ideo + Misc palette, when DLC active) ---
-            if (UWU_Mod.Settings.enableIdeologyColors
+            if (PWU_Mod.Settings.enableIdeologyColors
                 && availableIdeoColors != null && availableIdeoColors.Count > 0)
             {
                 curY += 10f;
                 Widgets.Label(new Rect(startX, curY, scrollWidth, SectionHeaderHeight),
-                    "UWU_IdeologyColors".Translate());
+                    "PWU_IdeologyColors".Translate());
                 curY += SectionHeaderHeight;
 
                 DrawColorGrid(ref curY, startX, cols, availableIdeoColors, true);
             }
 
             // --- Structure colors ---
-            if (UWU_Mod.Settings.enableStructureColors && availableStructureColors.Count > 0)
+            if (PWU_Mod.Settings.enableStructureColors && availableStructureColors.Count > 0)
             {
                 curY += 10f;
                 Widgets.Label(new Rect(startX, curY, scrollWidth, SectionHeaderHeight),
-                    "UWU_StructureColors".Translate());
+                    "PWU_StructureColors".Translate());
                 curY += SectionHeaderHeight;
 
                 DrawColorGrid(ref curY, startX, cols, availableStructureColors, false);
@@ -163,7 +163,7 @@ namespace UniqueWeaponsUnbound
             height += GridHeight(availableWeaponColors.Count, cols);
 
             // Ideology colors
-            if (UWU_Mod.Settings.enableIdeologyColors
+            if (PWU_Mod.Settings.enableIdeologyColors
                 && availableIdeoColors != null && availableIdeoColors.Count > 0)
             {
                 height += 10f + SectionHeaderHeight;
@@ -171,7 +171,7 @@ namespace UniqueWeaponsUnbound
             }
 
             // Structure colors
-            if (UWU_Mod.Settings.enableStructureColors && availableStructureColors.Count > 0)
+            if (PWU_Mod.Settings.enableStructureColors && availableStructureColors.Count > 0)
             {
                 height += 10f + SectionHeaderHeight;
                 height += GridHeight(availableStructureColors.Count, cols);
@@ -207,11 +207,11 @@ namespace UniqueWeaponsUnbound
             // ideo; we only elevate relic ideo above that.
             Texture2D overlayTex = null;
             if (isRelicIdeo)
-                overlayTex = UWU_Textures.IdeoColor;
+                overlayTex = PWU_Textures.IdeoColor;
             else if (isFavorite)
-                overlayTex = UWU_Textures.FavoriteColor;
+                overlayTex = PWU_Textures.FavoriteColor;
             else if (isPawnIdeo)
-                overlayTex = UWU_Textures.IdeoColor;
+                overlayTex = PWU_Textures.IdeoColor;
 
             if (overlayTex != null)
             {
@@ -235,7 +235,7 @@ namespace UniqueWeaponsUnbound
             {
                 if (isRelicIdeo)
                     TooltipHandler.TipRegion(swatchRect,
-                        "UWU_RelicIdeoColorTip".Translate(
+                        "PWU_RelicIdeoColorTip".Translate(
                             weapon.StyleSourcePrecept.LabelCap.Colorize(
                                 ColoredText.NameColor),
                             relicIdeo.name.Colorize(ColoredText.NameColor)));

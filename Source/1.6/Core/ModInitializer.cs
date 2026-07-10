@@ -1,14 +1,14 @@
 using HarmonyLib;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     [StaticConstructorOnStartup]
-    public static class UniqueWeaponsUnboundMod
+    public static class ModInitializer
     {
-        static UniqueWeaponsUnboundMod()
+        static ModInitializer()
         {
-            var harmony = new Harmony("shunter.uniqueweaponsunbound");
+            var harmony = new Harmony("shunter.personaweaponsunbound");
             harmony.PatchAll();
 
             var report = new InitDiagnostics();

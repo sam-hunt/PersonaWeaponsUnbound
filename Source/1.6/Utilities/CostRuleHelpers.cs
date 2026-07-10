@@ -4,7 +4,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Static helper methods and material caches used by trait cost rule workers.
@@ -51,7 +51,7 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Skipped raw-resource scan for "
+                    Log.Error("[Persona Weapons Unbound] Skipped raw-resource scan for "
                         + def.SourceForLog() + " due to error: " + ex);
                 }
             }
@@ -64,7 +64,7 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Skipped material label cache for "
+                    Log.Error("[Persona Weapons Unbound] Skipped material label cache for "
                         + def.SourceForLog() + " due to error: " + ex);
                 }
             }

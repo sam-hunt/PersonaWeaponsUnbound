@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Optional integration with Vanilla Expanded Framework's
@@ -48,7 +48,7 @@ namespace UniqueWeaponsUnbound
             }
             catch (Exception ex)
             {
-                Log.Warning("[Unique Weapons Unbound] VEF reflection failed: " + ex);
+                Log.Warning("[Persona Weapons Unbound] VEF reflection failed: " + ex);
                 return;
             }
 
@@ -58,7 +58,7 @@ namespace UniqueWeaponsUnbound
             // without VEF stay quiet.
             if (ExtensionType != null && InheritRecipesFromField == null)
             {
-                Log.Warning("[Unique Weapons Unbound] VEF active but "
+                Log.Warning("[Persona Weapons Unbound] VEF active but "
                     + ExtensionTypeName + "." + FieldName
                     + " could not be resolved as List<ThingDef>; modded workbenches "
                     + "inheriting recipes via VEF will not be classified by tier.");

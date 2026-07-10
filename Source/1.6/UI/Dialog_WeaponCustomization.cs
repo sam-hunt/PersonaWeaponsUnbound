@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using RimWorld;
-using UniqueWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.HaulPlanning;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     // Dialog layout (traits tab) (950x750):
     //
@@ -181,7 +181,7 @@ namespace UniqueWeaponsUnbound
             // RHS list can hide traits the player can't yet see and disable traits only
             // available on hostile-held weapons. Snapshot is dialog-lifetime — see
             // availableResources comment for why it can't change while we're open.
-            if (UWU_Mod.Settings.restrictTraitsToDiscovered)
+            if (PWU_Mod.Settings.restrictTraitsToDiscovered)
                 progressionPool = TraitProgressionPool.Build();
 
             // Default to hiding negative traits unless the weapon already has one
@@ -223,7 +223,7 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Skipped weapon color "
+                    Log.Error("[Persona Weapons Unbound] Skipped weapon color "
                         + colorDef.SourceForLog() + " due to error: " + ex);
                 }
             }
@@ -241,7 +241,7 @@ namespace UniqueWeaponsUnbound
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("[Unique Weapons Unbound] Skipped ideo color "
+                        Log.Error("[Persona Weapons Unbound] Skipped ideo color "
                             + colorDef.SourceForLog() + " due to error: " + ex);
                     }
                 }
@@ -275,7 +275,7 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Skipped structure color "
+                    Log.Error("[Persona Weapons Unbound] Skipped structure color "
                         + colorDef.SourceForLog() + " due to error: " + ex);
                 }
             }
@@ -302,7 +302,7 @@ namespace UniqueWeaponsUnbound
                 if (desiredTraits.Count > 0)
                     return uniqueDef;
                 // No desired traits — revert to base if one exists
-                if (baseDef != null && UWU_Mod.Settings.allowDefConversion)
+                if (baseDef != null && PWU_Mod.Settings.allowDefConversion)
                     return baseDef;
                 // Unique weapon with no detected base — keep unique def with zero traits.
                 // This handles edge cases where a unique weapon has no base weapon mapping.
@@ -314,7 +314,7 @@ namespace UniqueWeaponsUnbound
         /// True when weapon will revert to its non-unique base def (no traits, base exists).
         /// Name/texture/color controls are disabled in this state.
         /// </summary>
-        private bool IsRevertedToBase => desiredTraits.Count == 0 && baseDef != null && UWU_Mod.Settings.allowDefConversion;
+        private bool IsRevertedToBase => desiredTraits.Count == 0 && baseDef != null && PWU_Mod.Settings.allowDefConversion;
 
         /// <summary>
         /// The effective display color: forced color from traits takes priority,
@@ -655,10 +655,10 @@ namespace UniqueWeaponsUnbound
                 string label;
                 try { label = weapon?.LabelShortCap ?? "(unknown weapon)"; }
                 catch { label = weapon?.def?.defName ?? "(unknown weapon)"; }
-                Log.Error("[Unique Weapons Unbound] Customization dialog errored for "
+                Log.Error("[Persona Weapons Unbound] Customization dialog errored for "
                     + label + ": " + ex);
                 Messages.Message(
-                    "UWU_DialogErrored".Translate(label),
+                    "PWU_DialogErrored".Translate(label),
                     weapon, MessageTypeDefOf.NegativeEvent, historical: false);
                 Close();
             }
@@ -669,8 +669,8 @@ namespace UniqueWeaponsUnbound
             // Compute affordability state for cost coloring across all draw calls
             List<ThingDefCountClass> frameCost = GetTotalCost();
 
-            currentTotalRefund = UWU_Mod.Settings.traitRefundRate > 0f
-                    && UWU_Mod.Settings.traitCostMultiplier > 0f
+            currentTotalRefund = PWU_Mod.Settings.traitRefundRate > 0f
+                    && PWU_Mod.Settings.traitCostMultiplier > 0f
                 ? GetTotalRefund()
                 : null;
             ComputeNetCostAndSurplus(frameCost, currentTotalRefund,
@@ -700,7 +700,7 @@ namespace UniqueWeaponsUnbound
             // Title
             Text.Font = GameFont.Medium;
             Rect titleRect = new Rect(inRect.x, inRect.y, inRect.width, TitleHeight);
-            string titleLabel = "UWU_CustomizeWeapon".Translate(weapon.LabelShortCap);
+            string titleLabel = "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap);
             Widgets.Label(titleRect, titleLabel);
             Text.Font = GameFont.Small;
 

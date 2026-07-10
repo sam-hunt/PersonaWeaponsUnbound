@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound.HaulPlanning
+namespace PersonaWeaponsUnbound.HaulPlanning
 {
     /// <summary>
-    /// One-stack-per-trip planner — the algorithm Unique Weapons Unbound has
+    /// One-stack-per-trip planner — the algorithm Persona Weapons Unbound has
     /// shipped with since the customization flow was added. For each demanded
     /// def it sorts candidate stacks by squared horizontal distance from the
     /// pawn and takes them in order until demand is met, emitting each picked

@@ -1,4 +1,4 @@
-namespace UniqueWeaponsUnbound.HaulPlanning
+namespace PersonaWeaponsUnbound.HaulPlanning
 {
     /// <summary>
     /// Identifies the haul planner algorithm selected in mod settings. Stored

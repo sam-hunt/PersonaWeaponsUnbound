@@ -1,10 +1,10 @@
 using RimWorld;
-using UniqueWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.HaulPlanning;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
-    public class UWU_Settings : ModSettings
+    public class PWU_Settings : ModSettings
     {
         // Progression
         public bool restrictTraitsToDiscovered;

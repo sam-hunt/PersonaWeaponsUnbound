@@ -2,11 +2,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("UniqueWeaponsUnbound")]
-[assembly: AssemblyDescription("Customize unique weapons in RimWorld")]
+[assembly: AssemblyTitle("PersonaWeaponsUnbound")]
+[assembly: AssemblyDescription("Customize persona weapons in RimWorld")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("UniqueWeaponsUnbound")]
+[assembly: AssemblyProduct("PersonaWeaponsUnbound")]
 [assembly: AssemblyCopyright("Copyright © 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 
 // Test access to HaulPlanning.Internal helpers and planner diagnostics
 // (op-count instrument, guard-log kill-switch).
-[assembly: InternalsVisibleTo("UniqueWeaponsUnbound.Tests")]
+[assembly: InternalsVisibleTo("PersonaWeaponsUnbound.Tests")]
 
 [assembly: Guid("c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f")]
 

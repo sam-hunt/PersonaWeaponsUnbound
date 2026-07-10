@@ -3,7 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     public partial class Dialog_WeaponCustomization
     {
@@ -20,7 +20,7 @@ namespace UniqueWeaponsUnbound
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Color prevColor = GUI.color;
                 GUI.color = Color.gray;
-                Widgets.Label(rect, "UWU_NoTraitsAvailable".Translate());
+                Widgets.Label(rect, "PWU_NoTraitsAvailable".Translate());
                 GUI.color = prevColor;
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
@@ -99,7 +99,7 @@ namespace UniqueWeaponsUnbound
             Rect checkLabelRect = new Rect(
                 checkboxRect.xMax + 4f, curY, rect.width - checkSize - checkMargin - 4f, checkSize);
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(checkLabelRect, "UWU_HideNegativeTraits".Translate());
+            Widgets.Label(checkLabelRect, "PWU_HideNegativeTraits".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
         }
 
@@ -115,7 +115,7 @@ namespace UniqueWeaponsUnbound
             // every branch here can assume at least one compatible trait exists
             // and reason purely about which filter excluded the visible set.
             if (traitSearchWidget.filter.Active)
-                return "UWU_NoTraitsMatchSearch".Translate();
+                return "PWU_NoTraitsMatchSearch".Translate();
 
             // Walk filters in dependency order to identify the responsible one.
             // countAfterProgression: traits that pass progression alone (or are originals).
@@ -145,12 +145,12 @@ namespace UniqueWeaponsUnbound
             if (progressionPool != null
                 && countAfterProgression == 0
                 && compatibleTraits.Count > 0)
-                return "UWU_NoTraitsDiscovered".Translate();
+                return "PWU_NoTraitsDiscovered".Translate();
 
             if (hideNegativeTraits && countAfterAll == 0 && countAfterProgression > 0)
-                return "UWU_NoTraitsAfterHideNegative".Translate();
+                return "PWU_NoTraitsAfterHideNegative".Translate();
 
-            return "UWU_NoTraitsAvailable".Translate();
+            return "PWU_NoTraitsAvailable".Translate();
         }
 
         private bool ShouldShowTrait(WeaponTraitDef trait)
@@ -191,7 +191,7 @@ namespace UniqueWeaponsUnbound
             if (desiredTraits.Contains(trait) || originalTraits.Contains(trait))
                 return null;
             if (!progressionPool.HasNonHostileSource(trait))
-                return "UWU_OnlyOnHostiles".Translate();
+                return "PWU_OnlyOnHostiles".Translate();
             return null;
         }
 
@@ -297,7 +297,7 @@ namespace UniqueWeaponsUnbound
                     TooltipHandler.TipRegion(rowRect, tooltip);
                 if (isLastSource)
                     TooltipHandler.TipRegion(rowRect,
-                        "<color=#ffff14>" + "UWU_LastTraitSourceWarning".Translate() + "</color>");
+                        "<color=#ffff14>" + "PWU_LastTraitSourceWarning".Translate() + "</color>");
             }
 
             // Click to add or remove
@@ -350,32 +350,32 @@ namespace UniqueWeaponsUnbound
             }
 
             if (trait.damageDefOverride != null)
-                effectLines.Add("  " + "UWU_DamageType".Translate() + ": " + trait.damageDefOverride.LabelCap);
+                effectLines.Add("  " + "PWU_DamageType".Translate() + ": " + trait.damageDefOverride.LabelCap);
 
             if (trait.extraDamages != null)
             {
                 foreach (ExtraDamage dmg in trait.extraDamages)
-                    effectLines.Add("  " + "UWU_ExtraDamage".Translate() + ": "
+                    effectLines.Add("  " + "PWU_ExtraDamage".Translate() + ": "
                         + dmg.amount + " " + dmg.def.LabelCap);
             }
 
             if (trait.burstShotSpeedMultiplier != 1f)
-                effectLines.Add("  " + "UWU_BurstSpeed".Translate() + ": x"
+                effectLines.Add("  " + "PWU_BurstSpeed".Translate() + ": x"
                     + trait.burstShotSpeedMultiplier.ToString("0.##"));
 
             if (trait.burstShotCountMultiplier != 1f)
-                effectLines.Add("  " + "UWU_BurstCount".Translate() + ": x"
+                effectLines.Add("  " + "PWU_BurstCount".Translate() + ": x"
                     + trait.burstShotCountMultiplier.ToString("0.##"));
 
             if (trait.additionalStoppingPower > 0f)
-                effectLines.Add("  " + "UWU_StoppingPower".Translate() + ": +"
+                effectLines.Add("  " + "PWU_StoppingPower".Translate() + ": +"
                     + trait.additionalStoppingPower.ToString("0.##"));
 
             if (trait.ignoresAccuracyMaluses)
-                effectLines.Add("  " + "UWU_IgnoresAccuracyPenalties".Translate());
+                effectLines.Add("  " + "PWU_IgnoresAccuracyPenalties".Translate());
 
             if (effectLines.Count > 0)
-                parts.Add("UWU_Effects".Translate() + "\n" + string.Join("\n", effectLines));
+                parts.Add("PWU_Effects".Translate() + "\n" + string.Join("\n", effectLines));
 
             return string.Join("\n\n", parts);
         }

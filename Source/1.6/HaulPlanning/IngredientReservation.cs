@@ -5,7 +5,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound.HaulPlanning
+namespace PersonaWeaponsUnbound.HaulPlanning
 {
     /// <summary>
     /// Bridge between the customization dialog and the IHaulPlanner pipeline.
@@ -128,7 +128,7 @@ namespace UniqueWeaponsUnbound.HaulPlanning
                 demand[cost.thingDef] = existing + cost.count;
             }
 
-            HaulPlannerKind kind = UWU_Mod.Settings.haulPlannerKind;
+            HaulPlannerKind kind = PWU_Mod.Settings.haulPlannerKind;
             IntVec3 workbenchPos = job.GetTarget(TargetIndex.C).Cell;
 
             HaulPlan plan = AttemptPlan(pawn, demand, workbenchPos, kind);
@@ -144,13 +144,13 @@ namespace UniqueWeaponsUnbound.HaulPlanning
             // final rung ALSO fails (PlanInfeasible below).
             if (plan == null && kind == HaulPlannerKind.Thorough)
             {
-                Log.Message("[Unique Weapons Unbound] Configured haul planner "
+                Log.Message("[Persona Weapons Unbound] Configured haul planner "
                     + "(Thorough) returned no plan; retrying with Sweep.");
                 plan = AttemptPlan(pawn, demand, workbenchPos, HaulPlannerKind.Sweep);
             }
             if (plan == null && kind != HaulPlannerKind.Sequential)
             {
-                Log.Message("[Unique Weapons Unbound] Haul planning fell through "
+                Log.Message("[Persona Weapons Unbound] Haul planning fell through "
                     + "to Sequential after higher-tier planners returned no plan.");
                 plan = AttemptPlan(pawn, demand, workbenchPos, HaulPlannerKind.Sequential);
             }
@@ -200,7 +200,7 @@ namespace UniqueWeaponsUnbound.HaulPlanning
                 string suffix = kind == HaulPlannerKind.Sequential
                     ? "no further fallback available."
                     : "falling back to Sequential.";
-                Log.Error($"[Unique Weapons Unbound] Haul planner ({kind}) threw "
+                Log.Error($"[Persona Weapons Unbound] Haul planner ({kind}) threw "
                     + $"during Plan(); {suffix} Exception: " + ex);
                 return null;
             }
@@ -262,7 +262,7 @@ namespace UniqueWeaponsUnbound.HaulPlanning
                             string reserverInfo = reserver != null
                                 ? " (held by " + reserver.LabelShortCap + ")"
                                 : "";
-                            Log.Warning("[Unique Weapons Unbound] Could not reserve "
+                            Log.Warning("[Persona Weapons Unbound] Could not reserve "
                                 + pickup.Thing.LabelShortCap + " x" + pickup.Count
                                 + " for customization haul" + reserverInfo + ".");
 

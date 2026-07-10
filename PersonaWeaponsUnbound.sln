@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.6", "1.6", "{16000000-0000-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniqueWeaponsUnbound", "Source\1.6\UniqueWeaponsUnbound.csproj", "{C1D2E3F4-A5B6-4C7D-8E9F-0A1B2C3D4E5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonaWeaponsUnbound", "Source\1.6\PersonaWeaponsUnbound.csproj", "{C1D2E3F4-A5B6-4C7D-8E9F-0A1B2C3D4E5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniqueWeaponsUnbound.Tests", "Tests\1.6\UniqueWeaponsUnbound.Tests.csproj", "{D2E3F4A5-B6C7-4D8E-9F0A-1B2C3D4E5F60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonaWeaponsUnbound.Tests", "Tests\1.6\PersonaWeaponsUnbound.Tests.csproj", "{D2E3F4A5-B6C7-4D8E-9F0A-1B2C3D4E5F60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

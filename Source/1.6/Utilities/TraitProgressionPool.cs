@@ -4,7 +4,7 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Snapshot of which weapon traits exist on player-discoverable unique weapons,
@@ -81,7 +81,7 @@ namespace UniqueWeaponsUnbound
                     try { ScanMap(map, nonHostile, hostile); }
                     catch (Exception ex)
                     {
-                        Log.Error("[Unique Weapons Unbound] Progression scan failed for map "
+                        Log.Error("[Persona Weapons Unbound] Progression scan failed for map "
                             + map + ": " + ex);
                     }
                 }
@@ -99,7 +99,7 @@ namespace UniqueWeaponsUnbound
                         try { ScanPawn(p, isHostile: false, nonHostile, hostile); }
                         catch (Exception ex)
                         {
-                            Log.Error("[Unique Weapons Unbound] Progression scan failed for caravan pawn "
+                            Log.Error("[Persona Weapons Unbound] Progression scan failed for caravan pawn "
                                 + p + ": " + ex);
                         }
                     }

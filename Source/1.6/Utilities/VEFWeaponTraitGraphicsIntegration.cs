@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Optional integration with Vanilla Expanded Framework's trait-driven
@@ -105,7 +105,7 @@ namespace UniqueWeaponsUnbound
             }
             catch (Exception ex)
             {
-                Log.Warning("[Unique Weapons Unbound] VEF weapon-trait-graphics reflection failed: " + ex);
+                Log.Warning("[Persona Weapons Unbound] VEF weapon-trait-graphics reflection failed: " + ex);
                 return;
             }
 
@@ -113,7 +113,7 @@ namespace UniqueWeaponsUnbound
             // but a member drifted, so users without VEF stay quiet.
             if (CompType != null && !Available)
             {
-                Log.Warning("[Unique Weapons Unbound] VEF active but its weapon-trait graphic API ("
+                Log.Warning("[Persona Weapons Unbound] VEF active but its weapon-trait graphic API ("
                     + CompTypeName + " " + DeleteCachesMethodName + "/" + ChangeGraphicMethodName + "/"
                     + GetDetailsMethodName + ", or Thing." + GraphicIntFieldName
                     + ") could not be resolved; trait-driven weapon graphics won't refresh after "
@@ -169,7 +169,7 @@ namespace UniqueWeaponsUnbound
                 if (!runtimeFailureLogged)
                 {
                     runtimeFailureLogged = true;
-                    Log.Error("[Unique Weapons Unbound] VEF trait-graphic refresh failed: " + ex);
+                    Log.Error("[Persona Weapons Unbound] VEF trait-graphic refresh failed: " + ex);
                 }
                 GraphicIntField.SetValue(weapon, null);
             }

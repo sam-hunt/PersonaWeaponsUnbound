@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using UniqueWeaponsUnbound.HaulPlanning.Internal;
+using PersonaWeaponsUnbound.HaulPlanning.Internal;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound.HaulPlanning
+namespace PersonaWeaponsUnbound.HaulPlanning
 {
     /// <summary>
     /// Mid-tier planner: clusters ingredient stacks geographically using the

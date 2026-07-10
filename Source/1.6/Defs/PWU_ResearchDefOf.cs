@@ -1,10 +1,10 @@
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     [DefOf]
-    public static class UWU_ResearchDefOf
+    public static class PWU_ResearchDefOf
     {
         public static ResearchProjectDef UniqueSmithing;
         public static ResearchProjectDef UniqueMachining;

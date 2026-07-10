@@ -29,10 +29,10 @@ if ! command -v powershell.exe >/dev/null 2>&1; then
 fi
 
 WIN_MOD_ROOT="$(wslpath -w "$MOD_ROOT")"
-MAIN_PROJECT='Source\1.6\UniqueWeaponsUnbound.csproj'
-TEST_PROJECT='Tests\1.6\UniqueWeaponsUnbound.Tests.csproj'
+MAIN_PROJECT='Source\1.6\PersonaWeaponsUnbound.csproj'
+TEST_PROJECT='Tests\1.6\PersonaWeaponsUnbound.Tests.csproj'
 
-echo -e "${BLUE}=== Unique Weapons Unbound - Windows Test Runner ===${NC}"
+echo -e "${BLUE}=== Persona Weapons Unbound - Windows Test Runner ===${NC}"
 # printf, not `echo -e`, so the backslashes in the UNC path print verbatim.
 printf "${YELLOW}Repo:${NC} %s\n" "$WIN_MOD_ROOT"
 printf "${YELLOW}Project:${NC} %s\n\n" "$TEST_PROJECT"
@@ -52,7 +52,7 @@ EXTRA_ARGS="$*"
 # 2. Test execution can't run from any \\wsl.localhost\... location (raw UNC
 #    or drive-letter-mapped) because .NET Framework's CLR treats it as a
 #    remote/untrusted source and refuses to load the xunit test adapter.
-#    Stage 3 robocopies the test bin to %TEMP%\uwu-tests\ — a real local
+#    Stage 3 robocopies the test bin to %TEMP%\pwu-tests\ — a real local
 #    NTFS path — and runs `dotnet test` against the copied DLL. Builds still
 #    happen on the WSL filesystem; only test execution moves to local disk.
 #
@@ -73,7 +73,7 @@ trap 'rm -f "$TMPF"' EXIT
 # then maps the UNC repo to a temp drive letter for the build itself.
 powershell.exe -NoProfile -Command "
     \$ErrorActionPreference = 'Stop'
-    \$LocalBin = Join-Path \$env:TEMP 'uwu-tests'
+    \$LocalBin = Join-Path \$env:TEMP 'pwu-tests'
     \$RemoteBin = Join-Path '$WIN_MOD_ROOT' 'Tests\1.6\bin\Debug\net472'
     Set-Location \$env:TEMP
 
@@ -89,7 +89,7 @@ powershell.exe -NoProfile -Command "
     if (\$LASTEXITCODE -ge 8) { Write-Error \"robocopy failed (\$LASTEXITCODE)\"; exit \$LASTEXITCODE }
 
     Set-Location -LiteralPath \$LocalBin
-    dotnet test 'UniqueWeaponsUnbound.Tests.dll' --nologo $EXTRA_ARGS
+    dotnet test 'PersonaWeaponsUnbound.Tests.dll' --nologo $EXTRA_ARGS
     exit \$LASTEXITCODE
 " 2>&1 | tee "$TMPF"
 STATUS=${PIPESTATUS[0]}

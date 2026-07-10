@@ -4,7 +4,7 @@ using System.Linq;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Caches base↔unique weapon pair mappings at startup and provides
@@ -41,7 +41,7 @@ namespace UniqueWeaponsUnbound
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("[Unique Weapons Unbound] Skipped weapon registration for "
+                        Log.Error("[Persona Weapons Unbound] Skipped weapon registration for "
                             + def.SourceForLog() + " due to error: " + ex);
                     }
                 }
@@ -53,7 +53,7 @@ namespace UniqueWeaponsUnbound
                 // ability to revert to a base def when the trait list empties.
                 foreach (ThingDef orphan in orphanUniqueDefs)
                 {
-                    Log.Warning("[Unique Weapons Unbound] No base weapon detected for "
+                    Log.Warning("[Persona Weapons Unbound] No base weapon detected for "
                         + orphan.SourceForLog()
                         + "; customizable but cannot revert to base. "
                         + "Add a descriptionHyperlinks entry or use the '_Unique' suffix.");
@@ -156,7 +156,7 @@ namespace UniqueWeaponsUnbound
                     .OrderBy(v => v.defName)
                     .Select(v => v.SourceForLog()));
 
-                Log.Warning("[Unique Weapons Unbound] Base weapon " + entry.Key.SourceForLog()
+                Log.Warning("[Persona Weapons Unbound] Base weapon " + entry.Key.SourceForLog()
                     + " maps to multiple unique variants (" + variantList + "); using "
                     + winner.defName + " as the base's unique form. This is a mod conflict; "
                     + "reconcile the mods or load order if that is not the intended variant.");

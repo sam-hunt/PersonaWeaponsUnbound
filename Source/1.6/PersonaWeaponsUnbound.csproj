@@ -85,15 +85,15 @@
        a -p:StageDir pointing at its staging dir). Add/remove shipped files here only. -->
   <PropertyGroup>
     <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../..'))</RepoRoot>
-    <ModDeployPath>$(RimWorldPath)/Mods/UniqueWeaponsUnbound</ModDeployPath>
+    <ModDeployPath>$(RimWorldPath)/Mods/PersonaWeaponsUnbound</ModDeployPath>
     <!-- StageMod writes here. Defaults to the local Mods folder; CI overrides with -p:StageDir=... -->
     <StageDir Condition="'$(StageDir)' == ''">$(ModDeployPath)</StageDir>
   </PropertyGroup>
 
   <!-- Wipe $(StageDir) then recopy the full mod from source: atomic and self-cleaning,
        so renamed/deleted Defs/Patches/Textures never linger. Invoke directly for CI:
-         dotnet build Source/1.6/UniqueWeaponsUnbound.csproj -c Release \
-           -t:StageMod -p:StageDir=/path/to/release/UniqueWeaponsUnbound -->
+         dotnet build Source/1.6/PersonaWeaponsUnbound.csproj -c Release \
+           -t:StageMod -p:StageDir=/path/to/release/PersonaWeaponsUnbound -->
   <Target Name="StageMod">
     <Error Condition="'$(StageDir)' == ''" Text="StageMod requires a non-empty -p:StageDir." />
     <ItemGroup>

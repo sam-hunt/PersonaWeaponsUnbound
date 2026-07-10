@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
-using UniqueWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.HaulPlanning;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     public partial class Dialog_WeaponCustomization
     {
@@ -114,7 +114,7 @@ namespace UniqueWeaponsUnbound
                 buttonY,
                 ButtonSize.x,
                 ButtonSize.y);
-            if (Widgets.ButtonText(cancelRect, "UWU_Cancel".Translate()))
+            if (Widgets.ButtonText(cancelRect, "PWU_Cancel".Translate()))
             {
                 Close();
             }
@@ -127,7 +127,7 @@ namespace UniqueWeaponsUnbound
                 ButtonSize.y);
             if (HasChanges)
             {
-                if (Widgets.ButtonText(resetRect, "UWU_Reset".Translate()))
+                if (Widgets.ButtonText(resetRect, "PWU_Reset".Translate()))
                 {
                     ResetToOriginal();
                 }
@@ -136,7 +136,7 @@ namespace UniqueWeaponsUnbound
             {
                 Color prevColor = GUI.color;
                 GUI.color = Color.gray;
-                Widgets.ButtonText(resetRect, "UWU_Reset".Translate());
+                Widgets.ButtonText(resetRect, "PWU_Reset".Translate());
                 GUI.color = prevColor;
             }
 
@@ -161,7 +161,7 @@ namespace UniqueWeaponsUnbound
 
             if (canConfirm)
             {
-                if (Widgets.ButtonText(confirmRect, "UWU_Confirm".Translate()))
+                if (Widgets.ButtonText(confirmRect, "PWU_Confirm".Translate()))
                 {
                     // Auto-generate name if result is unique but name is empty
                     if (ResultingDef == uniqueDef
@@ -221,13 +221,13 @@ namespace UniqueWeaponsUnbound
             {
                 Color prevColor = GUI.color;
                 GUI.color = Color.gray;
-                Widgets.ButtonText(confirmRect, "UWU_Confirm".Translate());
+                Widgets.ButtonText(confirmRect, "PWU_Confirm".Translate());
                 GUI.color = prevColor;
 
                 if (insufficientForConfirm)
                 {
                     // Red error text immediately left of the confirm button
-                    string errorText = "UWU_MissingResources".Translate();
+                    string errorText = "PWU_MissingResources".Translate();
                     float errorWidth = Text.CalcSize(errorText).x;
                     Rect errorRect = new Rect(
                         confirmRect.x - errorWidth - 8f,
@@ -241,7 +241,7 @@ namespace UniqueWeaponsUnbound
                     Text.Anchor = TextAnchor.UpperLeft;
                     GUI.color = prevColor2;
 
-                    TaggedString tooltip = "UWU_NotEnoughMaterials".Translate();
+                    TaggedString tooltip = "PWU_NotEnoughMaterials".Translate();
                     TooltipHandler.TipRegion(errorRect, tooltip);
                     TooltipHandler.TipRegion(confirmRect, tooltip);
                 }
@@ -277,8 +277,8 @@ namespace UniqueWeaponsUnbound
                 }
                 else
                 {
-                    op.refund = UWU_Mod.Settings.traitRefundRate > 0f
-                            && UWU_Mod.Settings.traitCostMultiplier > 0f
+                    op.refund = PWU_Mod.Settings.traitRefundRate > 0f
+                            && PWU_Mod.Settings.traitCostMultiplier > 0f
                         ? CachedPipelineCost(trait, isRemoval: false)
                         : null;
                 }
@@ -320,9 +320,9 @@ namespace UniqueWeaponsUnbound
             bool willBeBaseAfterRemovals = remainingOriginalTraits.Count == 0
                 && WeaponRegistry.IsUniqueWeapon(weapon.def)
                 && baseDef != null
-                && UWU_Mod.Settings.allowDefConversion;
+                && PWU_Mod.Settings.allowDefConversion;
             bool startsAsBase = !WeaponRegistry.IsUniqueWeapon(weapon.def)
-                && UWU_Mod.Settings.allowDefConversion;
+                && PWU_Mod.Settings.allowDefConversion;
             bool deferCosmetics = (willBeBaseAfterRemovals || startsAsBase) && adds.Count > 0;
 
             string deferredName = null;
@@ -426,13 +426,13 @@ namespace UniqueWeaponsUnbound
                 case IngredientReservation.ReservationOutcome.NoActiveDriver:
                     logReason = "no active customize-weapon driver "
                         + "(invariant violation — dialog opened without our driver running)";
-                    messageText = "UWU_CouldNotStartInternalError".Translate(weapon.LabelShortCap);
+                    messageText = "PWU_CouldNotStartInternalError".Translate(weapon.LabelShortCap);
                     isInternalError = true;
                     break;
                 case IngredientReservation.ReservationOutcome.PlanInfeasible:
                     logReason = "no haul planner could satisfy demand from the "
                         + "candidate pool (Sequential fallback also returned null)";
-                    messageText = "UWU_CouldNotStartPlanInfeasible".Translate(weapon.LabelShortCap);
+                    messageText = "PWU_CouldNotStartPlanInfeasible".Translate(weapon.LabelShortCap);
                     break;
                 case IngredientReservation.ReservationOutcome.ReservationConflict:
                     string defLabel = result.ConflictDef?.label ?? "(unknown)";
@@ -446,17 +446,17 @@ namespace UniqueWeaponsUnbound
                     // names the conflicting reserver so the player can find and
                     // investigate that pawn rather than retrying blindly.
                     messageText = result.ConflictReserver != null
-                        ? "UWU_CouldNotStartReservationConflictHeldBy".Translate(
+                        ? "PWU_CouldNotStartReservationConflictHeldBy".Translate(
                             weapon.LabelShortCap, defLabel, result.ConflictCount,
                             result.ConflictReserver.LabelShortCap)
-                        : "UWU_CouldNotStartReservationConflict".Translate(
+                        : "PWU_CouldNotStartReservationConflict".Translate(
                             weapon.LabelShortCap, defLabel, result.ConflictCount);
                     break;
                 default:
                     return;
             }
 
-            string logLine = "[Unique Weapons Unbound] Could not start customization of "
+            string logLine = "[Persona Weapons Unbound] Could not start customization of "
                 + weapon.LabelShortCap + ": " + logReason + ". Dialog left open.";
             if (isInternalError)
                 Log.Error(logLine);

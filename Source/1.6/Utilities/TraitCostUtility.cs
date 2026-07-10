@@ -5,7 +5,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Orchestrates trait cost calculation by running data-driven rules from
@@ -20,14 +20,14 @@ namespace UniqueWeaponsUnbound
         /// Global multiplier applied to all pipeline costs before any other adjustments.
         /// Reads from mod settings; falls back to 1.0 (no change) if settings are not yet loaded.
         /// </summary>
-        public static float CostMultiplier => UWU_Mod.Settings?.traitCostMultiplier ?? 1f;
+        public static float CostMultiplier => PWU_Mod.Settings?.traitCostMultiplier ?? 1f;
 
         /// <summary>
         /// Fraction of the trait's cost returned when removing a trait (or paid for
         /// secondary operations like negative trait additions/removals).
         /// Reads from mod settings; falls back to 0.5 if settings are not yet loaded.
         /// </summary>
-        public static float RefundRate => UWU_Mod.Settings?.traitRefundRate ?? 0.5f;
+        public static float RefundRate => PWU_Mod.Settings?.traitRefundRate ?? 0.5f;
 
         private static List<TraitCostRuleDef> cachedRules;
 
@@ -233,7 +233,7 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Skipped cost rule "
+                    Log.Error("[Persona Weapons Unbound] Skipped cost rule "
                         + ruleDef.SourceForLog() + " for trait "
                         + trait.SourceForLog() + " due to error: " + ex);
                 }
@@ -248,7 +248,7 @@ namespace UniqueWeaponsUnbound
             int malformedCount = costs.RemoveAll(c => c == null || c.thingDef == null);
             if (malformedCount > 0)
             {
-                Log.Warning("[Unique Weapons Unbound] Cost pipeline for trait "
+                Log.Warning("[Persona Weapons Unbound] Cost pipeline for trait "
                     + trait.SourceForLog() + " produced " + malformedCount
                     + " malformed entries (null entry or null thingDef); "
                     + "dropping. Indicates a bug in a TraitCostRuleWorker.");

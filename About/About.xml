@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Unique Weapons Unbound</name>
+  <name>Persona Weapons Unbound</name>
   <author>Sam Hunt</author>
-  <packageId>shunter.uniqueweaponsunbound</packageId>
+  <packageId>shunter.personaweaponsunbound</packageId>
   <modVersion>1.3.0</modVersion>
   <description>Add, remove, and swap unique weapon traits at workbenches with research gates and recipe-based material costs. Includes color, texture, and name customization. Fully configurable balance.</description>
   <supportedVersions>
@@ -16,8 +16,8 @@
       <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
     </li>
     <li>
-      <packageId>ludeon.rimworld.odyssey</packageId>
-      <displayName>RimWorld - Odyssey</displayName>
+      <packageId>ludeon.rimworld.royalty</packageId>
+      <displayName>RimWorld - Royalty</displayName>
     </li>
   </modDependencies>
   <loadAfter>

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Verse;
 
-namespace UniqueWeaponsUnbound.HaulPlanning.Internal
+namespace PersonaWeaponsUnbound.HaulPlanning.Internal
 {
     /// <summary>
     /// Held-Karp dynamic programming over Manhattan distances (Held &amp; Karp

@@ -5,7 +5,7 @@ using RimWorld;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound.Patches
+namespace PersonaWeaponsUnbound.Patches
 {
     // Comp-scoped postfix instead of ThingWithComps.GetGizmos so the patch
     // body only runs for Things whose def carries CompForbiddable — items,
@@ -50,9 +50,9 @@ namespace UniqueWeaponsUnbound.Patches
                 // on a selected weapon doesn't flood the log.
                 string defName = parent?.def?.defName ?? "(null)";
                 Log.ErrorOnce(
-                    "[Unique Weapons Unbound] Customize gizmo failed for "
+                    "[Persona Weapons Unbound] Customize gizmo failed for "
                         + defName + ": " + ex,
-                    ("UWU_GizmoFail_" + defName).GetHashCode());
+                    ("PWU_GizmoFail_" + defName).GetHashCode());
                 return null;
             }
         }
@@ -75,9 +75,9 @@ namespace UniqueWeaponsUnbound.Patches
             TechLevel techLevel = CustomizationRules.GetWeaponTechLevel(parent);
 
             Command_Action gizmo = new Command_Action();
-            gizmo.defaultLabel = "UWU_CustomizeGizmoLabel".Translate();
-            gizmo.defaultDesc = "UWU_CustomizeGizmoDesc".Translate();
-            gizmo.icon = UWU_Textures.Customize;
+            gizmo.defaultLabel = "PWU_CustomizeGizmoLabel".Translate();
+            gizmo.defaultDesc = "PWU_CustomizeGizmoDesc".Translate();
+            gizmo.icon = PWU_Textures.Customize;
 
             // Layer 2: Disabled state (pawn-independent checks)
             AcceptanceReport craftable = CustomizationRules.GetCraftabilityReport(baseDef, uniqueDef);
@@ -122,9 +122,9 @@ namespace UniqueWeaponsUnbound.Patches
                 {
                     string defName = weapon?.def?.defName ?? "(null)";
                     Log.ErrorOnce(
-                        "[Unique Weapons Unbound] Customize action failed for "
+                        "[Persona Weapons Unbound] Customize action failed for "
                             + defName + ": " + ex,
-                        ("UWU_GizmoAction_" + defName).GetHashCode());
+                        ("PWU_GizmoAction_" + defName).GetHashCode());
                 }
             };
 
@@ -158,13 +158,13 @@ namespace UniqueWeaponsUnbound.Patches
                     if (!result.Found)
                     {
                         Messages.Message(
-                            "UWU_CustomizeWeapon".Translate(weapon.LabelShortCap)
+                            "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap)
                                 + " (" + result.BestRejection.Reason + ")",
                             weapon, MessageTypeDefOf.RejectInput, false);
                         return;
                     }
 
-                    Job job = JobMaker.MakeJob(UWU_JobDefOf.UWU_CustomizeWeapon);
+                    Job job = JobMaker.MakeJob(PWU_JobDefOf.PWU_CustomizeWeapon);
                     job.targetB = weapon;
                     job.targetC = result.Workbench;
                     job.count = 1;

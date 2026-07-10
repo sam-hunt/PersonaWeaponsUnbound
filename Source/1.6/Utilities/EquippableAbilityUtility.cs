@@ -2,7 +2,7 @@ using System.Reflection;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Manages the equippable-ability comp
@@ -43,7 +43,7 @@ namespace UniqueWeaponsUnbound
         public static void VerifyReflection()
         {
             if (CachedAbilityField == null)
-                Log.Error("[Unique Weapons Unbound] CompEquippableAbility.ability field not found via reflection; "
+                Log.Error("[Persona Weapons Unbound] CompEquippableAbility.ability field not found via reflection; "
                     + "orphan-ability heal and charge preservation will silently no-op. RimWorld API may have changed.");
         }
 

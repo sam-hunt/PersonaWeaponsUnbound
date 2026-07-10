@@ -1,7 +1,7 @@
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     public partial class Dialog_WeaponCustomization
     {
@@ -16,7 +16,7 @@ namespace UniqueWeaponsUnbound
                 Color prevColor = GUI.color;
                 GUI.color = Color.gray;
                 Widgets.Label(rect,
-                    "UWU_SelectTraitsForTexture".Translate());
+                    "PWU_SelectTraitsForTexture".Translate());
                 GUI.color = prevColor;
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;

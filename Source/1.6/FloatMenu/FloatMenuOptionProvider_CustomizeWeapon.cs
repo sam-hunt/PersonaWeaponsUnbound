@@ -4,7 +4,7 @@ using RimWorld;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     public class FloatMenuOptionProvider_CustomizeWeapon : FloatMenuOptionProvider
     {
@@ -27,7 +27,7 @@ namespace UniqueWeaponsUnbound
             }
             catch (Exception ex)
             {
-                Log.Error("[Unique Weapons Unbound] Skipped customization menu construction at "
+                Log.Error("[Persona Weapons Unbound] Skipped customization menu construction at "
                     + (clickedThing?.LabelShortCap ?? "(null)") + " due to error: " + ex);
             }
 
@@ -50,7 +50,7 @@ namespace UniqueWeaponsUnbound
             }
             catch (Exception ex)
             {
-                Log.Error("[Unique Weapons Unbound] Workbench classification failed for "
+                Log.Error("[Persona Weapons Unbound] Workbench classification failed for "
                     + (workbench.def?.defName ?? "(null def)") + ": " + ex);
                 return null;
             }
@@ -99,7 +99,7 @@ namespace UniqueWeaponsUnbound
             }
             catch (Exception ex)
             {
-                Log.Error("[Unique Weapons Unbound] Skipped customization menu entry for "
+                Log.Error("[Persona Weapons Unbound] Skipped customization menu entry for "
                     + SafeLabel(weapon) + " (" + (weapon?.def?.defName ?? "?")
                     + ") due to error: " + ex);
             }
@@ -138,7 +138,7 @@ namespace UniqueWeaponsUnbound
             if (!customizable.Accepted)
                 return DisabledOrHidden(weapon, customizable);
 
-            string label = "UWU_CustomizeWeapon".Translate(weapon.LabelShortCap);
+            string label = "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap);
 
             if (!pawn.CanReach(workbench, PathEndMode.InteractionCell, Danger.Deadly))
             {
@@ -180,7 +180,7 @@ namespace UniqueWeaponsUnbound
         {
             try
             {
-                Job job = JobMaker.MakeJob(UWU_JobDefOf.UWU_CustomizeWeapon);
+                Job job = JobMaker.MakeJob(PWU_JobDefOf.PWU_CustomizeWeapon);
                 job.targetB = weapon;
                 job.targetC = workbench;
                 job.count = 1;
@@ -188,9 +188,9 @@ namespace UniqueWeaponsUnbound
             }
             catch (Exception ex)
             {
-                Log.Error("[Unique Weapons Unbound] Failed to queue customization job for "
+                Log.Error("[Persona Weapons Unbound] Failed to queue customization job for "
                     + SafeLabel(weapon) + ": " + ex);
-                Messages.Message("UWU_CustomizeWeapon".Translate(SafeLabel(weapon))
+                Messages.Message("PWU_CustomizeWeapon".Translate(SafeLabel(weapon))
                     + " (" + "Error".Translate() + ")",
                     weapon ?? (Thing)workbench,
                     MessageTypeDefOf.RejectInput, historical: false);
@@ -209,7 +209,7 @@ namespace UniqueWeaponsUnbound
             if (report.Reason.NullOrEmpty())
                 return null;
 
-            string label = "UWU_CustomizeWeapon".Translate(weapon.LabelShortCap)
+            string label = "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap)
                 + " (" + report.Reason + ")";
             return new FloatMenuOption(label, null);
         }

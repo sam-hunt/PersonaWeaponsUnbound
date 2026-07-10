@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound.HaulPlanning.Internal
+namespace PersonaWeaponsUnbound.HaulPlanning.Internal
 {
     /// <summary>
     /// Capacity and distance primitives shared by the haul planners. Pulled

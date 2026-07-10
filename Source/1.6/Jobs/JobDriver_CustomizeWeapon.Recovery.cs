@@ -4,7 +4,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     // Recovery phase: cleanup that runs when the job ends, whether
     // successfully or via interruption. Drops any haul-phase inventory

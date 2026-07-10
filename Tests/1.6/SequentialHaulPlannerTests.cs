@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using UniqueWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.HaulPlanning;
 using Verse;
 using Xunit;
 
-namespace UniqueWeaponsUnbound.Tests
+namespace PersonaWeaponsUnbound.Tests
 {
     /// <summary>
     /// Property tests for SequentialHaulPlanner. These guard the bedrock

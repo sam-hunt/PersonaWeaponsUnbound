@@ -4,7 +4,7 @@ using HarmonyLib;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound.Patches
+namespace PersonaWeaponsUnbound.Patches
 {
     [HarmonyPatch(typeof(MainTabWindow_Research),
         nameof(MainTabWindow_Research.VisibleResearchProjects), MethodType.Getter)]
@@ -31,8 +31,8 @@ namespace UniqueWeaponsUnbound.Patches
             catch (Exception ex)
             {
                 Log.ErrorOnce(
-                    "[Unique Weapons Unbound] Research-tab filter failed: " + ex,
-                    "UWU_ResearchFilterFail".GetHashCode());
+                    "[Persona Weapons Unbound] Research-tab filter failed: " + ex,
+                    "PWU_ResearchFilterFail".GetHashCode());
             }
         }
 
@@ -46,16 +46,16 @@ namespace UniqueWeaponsUnbound.Patches
             // projects (matches requireCustomizationResearch=true) rather than
             // silently hiding them. Still cache the reference so we don't re-
             // check Settings every frame.
-            if (UWU_Mod.Settings == null || UWU_Mod.Settings.requireCustomizationResearch)
+            if (PWU_Mod.Settings == null || PWU_Mod.Settings.requireCustomizationResearch)
             {
                 lastFiltered = projects;
                 return;
             }
 
             projects.RemoveAll(def =>
-                def == UWU_ResearchDefOf.UniqueSmithing
-                || def == UWU_ResearchDefOf.UniqueMachining
-                || def == UWU_ResearchDefOf.UniqueFabrication);
+                def == PWU_ResearchDefOf.UniqueSmithing
+                || def == PWU_ResearchDefOf.UniqueMachining
+                || def == PWU_ResearchDefOf.UniqueFabrication);
             lastFiltered = projects;
         }
     }

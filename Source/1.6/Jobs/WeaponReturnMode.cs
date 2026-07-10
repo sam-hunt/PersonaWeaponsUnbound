@@ -1,4 +1,4 @@
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Controls what happens to the weapon after customization completes or is interrupted.

@@ -3,11 +3,11 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     public partial class Dialog_WeaponCustomization
     {
-        private static string RelicNameTooltip => "UWU_RelicNameTooltip".Translate();
+        private static string RelicNameTooltip => "PWU_RelicNameTooltip".Translate();
 
         // --- Right pane: controls ---
 
@@ -87,15 +87,15 @@ namespace UniqueWeaponsUnbound
             {
                 Color prevColor = GUI.color;
                 GUI.color = Color.gray;
-                Widgets.ButtonText(randomRect, "UWU_Randomize".Translate());
+                Widgets.ButtonText(randomRect, "PWU_Randomize".Translate());
                 GUI.color = prevColor;
                 if (isRelic && !disabled)
                     TooltipHandler.TipRegion(randomRect, RelicNameTooltip);
                 else if (desiredTraits.Count == 0 && !nameDisabled)
                     TooltipHandler.TipRegion(randomRect,
-                        "UWU_SelectTraitFirst".Translate());
+                        "PWU_SelectTraitFirst".Translate());
             }
-            else if (Widgets.ButtonText(randomRect, "UWU_Randomize".Translate()))
+            else if (Widgets.ButtonText(randomRect, "PWU_Randomize".Translate()))
             {
                 string regenerated = GenerateWeaponName();
                 if (regenerated != null)
@@ -128,7 +128,7 @@ namespace UniqueWeaponsUnbound
                     checkboxSize, disabled: true);
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(checkboxLabelRect,
-                    "UWU_AutoRegenName".Translate());
+                    "PWU_AutoRegenName".Translate());
                 Text.Anchor = TextAnchor.UpperLeft;
                 GUI.color = prevColor;
 
@@ -141,7 +141,7 @@ namespace UniqueWeaponsUnbound
                     checkboxSize);
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(checkboxLabelRect,
-                    "UWU_AutoRegenName".Translate());
+                    "PWU_AutoRegenName".Translate());
                 Text.Anchor = TextAnchor.UpperLeft;
                 nameLocked = !autoRegen;
 
@@ -159,11 +159,11 @@ namespace UniqueWeaponsUnbound
         private void DrawTabs(Rect menuRect)
         {
             var tabs = new List<TabRecord>();
-            tabs.Add(new TabRecord("UWU_TabTraits".Translate(), () => activeTab = 0, activeTab == 0));
-            tabs.Add(new TabRecord("UWU_TabTexture".Translate(), () => activeTab = 1, activeTab == 1));
+            tabs.Add(new TabRecord("PWU_TabTraits".Translate(), () => activeTab = 0, activeTab == 0));
+            tabs.Add(new TabRecord("PWU_TabTexture".Translate(), () => activeTab = 1, activeTab == 1));
 
             // Pad the Color label so the swatch fits inside the tab
-            tabs.Add(new TabRecord("UWU_TabColor".Translate() + "      ", () => activeTab = 2, activeTab == 2));
+            tabs.Add(new TabRecord("PWU_TabColor".Translate() + "      ", () => activeTab = 2, activeTab == 2));
 
             TabDrawer.DrawTabs(menuRect, tabs);
 
@@ -175,7 +175,7 @@ namespace UniqueWeaponsUnbound
                 // Tabs are evenly distributed across menuRect width
                 float tabWidth = menuRect.width / tabs.Count;
                 float colorTabCenterX = menuRect.x + 2.5f * tabWidth;
-                float colorLabelHalfWidth = Text.CalcSize("UWU_TabColor".Translate()).x / 2f;
+                float colorLabelHalfWidth = Text.CalcSize("PWU_TabColor".Translate()).x / 2f;
                 float swatchX = colorTabCenterX - colorLabelHalfWidth - swatchSize - 21f;
                 float swatchY = menuRect.y - TabBarHeight * 0.5f - swatchSize * 0.5f + 1f;
                 Rect swatchRect = new Rect(swatchX, swatchY, swatchSize, swatchSize);

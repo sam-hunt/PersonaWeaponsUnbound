@@ -1,6 +1,6 @@
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Formats a def reference for error logs. Includes the originating

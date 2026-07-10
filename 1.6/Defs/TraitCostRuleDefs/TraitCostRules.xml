@@ -3,45 +3,45 @@
 
   <!-- ===== Pipeline foundation (always run) ===== -->
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_BaseCostFromTechLevel</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_BaseCostFromTechLevel</defName>
     <label>base cost from tech level</label>
     <description>Provides a fallback base cost derived from the weapon's tech level. Ensures all weapons have a customization cost even if they lack a craftable recipe. Neolithic uses wood, medieval uses steel, industrial uses steel and components, and spacer and above use plasteel and advanced components</description>
-    <workerClass>UniqueWeaponsUnbound.TechLevelCostWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.TechLevelCostWorker</workerClass>
     <priority>50</priority>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_BaseCostFromRecipe</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_BaseCostFromRecipe</defName>
     <label>base cost from recipe</label>
     <description>Replaces the tech-level fallback with the weapon's actual crafting recipe costs, including both fixed ingredients and stuff costs. Only acts when the weapon has a craftable base definition.</description>
-    <workerClass>UniqueWeaponsUnbound.BaseCostFromRecipeWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.BaseCostFromRecipeWorker</workerClass>
     <priority>100</priority>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_QualityMultiplier</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_QualityMultiplier</defName>
     <label>quality multiplier</label>
     <description>Scales costs based on weapon quality. Higher-quality weapons cost more to customize. Includes the base 50% cost fraction so each trait costs half the weapon's full recipe value before quality scaling.</description>
-    <workerClass>UniqueWeaponsUnbound.QualityMultiplierWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.QualityMultiplierWorker</workerClass>
     <priority>200</priority>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_NegativeDowngrade</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_NegativeDowngrade</defName>
     <label>negative trait material downgrade</label>
     <description>Downgrades cost materials by one technology level for negative traits. Spacer components become industrial, plasteel becomes steel, steel becomes wood. Reflects that negative modifications use cruder, cheaper techniques.</description>
-    <workerClass>UniqueWeaponsUnbound.NegativeDowngradeWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.NegativeDowngradeWorker</workerClass>
     <priority>300</priority>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
   <!-- ===== Thematic rules (keyword-matched) ===== -->
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_ToxSwap</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_ToxSwap</defName>
     <label>toxic component swap</label>
     <description>Replaces components with herbal medicine (3x the component count), reflecting the organic toxins needed. If no components are present, converts 70% of base materials to herbal medicine by market value.</description>
-    <workerClass>UniqueWeaponsUnbound.ToxSwapWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.ToxSwapWorker</workerClass>
     <priority>1000</priority>
     <labelKeywords>
       <li>tox</li>
@@ -49,13 +49,13 @@
       <li>paralytic</li>
       <li>acid-injector</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_IncendiarySwap</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_IncendiarySwap</defName>
     <label>incendiary component swap</label>
     <description>Replaces components with chemfuel (10x the component count), reflecting the volatile fuel needed. If no components are present, converts 70% of base materials to chemfuel by market value.</description>
-    <workerClass>UniqueWeaponsUnbound.IncendiarySwapWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.IncendiarySwapWorker</workerClass>
     <priority>1100</priority>
     <labelKeywords>
       <li>incendiary</li>
@@ -65,13 +65,13 @@
       <li>detonation</li>
       <li>chemburster</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_EmpSplit</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_EmpSplit</defName>
     <label>EMP value split</label>
     <description>Removes spacer components, then converts 70% of base material costs into industrial components by market value, representing the electronic parts needed for EMP modifications.</description>
-    <workerClass>UniqueWeaponsUnbound.EmpSplitWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.EmpSplitWorker</workerClass>
     <priority>1200</priority>
     <labelKeywords>
       <li>emp</li>
@@ -79,13 +79,13 @@
       <li>voltaic</li>
       <li>sonic</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_Lightweight</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_Lightweight</defName>
     <label>lightweight swap</label>
     <description>Replaces 40% of wood costs with birdskin, representing the feather tails used on arrows.</description>
-    <workerClass>UniqueWeaponsUnbound.PartialSwapWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.PartialSwapWorker</workerClass>
     <priority>1300</priority>
     <labelKeywords>
       <li>lightweight</li>
@@ -94,40 +94,40 @@
     <weaponCategories>
       <li>Bow</li>
     </weaponCategories>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
   <!-- VEW/Anomaly maybe? -->
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_Flarestriker</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_Flarestriker</defName>
     <label>flarestriker value split</label>
     <description>Converts 70% of base material costs into bioferrite by market value, reflecting the exotic fuel source needed for flare launchers.</description>
-    <workerClass>UniqueWeaponsUnbound.FlareSplitWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.FlareSplitWorker</workerClass>
     <priority>1400</priority>
     <labelKeywords>
       <li>flare</li>
       <li>flarestriker</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
   <!-- VEW -->
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_HeavyScrap</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_HeavyScrap</defName>
     <label>heavy scrap flat cost</label>
     <description>Replaces all costs with a single steel slag chunk. Scrap modifications are crude and cheap — just bolt on some junk.</description>
-    <workerClass>UniqueWeaponsUnbound.SlagReplacementWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.SlagReplacementWorker</workerClass>
     <priority>1500</priority>
     <requireAllKeywords>true</requireAllKeywords>
     <labelKeywords>
       <li>heavy</li>
       <li>scrap</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_ChargeCategoryGated</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_ChargeCategoryGated</defName>
     <label>charge weapons (category-gated)</label>
     <description>Converts all costs into advanced components by market value for charge-type weapon traits, representing the spacer technology required for pulse and beam modifications.</description>
-    <workerClass>UniqueWeaponsUnbound.ConvertToSpacerWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.ConvertToSpacerWorker</workerClass>
     <priority>1600</priority>
     <labelKeywords>
       <li>charge</li>
@@ -140,13 +140,13 @@
       <li>PulseCharge</li>
       <li>BeamWeapon</li>
     </weaponCategories>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_ChargeUnconditional</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_ChargeUnconditional</defName>
     <label>charge weapons (unconditional)</label>
     <description>Converts all costs into advanced components by market value for traits involving advanced spacer technology, regardless of weapon category.</description>
-    <workerClass>UniqueWeaponsUnbound.ConvertToSpacerWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.ConvertToSpacerWorker</workerClass>
     <priority>1700</priority>
     <labelKeywords>
       <li>crypto</li>
@@ -156,56 +156,56 @@
       <li>thump</li>
       <li>rail</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
   <!-- VEW/AA -->
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
     <!-- TODO: Rename since oversized -->
-    <defName>UWU_Akimbo</defName>
+    <defName>PWU_Akimbo</defName>
     <label>akimbo cost multiplier</label>
     <description>Doubles all costs to reflect that akimbo adds a second rendered weapon and doubles the fire rate. This counteracts the base 50% cost fraction to bring the total to full recipe cost.</description>
-    <workerClass>UniqueWeaponsUnbound.DoubleCostWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.DoubleCostWorker</workerClass>
     <priority>1800</priority>
     <labelKeywords>
       <li>akimbo</li>
       <li>oversized</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_Grip</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_Grip</defName>
     <label>grip component removal</label>
     <description>Removes industrial and spacer components from the cost. Grip modifications are simple mechanical adjustments that don't require complex parts.</description>
-    <workerClass>UniqueWeaponsUnbound.ComponentRemovalWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.ComponentRemovalWorker</workerClass>
     <priority>1900</priority>
     <labelKeywords>
       <li>grip</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
   <!-- VEW -->
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_Comfort</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_Comfort</defName>
     <label>comfort material conversion</label>
     <description>Converts half of all cost materials to thrumbofur by count, reflecting the luxurious padding and wrapping used for comfort modifications.</description>
-    <workerClass>UniqueWeaponsUnbound.ComfortWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.ComfortWorker</workerClass>
     <priority>2000</priority>
     <labelKeywords>
       <li>comfort</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_Ornamental</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_Ornamental</defName>
     <label>ornamental conversion</label>
     <!-- TODO: Rebalance silver, maybe by value or convert components too -->
     <description>Removes components, then converts half of remaining costs to silver by count. Ornamental work is decorative craftsmanship, not technical engineering.</description>
-    <workerClass>UniqueWeaponsUnbound.OrnamentalWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.OrnamentalWorker</workerClass>
     <priority>2100</priority>
     <labelKeywords>
       <li>ornamental</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
   <!-- TODO: hellsphere rule adds 1x signal chip, MayRequire Alpha Armory, Biotech -->
   <!-- TODO: hemovoric rule adds 10x hemogen pack, MayRequire Alpha Armory, Biotech -->
@@ -222,33 +222,33 @@
 
   <!-- ===== Late-running rules ===== -->
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_Inlay</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_Inlay</defName>
     <label>inlay component removal</label>
     <description>Removes industrial and spacer components from the cost. Inlays are purely cosmetic modifications that require only raw materials, not complex parts.</description>
-    <workerClass>UniqueWeaponsUnbound.ComponentRemovalWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.ComponentRemovalWorker</workerClass>
     <priority>8000</priority>
     <labelKeywords>
       <li>inlay</li>
     </labelKeywords>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
   <!-- ===== Fallback (always runs last) ===== -->
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_MaterialOverride</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_MaterialOverride</defName>
     <label>material override fallback</label>
     <description>Detects material names in the trait label (e.g. "gold" in "Gold Inlay") and replaces raw resource costs with that material. Acts as a catch-all for traits without a specific thematic rule.</description>
-    <workerClass>UniqueWeaponsUnbound.MaterialOverrideWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.MaterialOverrideWorker</workerClass>
     <priority>9000</priority>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
-  <UniqueWeaponsUnbound.TraitCostRuleDef>
-    <defName>UWU_CostPrune</defName>
+  <PersonaWeaponsUnbound.TraitCostRuleDef>
+    <defName>PWU_CostPrune</defName>
     <label>cost material pruning</label>
     <description>Limits the cost to at most 3 material types to prevent UI overflow. When there are more than 3, the cheapest materials by unit price are trimmed first.</description>
-    <workerClass>UniqueWeaponsUnbound.CostPruneWorker</workerClass>
+    <workerClass>PersonaWeaponsUnbound.CostPruneWorker</workerClass>
     <priority>9900</priority>
-  </UniqueWeaponsUnbound.TraitCostRuleDef>
+  </PersonaWeaponsUnbound.TraitCostRuleDef>
 
 </Defs>

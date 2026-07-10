@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace UniqueWeaponsUnbound.HaulPlanning
+namespace PersonaWeaponsUnbound.HaulPlanning
 {
     /// <summary>
     /// A planner's output: an ordered list of trips plus the execution

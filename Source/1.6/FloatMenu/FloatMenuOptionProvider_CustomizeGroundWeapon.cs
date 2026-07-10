@@ -3,7 +3,7 @@ using RimWorld;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Entry point 3: right-click a weapon on the ground to customize it.
@@ -28,7 +28,7 @@ namespace UniqueWeaponsUnbound
             }
             catch (Exception ex)
             {
-                Log.Error("[Unique Weapons Unbound] Skipped ground-customization menu entry for "
+                Log.Error("[Persona Weapons Unbound] Skipped ground-customization menu entry for "
                     + SafeLabel(clickedThing) + " ("
                     + (clickedThing?.def?.defName ?? "?") + ") due to error: " + ex);
                 return null;
@@ -37,7 +37,7 @@ namespace UniqueWeaponsUnbound
 
         private static FloatMenuOption BuildOption(Thing clickedThing, FloatMenuContext context)
         {
-            if (UWU_Mod.Settings == null || !UWU_Mod.Settings.enableGroundCustomization)
+            if (PWU_Mod.Settings == null || !PWU_Mod.Settings.enableGroundCustomization)
                 return null;
             if (clickedThing == null || clickedThing.def == null)
                 return null;
@@ -74,7 +74,7 @@ namespace UniqueWeaponsUnbound
             if (!customizable.Accepted)
                 return DisabledOrHidden(weapon, customizable);
 
-            string label = "UWU_CustomizeWeapon".Translate(weapon.LabelShortCap);
+            string label = "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap);
 
             // Weapon reachability + forbidden checks
             if (!pawn.CanReach(weapon, PathEndMode.ClosestTouch, Danger.Deadly))
@@ -125,7 +125,7 @@ namespace UniqueWeaponsUnbound
             if (report.Reason.NullOrEmpty())
                 return null;
 
-            string label = "UWU_CustomizeWeapon".Translate(weapon.LabelShortCap)
+            string label = "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap)
                 + " (" + report.Reason + ")";
             return new FloatMenuOption(label, null);
         }

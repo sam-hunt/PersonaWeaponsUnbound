@@ -5,7 +5,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Workbench tier classification (smithy / machining / fabrication),
@@ -211,7 +211,7 @@ namespace UniqueWeaponsUnbound
             {
                 result.BestRejection = bestRejectionPriority >= 0
                     ? bestRejection
-                    : "UWU_NoSuitableWorkbench".Translate();
+                    : "PWU_NoSuitableWorkbench".Translate();
             }
             return result;
         }
@@ -236,7 +236,7 @@ namespace UniqueWeaponsUnbound
             Building_WorkTable workbench)
         {
             // Setting disabled — any weapon-crafting workbench is sufficient
-            if (!UWU_Mod.Settings.requireAppropriateWorkbench)
+            if (!PWU_Mod.Settings.requireAppropriateWorkbench)
                 return true;
 
             // Layer 2: Direct recipe match — if this bench can craft this weapon, allow customization
@@ -256,13 +256,13 @@ namespace UniqueWeaponsUnbound
             {
                 if (isFabrication)
                     return true;
-                return "UWU_RequiresWorkbench".Translate(fabricationLabel);
+                return "PWU_RequiresWorkbench".Translate(fabricationLabel);
             }
             if (weaponTechLevel >= TechLevel.Industrial)
             {
                 if (isMachiningOrHigher)
                     return true;
-                return "UWU_RequiresWorkbench".Translate(machiningLabel);
+                return "PWU_RequiresWorkbench".Translate(machiningLabel);
             }
             return true;
         }
@@ -365,7 +365,7 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Skipped VEF tier classification for "
+                    Log.Error("[Persona Weapons Unbound] Skipped VEF tier classification for "
                         + def.SourceForLog() + " due to error: " + ex);
                 }
             }
@@ -420,7 +420,7 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Skipped workbench scan for "
+                    Log.Error("[Persona Weapons Unbound] Skipped workbench scan for "
                         + def.SourceForLog() + " due to error: " + ex);
                 }
             }

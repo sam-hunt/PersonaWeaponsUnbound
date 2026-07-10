@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using UniqueWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.HaulPlanning;
 using Verse;
 
-namespace UniqueWeaponsUnbound.Tests
+namespace PersonaWeaponsUnbound.Tests
 {
     /// <summary>
     /// Synthetic data builders for planner tests. The planners are pure (no

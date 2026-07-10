@@ -1,4 +1,4 @@
-namespace UniqueWeaponsUnbound.HaulPlanning
+namespace PersonaWeaponsUnbound.HaulPlanning
 {
     /// <summary>
     /// Computes a multi-trip pickup plan for a customization spec's ingredient

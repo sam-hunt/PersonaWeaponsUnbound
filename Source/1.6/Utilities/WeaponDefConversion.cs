@@ -2,7 +2,7 @@ using System.Reflection;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Transforms a weapon Thing into a different ThingDef while preserving
@@ -56,7 +56,7 @@ namespace UniqueWeaponsUnbound
         {
             if (ModsConfig.IdeologyActive && GeneratedRelicField == null)
             {
-                Log.Error("[Unique Weapons Unbound] Ideology active but "
+                Log.Error("[Persona Weapons Unbound] Ideology active but "
                     + "Precept_Relic.generatedRelic could not be resolved via reflection; "
                     + "relic-flagged weapons that undergo a base<->unique def conversion "
                     + "during customization will leave the precept pointing at the "
@@ -65,7 +65,7 @@ namespace UniqueWeaponsUnbound
 
             if (ArtAuthorField == null || ArtTitleField == null || ArtTaleRefField == null)
             {
-                Log.Error("[Unique Weapons Unbound] CompArt private fields "
+                Log.Error("[Persona Weapons Unbound] CompArt private fields "
                     + "(authorNameInt/titleInt/taleRef) could not be resolved via reflection; "
                     + "authored/relic art (title, author, description) will be dropped when a "
                     + "weapon crosses the base<->unique boundary. RimWorld API may have changed.");
@@ -73,7 +73,7 @@ namespace UniqueWeaponsUnbound
 
             if (BiocodedField == null || BiocodedPawnLabelField == null || BiocodedPawnField == null)
             {
-                Log.Error("[Unique Weapons Unbound] CompBiocodable private fields "
+                Log.Error("[Persona Weapons Unbound] CompBiocodable private fields "
                     + "(biocoded/codedPawnLabel/codedPawn) could not be resolved via reflection; "
                     + "biocoding will be dropped when a weapon crosses the base<->unique boundary. "
                     + "RimWorld API may have changed.");

@@ -5,7 +5,7 @@ using RimWorld;
 using Verse;
 using Verse.Grammar;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     public partial class Dialog_WeaponCustomization
     {
@@ -41,7 +41,7 @@ namespace UniqueWeaponsUnbound
                 Log.Warning(BuildNameRegenFailureMessage(attempt, lastException));
             }
 
-            Log.Warning("[Unique Weapons Unbound] Skipping weapon name auto-regeneration "
+            Log.Warning("[Persona Weapons Unbound] Skipping weapon name auto-regeneration "
                 + "after " + NameRegenMaxAttempts
                 + " failed attempts; the existing name will be preserved.");
             return null;
@@ -63,9 +63,9 @@ namespace UniqueWeaponsUnbound
                 .FirstOrDefault();
             string weaponType = (props?.namerLabels != null && props.namerLabels.Count > 0)
                 ? props.namerLabels.RandomElement()
-                : "UWU_WeaponTypeFallback".Translate();
+                : "PWU_WeaponTypeFallback".Translate();
 
-            string colorLabel = EffectiveColor?.label ?? "UWU_ColorFallback".Translate();
+            string colorLabel = EffectiveColor?.label ?? "PWU_ColorFallback".Translate();
 
             GrammarRequest request = default;
             request.Includes.Add(RulePackDefOf.NamerUniqueWeapon);
@@ -117,7 +117,7 @@ namespace UniqueWeaponsUnbound
                 }
             }
 
-            string msg = "[Unique Weapons Unbound] Weapon name regeneration attempt "
+            string msg = "[Persona Weapons Unbound] Weapon name regeneration attempt "
                 + attempt + "/" + NameRegenMaxAttempts + " failed."
                 + " Active language: " + langName + "."
                 + " RulePackDef '" + packName + "' (owned by '" + ownerMod + "').";

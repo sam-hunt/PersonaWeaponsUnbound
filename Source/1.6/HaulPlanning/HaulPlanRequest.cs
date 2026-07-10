@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace UniqueWeaponsUnbound.HaulPlanning
+namespace PersonaWeaponsUnbound.HaulPlanning
 {
     /// <summary>
     /// Inputs to a HaulPlanner. Construct once per planning attempt; immutable

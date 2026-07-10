@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
-using UniqueWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.HaulPlanning;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     // Customization job driver. Split into partial files by job phase:
     //
@@ -86,7 +86,7 @@ namespace UniqueWeaponsUnbound
                 Thing target = job?.GetTarget(WeaponIndex).Thing;
                 if (target != null)
                     return target.LabelShortCap;
-                return "UWU_WeaponFallback".Translate();
+                return "PWU_WeaponFallback".Translate();
             }
         }
 
@@ -109,7 +109,7 @@ namespace UniqueWeaponsUnbound
         private void RecordShortfallBail(WeaponTraitDef trait)
         {
             string traitLabel = trait?.LabelCap ?? "";
-            SetBailMessage("UWU_IngredientShortfall".Translate(WeaponLabel, traitLabel));
+            SetBailMessage("PWU_IngredientShortfall".Translate(WeaponLabel, traitLabel));
         }
 
         public override void ExposeData()
@@ -216,9 +216,9 @@ namespace UniqueWeaponsUnbound
                 Thing target = job?.GetTarget(WeaponIndex).Thing;
                 string defName = target?.def?.defName ?? "(null)";
                 Log.ErrorOnce(
-                    "[Unique Weapons Unbound] Ability heal failed on job start for "
+                    "[Persona Weapons Unbound] Ability heal failed on job start for "
                         + defName + "; continuing without heal: " + ex,
-                    ("UWU_HealOrphaned_" + defName).GetHashCode());
+                    ("PWU_HealOrphaned_" + defName).GetHashCode());
             }
         }
 
@@ -244,7 +244,7 @@ namespace UniqueWeaponsUnbound
 
             string weaponLabel = weapon?.LabelShortCap
                 ?? job.GetTarget(WeaponIndex).Thing?.LabelShortCap
-                ?? "UWU_WeaponFallback".Translate();
+                ?? "PWU_WeaponFallback".Translate();
 
             if (spec != null && currentOpIndex >= 0 && currentOpIndex < spec.operations.Count)
             {
@@ -252,17 +252,17 @@ namespace UniqueWeaponsUnbound
                 switch (op.type)
                 {
                     case OpType.AddTrait:
-                        return "UWU_AddingTrait".Translate(
+                        return "PWU_AddingTrait".Translate(
                             op.trait.LabelCap, weaponLabel);
                     case OpType.RemoveTrait:
-                        return "UWU_RemovingTrait".Translate(
+                        return "PWU_RemovingTrait".Translate(
                             op.trait.LabelCap, weaponLabel);
                     case OpType.ApplyCosmetics:
-                        return "UWU_ApplyingCosmetics".Translate(weaponLabel);
+                        return "PWU_ApplyingCosmetics".Translate(weaponLabel);
                 }
             }
 
-            return "UWU_CustomizingWeapon".Translate(weaponLabel);
+            return "PWU_CustomizingWeapon".Translate(weaponLabel);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
@@ -278,7 +278,7 @@ namespace UniqueWeaponsUnbound
             {
                 if (weapon == null || !weapon.Destroyed)
                     return false;
-                SetBailMessage("UWU_BailWeaponLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailWeaponLost".Translate(WeaponLabel));
                 return true;
             });
             // Workbench gone (despawned, destroyed, forbidden, or walled off).
@@ -290,12 +290,12 @@ namespace UniqueWeaponsUnbound
                 Thing wb = job.GetTarget(WorkbenchIndex).Thing;
                 if (wb == null || !wb.Spawned || wb.IsForbidden(pawn))
                 {
-                    SetBailMessage("UWU_BailWorkbenchUnavailable".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailWorkbenchUnavailable".Translate(WeaponLabel));
                     return true;
                 }
                 if (!pawn.CanReach(wb, PathEndMode.InteractionCell, Danger.Deadly))
                 {
-                    SetBailMessage("UWU_BailWorkbenchUnreachable".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailWorkbenchUnreachable".Translate(WeaponLabel));
                     return true;
                 }
                 return false;
@@ -306,7 +306,7 @@ namespace UniqueWeaponsUnbound
                 bool inactive = (powerComp != null && !powerComp.PowerOn)
                     || (fuelComp != null && !fuelComp.HasFuel);
                 if (inactive)
-                    SetBailMessage("UWU_BailWorkbenchInactive".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailWorkbenchInactive".Translate(WeaponLabel));
                 return inactive;
             });
             AddFinishAction(delegate (JobCondition condition)
@@ -354,7 +354,7 @@ namespace UniqueWeaponsUnbound
                 else if (condition == JobCondition.Errored)
                 {
                     Messages.Message(
-                        "UWU_BailUnexpected".Translate(WeaponLabel), pawn,
+                        "PWU_BailUnexpected".Translate(WeaponLabel), pawn,
                         MessageTypeDefOf.NegativeEvent, historical: false);
                 }
 
@@ -375,7 +375,7 @@ namespace UniqueWeaponsUnbound
                 Thing w = job.GetTarget(WeaponIndex).Thing;
                 if (w == null || w.Destroyed)
                 {
-                    SetBailMessage("UWU_BailWeaponLost".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailWeaponLost".Translate(WeaponLabel));
                     EndJobWith(JobCondition.Incompletable);
                     return;
                 }
@@ -397,7 +397,7 @@ namespace UniqueWeaponsUnbound
                     if (!pawn.carryTracker.TryStartCarry(w))
                     {
                         pawn.equipment.AddEquipment((ThingWithComps)w);
-                        SetBailMessage("UWU_BailCarryStartFailed".Translate(WeaponLabel));
+                        SetBailMessage("PWU_BailCarryStartFailed".Translate(WeaponLabel));
                         EndJobWith(JobCondition.Incompletable);
                         return;
                     }
@@ -409,7 +409,7 @@ namespace UniqueWeaponsUnbound
                     if (!pawn.carryTracker.TryStartCarry(w))
                     {
                         pawn.inventory.innerContainer.TryAdd(w);
-                        SetBailMessage("UWU_BailCarryStartFailed".Translate(WeaponLabel));
+                        SetBailMessage("PWU_BailCarryStartFailed".Translate(WeaponLabel));
                         EndJobWith(JobCondition.Incompletable);
                         return;
                     }
@@ -421,7 +421,7 @@ namespace UniqueWeaponsUnbound
                 }
                 else
                 {
-                    Log.Error("[Unique Weapons Unbound] Weapon is in unknown state at job start.");
+                    Log.Error("[Persona Weapons Unbound] Weapon is in unknown state at job start.");
                     EndJobWith(JobCondition.Errored);
                 }
             };
@@ -443,7 +443,7 @@ namespace UniqueWeaponsUnbound
                     bool gone = w == null || !w.Spawned || w.IsForbidden(pawn)
                         || !pawn.CanReach(w, PathEndMode.ClosestTouch, Danger.Deadly);
                     if (gone)
-                        SetBailMessage("UWU_BailWeaponInaccessible".Translate(WeaponLabel));
+                        SetBailMessage("PWU_BailWeaponInaccessible".Translate(WeaponLabel));
                     return gone;
                 });
 
@@ -456,8 +456,8 @@ namespace UniqueWeaponsUnbound
             Toil placeWeapon = ToilMaker.MakeToil("MakeNewToils");
             placeWeapon.initAction = delegate
             {
-                string label = weapon?.LabelShortCap ?? "UWU_WeaponFallback".Translate();
-                phaseReport = "UWU_PlacingWeapon".Translate(label, Workbench.LabelShortCap);
+                string label = weapon?.LabelShortCap ?? "PWU_WeaponFallback".Translate();
+                phaseReport = "PWU_PlacingWeapon".Translate(label, Workbench.LabelShortCap);
 
                 Thing carried = pawn.carryTracker.CarriedThing;
                 if (carried != null)
@@ -485,14 +485,14 @@ namespace UniqueWeaponsUnbound
             {
                 if (weapon == null || weapon.Destroyed)
                 {
-                    SetBailMessage("UWU_BailWeaponLost".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailWeaponLost".Translate(WeaponLabel));
                     EndJobWith(JobCondition.Incompletable);
                     return;
                 }
                 // Dialog ctor does heavy work (reflection, TraitProgressionPool
                 // build, ColorDef enumerations, relic precept access). An
                 // uncaught throw here would Error the job and surface only the
-                // generic UWU_BailUnexpected; wrap so the player sees a
+                // generic PWU_BailUnexpected; wrap so the player sees a
                 // dialog-specific bail reason and the log carries the
                 // weapon-context exception.
                 try
@@ -502,9 +502,9 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Could not open customization dialog for "
+                    Log.Error("[Persona Weapons Unbound] Could not open customization dialog for "
                         + WeaponLabel + ": " + ex);
-                    SetBailMessage("UWU_BailDialogOpenFailed".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailDialogOpenFailed".Translate(WeaponLabel));
                     EndJobWith(JobCondition.Incompletable);
                 }
             };
@@ -539,7 +539,7 @@ namespace UniqueWeaponsUnbound
                 // populated by the time this runs.
                 if (spec == null)
                 {
-                    Log.Error("[Unique Weapons Unbound] Spec was null at job start.");
+                    Log.Error("[Persona Weapons Unbound] Spec was null at job start.");
                     EndJobWith(JobCondition.Errored);
                     return;
                 }
@@ -567,8 +567,8 @@ namespace UniqueWeaponsUnbound
             Toil setHaulReport = ToilMaker.MakeToil("HaulSetReport");
             setHaulReport.initAction = delegate
             {
-                string label = weapon?.LabelShortCap ?? "UWU_WeaponFallback".Translate();
-                phaseReport = "UWU_GatheringMaterials".Translate(label);
+                string label = weapon?.LabelShortCap ?? "PWU_WeaponFallback".Translate();
+                phaseReport = "PWU_GatheringMaterials".Translate(label);
                 if (currentTripInvLoad == null)
                     currentTripInvLoad = new List<ThingDefCountClass>();
             };
@@ -627,7 +627,7 @@ namespace UniqueWeaponsUnbound
                     return;
                 if (!pawn.CanReserve(t))
                 {
-                    SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                     EndJobWith(JobCondition.Incompletable);
                     return;
                 }
@@ -731,7 +731,7 @@ namespace UniqueWeaponsUnbound
             finalize.initAction = delegate
             {
                 // Each step is isolated so a throw doesn't Errored the job
-                // and surface UWU_BailUnexpected — by this toil the weapon is
+                // and surface PWU_BailUnexpected — by this toil the weapon is
                 // already traited and ingredients are consumed, so failure
                 // here is post-success cleanup. Continue to admire + return
                 // so the player walks away with the customized weapon; raise
@@ -747,10 +747,10 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Ability sync failed during finalize on "
+                    Log.Error("[Persona Weapons Unbound] Ability sync failed during finalize on "
                         + WeaponLabel + ": " + ex);
                     Messages.Message(
-                        "UWU_FinalizeAbilitySyncFailed".Translate(WeaponLabel),
+                        "PWU_FinalizeAbilitySyncFailed".Translate(WeaponLabel),
                         weapon, MessageTypeDefOf.NegativeEvent, historical: false);
                 }
 
@@ -763,10 +763,10 @@ namespace UniqueWeaponsUnbound
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("[Unique Weapons Unbound] Final color application failed on "
+                    Log.Error("[Persona Weapons Unbound] Final color application failed on "
                         + WeaponLabel + ": " + ex);
                     Messages.Message(
-                        "UWU_FinalizeColorFailed".Translate(WeaponLabel),
+                        "PWU_FinalizeColorFailed".Translate(WeaponLabel),
                         weapon, MessageTypeDefOf.NegativeEvent, historical: false);
                 }
 
@@ -787,7 +787,7 @@ namespace UniqueWeaponsUnbound
             Toil admire = Toils_General.Wait(300, WorkbenchIndex);
             admire.initAction = delegate
             {
-                phaseReport = "UWU_AdmiringWork".Translate();
+                phaseReport = "PWU_AdmiringWork".Translate();
             };
             yield return admire;
 

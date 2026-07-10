@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using UniqueWeaponsUnbound.HaulPlanning.Internal;
+using PersonaWeaponsUnbound.HaulPlanning.Internal;
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound.HaulPlanning
+namespace PersonaWeaponsUnbound.HaulPlanning
 {
     /*
     ============================================================================
@@ -1112,7 +1112,7 @@ namespace UniqueWeaponsUnbound.HaulPlanning
         {
             if (EmitGuardLogs)
             {
-                Log.Message("[Unique Weapons Unbound] Thorough haul planner guard "
+                Log.Message("[Persona Weapons Unbound] Thorough haul planner guard "
                     + "tripped (" + reason + "); deferring to the next planner "
                     + "in the ladder.");
             }

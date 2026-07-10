@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
-using UniqueWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.HaulPlanning;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     // Haul phase: locate placement cells, drop/unload carry tracker and
     // inventory contents at the workbench, and route per-trip pickups
@@ -54,12 +54,12 @@ namespace UniqueWeaponsUnbound
             Thing ing = job.GetTarget(IngredientIndex).Thing;
             if (ing == null || !ing.Spawned || ing.IsForbidden(pawn))
             {
-                SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 return true;
             }
             if (!pawn.CanReach(ing, PathEndMode.ClosestTouch, Danger.Deadly))
             {
-                SetBailMessage("UWU_BailIngredientUnreachable".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientUnreachable".Translate(WeaponLabel));
                 return true;
             }
             return false;
@@ -80,7 +80,7 @@ namespace UniqueWeaponsUnbound
                 Thing carried = pawn.carryTracker.CarriedThing;
                 if (carried == null)
                 {
-                    SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                     EndJobWith(JobCondition.Incompletable);
                     return;
                 }
@@ -90,7 +90,7 @@ namespace UniqueWeaponsUnbound
                     return;
                 if (pawn.carryTracker.TryDropCarriedThing(Workbench.Position, ThingPlaceMode.Near, out _, placedAction))
                     return;
-                SetBailMessage("UWU_BailIngredientPlacementFailed".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientPlacementFailed".Translate(WeaponLabel));
                 pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Near, out _);
                 EndJobWith(JobCondition.Incompletable);
             };
@@ -151,7 +151,7 @@ namespace UniqueWeaponsUnbound
             Thing thing = job.GetTarget(IngredientIndex).Thing;
             if (thing == null || !thing.Spawned || thing.stackCount <= 0)
             {
-                SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
                 return;
             }
@@ -162,21 +162,21 @@ namespace UniqueWeaponsUnbound
                 // CT is busy with a different def — would only happen if the
                 // planner emitted two CT pickups for one trip, which it
                 // doesn't (per-trip CT count is at most one). Defensive bail.
-                SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
                 return;
             }
             int take = Mathf.Min(requested, thing.stackCount, volAvail);
             if (take <= 0)
             {
-                SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
                 return;
             }
             int actualTaken = pawn.carryTracker.TryStartCarry(thing, take, reserve: true);
             if (actualTaken <= 0)
             {
-                SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
                 return;
             }
@@ -209,21 +209,21 @@ namespace UniqueWeaponsUnbound
             Thing thing = job.GetTarget(IngredientIndex).Thing;
             if (thing == null || !thing.Spawned || thing.stackCount <= 0)
             {
-                SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
                 return;
             }
             int requested = job.count;
             if (thing.stackCount < requested)
             {
-                SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
                 return;
             }
             Thing splitOff = thing.SplitOff(requested);
             if (splitOff == null)
             {
-                SetBailMessage("UWU_BailIngredientLost".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
                 return;
             }
@@ -231,7 +231,7 @@ namespace UniqueWeaponsUnbound
             {
                 if (splitOff != thing && !splitOff.Destroyed)
                     thing.TryAbsorbStack(splitOff, respectStackLimit: false);
-                SetBailMessage("UWU_BailIngredientPlacementFailed".Translate(WeaponLabel));
+                SetBailMessage("PWU_BailIngredientPlacementFailed".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
                 return;
             }
@@ -262,7 +262,7 @@ namespace UniqueWeaponsUnbound
             // Workbench area has no room. Bail with a descriptive reason and
             // a final fallback drop so the carry tracker doesn't carry the
             // ingredient into the next job.
-            SetBailMessage("UWU_BailIngredientPlacementFailed".Translate(WeaponLabel));
+            SetBailMessage("PWU_BailIngredientPlacementFailed".Translate(WeaponLabel));
             pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Near, out _);
             EndJobWith(JobCondition.Incompletable);
         }
@@ -320,7 +320,7 @@ namespace UniqueWeaponsUnbound
                         remaining -= retryAmt;
                         continue;
                     }
-                    SetBailMessage("UWU_BailIngredientPlacementFailed".Translate(WeaponLabel));
+                    SetBailMessage("PWU_BailIngredientPlacementFailed".Translate(WeaponLabel));
                     EndJobWith(JobCondition.Incompletable);
                     return;
                 }

@@ -3,7 +3,7 @@ using System.Reflection;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Mutates a weapon Thing in place: adds/removes traits (delegating
@@ -53,19 +53,19 @@ namespace UniqueWeaponsUnbound
         public static void VerifyReflection()
         {
             if (CompNameField == null)
-                Log.Error("[Unique Weapons Unbound] CompUniqueWeapon.name field not found via reflection; "
+                Log.Error("[Persona Weapons Unbound] CompUniqueWeapon.name field not found via reflection; "
                     + "weapon renaming will silently no-op. RimWorld API may have changed.");
             if (CompColorField == null)
-                Log.Error("[Unique Weapons Unbound] CompUniqueWeapon.color field not found via reflection; "
+                Log.Error("[Persona Weapons Unbound] CompUniqueWeapon.color field not found via reflection; "
                     + "weapon color changes will silently no-op. RimWorld API may have changed.");
             if (IgnoreAccuracyField == null)
-                Log.Error("[Unique Weapons Unbound] CompUniqueWeapon.ignoreAccuracyMaluses field not found via reflection; "
+                Log.Error("[Persona Weapons Unbound] CompUniqueWeapon.ignoreAccuracyMaluses field not found via reflection; "
                     + "accuracy-malus cache won't be invalidated after trait changes. RimWorld API may have changed.");
             if (VerbBurstTicksField == null)
-                Log.Error("[Unique Weapons Unbound] Verb.cachedTicksBetweenBurstShots field not found via reflection; "
+                Log.Error("[Persona Weapons Unbound] Verb.cachedTicksBetweenBurstShots field not found via reflection; "
                     + "burst-speed trait changes won't take effect until save reload. RimWorld API may have changed.");
             if (VerbBurstCountField == null)
-                Log.Error("[Unique Weapons Unbound] Verb.cachedBurstShotCount field not found via reflection; "
+                Log.Error("[Persona Weapons Unbound] Verb.cachedBurstShotCount field not found via reflection; "
                     + "burst-count trait changes won't take effect until save reload. RimWorld API may have changed.");
         }
 
@@ -113,7 +113,7 @@ namespace UniqueWeaponsUnbound
             CompUniqueWeapon comp = weapon.TryGetComp<CompUniqueWeapon>();
             if (comp == null)
             {
-                Log.Error("[Unique Weapons Unbound] AddTrait: weapon has no CompUniqueWeapon.");
+                Log.Error("[Persona Weapons Unbound] AddTrait: weapon has no CompUniqueWeapon.");
                 return;
             }
 
@@ -152,7 +152,7 @@ namespace UniqueWeaponsUnbound
             CompUniqueWeapon comp = weapon.TryGetComp<CompUniqueWeapon>();
             if (comp == null)
             {
-                Log.Error("[Unique Weapons Unbound] RemoveTrait: weapon has no CompUniqueWeapon.");
+                Log.Error("[Persona Weapons Unbound] RemoveTrait: weapon has no CompUniqueWeapon.");
                 return;
             }
 

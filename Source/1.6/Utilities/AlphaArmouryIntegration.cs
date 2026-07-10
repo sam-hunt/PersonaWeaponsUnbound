@@ -3,7 +3,7 @@ using System.Reflection;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Optional integration with Alpha Armoury (packageId sarg.alphaarmoury).
@@ -56,7 +56,7 @@ namespace UniqueWeaponsUnbound
             }
             catch (Exception ex)
             {
-                Log.Warning("[Unique Weapons Unbound] Alpha Armoury reflection failed (kit traits "
+                Log.Warning("[Persona Weapons Unbound] Alpha Armoury reflection failed (kit traits "
                     + "will be ignored; only affects progression-mode trait restriction): " + ex);
                 return;
             }
@@ -69,7 +69,7 @@ namespace UniqueWeaponsUnbound
             // progression later still learns the integration is broken.
             if (!Available && ModsConfig.IsActive(PackageId))
             {
-                Log.Warning("[Unique Weapons Unbound] Alpha Armoury active but "
+                Log.Warning("[Persona Weapons Unbound] Alpha Armoury active but "
                     + WeaponKitTypeName + "." + TraitFieldName
                     + " could not be resolved as WeaponTraitDef; kit traits will be ignored. "
                     + "This only affects you if progression-mode trait restriction is enabled.");
@@ -99,7 +99,7 @@ namespace UniqueWeaponsUnbound
                 if (!runtimeFailureLogged)
                 {
                     runtimeFailureLogged = true;
-                    Log.Error("[Unique Weapons Unbound] Alpha Armoury kit read failed: " + ex);
+                    Log.Error("[Persona Weapons Unbound] Alpha Armoury kit read failed: " + ex);
                 }
                 return false;
             }

@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Stateless game-rule predicates for determining whether weapons are
@@ -29,12 +29,12 @@ namespace UniqueWeaponsUnbound
             else
             {
                 if (WeaponRegistry.GetUniqueVariant(def) == null)
-                    return HiddenUnlessDev("UWU_DevNoUniqueVariant".Translate());
+                    return HiddenUnlessDev("PWU_DevNoUniqueVariant".Translate());
 
                 // When def conversion is disabled, only already-unique weapons
                 // can enter the customization system.
-                if (!UWU_Mod.Settings.allowDefConversion)
-                    return HiddenUnlessDev("UWU_DevDefConversionDisabled".Translate());
+                if (!PWU_Mod.Settings.allowDefConversion)
+                    return HiddenUnlessDev("PWU_DevDefConversionDisabled".Translate());
             }
 
             // Tech-level ceiling applies regardless of requireCustomizationResearch:
@@ -42,26 +42,26 @@ namespace UniqueWeaponsUnbound
             // in the customization system at all, not about gating the research projects.
             ResearchProjectDef requiredResearch = GetRequiredResearch(def.techLevel);
             if (requiredResearch == null)
-                return HiddenUnlessDev("UWU_DevTechLevelBeyondComprehension".Translate(def.techLevel.ToStringHuman()));
+                return HiddenUnlessDev("PWU_DevTechLevelBeyondComprehension".Translate(def.techLevel.ToStringHuman()));
 
-            if (UWU_Mod.Settings.requireCustomizationResearch)
+            if (PWU_Mod.Settings.requireCustomizationResearch)
             {
                 // Don't surface customization UI until the player has completed UniqueSmithing,
                 // so we don't clutter menus for uninterested players. Bypassed in dev mode so the
                 // per-weapon research blocker is shown instead.
-                if (!Prefs.DevMode && !UWU_ResearchDefOf.UniqueSmithing.IsFinished)
+                if (!Prefs.DevMode && !PWU_ResearchDefOf.UniqueSmithing.IsFinished)
                     return false;
 
                 if (!requiredResearch.IsFinished)
-                    return "UWU_RequiresResearch".Translate(requiredResearch.label);
+                    return "PWU_RequiresResearch".Translate(requiredResearch.label);
             }
 
-            QualityCategory minQuality = UWU_Mod.Settings.minimumQuality;
+            QualityCategory minQuality = PWU_Mod.Settings.minimumQuality;
             if (minQuality > QualityCategory.Awful
                 && weapon.TryGetQuality(out QualityCategory quality)
                 && quality < minQuality)
             {
-                return "UWU_RequiresMinimumQuality".Translate(minQuality.GetLabel());
+                return "PWU_RequiresMinimumQuality".Translate(minQuality.GetLabel());
             }
 
             return true;
@@ -76,13 +76,13 @@ namespace UniqueWeaponsUnbound
         {
             RecipeMakerProperties recipeMaker = baseDef?.recipeMaker ?? uniqueDef?.recipeMaker;
             if (recipeMaker == null)
-                return UWU_Mod.Settings.allowUncraftableCustomization;
+                return PWU_Mod.Settings.allowUncraftableCustomization;
 
-            if (UWU_Mod.Settings.requireRecipeResearch)
+            if (PWU_Mod.Settings.requireRecipeResearch)
             {
                 ResearchProjectDef recipeResearch = recipeMaker.researchPrerequisite;
                 if (recipeResearch != null && !recipeResearch.IsFinished)
-                    return "UWU_RequiresResearch".Translate(recipeResearch.label);
+                    return "PWU_RequiresResearch".Translate(recipeResearch.label);
             }
 
             return true;
@@ -103,10 +103,10 @@ namespace UniqueWeaponsUnbound
             if (techLevel > GetCustomizationCeiling())
                 return null;
             if (techLevel >= TechLevel.Spacer)
-                return UWU_ResearchDefOf.UniqueFabrication;
+                return PWU_ResearchDefOf.UniqueFabrication;
             if (techLevel >= TechLevel.Industrial)
-                return UWU_ResearchDefOf.UniqueMachining;
-            return UWU_ResearchDefOf.UniqueSmithing;
+                return PWU_ResearchDefOf.UniqueMachining;
+            return PWU_ResearchDefOf.UniqueSmithing;
         }
 
         /// <summary>
@@ -116,9 +116,9 @@ namespace UniqueWeaponsUnbound
         /// </summary>
         private static TechLevel GetCustomizationCeiling()
         {
-            if (UWU_Mod.Settings.allowArchotechCustomization)
+            if (PWU_Mod.Settings.allowArchotechCustomization)
                 return TechLevel.Archotech;
-            if (UWU_Mod.Settings.allowUltratechCustomization)
+            if (PWU_Mod.Settings.allowUltratechCustomization)
                 return TechLevel.Ultra;
             return TechLevel.Spacer;
         }

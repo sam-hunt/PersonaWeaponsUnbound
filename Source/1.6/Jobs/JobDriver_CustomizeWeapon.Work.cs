@@ -5,7 +5,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     // Work phase: ledger reads/writes against placedIngredients (populated
     // by the Haul phase) and the refundLedger float credits, then per-op
@@ -49,7 +49,7 @@ namespace UniqueWeaponsUnbound
 
                 if (remaining > 0)
                 {
-                    Log.Warning($"[Unique Weapons Unbound] Could not consume all " +
+                    Log.Warning($"[Persona Weapons Unbound] Could not consume all " +
                         $"{cost.thingDef.LabelCap} from placed ingredients: " +
                         $"needed {cost.count}, short by {remaining}.");
                     return false;
@@ -184,21 +184,21 @@ namespace UniqueWeaponsUnbound
             {
                 case OpType.AddTrait:
                     opDescr = "adding trait " + (op.trait?.defName ?? "(null)");
-                    bailMessageText = "UWU_BailOpAddTraitFailed".Translate(
+                    bailMessageText = "PWU_BailOpAddTraitFailed".Translate(
                         WeaponLabel, op.trait?.LabelCap ?? "");
                     break;
                 case OpType.RemoveTrait:
                     opDescr = "removing trait " + (op.trait?.defName ?? "(null)");
-                    bailMessageText = "UWU_BailOpRemoveTraitFailed".Translate(
+                    bailMessageText = "PWU_BailOpRemoveTraitFailed".Translate(
                         WeaponLabel, op.trait?.LabelCap ?? "");
                     break;
                 case OpType.ApplyCosmetics:
                     opDescr = "applying cosmetics";
-                    bailMessageText = "UWU_BailOpCosmeticsFailed".Translate(WeaponLabel);
+                    bailMessageText = "PWU_BailOpCosmeticsFailed".Translate(WeaponLabel);
                     break;
                 default:
                     opDescr = "op type " + op.type;
-                    bailMessageText = "UWU_BailUnexpected".Translate(WeaponLabel);
+                    bailMessageText = "PWU_BailUnexpected".Translate(WeaponLabel);
                     break;
             }
 
@@ -206,7 +206,7 @@ namespace UniqueWeaponsUnbound
             string weaponDefName = weapon?.def?.defName
                 ?? job?.GetTarget(WeaponIndex).Thing?.def?.defName
                 ?? "(null)";
-            Log.Error("[Unique Weapons Unbound] Customization aborted while " + opDescr
+            Log.Error("[Persona Weapons Unbound] Customization aborted while " + opDescr
                 + " on " + WeaponLabel + " [" + weaponDefName + "] "
                 + "(op " + (currentOpIndex + 1) + "/" + totalOps + "): " + ex);
             SetBailMessage(bailMessageText);
@@ -250,7 +250,7 @@ namespace UniqueWeaponsUnbound
                     // If removing the last trait, convert unique→base atomically
                     CompUniqueWeapon removeComp = weapon.TryGetComp<CompUniqueWeapon>();
                     if (removeComp != null && removeComp.TraitsListForReading.Count == 0
-                        && UWU_Mod.Settings.allowDefConversion)
+                        && PWU_Mod.Settings.allowDefConversion)
                     {
                         ThingDef baseDef = WeaponRegistry.GetBaseVariant(weapon.def);
                         if (baseDef != null)
@@ -280,7 +280,7 @@ namespace UniqueWeaponsUnbound
                     }
 
                     // If weapon is currently base, convert base→unique first
-                    if (!WeaponRegistry.IsUniqueWeapon(weapon.def) && UWU_Mod.Settings.allowDefConversion)
+                    if (!WeaponRegistry.IsUniqueWeapon(weapon.def) && PWU_Mod.Settings.allowDefConversion)
                     {
                         ThingDef uniqueDef = WeaponRegistry.GetUniqueVariant(weapon.def);
                         if (uniqueDef != null)

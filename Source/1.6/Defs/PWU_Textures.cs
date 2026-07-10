@@ -1,13 +1,13 @@
 using UnityEngine;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     [StaticConstructorOnStartup]
-    public static class UWU_Textures
+    public static class PWU_Textures
     {
         public static readonly Texture2D Customize =
-            ContentFinder<Texture2D>.Get("UI/UWU_Customize");
+            ContentFinder<Texture2D>.Get("UI/PWU_Customize");
 
         // Vanilla overlay icons for color swatches (Ideology DLC)
         public static readonly Texture2D FavoriteColor =

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UniqueWeaponsUnbound.HaulPlanning;
-using UniqueWeaponsUnbound.HaulPlanning.Internal;
+using PersonaWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.HaulPlanning.Internal;
 using Verse;
 using Xunit;
 
-namespace UniqueWeaponsUnbound.Tests
+namespace PersonaWeaponsUnbound.Tests
 {
     /// <summary>
     /// Tests for ThoroughHaulPlanner per the spec's TESTING NOTES: contract

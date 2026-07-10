@@ -3,7 +3,7 @@ using System.Linq;
 using RimWorld;
 using Verse;
 
-namespace UniqueWeaponsUnbound
+namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Validates trait combinations and provides filtered trait lists for the
@@ -47,20 +47,20 @@ namespace UniqueWeaponsUnbound
             List<WeaponTraitDef> desiredTraits, WeaponTraitDef candidate)
         {
             if (desiredTraits.Contains(candidate))
-                return "UWU_AlreadyApplied".Translate();
+                return "PWU_AlreadyApplied".Translate();
 
-            if (UWU_Mod.Settings.enforceMaxTraitLimit && desiredTraits.Count >= MaxTraits)
-                return "UWU_MaxTraitsReached".Translate();
+            if (PWU_Mod.Settings.enforceMaxTraitLimit && desiredTraits.Count >= MaxTraits)
+                return "PWU_MaxTraitsReached".Translate();
 
             foreach (WeaponTraitDef existing in desiredTraits)
             {
                 if (TraitsOverlap(candidate, existing))
-                    return "UWU_ConflictsWith".Translate(existing.LabelCap);
+                    return "PWU_ConflictsWith".Translate(existing.LabelCap);
             }
 
-            if (UWU_Mod.Settings.enforceCanGenerateAlone
+            if (PWU_Mod.Settings.enforceCanGenerateAlone
                 && desiredTraits.Count == 0 && !candidate.canGenerateAlone)
-                return "UWU_CannotBeOnlyTrait".Translate();
+                return "PWU_CannotBeOnlyTrait".Translate();
 
             return null;
         }
@@ -76,7 +76,7 @@ namespace UniqueWeaponsUnbound
             if (!desiredTraits.Contains(toRemove))
                 return false;
 
-            if (UWU_Mod.Settings.enforceCanGenerateAlone && desiredTraits.Count == 2)
+            if (PWU_Mod.Settings.enforceCanGenerateAlone && desiredTraits.Count == 2)
             {
                 WeaponTraitDef remaining = desiredTraits[0] == toRemove
                     ? desiredTraits[1]
@@ -94,14 +94,14 @@ namespace UniqueWeaponsUnbound
         public static string GetRemovalRejectionReason(
             List<WeaponTraitDef> desiredTraits, WeaponTraitDef toRemove)
         {
-            if (UWU_Mod.Settings.enforceCanGenerateAlone
+            if (PWU_Mod.Settings.enforceCanGenerateAlone
                 && !CanRemoveTrait(desiredTraits, toRemove) && desiredTraits.Count == 2)
             {
                 WeaponTraitDef remaining = desiredTraits[0] == toRemove
                     ? desiredTraits[1]
                     : desiredTraits[0];
                 if (!remaining.canGenerateAlone)
-                    return "UWU_TraitCannotBeOnlyTrait".Translate(remaining.LabelCap);
+                    return "PWU_TraitCannotBeOnlyTrait".Translate(remaining.LabelCap);
             }
             return null;
         }
