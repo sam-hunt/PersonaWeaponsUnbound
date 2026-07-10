@@ -88,7 +88,7 @@ namespace PersonaWeaponsUnbound
                         Text.Anchor = TextAnchor.MiddleLeft;
                         Rect labelRect = new Rect(
                             chipRect.x + 4f, chipRect.y,
-                            chipRect.width * 0.5f, chipRect.height);
+                            chipRect.width * 0.7f, chipRect.height);
                         Color prevLabelColor = GUI.color;
                         if (isLastSource)
                             GUI.color = ColorLibrary.Yellow;
