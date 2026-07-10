@@ -1,6 +1,7 @@
 # Persona Weapons Unbound — Fork Conversion Spec
 
 Status: **Final** — grounded in the codebase map and RimWorld 1.6 decompilation (see `Docs/Research/BLADELINK_WEAPONS.md`).
+Superseded: the §9 color verdict (D3, "Color tab: KEPT") is reversed by `MEMORY_AND_POLISH.md` §2 — recoloring is removed entirely.
 Scope: the full UWU → PWU conversion. This document is the source of truth for the implementation orchestration.
 
 ---

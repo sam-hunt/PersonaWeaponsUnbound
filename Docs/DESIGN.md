@@ -4,7 +4,7 @@
 
 RimWorld's Royalty DLC introduced **bladelink weapons** (player-facing: **persona weapons**) — the persona monosword, persona plasmasword, and persona zeushammer. Each carries an onboard AI persona with 1–2 **weapon traits** (psychic sensitivity shifts, mood links, kill drives, pain suppression, and so on) and bonds permanently to the first pawn who equips it. In vanilla, persona weapons are only obtainable from Empire traders, quest rewards, and relics — and you're stuck with whatever traits they rolled.
 
-This mod lets players customize them: add and remove persona traits, rename the persona, recolor the weapon, and convert base weapons to and from their persona variants at a fabrication bench.
+This mod lets players customize them: add and remove persona traits, rename the persona, and convert base weapons to and from their persona variants at a fabrication bench.
 
 **A note on language:** _Bladelink_ and _persona_ are largely interchangeable. Bladelink is ubiquitous in code (`CompBladelinkWeapon`, the `BladeLink` weapon category); persona is the player-facing adjective (persona monosword, persona core). We use "persona" in player-facing text and "bladelink" freely in code and internal docs.
 
@@ -46,10 +46,9 @@ Player-initiated changes respect the rules vanilla enforces for generated person
 - Only `BladeLink`-category traits are offered.
 - Bond side effects handled correctly: bonded hediffs applied/removed with their trait; adding freewielder severs an existing bond (with warning); reverting a bonded weapon to base severs the bond (with confirm warning).
 
-### 4. Rename, Recolor
+### 4. Rename
 
 - **Rename** the persona using vanilla's `NamerWeaponBladelink` grammar (or type a custom name). Relic names stay locked per Ideology rules.
-- **Recolor** the weapon: vanilla's persona tint is a static def color, but the engine fully supports per-thing colors — we patch `CompColorable` onto persona weapons and offer the default persona tint plus Ideology and Structure palettes.
 
 ---
 
@@ -61,8 +60,9 @@ Bladelink traits are facets of the persona's personality, not bolt-on parts. Cha
 - **Every other change** (add _or_ remove): costs **advanced components**. Both directions are costs — reprogramming is destructive; there are no refunds.
 - The component count scales with weapon quality above a configurable threshold:
   `N = base + levelsAboveThreshold × perLevel` (all three knobs are mod settings; the settings page shows a live table of the resulting cost per quality level).
+- **Memory wipe** (bond or kill tracker, at most one per customization): a flat advanced-component cost set by a plain mod-setting slider — no quality scaling, and never refunded, same as every other change.
 
-Defaults: base 2, threshold Normal, +1/level → Normal-quality changes cost 2 advanced components; a Legendary weapon costs 6 per change.
+Defaults: base 2, threshold Normal, +1/level → Normal-quality changes cost 2 advanced components; a Legendary weapon costs 6 per change. Memory wipes default to 3 components (bond) / 1 component (kill tracker).
 
 ---
 
@@ -113,9 +113,9 @@ Same styling-station-inspired dialog as UWU:
 
 - **Weapon preview** — live, tint-faithful (never-spawned preview Thing).
 - **Traits tab** — only-bladelink traits, search, discovery-progression filtering, per-trait cost display.
-- **Color tab** — persona swatch + Ideology/Structure palettes. (The texture tab is gone: persona weapons have no texture variants.)
+- **Memory tab** — a one-time wipe of the persona's bond or kill tracker (three-way radio: no wipe / wipe bonding / wipe kill tracker), costed in advanced components. (The texture tab is gone: persona weapons have no texture variants.)
 - **Naming** — auto-generate via the bladelink namer or type your own.
-- **Confirm** — builds a job spec; each change is a separate work op; resources consumed on completion; interruption is non-destructive.
+- **Confirm** — builds a job spec; each change is a separate work op; resources consumed on completion; interruption is non-destructive. If the completed job re-equips the weapon onto its wielder, vanilla's persona-bond confirmation pops first whenever that equip would newly bond it — exactly as a manual equip order would.
 
 ### Trait Discovery Progression (optional setting)
 
@@ -126,7 +126,7 @@ When enabled, only traits present on persona weapons the player has _seen_ (on a
 ## Mod Compatibility Goals
 
 - **Automatic support** for modded persona weapons: any ThingDef with `CompBladelinkWeapon` participates; base↔persona pairing via `descriptionHyperlinks` or the `*Bladelink` defName suffix (case-insensitive — vanilla itself has a `Zeushammer`/`ZeusHammerBladelink` casing quirk); custom `nameMaker`s respected.
-- **Automatic support** for modded bladelink traits: anything with `weaponCategory == BladeLink`, including `exclusionTags`, `canGenerateAlone` (opt-in enforcement setting), `forcedColor`, and bonded/equipped hediffs.
+- **Automatic support** for modded bladelink traits: anything with `weaponCategory == BladeLink`, including `exclusionTags`, `canGenerateAlone` (opt-in enforcement setting), and bonded/equipped hediffs.
 - **Coexistence with UWU**: disjoint identifiers everywhere (packageId, Harmony ID, assembly, namespaces, defNames, localization keys) and complementary trait filters.
 - No hard-coded def references for detection; the three vanilla def pairs resolve through the same dynamic pairing as modded ones.
 
