@@ -85,8 +85,33 @@ namespace PersonaWeaponsUnbound
             switch (returnMode)
             {
                 case WeaponReturnMode.Reequip:
-                    pawn.jobs.jobQueue.EnqueueFirst(
-                        JobMaker.MakeJob(JobDefOf.Equip, recoverWeapon));
+                    // Vanilla's persona-bond confirmation lives only in the float-menu
+                    // click delegate, never in JobDriver_Equip itself, so an auto-queued
+                    // Equip job would otherwise bond the weapon silently. Mirror the
+                    // manual-equip dialog here; GetPersonaWeaponConfirmationText already
+                    // returns null for the common cases (bonded to this pawn, freewielder,
+                    // downgraded to base), so most re-equips still take the fast path below.
+                    string confirmText = EquipmentUtility.GetPersonaWeaponConfirmationText(recoverWeapon, pawn);
+                    if (confirmText.NullOrEmpty())
+                    {
+                        pawn.jobs.jobQueue.EnqueueFirst(
+                            JobMaker.MakeJob(JobDefOf.Equip, recoverWeapon));
+                        break;
+                    }
+
+                    Find.WindowStack.Add(new Dialog_MessageBox(confirmText, "Yes".Translate(), delegate
+                    {
+                        // World may have moved on while the dialog was up (pawn/weapon
+                        // downed, despawned, hauled off-map, etc.) — bail rather than
+                        // order a job against a stale reference.
+                        if (recoverWeapon.DestroyedOrNull() || !recoverWeapon.Spawned
+                            || pawn.DestroyedOrNull() || !pawn.Spawned || pawn.Map != recoverWeapon.Map)
+                            return;
+
+                        recoverWeapon.SetForbidden(false);
+                        pawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(JobDefOf.Equip, recoverWeapon), JobTag.Misc);
+                        FleckMaker.Static(recoverWeapon.DrawPos, recoverWeapon.MapHeld, FleckDefOf.FeedbackEquip);
+                    }, "No".Translate()));
                     break;
 
                 case WeaponReturnMode.ReturnToInventory:
