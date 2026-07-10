@@ -32,7 +32,10 @@ namespace PersonaWeaponsUnbound
             if (activeTab == 0)
                 DrawTraitsTab(tabContentRect);
             else
-                DrawColorTab(tabContentRect);
+            {
+                // Memory tab (§4 of the memory/polish spec) takes this slot
+                // in a later pass.
+            }
         }
 
         private void DrawNameRow(float x, ref float curY, float width)
@@ -159,26 +162,7 @@ namespace PersonaWeaponsUnbound
             var tabs = new List<TabRecord>();
             tabs.Add(new TabRecord("PWU_TabTraits".Translate(), () => activeTab = 0, activeTab == 0));
 
-            // Pad the Color label so the swatch fits inside the tab
-            tabs.Add(new TabRecord("PWU_TabColor".Translate() + "      ", () => activeTab = 1, activeTab == 1));
-
             TabDrawer.DrawTabs(menuRect, tabs);
-
-            // Draw a color swatch inside the Color tab, before the label text
-            ColorDef swatchColor = IsRevertedToBase ? null : EffectiveColor;
-            if (swatchColor != null)
-            {
-                float swatchSize = 10f;
-                // Tabs are evenly distributed across menuRect width; Color is the
-                // second (last) of two tabs, so its center sits at 1.5 tab-widths in.
-                float tabWidth = menuRect.width / tabs.Count;
-                float colorTabCenterX = menuRect.x + 1.5f * tabWidth;
-                float colorLabelHalfWidth = Text.CalcSize("PWU_TabColor".Translate()).x / 2f;
-                float swatchX = colorTabCenterX - colorLabelHalfWidth - swatchSize - 21f;
-                float swatchY = menuRect.y - TabBarHeight * 0.5f - swatchSize * 0.5f + 1f;
-                Rect swatchRect = new Rect(swatchX, swatchY, swatchSize, swatchSize);
-                Widgets.DrawBoxSolid(swatchRect, swatchColor.color);
-            }
         }
     }
 }

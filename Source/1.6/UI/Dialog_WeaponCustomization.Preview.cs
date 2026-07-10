@@ -13,9 +13,8 @@ namespace PersonaWeaponsUnbound
         // The trait snapshot is part of the key because appearance is now
         // trait-dependent: a trait can drive color two (or any override reachable
         // through the thing's graphic), so toggling one must rebuild even when the
-        // def and color-one choice are unchanged.
+        // def is unchanged.
         private RenderTexture previewRT;
-        private ColorDef cachedPreviewColor;
         private ThingDef cachedPreviewDef;
         private List<WeaponTraitDef> cachedPreviewTraits;
 
@@ -237,10 +236,8 @@ namespace PersonaWeaponsUnbound
         private void DrawPreviewIcon(Rect rect)
         {
             ThingDef resultDef = ResultingDef;
-            ColorDef effectiveColor = IsRevertedToBase ? null : EffectiveColor;
 
             bool needsRebuild = previewRT == null
-                || cachedPreviewColor != effectiveColor
                 || cachedPreviewDef != resultDef
                 || !SameTraits(cachedPreviewTraits, desiredTraits);
 
@@ -249,8 +246,7 @@ namespace PersonaWeaponsUnbound
             // redirect subsequent UI draws into our texture instead of the screen.
             if (needsRebuild && Event.current.type == EventType.Layout)
             {
-                RebuildPreviewRT(resultDef, effectiveColor);
-                cachedPreviewColor = effectiveColor;
+                RebuildPreviewRT(resultDef);
                 cachedPreviewDef = resultDef;
                 cachedPreviewTraits = new List<WeaponTraitDef>(desiredTraits);
             }
@@ -261,10 +257,10 @@ namespace PersonaWeaponsUnbound
                 Widgets.ThingIcon(rect, resultDef);
         }
 
-        private void RebuildPreviewRT(ThingDef resultDef, ColorDef colorDef)
+        private void RebuildPreviewRT(ThingDef resultDef)
         {
             DestroyPreviewRT();
-            Graphic topLevel = BuildPreviewGraphic(resultDef, colorDef);
+            Graphic topLevel = BuildPreviewGraphic(resultDef);
             // No player-facing variant-index concept (persona weapons render via
             // Graphic_Single) — fall back to the weapon's own override, if any,
             // as harmless preservation for modded weapons that still vary by index.
@@ -273,8 +269,8 @@ namespace PersonaWeaponsUnbound
 
         /// <summary>
         /// Resolves the weapon's top-level (collection-level) graphic for a
-        /// <em>prospective</em> customization state — the desired def, color, and
-        /// trait set — by building a Thing in that state and asking it, rather than
+        /// <em>prospective</em> customization state — the desired def and trait
+        /// set — by building a Thing in that state and asking it, rather than
         /// predicting the appearance by hand.
         ///
         /// <para>We let the actual object describe itself: <c>Thing.Graphic</c>
@@ -288,12 +284,10 @@ namespace PersonaWeaponsUnbound
         /// draw-time patch and never changes the thing's graphic can't be
         /// reconstructed by anything short of invoking that draw path.)</para>
         ///
-        /// <para>Only the trait list and the color need setting: the color is
-        /// applied through <c>CompColorable</c> (<c>Thing.DrawColor</c> reads it
-        /// first), and color two is derived from the trait list (+ stuff) by the
-        /// weapon's own <c>DrawColorTwo</c>. Bonding/hediff wiring doesn't affect
-        /// appearance, so the heavier AddTrait side effects are skipped — the trait
-        /// list is replaced directly.</para>
+        /// <para>Only the trait list needs setting: color two is derived from the
+        /// trait list (+ stuff) by the weapon's own <c>DrawColorTwo</c>. Bonding/
+        /// hediff wiring doesn't affect appearance, so the heavier AddTrait side
+        /// effects are skipped — the trait list is replaced directly.</para>
         ///
         /// <para>Building a Thing mutates <em>global</em> sim state, which the old
         /// graphic-only path never touched: <c>Thing.PostMake</c> pulls a
@@ -304,11 +298,11 @@ namespace PersonaWeaponsUnbound
         /// <c>Rand.Push/PopState</c> so the throwaway rolls don't perturb the shared
         /// Rand stream, and the Thing is cached on <see cref="previewThing"/> and
         /// re-made only when the result def changes — so the id draw fires per
-        /// def, not per rebuild. Re-stamping traits/color below touches no global
+        /// def, not per rebuild. Re-stamping traits below touches no global
         /// state. Never spawned, the cached thing holds no global references and is
         /// dropped with the dialog — no Destroy() needed.</para>
         /// </summary>
-        private Graphic BuildPreviewGraphic(ThingDef resultDef, ColorDef colorDef)
+        private Graphic BuildPreviewGraphic(ThingDef resultDef)
         {
             if (resultDef?.graphicData == null)
                 return null;
@@ -344,11 +338,6 @@ namespace PersonaWeaponsUnbound
                 traits.Clear();
                 traits.AddRange(desiredTraits);
             }
-
-            // Write the desired color via CompColorable (SetColor fires
-            // Notify_ColorChanged) so Graphic rebuilds against the prospective state.
-            // No-op if the preview thing lacks CompColorable (e.g. the base def).
-            WeaponModificationUtility.SetColor(previewThing, colorDef);
 
             return previewThing.Graphic;
         }

@@ -192,9 +192,9 @@ namespace PersonaWeaponsUnbound
                     bailMessageText = "PWU_BailOpRemoveTraitFailed".Translate(
                         WeaponLabel, op.trait?.LabelCap ?? "");
                     break;
-                case OpType.ApplyCosmetics:
-                    opDescr = "applying cosmetics";
-                    bailMessageText = "PWU_BailOpCosmeticsFailed".Translate(WeaponLabel);
+                case OpType.Rename:
+                    opDescr = "renaming weapon";
+                    bailMessageText = "PWU_BailOpRenameFailed".Translate(WeaponLabel);
                     break;
                 default:
                     opDescr = "op type " + op.type;
@@ -258,7 +258,7 @@ namespace PersonaWeaponsUnbound
                     }
                     break;
 
-                case OpType.ApplyCosmetics:
+                case OpType.Rename:
                     if (weapon.TryGetComp<CompBladelinkWeapon>() != null)
                     {
                         if (op.nameToApply != null)
@@ -289,24 +289,14 @@ namespace PersonaWeaponsUnbound
 
                     WeaponModificationUtility.AddTrait(weapon, op.trait);
 
-                    // Apply bundled cosmetics (merged from a cosmetics op that
-                    // would have been a no-op when the weapon was in base state)
+                    // Apply a bundled rename (merged from a Rename op that would
+                    // have been a no-op when the weapon was in base state)
                     if (weapon.TryGetComp<CompBladelinkWeapon>() != null)
                     {
                         if (op.nameToApply != null)
                             WeaponModificationUtility.SetName(weapon, op.nameToApply);
                     }
                     break;
-            }
-
-            // Apply color change if this op carries one (CompColorable, patched
-            // onto the persona defs). No-op on a base weapon without the comp.
-            if (weapon.TryGetComp<CompColorable>() != null)
-            {
-                if (op.clearColor)
-                    WeaponModificationUtility.SetColor(weapon, null);
-                else if (op.colorToApply != null)
-                    WeaponModificationUtility.SetColor(weapon, op.colorToApply);
             }
         }
 

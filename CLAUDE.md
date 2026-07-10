@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Persona Weapons Unbound** (PWU) is a RimWorld 1.6 mod that allows players to customize Royalty's bladelink/persona weapons — add/remove persona traits, rename, recolor, and convert base weapons to/from their persona variants. Requires the Harmony mod and the Royalty DLC.
+**Persona Weapons Unbound** (PWU) is a RimWorld 1.6 mod that allows players to customize Royalty's bladelink/persona weapons — add/remove persona traits, rename, and convert base weapons to/from their persona variants. Requires the Harmony mod and the Royalty DLC.
 
 This repo is a fork of **Unique Weapons Unbound** (UWU, Odyssey unique weapons), carrying its git history. Design: `Docs/DESIGN.md`. Conversion spec: `Docs/Specs/PERSONA_FORK.md`. Bladelink internals research: `Docs/Research/BLADELINK_WEAPONS.md`.
 

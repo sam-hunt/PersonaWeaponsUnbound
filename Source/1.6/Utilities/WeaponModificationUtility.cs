@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Reflection;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace PersonaWeaponsUnbound
 {
     /// <summary>
     /// Mutates a weapon Thing in place: adds/removes persona (bladelink) traits,
-    /// sets cosmetic properties (name, color), and spawns refunded resources.
+    /// sets cosmetic properties (name), and spawns refunded resources.
     /// Def conversion (base↔persona) lives in <see cref="WeaponDefConversion"/>;
     /// ingredient gathering and reservation for a customization job lives in
     /// <see cref="HaulPlanning.IngredientReservation"/>.
@@ -190,33 +189,6 @@ namespace PersonaWeaponsUnbound
             CompGeneratedNames comp = weapon.TryGetComp<CompGeneratedNames>();
             if (comp != null && CompNameField != null)
                 CompNameField.SetValue(comp, name);
-        }
-
-        /// <summary>
-        /// Recolors the weapon via <see cref="CompColorable"/> (persists in saves,
-        /// no reflection). A null <paramref name="color"/>, or a color
-        /// indistinguishable from the def's own tint, deactivates the comp
-        /// (<c>Disable()</c>) so the weapon reverts to its default persona tint.
-        /// No-op if the weapon has no CompColorable (e.g. an un-patched modded
-        /// persona weapon, or a base weapon).
-        /// </summary>
-        public static void SetColor(Thing weapon, ColorDef color)
-        {
-            CompColorable comp = weapon.TryGetComp<CompColorable>();
-            if (comp == null)
-                return;
-
-            Color? defColor = weapon.def.graphicData?.color;
-            if (color == null || (defColor.HasValue && color.color.IndistinguishableFrom(defColor.Value)))
-            {
-                comp.Disable();
-            }
-            else
-            {
-                // CompColorableUtility.SetColor extension; the CompColorable presence
-                // is already confirmed above, so suppress its failure logging.
-                weapon.SetColor(color.color, reportFailure: false);
-            }
         }
 
         /// <summary>

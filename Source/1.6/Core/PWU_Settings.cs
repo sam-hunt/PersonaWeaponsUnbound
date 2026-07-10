@@ -30,8 +30,6 @@ namespace PersonaWeaponsUnbound
 
         // Miscellaneous
         public bool enableGroundCustomization = true;
-        public bool enableIdeologyColors = true;
-        public bool enableStructureColors = true;
         public bool enforceMaxTraitLimit = true;
         public bool enforceCanGenerateAlone;
 
@@ -55,8 +53,6 @@ namespace PersonaWeaponsUnbound
             haulPlannerKind = HaulPlannerKind.Sweep;
 
             enableGroundCustomization = true;
-            enableIdeologyColors = true;
-            enableStructureColors = true;
             enforceMaxTraitLimit = true;
             enforceCanGenerateAlone = false;
         }
@@ -84,8 +80,6 @@ namespace PersonaWeaponsUnbound
             Scribe_Values.Look(ref haulPlannerKind, "haulPlannerKind", HaulPlannerKind.Sweep);
 
             Scribe_Values.Look(ref enableGroundCustomization, "enableGroundCustomization", true);
-            Scribe_Values.Look(ref enableIdeologyColors, "enableIdeologyColors", true);
-            Scribe_Values.Look(ref enableStructureColors, "enableStructureColors", true);
             Scribe_Values.Look(ref enforceMaxTraitLimit, "enforceMaxTraitLimit", true);
             Scribe_Values.Look(ref enforceCanGenerateAlone, "enforceCanGenerateAlone");
         }

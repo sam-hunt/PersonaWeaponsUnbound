@@ -8,7 +8,7 @@ namespace PersonaWeaponsUnbound
     {
         RemoveTrait,
         AddTrait,
-        ApplyCosmetics,
+        Rename,
     }
 
     public class CustomizationOp : IExposable
@@ -18,14 +18,8 @@ namespace PersonaWeaponsUnbound
         public List<ThingDefCountClass> cost;
         public List<ThingDefCountClass> refund;
 
-        // Optional color change on this specific op (null = no color change at this step)
-        public ColorDef colorToApply;
-
-        // If true, clear the color to default (no tint). Used when removing a
-        // forced-color trait with no remaining forced-color traits active.
-        public bool clearColor;
-
-        // Only for ApplyCosmetics ops
+        // Only for Rename ops (or merged into an AddTrait op when a rename is
+        // deferred across a base→persona conversion).
         public string nameToApply;
 
         public void ExposeData()
@@ -34,8 +28,6 @@ namespace PersonaWeaponsUnbound
             Scribe_Defs.Look(ref trait, "trait");
             Scribe_Collections.Look(ref cost, "cost", LookMode.Deep);
             Scribe_Collections.Look(ref refund, "refund", LookMode.Deep);
-            Scribe_Defs.Look(ref colorToApply, "colorToApply");
-            Scribe_Values.Look(ref clearColor, "clearColor", false);
             Scribe_Values.Look(ref nameToApply, "nameToApply", null);
         }
     }
@@ -75,32 +67,12 @@ namespace PersonaWeaponsUnbound
         /// </summary>
         public List<ThingDefCountClass> totalRefund;
 
-        /// <summary>
-        /// The final color to apply after all operations complete.
-        /// Set from EffectiveColor in the dialog. Applied in the finalize toil
-        /// to ensure it persists through Setup() calls and def conversions.
-        /// Null means no color change (e.g., reverting to base with no colorable comp).
-        /// Only ever holds a DefDatabase-registered ColorDef so it Scribes safely;
-        /// the "revert to default tint" case is carried by <see cref="finalColorClear"/>.
-        /// </summary>
-        public ColorDef finalColor;
-
-        /// <summary>
-        /// When true, the finalize toil deactivates CompColorable (reverts the weapon
-        /// to its default persona tint) instead of applying <see cref="finalColor"/>.
-        /// Used when the chosen color is the default swatch (an unregistered runtime
-        /// ColorDef that must not be Scribed).
-        /// </summary>
-        public bool finalColorClear;
-
         public void ExposeData()
         {
             Scribe_Collections.Look(ref operations, "operations", LookMode.Deep);
             Scribe_Defs.Look(ref resultingDef, "resultingDef");
             Scribe_Collections.Look(ref totalCost, "totalCost", LookMode.Deep);
             Scribe_Collections.Look(ref totalRefund, "totalRefund", LookMode.Deep);
-            Scribe_Defs.Look(ref finalColor, "finalColor");
-            Scribe_Values.Look(ref finalColorClear, "finalColorClear", false);
         }
     }
 }

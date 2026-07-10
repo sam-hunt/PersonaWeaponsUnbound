@@ -196,23 +196,6 @@ namespace PersonaWeaponsUnbound
 
             listing.Gap();
 
-            if (ModsConfig.IdeologyActive)
-            {
-                listing.CheckboxLabeled(
-                    "PWU_EnableIdeoColors".Translate(),
-                    ref Settings.enableIdeologyColors,
-                    "PWU_EnableIdeoColorsDesc".Translate());
-
-                listing.Gap();
-            }
-
-            listing.CheckboxLabeled(
-                "PWU_EnableStructureColors".Translate(),
-                ref Settings.enableStructureColors,
-                "PWU_EnableStructureColorsDesc".Translate());
-
-            listing.Gap();
-
             listing.CheckboxLabeled(
                 "PWU_EnforceMaxTraitLimit".Translate(),
                 ref Settings.enforceMaxTraitLimit,

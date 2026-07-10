@@ -19,10 +19,9 @@ Bladelink traits are facets of the persona's personality, not bolt-on parts. Cha
 [*]Real-time cost preview before you commit
 [/list]
 
-[h2]Rename & Recolor[/h2]
+[h2]Rename[/h2]
 [list]
 [*]Rename the persona using vanilla's bladelink namer, or type your own
-[*]Recolor via the default persona tint plus Ideology and structure palettes
 [*]Ideology relic names stay locked and can only be changed through ideology reform, as intended
 [/list]
 

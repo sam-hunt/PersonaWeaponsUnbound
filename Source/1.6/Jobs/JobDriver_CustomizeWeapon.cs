@@ -13,7 +13,7 @@ namespace PersonaWeaponsUnbound
     //   .Haul.cs     - pickup/unload routing, drop-cell selection,
     //                  placedIngredients population (TrackAndReservePlaced)
     //   .Work.cs     - placedIngredients/refundLedger reads + writes,
-    //                  per-op trait/cosmetics/color mutation, base<->persona
+    //                  per-op trait/cosmetics mutation, base<->persona
     //                  def conversion
     //   .Recovery.cs - end-of-job cleanup: drop unloaded inventory, queue
     //                  Equip/TakeInventory follow-up so the weapon returns
@@ -220,8 +220,8 @@ namespace PersonaWeaponsUnbound
                     case OpType.RemoveTrait:
                         return "PWU_RemovingTrait".Translate(
                             op.trait.LabelCap, weaponLabel);
-                    case OpType.ApplyCosmetics:
-                        return "PWU_ApplyingCosmetics".Translate(weaponLabel);
+                    case OpType.Rename:
+                        return "PWU_RenamingWeapon".Translate(weaponLabel);
                 }
             }
 
@@ -453,11 +453,10 @@ namespace PersonaWeaponsUnbound
                     return;
                 }
                 // Dialog ctor does heavy work (reflection, TraitProgressionPool
-                // build, ColorDef enumerations, relic precept access). An
-                // uncaught throw here would Error the job and surface only the
-                // generic PWU_BailUnexpected; wrap so the player sees a
-                // dialog-specific bail reason and the log carries the
-                // weapon-context exception.
+                // build, relic precept access). An uncaught throw here would
+                // Error the job and surface only the generic PWU_BailUnexpected;
+                // wrap so the player sees a dialog-specific bail reason and the
+                // log carries the weapon-context exception.
                 try
                 {
                     Find.WindowStack.Add(
@@ -687,43 +686,6 @@ namespace PersonaWeaponsUnbound
             yield return applyOp;
 
             yield return Toils_Jump.JumpIf(precheckOp, () => currentOpIndex < spec.operations.Count);
-
-            // === FINALIZE ===
-
-            Toil finalize = ToilMaker.MakeToil("MakeNewToils");
-            finalize.initAction = delegate
-            {
-                // Isolated so a throw doesn't Errored the job and surface
-                // PWU_BailUnexpected — by this toil the weapon is already
-                // traited and ingredients are consumed, so failure here is
-                // post-success cleanup. Continue to admire + return so the
-                // player walks away with the customized weapon; raise a soft
-                // message naming what specifically didn't stick.
-
-                // Apply final color now that every op has run, so it sticks
-                // regardless of any intermediate trait-driven color change.
-                try
-                {
-                    CompColorable colorComp = weapon.TryGetComp<CompColorable>();
-                    if (colorComp != null)
-                    {
-                        if (spec.finalColorClear)
-                            WeaponModificationUtility.SetColor(weapon, null); // revert to default tint
-                        else if (spec.finalColor != null)
-                            WeaponModificationUtility.SetColor(weapon, spec.finalColor);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Error("[Persona Weapons Unbound] Final color application failed on "
-                        + WeaponLabel + ": " + ex);
-                    Messages.Message(
-                        "PWU_FinalizeColorFailed".Translate(WeaponLabel),
-                        weapon, MessageTypeDefOf.NegativeEvent, historical: false);
-                }
-            };
-            finalize.defaultCompleteMode = ToilCompleteMode.Instant;
-            yield return finalize;
 
             // === PAUSE: brief moment before returning the finished weapon ===
 

@@ -291,20 +291,12 @@ namespace PersonaWeaponsUnbound
             ComputeNetCostAndSurplus(totalCostAgg, totalRefundAgg,
                 out List<ThingDefCountClass> netCost, out _);
 
-            // Only a registered ColorDef is Scribe-safe. The default-tint / custom
-            // runtime pseudo-defs are carried as finalColorClear (revert to default)
-            // so a save landing in the confirm→finalize gap can't fail to reload it.
-            ColorDef effective = ResultingDef == personaDef ? EffectiveColor : null;
-            bool clearFinal = effective != null && !IsScribeSafeColor(effective);
-
             return new CustomizationSpec
             {
                 operations = ops,
                 resultingDef = ResultingDef,
                 totalCost = netCost,
                 totalRefund = totalRefundAgg,
-                finalColor = clearFinal ? null : effective,
-                finalColorClear = clearFinal,
             };
         }
 

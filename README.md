@@ -13,7 +13,7 @@
 
 RimWorld's Royalty DLC introduced bladelink weapons — player-facing: **persona weapons** — the persona monosword, persona plasmasword, and persona zeushammer. Each carries an onboard AI persona with 1–2 weapon traits and bonds permanently to the first pawn who equips it. In vanilla, persona weapons only come from Empire traders, quest rewards, and relics — and you're stuck with whatever traits they rolled.
 
-This mod lets you take control. Add and remove persona traits, rename the persona, recolor the weapon, and convert base weapons to and from their persona variants — all at a fabrication bench, with research gating and configurable balance settings.
+This mod lets you take control. Add and remove persona traits, rename the persona, and convert base weapons to and from their persona variants — all at a fabrication bench, with research gating and configurable balance settings.
 
 ## Features
 
@@ -24,10 +24,9 @@ This mod lets you take control. Add and remove persona traits, rename the person
 - **Full trait validation** respecting vanilla rules — max trait count, exclusion-tag conflicts, sole-trait restrictions
 - **Reprogramming cost model**: every other trait change (add or remove) costs advanced components that scale with weapon quality above a configurable threshold — reprogramming a persona is destructive, so neither direction refunds
 
-### Rename & Recolor
+### Rename
 
 - **Rename** the persona using vanilla's bladelink namer, or type your own. Ideology relic names stay locked per Ideology rules
-- **Recolor** the weapon via a patched `CompColorable`: the default persona tint, plus Ideology and structure palettes
 
 ### Royalty DLC Integration
 
@@ -59,7 +58,6 @@ All balance levers are configurable from the in-game mod settings:
 - **Crafting recipe toggles** — enable/disable each of the three base weapon recipes independently
 - **Minimum weapon quality** — restrict customization to weapons at or above a quality threshold
 - **Trait discovery progression** — optionally restrict available traits to those seen on persona weapons held by the colony, in caravans, or on hostiles
-- **Color palette toggles** — enable/disable the Ideology and structure color palettes
 - **Trait limit / sole-trait enforcement** — optionally enforce vanilla's generation restrictions during customization
 - **Ingredient hauling** — choose between Sequential (vanilla-equivalent), Sweep, and Thorough haul planners
 
