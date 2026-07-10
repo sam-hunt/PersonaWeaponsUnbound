@@ -9,20 +9,15 @@ namespace PersonaWeaponsUnbound
         // Progression
         public bool restrictTraitsToDiscovered;
 
-        // Trait Costs
-        public bool useRecipeBaseCost = true;
-        public float traitCostMultiplier = 1f;
-        public float traitRefundRate = 0.5f;
+        // Persona Costs
+        public int traitChangeBaseComponentCost = 2;
+        public QualityCategory traitChangeQualitySurchargeThreshold = QualityCategory.Normal;
+        public int traitChangeQualitySurchargePerLevel = 1;
 
         // Prerequisites
         public QualityCategory minimumQuality = QualityCategory.Awful;
         public bool allowDefConversion = true;
         public bool requireCustomizationResearch = true;
-        public bool requireRecipeResearch = true;
-        public bool requireAppropriateWorkbench = true;
-        public bool allowUncraftableCustomization = true;
-        public bool allowUltratechCustomization = true;
-        public bool allowArchotechCustomization;
 
         // Haul Planner
         public HaulPlannerKind haulPlannerKind = HaulPlannerKind.Sweep;
@@ -38,18 +33,13 @@ namespace PersonaWeaponsUnbound
         {
             restrictTraitsToDiscovered = false;
 
-            useRecipeBaseCost = true;
-            traitCostMultiplier = 1f;
-            traitRefundRate = 0.5f;
+            traitChangeBaseComponentCost = 2;
+            traitChangeQualitySurchargeThreshold = QualityCategory.Normal;
+            traitChangeQualitySurchargePerLevel = 1;
 
             minimumQuality = QualityCategory.Awful;
             allowDefConversion = true;
             requireCustomizationResearch = true;
-            requireRecipeResearch = true;
-            requireAppropriateWorkbench = true;
-            allowUncraftableCustomization = true;
-            allowUltratechCustomization = true;
-            allowArchotechCustomization = false;
 
             haulPlannerKind = HaulPlannerKind.Sweep;
 
@@ -65,18 +55,15 @@ namespace PersonaWeaponsUnbound
             base.ExposeData();
             Scribe_Values.Look(ref restrictTraitsToDiscovered, "restrictTraitsToDiscovered");
 
-            Scribe_Values.Look(ref useRecipeBaseCost, "useRecipeBaseCost", true);
-            Scribe_Values.Look(ref traitCostMultiplier, "traitCostMultiplier", 1f);
-            Scribe_Values.Look(ref traitRefundRate, "traitRefundRate", 0.5f);
+            Scribe_Values.Look(ref traitChangeBaseComponentCost, "traitChangeBaseComponentCost", 2);
+            Scribe_Values.Look(ref traitChangeQualitySurchargeThreshold,
+                "traitChangeQualitySurchargeThreshold", QualityCategory.Normal);
+            Scribe_Values.Look(ref traitChangeQualitySurchargePerLevel,
+                "traitChangeQualitySurchargePerLevel", 1);
 
             Scribe_Values.Look(ref minimumQuality, "minimumQuality", QualityCategory.Awful);
             Scribe_Values.Look(ref allowDefConversion, "allowDefConversion", true);
             Scribe_Values.Look(ref requireCustomizationResearch, "requireCustomizationResearch", true);
-            Scribe_Values.Look(ref requireRecipeResearch, "requireRecipeResearch", true);
-            Scribe_Values.Look(ref requireAppropriateWorkbench, "requireAppropriateWorkbench", true);
-            Scribe_Values.Look(ref allowUncraftableCustomization, "allowUncraftableCustomization", true);
-            Scribe_Values.Look(ref allowUltratechCustomization, "allowUltratechCustomization", true);
-            Scribe_Values.Look(ref allowArchotechCustomization, "allowArchotechCustomization");
 
             Scribe_Values.Look(ref haulPlannerKind, "haulPlannerKind", HaulPlannerKind.Sweep);
 

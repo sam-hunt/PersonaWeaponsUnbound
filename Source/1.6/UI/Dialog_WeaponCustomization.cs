@@ -14,7 +14,7 @@ namespace PersonaWeaponsUnbound
     // +------------------------------------------------------------------+
     // |  Customize [Weapon Name]                                         |
     // +---------------------+--------------------------------------------+
-    // |                     |   [[ Traits ]] [ Texture ] [ ■ Color ]     |
+    // |                     |   [[ Traits ]] [ ■ Color ]                 |
     // |  [Graphic preview]  |  ┌───────────────────────────────────────┐ |
     // |                     |  | 🔎︎ [Search traits................][x] │ |
     // |  [Weapon Name]      |  +---------------------------------------+ |
@@ -31,9 +31,8 @@ namespace PersonaWeaponsUnbound
     // +------------------------------------------------------------------+
     //
     // Left pane (35%): Preview.cs — weapon icon, name, status, color swatch, trait list with [x]
-    // Right pane (65%): Controls.cs — name field, texture nav, tab bar, tab content
+    // Right pane (65%): Controls.cs — name field, tab bar, tab content
     //   Traits tab: Traits.cs — scrollable checkbox list with per-trait costs and rejection reasons
-    //   Texture tab: Texture.cs — clickable texture variant grid
     //   Color tab: Color.cs — clickable color swatch grid
     // Footer: Footer.cs — Cancel/Reset/Confirm buttons (ideology styling station layout)
 
@@ -52,9 +51,7 @@ namespace PersonaWeaponsUnbound
         private readonly List<WeaponTraitDef> originalTraits;
         private readonly List<WeaponTraitDef> compatibleTraits;
         private readonly string originalName;
-        private readonly int originalTextureIndex;
         private readonly ColorDef originalColor;
-        private readonly int textureVariantCount;
         private readonly List<ColorDef> availableWeaponColors;
         private readonly List<ColorDef> availableIdeoColors; // Ideology DLC: Ideo + Misc colors
         private readonly List<ColorDef> availableStructureColors;
@@ -70,16 +67,14 @@ namespace PersonaWeaponsUnbound
         // Desired state — mutated by user interaction
         private readonly List<WeaponTraitDef> desiredTraits;
         private string desiredName;
-        private int desiredTextureIndex;
         private ColorDef desiredColor;
 
         // UI state
         private Vector2 traitListScroll;
         private Vector2 desiredTraitsScroll;
         private Vector2 colorTabScroll;
-        private Vector2 textureTabScroll;
         private readonly QuickSearchWidget traitSearchWidget = new QuickSearchWidget();
-        private int activeTab; // 0 = Traits, 1 = Texture, 2 = Color
+        private int activeTab; // 0 = Traits, 1 = Color
         private bool nameLocked;
         private bool hideNegativeTraits;
         private string lastAutoName;
@@ -106,11 +101,6 @@ namespace PersonaWeaponsUnbound
         private readonly Dictionary<ThingDef, int> availableResources =
             new Dictionary<ThingDef, int>();
 
-        // Pipeline cost cache — scoped to this dialog instance.
-        // Key: (trait, isRemoval). Populated lazily, freed on dialog close.
-        private readonly Dictionary<(WeaponTraitDef, bool), List<ThingDefCountClass>> pipelineCache =
-            new Dictionary<(WeaponTraitDef, bool), List<ThingDefCountClass>>();
-
         // Layout constants
         private static readonly Vector2 ButtonSize = new Vector2(120f, 40f);
         private const float LeftPanePct = 0.35f;
@@ -131,8 +121,6 @@ namespace PersonaWeaponsUnbound
         private const float TabBarHeight = 32f;
         private const float ColorSwatchSize = 36f;
         private const float ColorSwatchGap = 8f;
-        private const float TextureCellSize = 152f;
-        private const float TextureCellGap = 12f;
         private const float ColorIndicatorSize = 16f;
         private const float ControlLabelWidth = 60f;
 
@@ -285,12 +273,6 @@ namespace PersonaWeaponsUnbound
             if (desiredColor == null && availableWeaponColors.Count > 0)
                 desiredColor = availableWeaponColors.RandomElement();
             initialDesiredColor = desiredColor;
-
-            // Snapshot original texture index
-            textureVariantCount = GetTextureVariantCount();
-            originalTextureIndex = weapon.overrideGraphicIndex
-                ?? (weapon.thingIDNumber % Mathf.Max(1, textureVariantCount));
-            desiredTextureIndex = originalTextureIndex;
         }
 
         // --- Computed properties ---
@@ -315,6 +297,16 @@ namespace PersonaWeaponsUnbound
         /// Name/texture/color controls are disabled in this state.
         /// </summary>
         private bool IsRevertedToBase => desiredTraits.Count == 0 && baseDef != null && PWU_Mod.Settings.allowDefConversion;
+
+        /// <summary>
+        /// True when the 0↔1 trait-count boundary actually converts the def (a base
+        /// pairing exists and def conversion is enabled). When false — orphan persona
+        /// weapon or conversion disabled — the weapon keeps its persona def at zero
+        /// traits, so no change ever crosses the boundary: the persona core is never
+        /// charged nor refunded and every change is priced as components (spec §6
+        /// rules 1–2 tie the core strictly to actual def conversion).
+        /// </summary>
+        private bool ConversionAvailable => baseDef != null && PWU_Mod.Settings.allowDefConversion;
 
         /// <summary>
         /// The effective display color: forced color from traits takes priority,
@@ -350,8 +342,6 @@ namespace PersonaWeaponsUnbound
                 }
                 if (desiredName != originalName)
                     return true;
-                if (desiredTextureIndex != originalTextureIndex)
-                    return true;
                 if (EffectiveColor != originalColor)
                     return true;
                 return false;
@@ -373,7 +363,6 @@ namespace PersonaWeaponsUnbound
             desiredName = originalName;
             nameLocked = !string.IsNullOrEmpty(originalName);
             lastAutoName = null;
-            desiredTextureIndex = originalTextureIndex;
             desiredColor = initialDesiredColor;
             traitListScroll = Vector2.zero;
             desiredTraitsScroll = Vector2.zero;
@@ -452,145 +441,228 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Returns a cached copy of the raw pipeline cost for the given trait and direction.
-        /// The weapon, stuff, and quality are implicit (one dialog = one weapon).
-        /// Callers may mutate the returned list without affecting the cache.
+        /// Number of the weapon's original traits still kept in <see cref="desiredTraits"/>
+        /// (i.e. not staged for removal). Boundary-crossing during the removal phase of
+        /// <see cref="BuildOperations"/> depends on this count, not <c>desiredTraits.Count</c>
+        /// as a whole — new additions staged alongside a removal haven't happened yet at
+        /// the point removals are processed, so they must not inflate the denominator.
         /// </summary>
-        private List<ThingDefCountClass> CachedPipelineCost(WeaponTraitDef trait, bool isRemoval)
-        {
-            var key = (trait, isRemoval);
-            if (pipelineCache.TryGetValue(key, out List<ThingDefCountClass> cached))
-                return CloneCosts(cached);
+        private int KeptOriginalsCount => originalTraits.Count(t => desiredTraits.Contains(t));
 
-            List<ThingDefCountClass> costs = TraitCostUtility.RunPipeline(weapon, trait, isRemoval);
-            pipelineCache[key] = CloneCosts(costs);
-            return costs;
-        }
-
-        private static List<ThingDefCountClass> CloneCosts(List<ThingDefCountClass> costs)
+        /// <summary>
+        /// Preview cost for adding a not-yet-selected <paramref name="trait"/> right now,
+        /// appended after every other currently staged addition: crosses the base→persona
+        /// boundary exactly when no original traits remain kept and no addition is staged
+        /// yet (i.e. <c>desiredTraits</c> is currently empty). Used for the "unselected"
+        /// row hover preview in Traits.cs. A trait already staged as an addition should
+        /// use <see cref="StagedAdditionCost"/> instead, which reflects its real position
+        /// in the addition sequence rather than re-deriving it in isolation.
+        /// </summary>
+        private List<ThingDefCountClass> PreviewAdditionCost(WeaponTraitDef trait)
         {
-            var clone = new List<ThingDefCountClass>(costs.Count);
-            foreach (ThingDefCountClass entry in costs)
-                clone.Add(new ThingDefCountClass(entry.thingDef, entry.count));
-            return clone;
+            bool crossesBoundary = desiredTraits.Count == 0 && ConversionAvailable;
+            return TraitCostUtility.GetChangeCost(weapon, crossesBoundary, isRemoval: false);
         }
 
         /// <summary>
-        /// Dialog-local equivalent of <see cref="TraitCostUtility.GetAdditionCost"/>,
-        /// using the dialog's pipeline cache.
+        /// The real cost of a trait already staged as an addition (in <see cref="desiredTraits"/>,
+        /// not in <see cref="originalTraits"/>). Only the first staged addition can cross the
+        /// base→persona boundary, and only when no original traits remain kept — mirrors
+        /// <see cref="BuildOperations"/>'s addition loop exactly, so this matches the price
+        /// that trait's real op will carry at confirm time.
         /// </summary>
-        private List<ThingDefCountClass> GetAdditionCost(WeaponTraitDef trait)
+        private List<ThingDefCountClass> StagedAdditionCost(WeaponTraitDef trait)
         {
-            List<ThingDefCountClass> costs = CachedPipelineCost(trait, isRemoval: false);
-            TraitCostUtility.ApplyCostMultiplier(costs);
-            if (TraitCostUtility.IsNegativeTrait(trait))
+            List<WeaponTraitDef> stagedAdds = TraitsToAdd.ToList();
+            bool crossesBoundary = KeptOriginalsCount == 0 && ConversionAvailable
+                && stagedAdds.Count > 0 && stagedAdds[0] == trait;
+            return TraitCostUtility.GetChangeCost(weapon, crossesBoundary, isRemoval: false);
+        }
+
+        /// <summary>
+        /// Preview cost for removing a still-kept original <paramref name="trait"/> right
+        /// now, in isolation from any other staged change: crosses the persona→base
+        /// boundary exactly when this is the last original trait still kept.
+        /// </summary>
+        private List<ThingDefCountClass> PreviewRemovalCost(WeaponTraitDef trait)
+        {
+            bool crossesBoundary = KeptOriginalsCount == 1 && ConversionAvailable;
+            return TraitCostUtility.GetChangeCost(weapon, crossesBoundary, isRemoval: true);
+        }
+
+        /// <summary>
+        /// Preview refund for removing a still-kept original <paramref name="trait"/> right
+        /// now, mirroring <see cref="PreviewRemovalCost"/>'s boundary check.
+        /// </summary>
+        private List<ThingDefCountClass> PreviewRemovalRefund(WeaponTraitDef trait)
+        {
+            bool crossesBoundary = KeptOriginalsCount == 1 && ConversionAvailable;
+            return TraitCostUtility.GetChangeRefund(crossesBoundary, isRemoval: true);
+        }
+
+        /// <summary>
+        /// Builds the ordered operation list (removals → cosmetics → additions),
+        /// pricing each op by sequential simulation: a running trait count starting
+        /// at the weapon's current trait count crosses the base↔persona boundary on
+        /// whichever op actually takes it to/from zero, and only that op is priced
+        /// as the persona-core install/refund — every other op costs advanced
+        /// components (fork spec §6 rule 4). Pure and side-effect-free, so it's
+        /// cheap enough to rebuild every frame; shared by the live cost preview
+        /// (<see cref="DoWindowContentsInner"/>) and the confirmed spec
+        /// (<see cref="BuildCustomizationSpec"/>).
+        /// </summary>
+        private List<CustomizationOp> BuildOperations()
+        {
+            var ops = new List<CustomizationOp>();
+            List<WeaponTraitDef> removes = TraitsToRemove.ToList();
+            List<WeaponTraitDef> adds = TraitsToAdd.ToList();
+
+            bool hasForcedColorTraits =
+                removes.Any(t => t.forcedColor != null) ||
+                adds.Any(t => t.forcedColor != null);
+
+            int simulatedTraitCount = originalTraits.Count;
+
+            // 1. Removal ops
+            var remainingOriginalTraits = new List<WeaponTraitDef>(originalTraits);
+            foreach (WeaponTraitDef trait in removes)
             {
-                foreach (ThingDefCountClass c in costs)
-                    c.count = Mathf.CeilToInt(c.count * TraitCostUtility.RefundRate);
-                costs.RemoveAll(c => c.count <= 0);
+                bool crossesBoundary = simulatedTraitCount == 1 && ConversionAvailable;
+                var op = new CustomizationOp
+                {
+                    type = OpType.RemoveTrait,
+                    trait = trait,
+                    cost = TraitCostUtility.GetChangeCost(weapon, crossesBoundary, isRemoval: true),
+                    refund = TraitCostUtility.GetChangeRefund(crossesBoundary, isRemoval: true),
+                };
+                simulatedTraitCount--;
+
+                remainingOriginalTraits.Remove(trait);
+
+                if (trait.forcedColor != null)
+                {
+                    // Revert to the next remaining forced color, or clear to default
+                    // if no forced-color traits remain (weapon shows natural material).
+                    ColorDef nextForced = null;
+                    for (int i = remainingOriginalTraits.Count - 1; i >= 0; i--)
+                    {
+                        if (remainingOriginalTraits[i].forcedColor != null)
+                        {
+                            nextForced = remainingOriginalTraits[i].forcedColor;
+                            break;
+                        }
+                    }
+                    if (nextForced != null)
+                        op.colorToApply = nextForced;
+                    else
+                        op.clearColor = true;
+                }
+
+                ops.Add(op);
             }
-            return costs;
+
+            // 2. Cosmetics op (only if result is unique)
+            // If the weapon will be in base state after removals (all original
+            // traits removed) and there are additions, cosmetics can't apply to
+            // a base weapon. Merge them into the first AddTrait op instead,
+            // which will convert base→unique and then apply cosmetics atomically.
+            // Cosmetics can only apply to a unique weapon. We must defer them
+            // onto the first AddTrait op if the weapon will be in base state when
+            // the cosmetics step would run. Two cases:
+            // (a) Weapon starts as unique but all original traits are removed → base
+            // (b) Weapon starts as base (non-unique) → already in base state
+            bool willBeBaseAfterRemovals = remainingOriginalTraits.Count == 0
+                && WeaponRegistry.IsUniqueWeapon(weapon.def)
+                && ConversionAvailable;
+            bool startsAsBase = !WeaponRegistry.IsUniqueWeapon(weapon.def)
+                && PWU_Mod.Settings.allowDefConversion;
+            bool deferCosmetics = (willBeBaseAfterRemovals || startsAsBase) && adds.Count > 0;
+
+            string deferredName = null;
+            ColorDef deferredColor = null;
+
+            if (ResultingDef == uniqueDef)
+            {
+                bool nameChanged = desiredName != originalName;
+                bool colorChanged = EffectiveColor != originalColor;
+
+                if (deferCosmetics)
+                {
+                    // Always save ALL desired cosmetics when deferring. The round-trip
+                    // through base state (unique→base→unique) destroys the CompUniqueWeapon,
+                    // so existing name/color are lost even if unchanged by the player.
+                    // They must be re-applied after the first AddTrait converts back to unique.
+                    deferredName = desiredName;
+                    if (!hasForcedColorTraits)
+                        deferredColor = desiredColor;
+                }
+                else if (nameChanged || (colorChanged && !hasForcedColorTraits))
+                {
+                    var cosOp = new CustomizationOp
+                    {
+                        type = OpType.ApplyCosmetics,
+                    };
+
+                    if (nameChanged)
+                        cosOp.nameToApply = desiredName;
+                    if (colorChanged && !hasForcedColorTraits)
+                        cosOp.colorToApply = desiredColor;
+
+                    ops.Add(cosOp);
+                }
+            }
+
+            // 3. Addition ops
+            bool firstAdd = true;
+            foreach (WeaponTraitDef trait in adds)
+            {
+                bool crossesBoundary = simulatedTraitCount == 0 && ConversionAvailable;
+                var op = new CustomizationOp
+                {
+                    type = OpType.AddTrait,
+                    trait = trait,
+                    cost = TraitCostUtility.GetChangeCost(weapon, crossesBoundary, isRemoval: false),
+                };
+                simulatedTraitCount++;
+
+                if (trait.forcedColor != null)
+                    op.colorToApply = trait.forcedColor;
+
+                // Merge deferred cosmetics into the first AddTrait op
+                if (firstAdd && deferCosmetics)
+                {
+                    op.nameToApply = deferredName;
+                    if (deferredColor != null && op.colorToApply == null)
+                        op.colorToApply = deferredColor;
+                    firstAdd = false;
+                }
+
+                ops.Add(op);
+            }
+
+            return ops;
         }
 
         /// <summary>
-        /// Dialog-local equivalent of <see cref="TraitCostUtility.GetRemovalCost"/>,
-        /// using the dialog's pipeline cache.
+        /// Sums a per-op cost or refund list (selected via <paramref name="selector"/>)
+        /// across every op, collapsing duplicate ThingDefs.
         /// </summary>
-        private List<ThingDefCountClass> GetRemovalCost(WeaponTraitDef trait)
-        {
-            List<ThingDefCountClass> costs = CachedPipelineCost(trait, isRemoval: true);
-            TraitCostUtility.ApplyCostMultiplier(costs);
-            foreach (ThingDefCountClass c in costs)
-                c.count = TraitCostUtility.IsNegativeTrait(trait)
-                    ? Mathf.CeilToInt(c.count * TraitCostUtility.RefundRate)
-                    : Mathf.FloorToInt(c.count * TraitCostUtility.RefundRate);
-            costs.RemoveAll(c => c.count <= 0);
-            return costs;
-        }
-
-        /// <summary>
-        /// Dialog-local equivalent of <see cref="TraitCostUtility.GetTotalCost"/>,
-        /// using the dialog's pipeline cache.
-        /// </summary>
-        private List<ThingDefCountClass> GetTotalCost()
+        private static List<ThingDefCountClass> SumOpCosts(
+            List<CustomizationOp> ops, Func<CustomizationOp, List<ThingDefCountClass>> selector)
         {
             var totals = new Dictionary<ThingDef, int>();
-
-            foreach (WeaponTraitDef trait in TraitsToAdd)
+            foreach (CustomizationOp op in ops)
             {
-                foreach (ThingDefCountClass cost in GetAdditionCost(trait))
-                {
-                    if (totals.ContainsKey(cost.thingDef))
-                        totals[cost.thingDef] += cost.count;
-                    else
-                        totals[cost.thingDef] = cost.count;
-                }
-            }
-
-            foreach (WeaponTraitDef trait in TraitsToRemove)
-            {
-                if (!TraitCostUtility.IsNegativeTrait(trait))
+                List<ThingDefCountClass> entries = selector(op);
+                if (entries == null)
                     continue;
-                foreach (ThingDefCountClass cost in GetRemovalCost(trait))
+                foreach (ThingDefCountClass entry in entries)
                 {
-                    if (totals.ContainsKey(cost.thingDef))
-                        totals[cost.thingDef] += cost.count;
-                    else
-                        totals[cost.thingDef] = cost.count;
+                    totals.TryGetValue(entry.thingDef, out int existing);
+                    totals[entry.thingDef] = existing + entry.count;
                 }
             }
-
             return totals.Select(kv => new ThingDefCountClass(kv.Key, kv.Value)).ToList();
-        }
-
-        /// <summary>
-        /// Dialog-local equivalent of <see cref="TraitCostUtility.GetTotalRefund"/>,
-        /// using the dialog's pipeline cache. Aggregates raw pipeline costs across
-        /// positive traits first, then applies CostMultiplier and RefundRate once
-        /// per material to avoid cumulative rounding loss.
-        /// </summary>
-        private List<ThingDefCountClass> GetTotalRefund()
-        {
-            var totals = new Dictionary<ThingDef, int>();
-            foreach (WeaponTraitDef trait in TraitsToRemove)
-            {
-                if (TraitCostUtility.IsNegativeTrait(trait))
-                    continue;
-                foreach (ThingDefCountClass cost in CachedPipelineCost(trait, isRemoval: true))
-                {
-                    if (totals.ContainsKey(cost.thingDef))
-                        totals[cost.thingDef] += cost.count;
-                    else
-                        totals[cost.thingDef] = cost.count;
-                }
-            }
-
-            var raw = totals.Select(kv => new ThingDefCountClass(kv.Key, kv.Value)).ToList();
-            TraitCostUtility.ApplyCostMultiplier(raw);
-            foreach (ThingDefCountClass entry in raw)
-                entry.count = Mathf.FloorToInt(entry.count * TraitCostUtility.RefundRate);
-            raw.RemoveAll(c => c.count <= 0);
-            return raw;
-        }
-
-        /// <summary>
-        /// Resolves the unique weapon def's graphic and returns the number of texture variants.
-        /// Unwraps Graphic_RandomRotated if needed to access the underlying Graphic_Random.
-        /// Returns 1 if the graphic is not a random-variant type.
-        /// </summary>
-        private int GetTextureVariantCount()
-        {
-            Graphic graphic = uniqueDef?.graphicData?.Graphic;
-            if (graphic == null)
-                return 1;
-
-            if (graphic is Graphic_RandomRotated rotated)
-                graphic = rotated.SubGraphic;
-
-            if (graphic is Graphic_Random random)
-                return random.SubGraphicsCount;
-
-            return 1;
         }
 
         /// <summary>
@@ -666,13 +738,13 @@ namespace PersonaWeaponsUnbound
 
         private void DoWindowContentsInner(Rect inRect)
         {
-            // Compute affordability state for cost coloring across all draw calls
-            List<ThingDefCountClass> frameCost = GetTotalCost();
-
-            currentTotalRefund = PWU_Mod.Settings.traitRefundRate > 0f
-                    && PWU_Mod.Settings.traitCostMultiplier > 0f
-                ? GetTotalRefund()
-                : null;
+            // Compute affordability state for cost coloring across all draw calls.
+            // Sequential simulation (§6 rule 4) means costs/refunds depend on the
+            // full staged op order, not just the individual trait — so the preview
+            // rebuilds the same op list the confirmed spec will use.
+            List<CustomizationOp> previewOps = BuildOperations();
+            List<ThingDefCountClass> frameCost = SumOpCosts(previewOps, op => op.cost);
+            currentTotalRefund = SumOpCosts(previewOps, op => op.refund);
             ComputeNetCostAndSurplus(frameCost, currentTotalRefund,
                 out currentNetCost, out currentSurplus);
 

@@ -231,8 +231,12 @@ namespace PersonaWeaponsUnbound
             Widgets.Label(labelRect, trait.LabelCap);
             GUI.color = preLabelColor;
 
-            // Cost icons (right-aligned) — shows the delta from toggling this row:
-            // - Selected original: removal preview (refund green / neg cost hypothetical red)
+            // Cost icons (right-aligned) — shows the delta from toggling this row.
+            // Under the persona cost model, removal is a refund only when it would
+            // cross the persona→base boundary (last trait off); every other removal
+            // and every addition costs components/a persona core per §6 — trait
+            // polarity no longer decides cost vs. refund, only the boundary does:
+            // - Selected original: removal preview (boundary refund green / component cost red)
             // - Unselected original: no cost (re-adding is free, trait is already on weapon)
             // - Selected new: addition cost, red if insufficient
             // - Unselected new: hypothetical addition cost, red if hypothetically unaffordable
@@ -242,16 +246,17 @@ namespace PersonaWeaponsUnbound
             if (isSelected && isOriginal)
             {
                 // Clicking would remove — show what removal would cost/refund
-                List<ThingDefCountClass> removalResult = GetRemovalCost(trait);
-                if (TraitCostUtility.IsNegativeTrait(trait))
+                bool crossesBoundary = KeptOriginalsCount == 1 && ConversionAvailable;
+                if (crossesBoundary)
                 {
-                    DrawCostIcons(costRect, removalResult, rightAlign: true,
-                        insufficientResources: GetHypotheticalInsufficient(removalResult));
+                    List<ThingDefCountClass> refund = PreviewRemovalRefund(trait);
+                    DrawCostIcons(costRect, refund, rightAlign: true, greenQuantities: true);
                 }
                 else
                 {
-                    DrawCostIcons(costRect, removalResult, rightAlign: true,
-                        greenQuantities: true);
+                    List<ThingDefCountClass> cost = PreviewRemovalCost(trait);
+                    DrawCostIcons(costRect, cost, rightAlign: true,
+                        insufficientResources: GetHypotheticalInsufficient(cost));
                 }
             }
             else if (!isSelected && isOriginal)
@@ -260,13 +265,13 @@ namespace PersonaWeaponsUnbound
             }
             else if (isSelected)
             {
-                List<ThingDefCountClass> costs = GetAdditionCost(trait);
+                List<ThingDefCountClass> costs = StagedAdditionCost(trait);
                 DrawCostIcons(costRect, costs, rightAlign: true,
                     insufficientResources: insufficientResources);
             }
             else
             {
-                List<ThingDefCountClass> costs = GetAdditionCost(trait);
+                List<ThingDefCountClass> costs = PreviewAdditionCost(trait);
                 DrawCostIcons(costRect, costs, rightAlign: true,
                     insufficientResources: GetHypotheticalInsufficient(costs));
             }

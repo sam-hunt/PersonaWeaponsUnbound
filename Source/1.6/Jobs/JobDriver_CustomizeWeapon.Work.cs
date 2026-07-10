@@ -217,9 +217,11 @@ namespace PersonaWeaponsUnbound
             switch (op.type)
             {
                 case OpType.RemoveTrait:
-                    // Negative-trait removals carry a cost (op.cost). Pay it before
-                    // removing the trait so a placed-ingredient shortfall can't leave
-                    // the trait already gone with no payment recorded.
+                    // Non-boundary removals carry a component cost (op.cost is empty
+                    // for the boundary-crossing removal that refunds the persona core
+                    // instead — §6). Pay it before removing the trait so a placed-
+                    // ingredient shortfall can't leave the trait already gone with no
+                    // payment recorded.
                     if (!TryConsumeOpCost(op.cost))
                     {
                         RecordShortfallBail(op.trait);
@@ -230,20 +232,18 @@ namespace PersonaWeaponsUnbound
                     WeaponModificationUtility.RemoveTrait(weapon, op.trait);
 
                     // Credit refund to the virtual ledger atomically with the removal.
-                    // Raw costs are stored on the op; apply CostMultiplier and RefundRate
-                    // here as float to defer rounding until resources are actually spawned
-                    // or consumed.
+                    // Under the persona cost model the only refund is the whole AI
+                    // persona core paid on a boundary-crossing removal (§6) — no
+                    // rates or multipliers to apply, so the op's raw refund count
+                    // is credited as-is.
                     if (op.refund != null)
                     {
                         foreach (ThingDefCountClass refund in op.refund)
                         {
-                            float credit = refund.count
-                                * TraitCostUtility.CostMultiplier
-                                * TraitCostUtility.RefundRate;
                             if (refundLedger.ContainsKey(refund.thingDef))
-                                refundLedger[refund.thingDef] += credit;
+                                refundLedger[refund.thingDef] += refund.count;
                             else
-                                refundLedger[refund.thingDef] = credit;
+                                refundLedger[refund.thingDef] = refund.count;
                         }
                     }
 
@@ -263,8 +263,6 @@ namespace PersonaWeaponsUnbound
                     {
                         if (op.nameToApply != null)
                             WeaponModificationUtility.SetName(weapon, op.nameToApply);
-                        if (op.textureIndexToApply.HasValue)
-                            WeaponModificationUtility.SetTextureIndex(weapon, op.textureIndexToApply.Value);
                     }
                     break;
 
@@ -295,8 +293,6 @@ namespace PersonaWeaponsUnbound
                     {
                         if (op.nameToApply != null)
                             WeaponModificationUtility.SetName(weapon, op.nameToApply);
-                        if (op.textureIndexToApply.HasValue)
-                            WeaponModificationUtility.SetTextureIndex(weapon, op.textureIndexToApply.Value);
                     }
                     break;
             }
@@ -334,11 +330,6 @@ namespace PersonaWeaponsUnbound
                 weapon.Destroy();
             else if (!weapon.Destroyed)
                 weapon.Destroy();
-
-            // Apply desired texture on base→unique so it doesn't flash a random variant
-            if (WeaponRegistry.IsUniqueWeapon(targetDef)
-                && spec.finalTextureIndex.HasValue)
-                WeaponModificationUtility.SetTextureIndex(newWeapon, spec.finalTextureIndex.Value);
 
             GenSpawn.Spawn(newWeapon, pos, map);
             pawn.Reserve(newWeapon, job);

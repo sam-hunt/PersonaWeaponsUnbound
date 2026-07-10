@@ -1,53 +1,34 @@
 using System;
 using System.Collections.Generic;
 using RimWorld;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace PersonaWeaponsUnbound
 {
     /// <summary>
-    /// Workbench tier classification (smithy / machining / fabrication),
-    /// VEF recipe-inheritance expansion, and runtime workbench search
-    /// for weapon customization.
+    /// Fabrication-bench classification (vanilla FabricationBench plus any VEF
+    /// equivalent) and runtime workbench search for weapon customization.
     /// </summary>
     public static class WorkbenchUtility
     {
-        private static HashSet<ThingDef> smithyDefs;
-        private static HashSet<ThingDef> machiningDefs;
         private static HashSet<ThingDef> fabricationDefs;
-        private static HashSet<ThingDef> weaponWorkbenchDefs;
-        private static string smithyLabel;
-        private static string machiningLabel;
         private static string fabricationLabel;
 
         /// <summary>
-        /// Initializes workbench tier sets and the weapon-workbench registry.
-        /// Must be called during StaticConstructorOnStartup (after all defs
-        /// are loaded). A non-null <paramref name="report"/> absorbs any fatal
-        /// exception so the rest of the mod can still initialize; passing null
-        /// preserves the throwing contract for direct callers.
+        /// Initializes the fabrication-bench set. Must be called during
+        /// StaticConstructorOnStartup (after all defs are loaded). A non-null
+        /// <paramref name="report"/> absorbs any fatal exception so the rest of
+        /// the mod can still initialize; passing null preserves the throwing
+        /// contract for direct callers.
         /// </summary>
         public static void Initialize(InitDiagnostics report = null)
         {
             try
             {
-                // Initialize workbench tier sets from vanilla anchors
-                smithyDefs = ResolveDefSet("FueledSmithy", "ElectricSmithy");
-                machiningDefs = ResolveDefSet("TableMachining");
                 fabricationDefs = ResolveDefSet("FabricationBench");
-
-                // Resolve display labels from vanilla anchors only (before expanding with modded benches)
-                smithyLabel = ResolveWorkbenchLabel(smithyDefs);
-                machiningLabel = ResolveWorkbenchLabel(machiningDefs);
                 fabricationLabel = ResolveWorkbenchLabel(fabricationDefs);
-
-                // Expand tier sets with benches that inherit recipes from vanilla anchors via VEF
-                ExpandTiersFromVEF();
-
-                // Build the set of all workbench defs that have at least one weapon recipe
-                InitializeWeaponWorkbenches();
+                ExpandFromVEF();
             }
             catch (Exception ex)
             {
@@ -111,10 +92,12 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Common core for workbench search. Iterates colonist workbenches, applies tier
-        /// and operational checks, then delegates reachability/forbidden checks to the
-        /// caller-provided predicate. Returns the closest valid workbench or the
-        /// highest-priority rejection reason.
+        /// Common core for workbench search. Iterates colonist workbenches, applies the
+        /// fabrication-set and operational checks, then delegates reachability/forbidden
+        /// checks to the caller-provided predicate. Returns the closest valid workbench or
+        /// the highest-priority rejection reason. <paramref name="baseDef"/>/
+        /// <paramref name="uniqueDef"/>/<paramref name="weaponTechLevel"/> are accepted for
+        /// call-site stability but unused now that there is a single bench tier (§8).
         /// </summary>
         private static WorkbenchSearchResult FindBestWorkbenchCore(
             Map map, ThingDef baseDef, ThingDef uniqueDef, TechLevel weaponTechLevel,
@@ -135,21 +118,8 @@ namespace PersonaWeaponsUnbound
             {
                 if (!(building is Building_WorkTable workbench))
                     continue;
-                if (!weaponWorkbenchDefs.Contains(workbench.def))
+                if (!fabricationDefs.Contains(workbench.def))
                     continue;
-
-                // Tier check (priority 4)
-                AcceptanceReport tierReport = CanCustomizeAtWorkbench(
-                    baseDef, uniqueDef, weaponTechLevel, workbench);
-                if (!tierReport.Accepted)
-                {
-                    if (bestRejectionPriority < 4)
-                    {
-                        bestRejectionPriority = 4;
-                        bestRejection = tierReport;
-                    }
-                    continue;
-                }
 
                 // Operational check (priority 3)
                 AcceptanceReport opReport = GetWorkbenchOperationalReport(workbench);
@@ -217,54 +187,28 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Whether the workbench has at least one recipe that produces a weapon,
-        /// making it eligible to show the customization float menu option.
+        /// Whether the workbench is a fabrication bench (or a VEF-recognized
+        /// equivalent), making it eligible to show the customization float menu option.
         /// </summary>
         public static bool IsCustomizationWorkbench(Building_WorkTable workbench)
         {
-            return weaponWorkbenchDefs.Contains(workbench.def);
+            return fabricationDefs.Contains(workbench.def);
         }
 
         /// <summary>
-        /// Whether the given workbench supports customizing the specified weapon.
-        /// First checks if the bench has a recipe for the weapon (base or unique def).
-        /// Falls back to tech-level tier matching (vanilla anchors + VEF inheritance).
-        /// Returns AcceptanceReport with the required workbench name when the tier is too low.
+        /// Whether the given workbench supports customizing weapons at all. With the
+        /// single fabrication-bench tier (§8) this is just set membership; <paramref
+        /// name="baseDef"/>/<paramref name="uniqueDef"/>/<paramref name="weaponTechLevel"/>
+        /// are accepted for call-site stability only. Returns AcceptanceReport naming the
+        /// fabrication bench when the workbench doesn't qualify.
         /// </summary>
         public static AcceptanceReport CanCustomizeAtWorkbench(
             ThingDef baseDef, ThingDef uniqueDef, TechLevel weaponTechLevel,
             Building_WorkTable workbench)
         {
-            // Setting disabled — any weapon-crafting workbench is sufficient
-            if (!PWU_Mod.Settings.requireAppropriateWorkbench)
+            if (fabricationDefs.Contains(workbench.def))
                 return true;
-
-            // Layer 2: Direct recipe match — if this bench can craft this weapon, allow customization
-            if (WorkbenchHasRecipeFor(workbench.def, baseDef, uniqueDef))
-                return true;
-
-            // Layer 3: Tech-level tier fallback.
-            //
-            // Uses a tier-ceiling fallthrough that mirrors GetRequiredResearch, so weapons
-            // tagged with Animal or Undefined fall up to the smithy tier instead of being
-            // silently rejected.
-            ThingDef benchDef = workbench.def;
-            bool isMachiningOrHigher = machiningDefs.Contains(benchDef) || fabricationDefs.Contains(benchDef);
-            bool isFabrication = fabricationDefs.Contains(benchDef);
-
-            if (weaponTechLevel >= TechLevel.Spacer)
-            {
-                if (isFabrication)
-                    return true;
-                return "PWU_RequiresWorkbench".Translate(fabricationLabel);
-            }
-            if (weaponTechLevel >= TechLevel.Industrial)
-            {
-                if (isMachiningOrHigher)
-                    return true;
-                return "PWU_RequiresWorkbench".Translate(machiningLabel);
-            }
-            return true;
+            return "PWU_RequiresWorkbench".Translate(fabricationLabel);
         }
 
         /// <summary>
@@ -300,169 +244,75 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Resolves a display label for a set of workbench defNames by finding the
-        /// common suffix of their labels. For a single def, returns its label directly.
-        /// This handles cases like "fueled smithy" / "electric smithy" → "smithy".
+        /// Resolves a display label for the fabrication-bench set. With a single
+        /// vanilla anchor this is just its label.
         /// </summary>
         private static string ResolveWorkbenchLabel(HashSet<ThingDef> defs)
         {
-            List<string> labels = new List<string>();
             foreach (ThingDef def in defs)
-            {
-                labels.Add(def.label);
-            }
-
-            if (labels.Count == 0)
-                return "?";
-            if (labels.Count == 1)
-                return labels[0];
-
-            // Find the longest common suffix across all labels.
-            string reference = labels[0];
-            int commonLength = reference.Length;
-            for (int i = 1; i < labels.Count; i++)
-            {
-                string other = labels[i];
-                int matchLen = 0;
-                int ri = reference.Length - 1;
-                int oi = other.Length - 1;
-                while (ri >= 0 && oi >= 0 && reference[ri] == other[oi])
-                {
-                    matchLen++;
-                    ri--;
-                    oi--;
-                }
-                commonLength = Math.Min(commonLength, matchLen);
-            }
-
-            if (commonLength > 0)
-            {
-                string suffix = reference.Substring(reference.Length - commonLength).TrimStart();
-                if (suffix.Length > 0)
-                    return suffix;
-            }
-
-            return labels[0];
+                return def.label;
+            return "?";
         }
 
         /// <summary>
-        /// Expands workbench tier sets by walking VEF's RecipeInheritanceExtension.
-        /// Benches that inherit recipes from a vanilla anchor are classified at the
-        /// highest tier of their inheritance sources. No-op when VEF is not loaded
-        /// or its integration surface has drifted (the integration class logs the
-        /// drift warning once at static-ctor time).
+        /// Expands the fabrication set with benches that inherit recipes from a
+        /// vanilla fabrication bench via VEF's RecipeInheritanceExtension — directly,
+        /// or transitively through another bench this pass has already classified
+        /// (e.g. a bench that inherits from VFE's compact fabrication bench, which
+        /// itself inherits from FabricationBench). Repeats until a pass adds nothing,
+        /// so classification doesn't depend on DefDatabase iteration order. No-op when
+        /// VEF is not loaded or its integration surface has drifted (the integration
+        /// class logs the drift warning once at static-ctor time).
         /// </summary>
-        private static void ExpandTiersFromVEF()
+        private static void ExpandFromVEF()
         {
             if (!VEFRecipeInheritanceIntegration.Available)
                 return;
 
-            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
+            bool addedThisPass;
+            do
             {
-                try
+                addedThisPass = false;
+                foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
                 {
-                    ClassifyVEFInheritedDef(def);
+                    try
+                    {
+                        if (ClassifyVEFInheritedDef(def))
+                            addedThisPass = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("[Persona Weapons Unbound] Skipped VEF fabrication classification for "
+                            + def.SourceForLog() + " due to error: " + ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Log.Error("[Persona Weapons Unbound] Skipped VEF tier classification for "
-                        + def.SourceForLog() + " due to error: " + ex);
-                }
-            }
+            } while (addedThisPass);
         }
 
-        private static void ClassifyVEFInheritedDef(ThingDef def)
+        /// <summary>
+        /// Classifies a single def as a fabrication-bench equivalent if it carries a
+        /// VEF RecipeInheritanceExtension reaching an already-classified bench.
+        /// Returns true if the def was newly added.
+        /// </summary>
+        private static bool ClassifyVEFInheritedDef(ThingDef def)
         {
-            if (def.modExtensions == null)
-                return;
-            if (smithyDefs.Contains(def) || machiningDefs.Contains(def) || fabricationDefs.Contains(def))
-                return;
+            if (def.modExtensions == null || fabricationDefs.Contains(def))
+                return false;
 
             foreach (DefModExtension ext in def.modExtensions)
             {
                 if (!VEFRecipeInheritanceIntegration.TryGetInheritFrom(ext, out List<ThingDef> inheritFrom))
                     continue;
 
-                // Classify at highest inherited tier
-                HashSet<ThingDef> bestTier = null;
                 foreach (ThingDef source in inheritFrom)
                 {
                     if (fabricationDefs.Contains(source))
                     {
-                        bestTier = fabricationDefs;
-                        break;
+                        fabricationDefs.Add(def);
+                        return true;
                     }
-                    if (machiningDefs.Contains(source))
-                        bestTier = machiningDefs;
-                    else if (smithyDefs.Contains(source) && bestTier == null)
-                        bestTier = smithyDefs;
                 }
-
-                if (bestTier != null)
-                    bestTier.Add(def);
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Builds the set of all Building_WorkTable defs that have at least one recipe
-        /// producing a weapon. Used as the visibility gate for the customization float menu.
-        /// </summary>
-        private static void InitializeWeaponWorkbenches()
-        {
-            weaponWorkbenchDefs = new HashSet<ThingDef>();
-            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
-            {
-                try
-                {
-                    if (DefHasWeaponRecipe(def))
-                        weaponWorkbenchDefs.Add(def);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error("[Persona Weapons Unbound] Skipped workbench scan for "
-                        + def.SourceForLog() + " due to error: " + ex);
-                }
-            }
-
-            // Include tier-classified benches regardless of whether their inherited
-            // recipes are visible yet (VEF may not have processed them due to load order)
-            weaponWorkbenchDefs.UnionWith(smithyDefs);
-            weaponWorkbenchDefs.UnionWith(machiningDefs);
-            weaponWorkbenchDefs.UnionWith(fabricationDefs);
-        }
-
-        private static bool DefHasWeaponRecipe(ThingDef def)
-        {
-            if (!typeof(Building_WorkTable).IsAssignableFrom(def.thingClass))
                 return false;
-
-            List<RecipeDef> recipes = def.AllRecipes;
-            if (recipes == null)
-                return false;
-
-            foreach (RecipeDef recipe in recipes)
-            {
-                if (recipe.ProducedThingDef != null && recipe.ProducedThingDef.IsWeapon)
-                    return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Whether the workbench def has a recipe that produces the given base or unique weapon def.
-        /// </summary>
-        private static bool WorkbenchHasRecipeFor(ThingDef benchDef, ThingDef baseDef, ThingDef uniqueDef)
-        {
-            List<RecipeDef> recipes = benchDef.AllRecipes;
-            if (recipes == null)
-                return false;
-
-            foreach (RecipeDef recipe in recipes)
-            {
-                ThingDef produced = recipe.ProducedThingDef;
-                if (produced != null && (produced == baseDef || produced == uniqueDef))
-                    return true;
             }
             return false;
         }

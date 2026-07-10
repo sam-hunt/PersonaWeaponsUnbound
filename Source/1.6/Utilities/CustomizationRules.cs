@@ -11,11 +11,9 @@ namespace PersonaWeaponsUnbound
     {
         /// <summary>
         /// Whether this weapon has a customization path and the player has unlocked
-        /// the required customization research. Does not check craftability (recipe
-        /// research) — call <see cref="GetCraftabilityReport"/> separately so callers
-        /// can insert context-dependent checks (e.g. workbench tier) in between.
-        /// Returns AcceptanceReport with a rejection reason if not customizable.
-        /// Returns false with no reason when the option should be hidden entirely.
+        /// the required customization research. Returns AcceptanceReport with a
+        /// rejection reason if not customizable. Returns false with no reason when
+        /// the option should be hidden entirely.
         /// </summary>
         public static AcceptanceReport IsCustomizable(Thing weapon)
         {
@@ -37,13 +35,6 @@ namespace PersonaWeaponsUnbound
                     return HiddenUnlessDev("PWU_DevDefConversionDisabled".Translate());
             }
 
-            // Tech-level ceiling applies regardless of requireCustomizationResearch:
-            // the Ultra/Archotech setting toggles are about whether those tiers participate
-            // in the customization system at all, not about gating the research projects.
-            ResearchProjectDef requiredResearch = GetRequiredResearch(def.techLevel);
-            if (requiredResearch == null)
-                return HiddenUnlessDev("PWU_DevTechLevelBeyondComprehension".Translate(def.techLevel.ToStringHuman()));
-
             if (PWU_Mod.Settings.requireCustomizationResearch)
             {
                 // Don't surface customization UI until the player has completed UniqueSmithing,
@@ -52,6 +43,7 @@ namespace PersonaWeaponsUnbound
                 if (!Prefs.DevMode && !PWU_ResearchDefOf.UniqueSmithing.IsFinished)
                     return false;
 
+                ResearchProjectDef requiredResearch = GetRequiredResearch(def.techLevel);
                 if (!requiredResearch.IsFinished)
                     return "PWU_RequiresResearch".Translate(requiredResearch.label);
             }
@@ -68,59 +60,19 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Whether the base weapon's crafting prerequisites are met.
-        /// Returns AcceptanceReport with the blocking research name, or false
-        /// with no reason for uncraftable weapons without the mod setting.
-        /// </summary>
-        public static AcceptanceReport GetCraftabilityReport(ThingDef baseDef, ThingDef uniqueDef)
-        {
-            RecipeMakerProperties recipeMaker = baseDef?.recipeMaker ?? uniqueDef?.recipeMaker;
-            if (recipeMaker == null)
-                return PWU_Mod.Settings.allowUncraftableCustomization;
-
-            if (PWU_Mod.Settings.requireRecipeResearch)
-            {
-                ResearchProjectDef recipeResearch = recipeMaker.researchPrerequisite;
-                if (recipeResearch != null && !recipeResearch.IsFinished)
-                    return "PWU_RequiresResearch".Translate(recipeResearch.label);
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Returns the required research project for customizing weapons of the given tech level,
-        /// or null when the tech level is above the configured customization ceiling
-        /// (i.e. Ultra/Archotech with their mod settings disabled).
-        ///
-        /// Uses tier fallthroughs at both ends: weapons tagged Animal or Undefined fall up to
-        /// UniqueSmithing, and the fabrication tier extends up to whichever high-end tier the
-        /// player has enabled. This makes the gate robust against modded weapons with unusual
-        /// tech levels.
+        /// Returns the required research project for customizing weapons of the
+        /// given tech level. Persona weapons are all ultratech, but the fallthrough
+        /// still lets modded weapons with unusual tech levels resolve to the
+        /// nearest tier. Kept as a three-project ladder for now; a future pass
+        /// collapses this to the single PWU_BladelinkCustomization project (§7).
         /// </summary>
         public static ResearchProjectDef GetRequiredResearch(TechLevel techLevel)
         {
-            if (techLevel > GetCustomizationCeiling())
-                return null;
             if (techLevel >= TechLevel.Spacer)
                 return PWU_ResearchDefOf.UniqueFabrication;
             if (techLevel >= TechLevel.Industrial)
                 return PWU_ResearchDefOf.UniqueMachining;
             return PWU_ResearchDefOf.UniqueSmithing;
-        }
-
-        /// <summary>
-        /// The highest tech level the player has opted into customizing. Anything above
-        /// this is "beyond comprehension" and falls out of the customization system.
-        /// Archotech implies Ultra, since they share the same research gate.
-        /// </summary>
-        private static TechLevel GetCustomizationCeiling()
-        {
-            if (PWU_Mod.Settings.allowArchotechCustomization)
-                return TechLevel.Archotech;
-            if (PWU_Mod.Settings.allowUltratechCustomization)
-                return TechLevel.Ultra;
-            return TechLevel.Spacer;
         }
 
         /// <summary>

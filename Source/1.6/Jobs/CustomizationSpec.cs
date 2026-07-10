@@ -27,7 +27,6 @@ namespace PersonaWeaponsUnbound
 
         // Only for ApplyCosmetics ops
         public string nameToApply;
-        public int? textureIndexToApply;
 
         public void ExposeData()
         {
@@ -38,7 +37,6 @@ namespace PersonaWeaponsUnbound
             Scribe_Defs.Look(ref colorToApply, "colorToApply");
             Scribe_Values.Look(ref clearColor, "clearColor", false);
             Scribe_Values.Look(ref nameToApply, "nameToApply", null);
-            Scribe_Values.Look(ref textureIndexToApply, "textureIndexToApply", null);
         }
     }
 
@@ -70,8 +68,9 @@ namespace PersonaWeaponsUnbound
         public List<ThingDefCountClass> totalCost;
 
         /// <summary>
-        /// Aggregate resource refund from all removal operations (raw costs aggregated
-        /// then floored once per material). Initializes the job driver's virtual refund
+        /// Aggregate resource refund from all removal operations — under the persona
+        /// cost model, the AI persona core refunded by any removal that crosses the
+        /// persona→base boundary (§6). Initializes the job driver's virtual refund
         /// ledger, which offsets addition costs and spawns any surplus at job end.
         /// </summary>
         public List<ThingDefCountClass> totalRefund;
@@ -84,13 +83,6 @@ namespace PersonaWeaponsUnbound
         /// </summary>
         public ColorDef finalColor;
 
-        /// <summary>
-        /// The desired texture variant index. Applied during base→unique conversion
-        /// so the weapon immediately shows the correct texture rather than a stale
-        /// or random one until the ApplyCosmetics op runs later in the work loop.
-        /// </summary>
-        public int? finalTextureIndex;
-
         public void ExposeData()
         {
             Scribe_Collections.Look(ref operations, "operations", LookMode.Deep);
@@ -98,7 +90,6 @@ namespace PersonaWeaponsUnbound
             Scribe_Collections.Look(ref totalCost, "totalCost", LookMode.Deep);
             Scribe_Collections.Look(ref totalRefund, "totalRefund", LookMode.Deep);
             Scribe_Defs.Look(ref finalColor, "finalColor");
-            Scribe_Values.Look(ref finalTextureIndex, "finalTextureIndex", null);
         }
     }
 }

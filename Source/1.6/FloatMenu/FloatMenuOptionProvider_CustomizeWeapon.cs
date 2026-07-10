@@ -113,11 +113,11 @@ namespace PersonaWeaponsUnbound
             if (!customizable.Accepted && customizable.Reason.NullOrEmpty())
                 return null;
 
-            // Resolve base/unique defs for workbench and craftability checks
+            // Resolve base/unique defs for the workbench check
             WeaponRegistry.ResolveWeaponDefs(weapon,
                 out ThingDef baseDef, out ThingDef uniqueDef);
 
-            // Workbench: recipe match, then tech-level tier fallback
+            // Workbench: must be a fabrication bench (or VEF equivalent)
             TechLevel weaponTechLevel = CustomizationRules.GetWeaponTechLevel(weapon);
             AcceptanceReport workbenchReport = WorkbenchUtility.CanCustomizeAtWorkbench(
                 baseDef, uniqueDef, weaponTechLevel, workbench);
@@ -128,11 +128,6 @@ namespace PersonaWeaponsUnbound
             AcceptanceReport operational = WorkbenchUtility.GetWorkbenchOperationalReport(workbench);
             if (!operational.Accepted)
                 return DisabledOrHidden(weapon, operational);
-
-            // Recipe research (craftability)
-            AcceptanceReport craftable = CustomizationRules.GetCraftabilityReport(baseDef, uniqueDef);
-            if (!craftable.Accepted)
-                return DisabledOrHidden(weapon, craftable);
 
             // Customization research
             if (!customizable.Accepted)

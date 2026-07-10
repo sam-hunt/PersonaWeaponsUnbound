@@ -65,11 +65,6 @@ namespace PersonaWeaponsUnbound
 
             TechLevel weaponTechLevel = CustomizationRules.GetWeaponTechLevel(weapon);
 
-            // Recipe research (craftability) — cheap O(1) check before workbench search
-            AcceptanceReport craftable = CustomizationRules.GetCraftabilityReport(baseDef, uniqueDef);
-            if (!craftable.Accepted)
-                return DisabledOrHidden(weapon, craftable);
-
             // Customization research
             if (!customizable.Accepted)
                 return DisabledOrHidden(weapon, customizable);

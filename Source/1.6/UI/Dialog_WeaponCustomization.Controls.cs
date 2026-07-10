@@ -31,8 +31,6 @@ namespace PersonaWeaponsUnbound
             tabContentRect.height -= 6f;
             if (activeTab == 0)
                 DrawTraitsTab(tabContentRect);
-            else if (activeTab == 1)
-                DrawTextureTab(tabContentRect);
             else
                 DrawColorTab(tabContentRect);
         }
@@ -160,10 +158,9 @@ namespace PersonaWeaponsUnbound
         {
             var tabs = new List<TabRecord>();
             tabs.Add(new TabRecord("PWU_TabTraits".Translate(), () => activeTab = 0, activeTab == 0));
-            tabs.Add(new TabRecord("PWU_TabTexture".Translate(), () => activeTab = 1, activeTab == 1));
 
             // Pad the Color label so the swatch fits inside the tab
-            tabs.Add(new TabRecord("PWU_TabColor".Translate() + "      ", () => activeTab = 2, activeTab == 2));
+            tabs.Add(new TabRecord("PWU_TabColor".Translate() + "      ", () => activeTab = 1, activeTab == 1));
 
             TabDrawer.DrawTabs(menuRect, tabs);
 
@@ -172,9 +169,10 @@ namespace PersonaWeaponsUnbound
             if (swatchColor != null)
             {
                 float swatchSize = 10f;
-                // Tabs are evenly distributed across menuRect width
+                // Tabs are evenly distributed across menuRect width; Color is the
+                // second (last) of two tabs, so its center sits at 1.5 tab-widths in.
                 float tabWidth = menuRect.width / tabs.Count;
-                float colorTabCenterX = menuRect.x + 2.5f * tabWidth;
+                float colorTabCenterX = menuRect.x + 1.5f * tabWidth;
                 float colorLabelHalfWidth = Text.CalcSize("PWU_TabColor".Translate()).x / 2f;
                 float swatchX = colorTabCenterX - colorLabelHalfWidth - swatchSize - 21f;
                 float swatchY = menuRect.y - TabBarHeight * 0.5f - swatchSize * 0.5f + 1f;

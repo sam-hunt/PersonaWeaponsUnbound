@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using PersonaWeaponsUnbound.HaulPlanning;
 using UnityEngine;
@@ -173,9 +172,10 @@ namespace PersonaWeaponsUnbound
                             desiredName = regenerated;
                     }
 
-                    // Build ordered operations list and spec — use net cost
-                    // (total addition cost minus expected refunds) for hauling.
-                    var spec = BuildCustomizationSpec(currentNetCost);
+                    // Build the ordered operations list and spec. Costs/refunds are
+                    // priced by the same sequential simulation as the live preview
+                    // (BuildOperations), so what the player saw is what they're charged.
+                    var spec = BuildCustomizationSpec();
 
                     // Reserve ingredients synchronously while forcePause holds the game
                     // still — no other pawn AI runs between the per-frame availability
@@ -250,155 +250,29 @@ namespace PersonaWeaponsUnbound
 
         // --- Spec Building ---
 
-        private CustomizationSpec BuildCustomizationSpec(List<ThingDefCountClass> totalCost)
+        /// <summary>
+        /// Builds the confirmed spec from <see cref="BuildOperations"/>'s sequential
+        /// simulation: <c>totalCost</c> is the net cost (aggregate op cost minus
+        /// aggregate op refund, positive remainder only) for pre-flight ingredient
+        /// reservation and hauling; <c>totalRefund</c> is the raw aggregate refund
+        /// that seeds the job driver's virtual refund ledger.
+        /// </summary>
+        private CustomizationSpec BuildCustomizationSpec()
         {
-            var ops = new List<CustomizationOp>();
-            List<WeaponTraitDef> removes = TraitsToRemove.ToList();
-            List<WeaponTraitDef> adds = TraitsToAdd.ToList();
+            List<CustomizationOp> ops = BuildOperations();
 
-            bool hasForcedColorTraits =
-                removes.Any(t => t.forcedColor != null) ||
-                adds.Any(t => t.forcedColor != null);
-
-            // 1. Removal ops
-            var remainingOriginalTraits = new List<WeaponTraitDef>(originalTraits);
-            foreach (WeaponTraitDef trait in removes)
-            {
-                var op = new CustomizationOp
-                {
-                    type = OpType.RemoveTrait,
-                    trait = trait,
-                };
-
-                if (TraitCostUtility.IsNegativeTrait(trait))
-                {
-                    // Negative trait removal costs resources (reduced by RefundRate)
-                    op.cost = GetRemovalCost(trait);
-                }
-                else
-                {
-                    op.refund = PWU_Mod.Settings.traitRefundRate > 0f
-                            && PWU_Mod.Settings.traitCostMultiplier > 0f
-                        ? CachedPipelineCost(trait, isRemoval: false)
-                        : null;
-                }
-
-                remainingOriginalTraits.Remove(trait);
-
-                if (trait.forcedColor != null)
-                {
-                    // Revert to the next remaining forced color, or clear to default
-                    // if no forced-color traits remain (weapon shows natural material).
-                    ColorDef nextForced = null;
-                    for (int i = remainingOriginalTraits.Count - 1; i >= 0; i--)
-                    {
-                        if (remainingOriginalTraits[i].forcedColor != null)
-                        {
-                            nextForced = remainingOriginalTraits[i].forcedColor;
-                            break;
-                        }
-                    }
-                    if (nextForced != null)
-                        op.colorToApply = nextForced;
-                    else
-                        op.clearColor = true;
-                }
-
-                ops.Add(op);
-            }
-
-            // 2. Cosmetics op (only if result is unique)
-            // If the weapon will be in base state after removals (all original
-            // traits removed) and there are additions, cosmetics can't apply to
-            // a base weapon. Merge them into the first AddTrait op instead,
-            // which will convert base→unique and then apply cosmetics atomically.
-            // Cosmetics can only apply to a unique weapon. We must defer them
-            // onto the first AddTrait op if the weapon will be in base state when
-            // the cosmetics step would run. Two cases:
-            // (a) Weapon starts as unique but all original traits are removed → base
-            // (b) Weapon starts as base (non-unique) → already in base state
-            bool willBeBaseAfterRemovals = remainingOriginalTraits.Count == 0
-                && WeaponRegistry.IsUniqueWeapon(weapon.def)
-                && baseDef != null
-                && PWU_Mod.Settings.allowDefConversion;
-            bool startsAsBase = !WeaponRegistry.IsUniqueWeapon(weapon.def)
-                && PWU_Mod.Settings.allowDefConversion;
-            bool deferCosmetics = (willBeBaseAfterRemovals || startsAsBase) && adds.Count > 0;
-
-            string deferredName = null;
-            int? deferredTexture = null;
-            ColorDef deferredColor = null;
-
-            if (ResultingDef == uniqueDef)
-            {
-                bool nameChanged = desiredName != originalName;
-                bool texChanged = desiredTextureIndex != originalTextureIndex;
-                bool colorChanged = EffectiveColor != originalColor;
-
-                if (deferCosmetics)
-                {
-                    // Always save ALL desired cosmetics when deferring. The round-trip
-                    // through base state (unique→base→unique) destroys the CompUniqueWeapon,
-                    // so existing name/color are lost even if unchanged by the player.
-                    // They must be re-applied after the first AddTrait converts back to unique.
-                    deferredName = desiredName;
-                    deferredTexture = desiredTextureIndex;
-                    if (!hasForcedColorTraits)
-                        deferredColor = desiredColor;
-                }
-                else if (nameChanged || texChanged || (colorChanged && !hasForcedColorTraits))
-                {
-                    var cosOp = new CustomizationOp
-                    {
-                        type = OpType.ApplyCosmetics,
-                    };
-
-                    if (nameChanged)
-                        cosOp.nameToApply = desiredName;
-                    if (texChanged)
-                        cosOp.textureIndexToApply = desiredTextureIndex;
-                    if (colorChanged && !hasForcedColorTraits)
-                        cosOp.colorToApply = desiredColor;
-
-                    ops.Add(cosOp);
-                }
-            }
-
-            // 3. Addition ops
-            bool firstAdd = true;
-            foreach (WeaponTraitDef trait in adds)
-            {
-                var op = new CustomizationOp
-                {
-                    type = OpType.AddTrait,
-                    trait = trait,
-                    cost = GetAdditionCost(trait),
-                };
-
-                if (trait.forcedColor != null)
-                    op.colorToApply = trait.forcedColor;
-
-                // Merge deferred cosmetics into the first AddTrait op
-                if (firstAdd && deferCosmetics)
-                {
-                    op.nameToApply = deferredName;
-                    op.textureIndexToApply = deferredTexture;
-                    if (deferredColor != null && op.colorToApply == null)
-                        op.colorToApply = deferredColor;
-                    firstAdd = false;
-                }
-
-                ops.Add(op);
-            }
+            List<ThingDefCountClass> totalCostAgg = SumOpCosts(ops, op => op.cost);
+            List<ThingDefCountClass> totalRefundAgg = SumOpCosts(ops, op => op.refund);
+            ComputeNetCostAndSurplus(totalCostAgg, totalRefundAgg,
+                out List<ThingDefCountClass> netCost, out _);
 
             return new CustomizationSpec
             {
                 operations = ops,
                 resultingDef = ResultingDef,
-                totalCost = totalCost,
-                totalRefund = currentTotalRefund,
+                totalCost = netCost,
+                totalRefund = totalRefundAgg,
                 finalColor = ResultingDef == uniqueDef ? EffectiveColor : null,
-                finalTextureIndex = ResultingDef == uniqueDef ? desiredTextureIndex : (int?)null,
             };
         }
 

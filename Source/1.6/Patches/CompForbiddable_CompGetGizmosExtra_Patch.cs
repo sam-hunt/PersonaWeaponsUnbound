@@ -80,13 +80,7 @@ namespace PersonaWeaponsUnbound.Patches
             gizmo.icon = PWU_Textures.Customize;
 
             // Layer 2: Disabled state (pawn-independent checks)
-            AcceptanceReport craftable = CustomizationRules.GetCraftabilityReport(baseDef, uniqueDef);
-            if (!craftable.Accepted && !craftable.Reason.NullOrEmpty())
-            {
-                gizmo.Disabled = true;
-                gizmo.disabledReason = craftable.Reason;
-            }
-            else if (!customizable.Accepted)
+            if (!customizable.Accepted)
             {
                 gizmo.Disabled = true;
                 gizmo.disabledReason = customizable.Reason;

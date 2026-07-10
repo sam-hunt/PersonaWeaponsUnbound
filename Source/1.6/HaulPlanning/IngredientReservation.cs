@@ -119,8 +119,8 @@ namespace PersonaWeaponsUnbound.HaulPlanning
                 return ReservationResult.Success();
 
             // Demand: collapse possible duplicate ThingDef entries by summing.
-            // TraitCostUtility.RunPipeline guarantees each entry is non-null
-            // with a non-null thingDef and a positive count.
+            // TraitCostUtility.GetChangeCost/GetChangeRefund guarantee each entry
+            // is non-null with a non-null thingDef and a positive count.
             var demand = new Dictionary<ThingDef, int>();
             foreach (ThingDefCountClass cost in totalCost)
             {

@@ -8,16 +8,15 @@ namespace PersonaWeaponsUnbound
     /// <summary>
     /// Optional integration with Vanilla Expanded Framework's
     /// <c>RecipeInheritanceExtension</c>, which lets modded workbenches inherit
-    /// recipes from vanilla anchors (smithy / machining / fabrication). Used by
-    /// <see cref="WorkbenchUtility"/> to fold those benches into the correct
-    /// tier so weapon customization is offered at them.
+    /// recipes from a vanilla anchor (the fabrication bench). Used by
+    /// <see cref="WorkbenchUtility"/> to fold those benches into the fabrication-
+    /// bench set so weapon customization is offered at them.
     ///
     /// All access goes through reflection so this mod compiles and runs without
-    /// VEF installed. Mirrors the structure of <see cref="AlphaArmouryIntegration"/>:
-    /// the static ctor resolves the type/field once and logs a single warning when
-    /// VEF is loaded but the integration surface has drifted (renamed type,
-    /// renamed field, unexpected field type). When VEF is absent the integration
-    /// is silently unavailable.
+    /// VEF installed. The static ctor resolves the type/field once and logs a
+    /// single warning when VEF is loaded but the integration surface has drifted
+    /// (renamed type, renamed field, unexpected field type). When VEF is absent
+    /// the integration is silently unavailable.
     /// </summary>
     internal static class VEFRecipeInheritanceIntegration
     {

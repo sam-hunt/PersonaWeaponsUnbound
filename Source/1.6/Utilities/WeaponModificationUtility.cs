@@ -6,12 +6,10 @@ using Verse;
 namespace PersonaWeaponsUnbound
 {
     /// <summary>
-    /// Mutates a weapon Thing in place: adds/removes traits (delegating
-    /// ability-comp wiring to <see cref="EquippableAbilityUtility"/>), sets
-    /// cosmetic properties (name, color, texture), and spawns refunded
-    /// resources. Def conversion (base↔unique) lives in
-    /// <see cref="WeaponDefConversion"/>; ingredient gathering and reservation
-    /// for a customization job lives in
+    /// Mutates a weapon Thing in place: adds/removes traits, sets cosmetic
+    /// properties (name, color), and spawns refunded resources. Def conversion
+    /// (base↔unique) lives in <see cref="WeaponDefConversion"/>; ingredient
+    /// gathering and reservation for a customization job lives in
     /// <see cref="HaulPlanning.IngredientReservation"/>.
     /// </summary>
     public static class WeaponModificationUtility
@@ -131,20 +129,6 @@ namespace PersonaWeaponsUnbound
             // burstShotCountMultiplier on the new trait actually affect the
             // weapon's next shot, not just post-reload shots.
             InvalidateVerbBurstCaches(weapon);
-
-            // Mirror RemoveTrait: if any earlier customization, auto-gen, or
-            // mod-side handling left a stale Ability cached on the equippable-
-            // ability comp, vanilla Setup() won't rebuild it — it only reassigns
-            // props, and the lazy AbilityForReading getter keeps returning the
-            // cached instance. Reset so the getter constructs a fresh Ability
-            // matching the new abilityProps. Two ability traits rarely coexist
-            // thanks to exclusionTags <li>Ability</li>, but the stale-cache state
-            // can still be reached via a partially-healed save or non-vanilla
-            // trait wiring.
-            if (trait.abilityProps != null)
-                EquippableAbilityUtility.ResetState(weapon);
-
-            EquippableAbilityUtility.SetupAndPreserveCharges(weapon, comp);
         }
 
         public static void RemoveTrait(Thing weapon, WeaponTraitDef trait)
@@ -166,37 +150,15 @@ namespace PersonaWeaponsUnbound
             // burstShot{Speed,Count}Multiplier trait restores baseline burst
             // behavior on the next shot rather than waiting for a save reload.
             InvalidateVerbBurstCaches(weapon);
-
-            // Vanilla CompUniqueWeapon.Setup() only assigns props for traits that
-            // have abilityProps; it never clears them when an ability-granting trait
-            // is removed, and never resets the cached Ability instance. Without this
-            // scrub, an equipped pawn keeps the removed trait's gizmo (e.g. the
-            // grenade launcher's launch+reload command) the next time the weapon is
-            // re-equipped — even if the trait was swapped for one with different
-            // abilityProps, because the lazy AbilityForReading getter only rebuilds
-            // when its cache is null.
-            if (trait.abilityProps != null)
-                EquippableAbilityUtility.ResetState(weapon);
-
-            EquippableAbilityUtility.SetupAndPreserveCharges(weapon, comp);
         }
 
         /// <summary>
         /// Scrubs the random state left behind by <c>CompUniqueWeapon.PostPostMake</c>
         /// on a freshly minted unique weapon: the auto-rolled trait list, the
-        /// generated name and color, the lazy <c>ignoreAccuracyMaluses</c> cache,
-        /// and the equippable-ability comp's stale <c>props</c> + cached
-        /// <see cref="Ability"/> instance. Called by <see cref="WeaponDefConversion"/>
-        /// right after <c>ThingMaker.MakeThing</c> on a unique-weapon def so the
-        /// customization pipeline starts from a clean slate.
-        ///
-        /// Without the ability-comp scrub, an ability trait randomly rolled by
-        /// <c>InitializeTraits</c> (e.g. SmokeLauncher → LaunchSmokeShell) wires
-        /// up <c>CompEquippableAbilityReloadable.props</c> and lazily constructs
-        /// its <c>Ability</c>. Clearing the trait list afterwards doesn't undo
-        /// that wiring — vanilla <c>Setup()</c> only assigns props for traits
-        /// currently in the list, never clears them — and the cached Ability is
-        /// even deep-scribed across save/load, so the phantom gizmo persists.
+        /// generated name and color, and the lazy <c>ignoreAccuracyMaluses</c> cache.
+        /// Called by <see cref="WeaponDefConversion"/> right after
+        /// <c>ThingMaker.MakeThing</c> on a unique-weapon def so the customization
+        /// pipeline starts from a clean slate.
         ///
         /// No-op on non-unique target defs (no CompUniqueWeapon).
         /// </summary>
@@ -211,7 +173,6 @@ namespace PersonaWeaponsUnbound
             CompColorField?.SetValue(comp, null);
             IgnoreAccuracyField?.SetValue(comp, null);
             InvalidateVerbBurstCaches(weapon);
-            EquippableAbilityUtility.ResetState(weapon);
         }
 
         public static void SetName(Thing weapon, string name)
@@ -234,11 +195,6 @@ namespace PersonaWeaponsUnbound
                 CompColorField.SetValue(comp, color);
                 weapon.Notify_ColorChanged();
             }
-        }
-
-        public static void SetTextureIndex(Thing weapon, int index)
-        {
-            weapon.overrideGraphicIndex = index;
         }
 
         /// <summary>

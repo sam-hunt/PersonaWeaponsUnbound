@@ -42,7 +42,6 @@ namespace PersonaWeaponsUnbound
             var pairsByMod = GroupBySourceMod(WeaponRegistry.AllUniqueDefs);
             var orphansByMod = GroupBySourceMod(WeaponRegistry.OrphanUniqueDefs);
             var traitsByMod = GroupBySourceMod(DefDatabase<WeaponTraitDef>.AllDefs);
-            var rulesByMod = GroupBySourceMod(TraitCostUtility.CachedRules);
 
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 
@@ -61,7 +60,6 @@ namespace PersonaWeaponsUnbound
             if (orphansByMod.Values.Sum() > 0)
                 AppendCategory(sb, "Orphan Unique Weapons", orphansByMod);
             AppendCategory(sb, "Weapon Traits", traitsByMod);
-            AppendCategory(sb, "Trait Cost Rules", rulesByMod);
             Log.Message(sb.ToString().TrimEnd());
         }
 

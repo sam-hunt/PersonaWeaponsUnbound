@@ -8,7 +8,6 @@ namespace PersonaWeaponsUnbound
     public partial class Dialog_WeaponCustomization
     {
         private const int PreviewRTSize = 256;
-        private const int TextureGridRTSize = 128;
 
         // Cached preview render — rebuilt only when preview state changes.
         // The trait snapshot is part of the key because appearance is now
@@ -16,7 +15,6 @@ namespace PersonaWeaponsUnbound
         // through the thing's graphic), so toggling one must rebuild even when the
         // def and color-one choice are unchanged.
         private RenderTexture previewRT;
-        private int cachedPreviewTextureIndex = -1;
         private ColorDef cachedPreviewColor;
         private ThingDef cachedPreviewDef;
         private List<WeaponTraitDef> cachedPreviewTraits;
@@ -26,12 +24,6 @@ namespace PersonaWeaponsUnbound
         // UniqueIDsManager id and PostPostMake rolls off the global Rand — so caching
         // it bounds those draws to def changes instead of firing on every rebuild.
         private Thing previewThing;
-
-        // Cached texture variant grid previews — rebuilt when color/def/traits change
-        private RenderTexture[] textureVariantPreviews;
-        private ColorDef cachedTextureGridColor;
-        private ThingDef cachedTextureGridDef;
-        private List<WeaponTraitDef> cachedTextureGridTraits;
 
         // --- Left pane: weapon preview ---
 
@@ -104,10 +96,12 @@ namespace PersonaWeaponsUnbound
                         Widgets.Label(labelRect, trait.LabelCap);
                         GUI.color = prevLabelColor;
 
-                        // Cost icons (right-aligned) — only for newly added traits
+                        // Cost icons (right-aligned) — only for newly added traits.
+                        // Every chip here is already staged, so use its real
+                        // sequenced cost rather than an isolated hypothetical.
                         if (!originalTraits.Contains(trait))
                         {
-                            List<ThingDefCountClass> chipCosts = GetAdditionCost(trait);
+                            List<ThingDefCountClass> chipCosts = StagedAdditionCost(trait);
                             Rect chipCostRect = new Rect(
                                 labelRect.xMax, chipRect.y,
                                 chipRect.xMax - labelRect.xMax - 4f, chipRect.height);
@@ -246,7 +240,6 @@ namespace PersonaWeaponsUnbound
             ColorDef effectiveColor = IsRevertedToBase ? null : EffectiveColor;
 
             bool needsRebuild = previewRT == null
-                || cachedPreviewTextureIndex != desiredTextureIndex
                 || cachedPreviewColor != effectiveColor
                 || cachedPreviewDef != resultDef
                 || !SameTraits(cachedPreviewTraits, desiredTraits);
@@ -257,7 +250,6 @@ namespace PersonaWeaponsUnbound
             if (needsRebuild && Event.current.type == EventType.Layout)
             {
                 RebuildPreviewRT(resultDef, effectiveColor);
-                cachedPreviewTextureIndex = desiredTextureIndex;
                 cachedPreviewColor = effectiveColor;
                 cachedPreviewDef = resultDef;
                 cachedPreviewTraits = new List<WeaponTraitDef>(desiredTraits);
@@ -273,7 +265,10 @@ namespace PersonaWeaponsUnbound
         {
             DestroyPreviewRT();
             Graphic topLevel = BuildPreviewGraphic(resultDef, colorDef);
-            previewRT = BuildVariantPreview(topLevel, desiredTextureIndex, PreviewRTSize);
+            // No player-facing variant-index concept (persona weapons render via
+            // Graphic_Single) — fall back to the weapon's own override, if any,
+            // as harmless preservation for modded weapons that still vary by index.
+            previewRT = BuildVariantPreview(topLevel, weapon.overrideGraphicIndex ?? 0, PreviewRTSize);
         }
 
         /// <summary>
@@ -292,14 +287,6 @@ namespace PersonaWeaponsUnbound
         /// mechanism here. (The one ceiling: an override that lives purely in a
         /// draw-time patch and never changes the thing's graphic can't be
         /// reconstructed by anything short of invoking that draw path.)</para>
-        ///
-        /// <para>One override needs a nudge rather than coming through for free:
-        /// VEF / Alpha Armoury's trait-driven graphic swap <em>does</em> change the
-        /// thing's <c>graphicInt</c>, but only recomputes on equip/load, neither of
-        /// which fires here. <see cref="VEFWeaponTraitGraphicsIntegration.RefreshTraitGraphic"/> runs
-        /// that recompute against the prospective traits so it lands in
-        /// <c>graphicInt</c> before we read <c>Graphic</c> — still within the
-        /// "ask the object" contract, just triggering the resolution VEF defers.</para>
         ///
         /// <para>Only the trait list and the comp's color field need setting:
         /// color one is read live from <c>CompUniqueWeapon.ForceColor</c> (just that
@@ -363,21 +350,14 @@ namespace PersonaWeaponsUnbound
                 WeaponModificationUtility.SetColor(previewThing, colorDef);
             }
 
-            // Drive VEF / Alpha Armoury's trait-driven graphic override against the
-            // prospective trait set, exactly as an equip would. It writes the
-            // resolved graphic into the thing's graphicInt (read via Graphic below);
-            // a no-op when VEF is absent or no trait overrides this def, leaving the
-            // vanilla graphic SetColor just invalidated. Must run after SetColor — it
-            // reads the comp's color-one to tint the override.
-            VEFWeaponTraitGraphicsIntegration.RefreshTraitGraphic(previewThing);
-
             return previewThing.Graphic;
         }
 
         /// <summary>
         /// Blits one texture variant of a prebuilt, already-colored top-level
-        /// graphic into a fresh RenderTexture. Shared by the main preview icon and
-        /// the texture variant grid (which reuses one graphic across all variants).
+        /// graphic into a fresh RenderTexture. <paramref name="textureIndex"/> only
+        /// matters for modded weapons whose graphic is still a Graphic_Random —
+        /// persona weapons render via Graphic_Single, with no variant concept.
         /// </summary>
         private RenderTexture BuildVariantPreview(Graphic topLevel, int textureIndex, int rtSize)
         {
@@ -417,34 +397,6 @@ namespace PersonaWeaponsUnbound
             return rt;
         }
 
-        private void EnsureTextureVariantPreviews()
-        {
-            ThingDef resultDef = ResultingDef;
-            ColorDef effectiveColor = IsRevertedToBase ? null : EffectiveColor;
-
-            bool needsRebuild = textureVariantPreviews == null
-                || cachedTextureGridColor != effectiveColor
-                || cachedTextureGridDef != resultDef
-                || !SameTraits(cachedTextureGridTraits, desiredTraits);
-
-            if (!needsRebuild || Event.current.type != EventType.Layout)
-                return;
-
-            DestroyTextureVariantPreviews();
-            textureVariantPreviews = new RenderTexture[textureVariantCount];
-
-            // The variants share def/color/traits and differ only by index, so
-            // build the prospective graphic once and index into it per tile.
-            Graphic topLevel = BuildPreviewGraphic(resultDef, effectiveColor);
-            for (int i = 0; i < textureVariantCount; i++)
-                textureVariantPreviews[i] = BuildVariantPreview(
-                    topLevel, i, TextureGridRTSize);
-
-            cachedTextureGridColor = effectiveColor;
-            cachedTextureGridDef = resultDef;
-            cachedTextureGridTraits = new List<WeaponTraitDef>(desiredTraits);
-        }
-
         /// <summary>
         /// Ordered equality for the two preview caches' trait snapshots. Order
         /// matters — color resolution is order-sensitive (e.g. "last forced color
@@ -475,27 +427,10 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        private void DestroyTextureVariantPreviews()
-        {
-            if (textureVariantPreviews != null)
-            {
-                foreach (RenderTexture rt in textureVariantPreviews)
-                {
-                    if (rt != null)
-                    {
-                        rt.Release();
-                        UnityEngine.Object.Destroy(rt);
-                    }
-                }
-                textureVariantPreviews = null;
-            }
-        }
-
         public override void PreClose()
         {
             base.PreClose();
             DestroyPreviewRT();
-            DestroyTextureVariantPreviews();
         }
     }
 }

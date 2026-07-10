@@ -185,43 +185,6 @@ namespace PersonaWeaponsUnbound
             pickupLastInTrip = lastInTripFlags;
         }
 
-        /// <summary>
-        /// Passively heal orphaned ability caches at the earliest hook the
-        /// JobDriver lifecycle exposes — fires once when the pawn starts the
-        /// job, before <c>SetupToils</c>. A player who notices a phantom gizmo
-        /// (e.g. LaunchSmokeShell carried over from a pre-fix base→unique
-        /// conversion in an older save) just has to initiate customization on
-        /// the affected weapon; the heal fires immediately, no need to wait
-        /// for the pawn to walk anywhere, open the dialog, or confirm changes.
-        /// Idempotent and a no-op when nothing's orphaned.
-        ///
-        /// The driver's <c>weapon</c> field isn't set until <c>acquireWeapon</c>
-        /// runs, so we pull from the job target directly. <c>HealOrphanedAbility</c>
-        /// null-checks and handles destroyed/non-unique weapons internally.
-        /// </summary>
-        public override void Notify_Starting()
-        {
-            base.Notify_Starting();
-            // Heal runs before any toil and outside the finish-action bail
-            // surface; an uncaught throw here would abort job start with no
-            // UWU-prefixed log. Best-effort by design — swallow and proceed
-            // so a broken heal can't block a legitimate customization order.
-            try
-            {
-                EquippableAbilityUtility.HealOrphaned(
-                    job.GetTarget(WeaponIndex).Thing);
-            }
-            catch (Exception ex)
-            {
-                Thing target = job?.GetTarget(WeaponIndex).Thing;
-                string defName = target?.def?.defName ?? "(null)";
-                Log.ErrorOnce(
-                    "[Persona Weapons Unbound] Ability heal failed on job start for "
-                        + defName + "; continuing without heal: " + ex,
-                    ("PWU_HealOrphaned_" + defName).GetHashCode());
-            }
-        }
-
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             if (!pawn.Reserve(Workbench, job, 1, -1, null, errorOnFailed))
@@ -730,31 +693,15 @@ namespace PersonaWeaponsUnbound
             Toil finalize = ToilMaker.MakeToil("MakeNewToils");
             finalize.initAction = delegate
             {
-                // Each step is isolated so a throw doesn't Errored the job
-                // and surface PWU_BailUnexpected — by this toil the weapon is
-                // already traited and ingredients are consumed, so failure
-                // here is post-success cleanup. Continue to admire + return
-                // so the player walks away with the customized weapon; raise
-                // a soft message naming what specifically didn't stick.
+                // Isolated so a throw doesn't Errored the job and surface
+                // PWU_BailUnexpected — by this toil the weapon is already
+                // traited and ingredients are consumed, so failure here is
+                // post-success cleanup. Continue to admire + return so the
+                // player walks away with the customized weapon; raise a soft
+                // message naming what specifically didn't stick.
 
-                // Final Setup call for ability prop wiring. Routed through the
-                // utility so cosmetics-only customizations don't free-reload
-                // unchanged ability traits — vanilla Setup() forces
-                // RemainingCharges = MaxCharges on every ability trait it sees.
-                try
-                {
-                    EquippableAbilityUtility.SyncToTraits(weapon);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error("[Persona Weapons Unbound] Ability sync failed during finalize on "
-                        + WeaponLabel + ": " + ex);
-                    Messages.Message(
-                        "PWU_FinalizeAbilitySyncFailed".Translate(WeaponLabel),
-                        weapon, MessageTypeDefOf.NegativeEvent, historical: false);
-                }
-
-                // Apply final color after Setup() to ensure it sticks
+                // Apply final color now that every op has run, so it sticks
+                // regardless of any intermediate trait-driven color change.
                 try
                 {
                     CompUniqueWeapon uniqueComp = weapon.TryGetComp<CompUniqueWeapon>();
@@ -769,15 +716,6 @@ namespace PersonaWeaponsUnbound
                         "PWU_FinalizeColorFailed".Translate(WeaponLabel),
                         weapon, MessageTypeDefOf.NegativeEvent, historical: false);
                 }
-
-                // Refresh VEF / Alpha Armoury's trait-driven graphic override now the
-                // trait list (and color-one) are final. VEF only recomputes on
-                // equip/load, so without this a freshly added attachment texture
-                // wouldn't show — and a removed one wouldn't clear — until the next
-                // equip/drop. Self-guarding and self-catching: a no-op when VEF is
-                // absent, and a soft cosmetic catch-up that self-heals on next equip
-                // even if it fails, so no player-facing message.
-                VEFWeaponTraitGraphicsIntegration.RefreshTraitGraphic(weapon);
             };
             finalize.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return finalize;

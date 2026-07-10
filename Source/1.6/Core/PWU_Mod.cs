@@ -49,51 +49,6 @@ namespace PersonaWeaponsUnbound
             listing.Gap(18.0f);
 
             Text.Font = GameFont.Medium;
-            listing.Label("PWU_SettingsTraitCosts".Translate());
-            Text.Font = GameFont.Small;
-            listing.Gap(12.0f);
-
-            listing.CheckboxLabeled(
-                "PWU_UseRecipeBaseCost".Translate(),
-                ref Settings.useRecipeBaseCost,
-                "PWU_UseRecipeBaseCostDesc".Translate());
-
-            listing.Gap();
-
-            string costPct = (Settings.traitCostMultiplier * 100f).ToString("F0");
-            string costLabel = "PWU_TraitCostMultiplier".Translate(costPct);
-            if (Settings.traitCostMultiplier == 1f)
-                costLabel += "PWU_DefaultSuffix".Translate();
-            listing.Label(costLabel);
-            Settings.traitCostMultiplier = listing.Slider(Settings.traitCostMultiplier, 0f, 5f);
-            Settings.traitCostMultiplier = Mathf.Round(Settings.traitCostMultiplier * 20f) / 20f;
-
-            bool costsFree = Settings.traitCostMultiplier == 0f;
-            string refundPct = (Settings.traitRefundRate * 100f).ToString("F0");
-            string refundLabel = "PWU_TraitRefundRate".Translate(refundPct);
-            if (Settings.traitRefundRate == 0.5f)
-                refundLabel += "PWU_DefaultSuffix".Translate();
-            if (costsFree)
-            {
-                Color prevColor = GUI.color;
-                GUI.color = Color.gray;
-                listing.Label(refundLabel);
-                Rect sliderRect = listing.GetRect(22f);
-                Widgets.HorizontalSlider(sliderRect, Settings.traitRefundRate, 0f, 1f);
-                TooltipHandler.TipRegion(sliderRect,
-                    "PWU_RefundRateNoEffect".Translate());
-                GUI.color = prevColor;
-            }
-            else
-            {
-                listing.Label(refundLabel);
-                Settings.traitRefundRate = listing.Slider(Settings.traitRefundRate, 0f, 1f);
-                Settings.traitRefundRate = Mathf.Round(Settings.traitRefundRate * 20f) / 20f;
-            }
-
-            listing.Gap(18.0f);
-
-            Text.Font = GameFont.Medium;
             listing.Label("PWU_SettingsPrerequisites".Translate());
             Text.Font = GameFont.Small;
             listing.Gap(6f);
@@ -121,61 +76,6 @@ namespace PersonaWeaponsUnbound
                 "PWU_RequireCustomizationResearch".Translate(),
                 ref Settings.requireCustomizationResearch,
                 "PWU_RequireCustomizationResearchDesc".Translate());
-
-            listing.Gap();
-
-            listing.CheckboxLabeled(
-                "PWU_RequireRecipeResearch".Translate(),
-                ref Settings.requireRecipeResearch,
-                "PWU_RequireRecipeResearchDesc".Translate());
-
-            listing.Gap();
-
-            listing.CheckboxLabeled(
-                "PWU_RequireWorkbench".Translate(),
-                ref Settings.requireAppropriateWorkbench,
-                "PWU_RequireWorkbenchDesc".Translate());
-
-            listing.Gap();
-
-            listing.CheckboxLabeled(
-                "PWU_AllowUncraftable".Translate(),
-                ref Settings.allowUncraftableCustomization,
-                "PWU_AllowUncraftableDesc".Translate());
-
-            listing.Gap();
-
-            if (Settings.allowArchotechCustomization)
-            {
-                // Visually forced on — Archotech implies Ultratech at runtime
-                // (see CustomizationRules.GetRequiredResearch). Stored setting is
-                // left untouched so toggling Archotech off restores prior intent.
-                Color prevColor = GUI.color;
-                Color prevContent = GUI.contentColor;
-                GUI.color = new Color(0.4f, 0.4f, 0.4f);
-                GUI.contentColor = new Color(0.5f, 0.5f, 0.5f);
-                bool forcedOn = true;
-                listing.CheckboxLabeled(
-                    "PWU_AllowUltratech".Translate(),
-                    ref forcedOn,
-                    "PWU_AllowUltratechImpliedDesc".Translate());
-                GUI.contentColor = prevContent;
-                GUI.color = prevColor;
-            }
-            else
-            {
-                listing.CheckboxLabeled(
-                    "PWU_AllowUltratech".Translate(),
-                    ref Settings.allowUltratechCustomization,
-                    "PWU_AllowUltratechDesc".Translate());
-            }
-
-            listing.Gap();
-
-            listing.CheckboxLabeled(
-                "PWU_AllowArchotech".Translate(),
-                ref Settings.allowArchotechCustomization,
-                "PWU_AllowArchotechDesc".Translate());
 
             listing.Gap(24.0f);
 
