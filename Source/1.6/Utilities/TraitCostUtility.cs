@@ -37,7 +37,11 @@ namespace PersonaWeaponsUnbound
                 };
             }
 
-            int componentCount = ComponentCostForQuality(GetQuality(weapon));
+            int componentCount = ComponentCostForQuality(
+                GetQuality(weapon),
+                PWU_Mod.Settings.traitChangeBaseComponentCost,
+                PWU_Mod.Settings.traitChangeQualitySurchargeThreshold,
+                PWU_Mod.Settings.traitChangeQualitySurchargePerLevel);
             if (componentCount <= 0)
                 return new List<ThingDefCountClass>();
             return new List<ThingDefCountClass>
@@ -69,16 +73,20 @@ namespace PersonaWeaponsUnbound
         /// <summary>
         /// The advanced-component count for a non-boundary trait change: a flat
         /// base cost plus a per-level surcharge for every quality tier above the
-        /// configured threshold. See <see cref="PWU_Settings.traitChangeBaseComponentCost"/>,
-        /// <see cref="PWU_Settings.traitChangeQualitySurchargeThreshold"/>, and
-        /// <see cref="PWU_Settings.traitChangeQualitySurchargePerLevel"/>.
+        /// given threshold. Takes the three cost knobs as explicit parameters
+        /// (rather than reading <see cref="PWU_Mod.Settings"/> directly) so the
+        /// settings-page live cost table can recompute this every frame from
+        /// the current slider values — including unsaved ones — without
+        /// duplicating the formula.
         /// </summary>
-        private static int ComponentCostForQuality(QualityCategory quality)
+        public static int ComponentCostForQuality(
+            QualityCategory quality,
+            int baseComponentCost,
+            QualityCategory surchargeThreshold,
+            int surchargePerLevel)
         {
-            int levelsAboveThreshold = Mathf.Max(0,
-                (int)quality - (int)PWU_Mod.Settings.traitChangeQualitySurchargeThreshold);
-            return PWU_Mod.Settings.traitChangeBaseComponentCost
-                + Mathf.RoundToInt(levelsAboveThreshold * PWU_Mod.Settings.traitChangeQualitySurchargePerLevel);
+            int levelsAboveThreshold = Mathf.Max(0, (int)quality - (int)surchargeThreshold);
+            return baseComponentCost + Mathf.RoundToInt(levelsAboveThreshold * surchargePerLevel);
         }
 
         /// <summary>

@@ -72,7 +72,6 @@ namespace PersonaWeaponsUnbound.Patches
 
             WeaponRegistry.ResolveWeaponDefs(parent,
                 out ThingDef baseDef, out ThingDef personaDef);
-            TechLevel techLevel = CustomizationRules.GetWeaponTechLevel(parent);
 
             Command_Action gizmo = new Command_Action();
             gizmo.defaultLabel = "PWU_CustomizeGizmoLabel".Translate();
@@ -88,7 +87,7 @@ namespace PersonaWeaponsUnbound.Patches
             else
             {
                 var workbenchCheck = WorkbenchUtility.FindBestWorkbench(
-                    parent.Map, baseDef, personaDef, techLevel, parent.Position);
+                    parent.Map, baseDef, personaDef, TechLevel.Undefined, parent.Position);
                 if (!workbenchCheck.Found)
                 {
                     gizmo.Disabled = true;
@@ -100,7 +99,6 @@ namespace PersonaWeaponsUnbound.Patches
             Thing weapon = parent;
             ThingDef capturedBaseDef = baseDef;
             ThingDef capturedPersonaDef = personaDef;
-            TechLevel capturedTechLevel = techLevel;
 
             gizmo.action = delegate
             {
@@ -110,7 +108,7 @@ namespace PersonaWeaponsUnbound.Patches
                 try
                 {
                     BeginCustomizeTargeting(
-                        weapon, capturedBaseDef, capturedPersonaDef, capturedTechLevel);
+                        weapon, capturedBaseDef, capturedPersonaDef);
                 }
                 catch (Exception ex)
                 {
@@ -126,7 +124,7 @@ namespace PersonaWeaponsUnbound.Patches
         }
 
         private static void BeginCustomizeTargeting(
-            Thing weapon, ThingDef baseDef, ThingDef personaDef, TechLevel techLevel)
+            Thing weapon, ThingDef baseDef, ThingDef personaDef)
         {
             TargetingParameters parms = TargetingParameters.ForColonist();
 
@@ -136,7 +134,7 @@ namespace PersonaWeaponsUnbound.Patches
                 if (!(targetInfo.Thing is Pawn p))
                     return false;
                 return WorkbenchUtility.FindBestWorkbench(
-                    p, baseDef, personaDef, techLevel, weapon.Position).Found;
+                    p, baseDef, personaDef, TechLevel.Undefined, weapon.Position).Found;
             };
 
             Find.Targeter.BeginTargeting(parms,
@@ -148,7 +146,7 @@ namespace PersonaWeaponsUnbound.Patches
                         return;
 
                     var result = WorkbenchUtility.FindBestWorkbench(
-                        pawn, baseDef, personaDef, techLevel, weapon.Position);
+                        pawn, baseDef, personaDef, TechLevel.Undefined, weapon.Position);
                     if (!result.Found)
                     {
                         Messages.Message(

@@ -63,8 +63,6 @@ namespace PersonaWeaponsUnbound
             WeaponRegistry.ResolveWeaponDefs(weapon,
                 out ThingDef baseDef, out ThingDef personaDef);
 
-            TechLevel weaponTechLevel = CustomizationRules.GetWeaponTechLevel(weapon);
-
             // Customization research
             if (!customizable.Accepted)
                 return DisabledOrHidden(weapon, customizable);
@@ -84,7 +82,7 @@ namespace PersonaWeaponsUnbound
 
             // Find best workbench (most expensive check — runs last)
             var result = WorkbenchUtility.FindBestWorkbench(
-                pawn, baseDef, personaDef, weaponTechLevel, weapon.Position);
+                pawn, baseDef, personaDef, TechLevel.Undefined, weapon.Position);
 
             if (!result.Found)
                 return DisabledOrHidden(weapon, result.BestRejection);

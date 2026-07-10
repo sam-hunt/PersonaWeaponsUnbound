@@ -15,6 +15,7 @@ namespace PersonaWeaponsUnbound
             WeaponRegistry.Initialize(report);
             WorkbenchUtility.Initialize(report);
             WeaponModificationUtility.VerifyReflection();
+            PWU_ResearchDefOf.ApplyTechprintCount();
 
             report.LogSummary();
         }

@@ -19,6 +19,14 @@ namespace PersonaWeaponsUnbound
 
         public override string SettingsCategory() => "PWU_SettingsCategory".Translate();
 
+        public override void WriteSettings()
+        {
+            base.WriteSettings();
+            // Live-apply: the techprint slider takes effect immediately, no restart
+            // required (fork spec §7, D4).
+            PWU_ResearchDefOf.ApplyTechprintCount();
+        }
+
         public override void DoSettingsWindowContents(Rect inRect)
         {
             float buttonHeight = 30f;
@@ -46,7 +54,48 @@ namespace PersonaWeaponsUnbound
                 ref Settings.restrictTraitsToDiscovered,
                 "PWU_RestrictTraitsToDiscoveredDesc".Translate());
 
-            listing.Gap(18.0f);
+            listing.Gap(24.0f);
+
+            Text.Font = GameFont.Medium;
+            listing.Label("PWU_SettingsTraitCosts".Translate());
+            Text.Font = GameFont.Small;
+            listing.Gap(6f);
+
+            string baseCostLabel = "PWU_TraitChangeBaseComponentCost".Translate(Settings.traitChangeBaseComponentCost);
+            if (Settings.traitChangeBaseComponentCost == 2)
+                baseCostLabel += "PWU_DefaultSuffix".Translate();
+            listing.Label(baseCostLabel, tooltip: "PWU_TraitChangeBaseComponentCostDesc".Translate());
+            Settings.traitChangeBaseComponentCost =
+                Mathf.RoundToInt(listing.Slider(Settings.traitChangeBaseComponentCost, 0f, 10f));
+
+            listing.Gap();
+
+            string surchargeThresholdLabel = "PWU_TraitChangeQualitySurchargeThreshold".Translate(
+                Settings.traitChangeQualitySurchargeThreshold.GetLabel());
+            if (Settings.traitChangeQualitySurchargeThreshold == QualityCategory.Normal)
+                surchargeThresholdLabel += "PWU_DefaultSuffix".Translate();
+            listing.Label(surchargeThresholdLabel, tooltip: "PWU_TraitChangeQualitySurchargeThresholdDesc".Translate());
+            float surchargeThresholdValue = (int)Settings.traitChangeQualitySurchargeThreshold;
+            surchargeThresholdValue = listing.Slider(surchargeThresholdValue, 0f, (int)QualityCategory.Legendary);
+            Settings.traitChangeQualitySurchargeThreshold = (QualityCategory)Mathf.RoundToInt(surchargeThresholdValue);
+
+            listing.Gap();
+
+            string surchargePerLevelLabel = "PWU_TraitChangeQualitySurchargePerLevel".Translate(
+                Settings.traitChangeQualitySurchargePerLevel);
+            if (Settings.traitChangeQualitySurchargePerLevel == 1)
+                surchargePerLevelLabel += "PWU_DefaultSuffix".Translate();
+            listing.Label(surchargePerLevelLabel, tooltip: "PWU_TraitChangeQualitySurchargePerLevelDesc".Translate());
+            Settings.traitChangeQualitySurchargePerLevel =
+                Mathf.RoundToInt(listing.Slider(Settings.traitChangeQualitySurchargePerLevel, 0f, 5f));
+
+            listing.Gap(12f);
+
+            listing.Label("PWU_CostTableHeader".Translate());
+            listing.Gap(4f);
+            DrawCostTable(listing);
+
+            listing.Gap(24.0f);
 
             Text.Font = GameFont.Medium;
             listing.Label("PWU_SettingsPrerequisites".Translate());
@@ -76,6 +125,40 @@ namespace PersonaWeaponsUnbound
                 "PWU_RequireCustomizationResearch".Translate(),
                 ref Settings.requireCustomizationResearch,
                 "PWU_RequireCustomizationResearchDesc".Translate());
+
+            listing.Gap();
+
+            string techprintLabel = "PWU_TechprintCount".Translate(Settings.techprintCount);
+            if (Settings.techprintCount == 1)
+                techprintLabel += "PWU_DefaultSuffix".Translate();
+            listing.Label(techprintLabel, tooltip: "PWU_TechprintCountDesc".Translate());
+            Settings.techprintCount = Mathf.RoundToInt(listing.Slider(Settings.techprintCount, 0f, 3f));
+
+            listing.Gap(24.0f);
+
+            Text.Font = GameFont.Medium;
+            listing.Label("PWU_SettingsCraftingRecipes".Translate());
+            Text.Font = GameFont.Small;
+            listing.Gap(6f);
+
+            listing.CheckboxLabeled(
+                "PWU_EnableMonoswordRecipe".Translate(),
+                ref Settings.enableMonoswordRecipe,
+                "PWU_EnableMonoswordRecipeDesc".Translate());
+
+            listing.Gap();
+
+            listing.CheckboxLabeled(
+                "PWU_EnablePlasmaswordRecipe".Translate(),
+                ref Settings.enablePlasmaswordRecipe,
+                "PWU_EnablePlasmaswordRecipeDesc".Translate());
+
+            listing.Gap();
+
+            listing.CheckboxLabeled(
+                "PWU_EnableZeushammerRecipe".Translate(),
+                ref Settings.enableZeushammerRecipe,
+                "PWU_EnableZeushammerRecipeDesc".Translate());
 
             listing.Gap(24.0f);
 
@@ -199,6 +282,45 @@ namespace PersonaWeaponsUnbound
                 GUI.color = prevColor;
             }
             listing.Gap(8f);
+        }
+
+        /// <summary>
+        /// Renders the live per-quality component-cost table below the three
+        /// cost sliders: one row per <see cref="QualityCategory"/> (Awful through
+        /// Legendary), recomputed every frame from the current (possibly unsaved)
+        /// slider values via <see cref="TraitCostUtility.ComponentCostForQuality"/>
+        /// so it never drifts out of sync with the sliders above it.
+        /// </summary>
+        private static void DrawCostTable(Listing_Standard listing)
+        {
+            const float rowHeight = 24f;
+            const float qualityColumnWidth = 160f;
+
+            var qualities = (QualityCategory[])System.Enum.GetValues(typeof(QualityCategory));
+            for (int i = 0; i < qualities.Length; i++)
+            {
+                QualityCategory quality = qualities[i];
+                Rect rowRect = listing.GetRect(rowHeight);
+
+                // Subtle alternating shading — cheap (one extra draw call per
+                // row) and helps the eye track seven rows of numbers.
+                if (i % 2 == 1)
+                    Widgets.DrawLightHighlight(rowRect);
+
+                Rect qualityRect = new Rect(rowRect.x, rowRect.y, qualityColumnWidth, rowRect.height);
+                Rect countRect = new Rect(
+                    rowRect.x + qualityColumnWidth, rowRect.y,
+                    rowRect.width - qualityColumnWidth, rowRect.height);
+
+                int componentCount = TraitCostUtility.ComponentCostForQuality(
+                    quality,
+                    Settings.traitChangeBaseComponentCost,
+                    Settings.traitChangeQualitySurchargeThreshold,
+                    Settings.traitChangeQualitySurchargePerLevel);
+
+                Widgets.Label(qualityRect, quality.GetLabel().CapitalizeFirst());
+                Widgets.Label(countRect, componentCount.ToString());
+            }
         }
     }
 }

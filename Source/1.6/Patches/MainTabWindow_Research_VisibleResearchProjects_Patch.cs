@@ -52,10 +52,7 @@ namespace PersonaWeaponsUnbound.Patches
                 return;
             }
 
-            projects.RemoveAll(def =>
-                def == PWU_ResearchDefOf.UniqueSmithing
-                || def == PWU_ResearchDefOf.UniqueMachining
-                || def == PWU_ResearchDefOf.UniqueFabrication);
+            projects.RemoveAll(def => def == PWU_ResearchDefOf.PWU_BladelinkCustomization);
             lastFiltered = projects;
         }
     }

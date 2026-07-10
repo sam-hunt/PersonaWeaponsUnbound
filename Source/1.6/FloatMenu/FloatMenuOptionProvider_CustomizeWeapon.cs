@@ -118,9 +118,8 @@ namespace PersonaWeaponsUnbound
                 out ThingDef baseDef, out ThingDef personaDef);
 
             // Workbench: must be a fabrication bench (or VEF equivalent)
-            TechLevel weaponTechLevel = CustomizationRules.GetWeaponTechLevel(weapon);
             AcceptanceReport workbenchReport = WorkbenchUtility.CanCustomizeAtWorkbench(
-                baseDef, personaDef, weaponTechLevel, workbench);
+                baseDef, personaDef, TechLevel.Undefined, workbench);
             if (!workbenchReport.Accepted)
                 return DisabledOrHidden(weapon, workbenchReport);
 

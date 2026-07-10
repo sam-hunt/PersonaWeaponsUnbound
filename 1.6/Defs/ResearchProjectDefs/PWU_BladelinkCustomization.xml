@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ResearchProjectDef>
+    <defName>PWU_BladelinkCustomization</defName>
+    <label>bladelink customization</label>
+    <description>Reprogram the AI personas bonded to bladelink weapons. Install a persona core to awaken a weapon's persona and unlock its traits for editing, then rewire those traits at a fabrication bench using advanced components.</description>
+    <techLevel>Ultra</techLevel>
+    <baseCost>4000</baseCost>
+    <prerequisites>
+      <li>AdvancedFabrication</li>
+    </prerequisites>
+    <requiredResearchBuilding>HiTechResearchBench</requiredResearchBuilding>
+    <requiredResearchFacilities>
+      <li>MultiAnalyzer</li>
+    </requiredResearchFacilities>
+    <techprintCount>1</techprintCount>
+    <techprintMarketValue>2000</techprintMarketValue>
+    <techprintCommonality>2</techprintCommonality>
+    <heldByFactionCategoryTags>
+      <li>Empire</li>
+    </heldByFactionCategoryTags>
+    <!-- One column right of AdvancedFabrication (18.00, 3.00); row 3.00 is clear
+         at x=19 (neighbors: CataphractArmor 1.10, BeamWeapons 1.80, WastepackAtomizer 2.40). -->
+    <researchViewX>19.00</researchViewX>
+    <researchViewY>3.00</researchViewY>
+  </ResearchProjectDef>
+
+</Defs>

@@ -18,6 +18,12 @@ namespace PersonaWeaponsUnbound
         public QualityCategory minimumQuality = QualityCategory.Awful;
         public bool allowDefConversion = true;
         public bool requireCustomizationResearch = true;
+        public int techprintCount = 1;
+
+        // Crafting Recipes
+        public bool enableMonoswordRecipe = true;
+        public bool enablePlasmaswordRecipe = true;
+        public bool enableZeushammerRecipe = true;
 
         // Haul Planner
         public HaulPlannerKind haulPlannerKind = HaulPlannerKind.Sweep;
@@ -40,6 +46,11 @@ namespace PersonaWeaponsUnbound
             minimumQuality = QualityCategory.Awful;
             allowDefConversion = true;
             requireCustomizationResearch = true;
+            techprintCount = 1;
+
+            enableMonoswordRecipe = true;
+            enablePlasmaswordRecipe = true;
+            enableZeushammerRecipe = true;
 
             haulPlannerKind = HaulPlannerKind.Sweep;
 
@@ -64,6 +75,11 @@ namespace PersonaWeaponsUnbound
             Scribe_Values.Look(ref minimumQuality, "minimumQuality", QualityCategory.Awful);
             Scribe_Values.Look(ref allowDefConversion, "allowDefConversion", true);
             Scribe_Values.Look(ref requireCustomizationResearch, "requireCustomizationResearch", true);
+            Scribe_Values.Look(ref techprintCount, "techprintCount", 1);
+
+            Scribe_Values.Look(ref enableMonoswordRecipe, "enableMonoswordRecipe", true);
+            Scribe_Values.Look(ref enablePlasmaswordRecipe, "enablePlasmaswordRecipe", true);
+            Scribe_Values.Look(ref enableZeushammerRecipe, "enableZeushammerRecipe", true);
 
             Scribe_Values.Look(ref haulPlannerKind, "haulPlannerKind", HaulPlannerKind.Sweep);
 
