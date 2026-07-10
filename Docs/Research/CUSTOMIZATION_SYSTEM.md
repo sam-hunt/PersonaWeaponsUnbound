@@ -1,6 +1,8 @@
 # RimWorld Customization System — Styling Station API Reference
 
-Reference document analyzing RimWorld's Ideology styling station system and how its patterns apply to the Customize Unique Weapons mod's design goals (see `DESIGN.md`).
+Reference document analyzing RimWorld's Ideology styling station system — the architectural foundation for the weapon customization dialog/job flow (see `DESIGN.md`).
+
+> **Fork note (2026-07):** This doc was researched for the UWU (Odyssey unique weapons) era of this codebase. The styling-station, preview, job-queuing, and float-menu analysis remains the live architectural reference for Persona Weapons Unbound. The Odyssey-specific sections (DLC Gating Analysis, Unique Weapon API Reference, and the `CompUniqueWeapon`-based design mapping) are retained as historical context only — for the Royalty bladelink equivalents, see `Docs/Research/BLADELINK_WEAPONS.md` and `Docs/Specs/PERSONA_FORK.md`.
 
 ---
 

@@ -2,28 +2,22 @@
 
 ## Features
 
-- Blood-soaked trait rule requiring hemogen if biotech and UMW are installed
-- Optional reinforced barrel replacement rule for underbarrel traits?
+Further bladelink-comp surfaces we could offer customization of (review 2026-07-10, grounded in `Docs/Research/BLADELINK_WEAPONS.md`):
 
-- Random button?
-- Mod setting to disable trait customization?
-- Dev mode mod settings page button to copy settings to clipboard?
-- Extend XML WeaponTraitCostDef schema/workers
-- Add Alpha Armory rules support
-- Mod setting to scale trait limit with quality.
-- Mod setting for chance of upgrading enemy spawn weapons to unique
-  - increasing chance of biocoding at higher tech/quality
-- Free Customize unique weapon relics on form/reform ideology
-- Free Customize unique weapon dev mode gizmo
+- Unbond / rebond as a paid dialog operation — `UnCode()` / `CodeFor(pawn)` are public API
+- "Re-roll persona" randomize button — clear traits + reroll 1–2 by commonality + regenerate name in one op
+- Surface the kill tracker (`TicksSinceLastKill`) in the dialog for kill-thirst personas; optional paid reset op
+- Per-trait market value delta preview (`WeaponTraitDef.marketValueOffset`) in the trait rows
+- Preview bonded/kill mood thoughts a trait will give the bonded pawn (bondedThought/killThought tooltips)
+- Freewielder conversion as a highlighted special op (adding/removing `NeverBond` severs/enables bonding)
+- Ability-granting persona traits — requires injecting `CompEquippableAbilityReloadable` + Odyssey-style `abilityProps` wiring; vanilla bladelink has no ability support, so this is a from-scratch feature
 - Multiplayer support
-- Explore dynamically preserving arbitrary mod-added weapon properties across a
-  base<->unique def conversion (today WeaponDefConversion hand-copies a fixed
-  set: stuff, quality, hp%, texture, biocoding, art, relic status — anything
-  else a mod attaches is dropped)
-- Explore bladelink/persona weapons more thoroughly (currently explicitly
-  excluded/skipped from customization)
 
 ## Cleanup
 
-- split out any oversize files?
-- small optimization: MayRequire VE Weapons attribute on some trait rules?
+- Add `Docs/HANDOFF.md` to `.gitignore` so the working handoff can never be committed accidentally
+- Purge stale `obj/`/`bin/` caches after the project renames (legacy `CustomizeUniqueWeapons.*` and `UniqueWeaponsUnbound.*` artifacts linger there)
+- The old `Mods/UniqueWeaponsUnbound` deploy folder in the local RimWorld install belongs to the UWU repo now — confirm this fork stops writing there after the csproj `ModDeployPath` rename, and remove it only if the UWU checkout doesn't still deploy it
+- Remove the "Fork status" note from CLAUDE.md once the rename/conversion lands (note says so itself)
+- `PWU_Mod.DrawHaulPlannerOption` carries a never-used disabled-radio branch — prune or keep as extension point
+- Retire the Odyssey-era sections of `Docs/Research/CUSTOMIZATION_SYSTEM.md` once the persona dialog stabilizes (kept as historical context for now)

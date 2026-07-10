@@ -4,7 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Unique Weapons Unbound** is a RimWorld 1.6 mod that allows players to customize unique weapons. Requires the Harmony mod and the Odyssey DLC.
+**Persona Weapons Unbound** (PWU) is a RimWorld 1.6 mod that allows players to customize Royalty's bladelink/persona weapons — add/remove persona traits, rename, recolor, and convert base weapons to/from their persona variants. Requires the Harmony mod and the Royalty DLC.
+
+This repo is a fork of **Unique Weapons Unbound** (UWU, Odyssey unique weapons), carrying its git history. Design: `Docs/DESIGN.md`. Conversion spec: `Docs/Specs/PERSONA_FORK.md`. Bladelink internals research: `Docs/Research/BLADELINK_WEAPONS.md`.
+
+> **Fork status:** the UWU→PWU code conversion is in progress. Until the rename lands, on-disk names (solution, csproj, namespaces, `UWU_*` classes/keys) still say `UniqueWeaponsUnbound`/`UWU` — the build commands below reflect what currently exists. When the conversion completes, replace `UniqueWeaponsUnbound` with `PersonaWeaponsUnbound` throughout this file and delete this note.
 
 **Key Technologies:** C# (.NET Framework 4.7.2), Harmony library, RimWorld modding API, XML definitions
 
@@ -45,7 +49,7 @@ xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run with `./
 
 ### Entry Point
 
-`Source/1.6/Core/ModInitializer.cs` - Static constructor with `[StaticConstructorOnStartup]` auto-patches via Harmony attribute discovery. Harmony ID: `shunter.uniqueweaponsunbound`.
+`Source/1.6/Core/ModInitializer.cs` - Static constructor with `[StaticConstructorOnStartup]` auto-patches via Harmony attribute discovery. Harmony ID: `shunter.personaweaponsunbound` (must never collide with UWU's `shunter.uniqueweaponsunbound` — the two mods are designed to coexist).
 
 ### Mod Structure
 
@@ -80,7 +84,7 @@ Source/1.6/
    - **Windows:** `%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Player.log`
    - **WSL:** `/mnt/c/Users/*/AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
    - **Linux (Steam):** `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
-3. **Logging:** Use `Log.Message("[Unique Weapons Unbound] ...")` for mod-specific logs
+3. **Logging:** Use `Log.Message("[Persona Weapons Unbound] ...")` for mod-specific logs
 4. **Inspect RimWorld API:** `monodis "/mnt/c/.../RimWorldWin64_Data/Managed/Assembly-CSharp.dll"`
 
 ## Harmony Patch Examples

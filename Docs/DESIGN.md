@@ -1,31 +1,27 @@
-# Unique Weapons Unbound - Design Document
+# Persona Weapons Unbound - Design Document
 
 ## Background
 
-RimWorld's Odyssey DLC introduced **unique weapons** — special weapon defs based on existing weapons, prefixed with `Unique` (e.g. `ChargeRifle` → `UniqueChargeRifle`). Unique weapons carry 1–3 **weapon traits** that alter properties like accuracy, weight, name, color, or grant abilities (grenade launcher, EMP pulser, etc.).
+RimWorld's Royalty DLC introduced **bladelink weapons** (player-facing: **persona weapons**) — the persona monosword, persona plasmasword, and persona zeushammer. Each carries an onboard AI persona with 1–2 **weapon traits** (psychic sensitivity shifts, mood links, kill drives, pain suppression, and so on) and bonds permanently to the first pawn who equips it. In vanilla, persona weapons are only obtainable from Empire traders, quest rewards, and relics — and you're stuck with whatever traits they rolled.
 
-In vanilla Odyssey, unique weapons are only obtainable via quest rewards or rare world loot generation.
+This mod lets players customize them: add and remove persona traits, rename the persona, recolor the weapon, and convert base weapons to and from their persona variants at a fabrication bench.
 
-### Scope: Odyssey Unique Weapons Only
+**A note on language:** *Bladelink* and *persona* are largely interchangeable. Bladelink is ubiquitous in code (`CompBladelinkWeapon`, the `BladeLink` weapon category); persona is the player-facing adjective (persona monosword, persona core). We use "persona" in player-facing text and "bladelink" freely in code and internal docs.
 
-This mod targets **Odyssey unique weapons** exclusively. Royalty's **bladelink/persona weapons** (`CompBladelinkWeapon`) are categorically excluded, despite sharing the `WeaponTraitDef` type with Odyssey's system.
+### Scope: Royalty Persona Weapons Only
 
-**Thematic rationale:** Odyssey weapon traits describe physical modifications — upgraded sights, ammo types, barrel attachments, material inlays — exactly the kind of adjustments a skilled crafter could make at a workbench with the right research and resources. Royalty's bladelink traits, by contrast, are psychically granted by the weapon's AI persona. Modifying an AI's personality at a fabrication table is not a believable player action, regardless of research level.
+This mod targets **Royalty bladelink weapons** exclusively. Odyssey's unique weapons (`CompUniqueWeapon`) are categorically excluded — they are served by our sibling mod **Unique Weapons Unbound** (UWU), which this project was forked from.
 
-**Technical note:** The two systems are parallel but independent. They use different comps (`CompUniqueWeapon` vs `CompBladelinkWeapon`), non-overlapping `WeaponCategoryDef` sets (Odyssey's 15 categories vs Royalty's single `BladeLink` category), and no vanilla weapon has both comps. Our code keys off `CompUniqueWeapon` presence, so bladelink weapons are excluded by default. Any code that iterates `WeaponTraitDef`s should filter to traits whose `weaponCategory` is NOT `BladeLink`, to avoid displaying Royalty persona traits in our UI.
+**Why a separate mod:** UWU hard-depends on Odyssey. Supporting persona weapons inside UWU would lock out players who own Royalty but not Odyssey. The two comps are also different enough (bonding, generated names, no art comp, no ability wiring) that most of UWU's Odyssey machinery is dead weight for personas — and the fiction differs: Odyssey traits are physical modifications a crafter makes; bladelink traits are properties of an AI personality that must be *reprogrammed*.
 
-### Trait System Constraints (Vanilla)
+**Technical note:** Both systems share the `WeaponTraitDef` class, discriminated by `weaponCategory`: bladelink traits use the single Royalty category `BladeLink`; Odyssey traits use its 15 disjoint categories. `CompBladelinkWeapon.CanAddTrait` hardcodes `weaponCategory == WeaponCategoryDefOf.BladeLink`, so that check is authoritative. Our trait filtering is **only-bladelink** (UWU's is not-bladelink), so both mods can coexist — even on a hypothetical modded weapon carrying both comps — without conflict.
 
-- Maximum of **3 traits** per weapon.
-- Some traits **cannot be the sole trait** on a weapon — they require at least one other trait.
-- Traits are tagged with **categories**; traits from the same or thematically conflicting categories cannot coexist on a single weapon.
+### Trait System Constraints (Vanilla Bladelink)
 
-### Related Work
-
-Our companion mod **BetterTradersGuild** provides:
-
-- A custom weapon trait (`SilverInlay`) that alters value, color, and naming — see `../BetterTradersGuild/1.6/Defs/WeaponTraitDefs/SilverInlay.xml`.
-- Code to programmatically add traits and update weapons — see `../BetterTradersGuild/Source/1.6/ScenParts/ScenPart_StartingUniqueWeapon.cs`.
+- Vanilla generation rolls **1–2 traits** per persona weapon (`TraitsRange`), weighted by `commonality`.
+- Traits with overlapping `exclusionTags` cannot coexist (e.g. the four psychic-sensitivity variants).
+- Bonding: persona weapons biocode-on-equip to their first wielder and apply per-trait bonded hediffs/thoughts. The `NeverBond` ("freewielder") trait disables bonding entirely.
+- No vanilla bladelink trait grants abilities or forces a color, and none set `canGenerateAlone=false` — but all those fields exist on the shared def, so modded traits may use them and we honor them.
 
 ---
 
@@ -33,192 +29,105 @@ Our companion mod **BetterTradersGuild** provides:
 
 ### 1. Add Traits
 
-- Add traits to **non-unique weapons**, converting them into their unique variant.
-- Add traits to **existing unique weapons** (up to the trait limit).
+- Add traits to a **base monosword/plasmasword/zeushammer**, converting it into its persona variant. The first trait costs an **AI persona core** — the persona is physically installed.
+- Add traits to **existing persona weapons** (up to the trait limit).
 
 ### 2. Remove Traits
 
-- Remove individual traits from unique weapons.
-- If all traits are removed, the weapon **reverts to its non-unique variant**.
+- Remove individual traits from persona weapons.
+- Removing the **last trait** reverts the weapon to its base variant and **refunds the persona core**.
 
 ### 3. Trait Validation
 
-All player-initiated trait changes must respect the same rules enforced for naturally generated unique weapons:
+Player-initiated changes respect the rules vanilla enforces for generated persona weapons:
 
-- Maximum trait count (3).
-- Sole-trait restrictions.
-- Category exclusion/conflict rules.
-- Any other constraints the game enforces.
+- Maximum trait count (2, from the vanilla range).
+- `exclusionTags` conflict rules.
+- Only `BladeLink`-category traits are offered.
+- Bond side effects handled correctly: bonded hediffs applied/removed with their trait; adding freewielder severs an existing bond (with warning); reverting a bonded weapon to base severs the bond (with confirm warning).
+
+### 4. Rename, Recolor
+
+- **Rename** the persona using vanilla's `NamerWeaponBladelink` grammar (or type a custom name). Relic names stay locked per Ideology rules.
+- **Recolor** the weapon: vanilla's persona tint is a static def color, but the engine fully supports per-thing colors — we patch `CompColorable` onto persona weapons and offer the default persona tint plus Ideology and Structure palettes.
+
+---
+
+## The Reprogramming Cost Model
+
+Bladelink traits are facets of the persona's personality, not bolt-on parts. Changing them means forcefully reprogramming the persona with advanced computer components that burn out in the process:
+
+- **First trait / last trait** (def conversion): costs / refunds exactly **1 AI persona core**.
+- **Every other change** (add *or* remove): costs **advanced components**. Both directions are costs — reprogramming is destructive; there are no refunds.
+- The component count scales with weapon quality above a configurable threshold:
+  `N = base + levelsAboveThreshold × perLevel × multiplier` (all four knobs are mod settings; the settings page shows a live table of the resulting cost per quality level).
+
+Defaults: base 2, threshold Normal, +1/level, ×1.0 → Normal-quality changes cost 2 advanced components; a Legendary weapon costs 6 per change.
 
 ---
 
 ## Research Gating
 
-Weapon customization is unlocked progressively through new research projects, gated by the weapon's **tech level**.
+A single ultratech research project: **Bladelink Customization** (`PWU_BladelinkCustomization`).
 
-| Research Project   | Unlocks Tech Levels | Prerequisites                 | Research Bench           |
-| ------------------ | ------------------- | ----------------------------- | ------------------------ |
-| Unique Smithing    | Neolithic, Medieval | Smithing                      | —                        |
-| Unique Machining   | Industrial          | Unique Smithing, Gunsmithing  | —                        |
-| Unique Fabrication | Spacer, Ultratech   | Unique Machining, Fabrication | Hi-tech + multi-analyzer |
+| Property | Value |
+| --- | --- |
+| Prerequisite | Advanced fabrication |
+| Bench | Hi-tech research bench + multi-analyzer |
+| Cost | 4000 |
+| Techprint | 1 × Empire-sourced (market value 2000) |
 
-### Archotech Weapons
-
-- **Not customizable by default.**
-- A **mod setting** should allow grouping Archotech weapons with Spacer/Ultratech for players who want this.
-
-### Techprint Requirement (Royalty DLC)
-
-When the Royalty DLC is active, **Unique Fabrication** requires **1 techprint** before the research can begin. The `techprintCount` field on `ResearchProjectDef` has a built-in `ModLister.RoyaltyInstalled` guard — if Royalty is not active, the requirement is silently skipped.
-
-- **Techprint count:** 1
-- **Techprint market value:** 1500
-- **Held by factions:** Empire, Outlander, TradersGuild
-- **Applies to:** Unique Fabrication only (not Unique Smithing or Unique Machining)
-
-### Unique Weapon Analysis Requirement (Core API)
-
-**Status: To evaluate**
-
-Each weapon customization research project should require the player to have **analyzed at least one unique weapon** of the related tech level (or higher) before the research can begin. This creates a natural gameplay flow: find a unique weapon first, study it, then unlock the ability to customize weapons of that tier.
-
-The core game provides the `requiredAnalyzed` field on `ResearchProjectDef` and the `CompAnalyzableUnlockResearch` / `AnalysisManager` system. However, there are significant design and technical challenges:
-
-**Challenge 1: "Any one of" vs "all of" semantics.** The vanilla `requiredAnalyzed` system requires ALL listed ThingDefs to be analyzed. Our design requires ANY ONE unique weapon of the right tech level — a fundamentally different semantic. If we list all unique weapons of a tech level in `requiredAnalyzed`, the player would need to find and analyze every single one.
-
-**Challenge 2: Dynamic weapon set.** We don't know at def-authoring time which unique weapons exist — other mods may add more. Hard-coding specific `ThingDef` names in `requiredAnalyzed` would break our mod compatibility goals.
-
-**Challenge 3: Missing comp.** Unique weapons don't natively have `CompAnalyzableUnlockResearch`. We'd need to add it via XML patches to all unique weapon ThingDefs.
-
-Potential implementation approaches to evaluate:
-
-1. **Harmony patch on `AnalyzedThingsRequirementsMet`** — Override this property for our research projects to implement "any one of" logic, dynamically checking all unique weapons of the right tech level.
-2. **Proxy ThingDef per tier** — Create invisible "analysis token" ThingDefs (one per tier). XML-patch all unique weapons to add `CompAnalyzableUnlockResearch`. When any unique weapon of a tier is analyzed, our code marks the tier's token as satisfied. Put only the token in `requiredAnalyzed`. Works with the vanilla system.
-3. **Fully custom gating** — Don't use `requiredAnalyzed` at all. Instead, Harmony-patch `CanStartNow` to add our own check that queries whether the player has ever analyzed a unique weapon of the right tech level. Track this state ourselves via `IExposable` + `GameComponent`.
-4. **Simplest fallback** — Skip `requiredAnalyzed` entirely and instead use Harmony to patch the float menu / dialog to require that the player has _possessed_ (not necessarily analyzed) a unique weapon of the right tier. Less thematic but avoids the analysis system complexity.
+The required techprint count is a mod setting (0–3, default 1), applied live to the def — 0 removes the requirement entirely. The research also gates the crafting recipes below.
 
 ---
 
-## Craftability Gating
+## Crafting Recipes
 
-### Default Behavior
+Persona weapons' base variants aren't craftable in vanilla. With Bladelink Customization researched, the fabrication bench offers (each individually toggleable in settings):
 
-A weapon is only customizable if:
+| Product | Ingredients |
+| --- | --- |
+| Monosword | 140 plasteel, 4 advanced components |
+| Plasmasword | 100 plasteel, 6 advanced components |
+| Zeushammer | 80 plasteel, 20 uranium, 8 advanced components |
 
-1. The weapon has a unique variant defined in the game.
-2. The player has completed the appropriate **weapon customization research** for the weapon's tech level.
-3. The weapon's non-unique variant is **craftable by the player** — meaning a recipe exists and its prerequisite research (if any) has been completed.
-
-If a weapon has no crafting recipe at all (i.e. cannot be player-crafted), it is **not customizable by default**.
-
-### Mod Setting Override
-
-A mod setting should allow customization of weapons that lack crafting recipes, for players who find the default restrictive.
-
-### Dynamic Detection
-
-All of the above must be **dynamically detected from defs**, not hard-coded. This ensures automatic compatibility with other mods that add:
-
-- New weapon/unique-weapon def pairs.
-- New crafting recipes or research prerequisites.
-- New weapon traits with appropriate categories/tags.
-
----
-
-## Resource Costs
-
-### Trait Addition Costs
-
-Adding a trait costs resources based on:
-
-- The **raw resource cost** of the weapon (derived from its crafting recipe).
-- The weapon's **quality multiplier**.
-
-### Trait-Specific Cost Overrides
-
-Some traits should override the default resource types:
-
-- Example: A "Gold Inlay" trait should require **gold** instead of the weapon's default materials.
-- Example: A "Jade Inlay" trait should require **jade**.
-
-### Dynamic Inlay Detection
-
-Inlay-type traits may be **dynamically detectable** — their name and shader color likely match or partially match the stuff material they reference (e.g. "Silver Inlay" → silver stuff, matching color). This would provide automatic support for modded inlay traits.
-
-### Trait Removal Costs
-
-_To be determined._ Removal may be free or have a nominal labor cost.
+Craft the base weapon, then install a persona core through customization — a fully in-colony path to a bespoke persona weapon.
 
 ---
 
 ## Workbench Integration
 
-### Workbench Assignment by Tech Level
+Customization happens at the **fabrication bench**, statically — persona weapons are all ultratech, so there is no workbench tier system. Entry points (unchanged from UWU):
 
-Weapons are customizable at existing workbenches appropriate to their tech level **or higher**:
+1. **Weapon gizmo** — select a weapon, click Customize persona, pick a colonist.
+2. **Workbench right-click** — colonist selected, right-click a fabrication bench, pick an equipped/carried weapon.
+3. **Ground weapon right-click** — sends a colonist to the nearest operational fabrication bench.
 
-| Workbench         | Tech Levels (with appropriate research)            |
-| ----------------- | -------------------------------------------------- |
-| Smithing Table    | Neolithic, Medieval                                |
-| Machining Table   | Neolithic, Medieval, Industrial                    |
-| Fabrication Table | Neolithic, Medieval, Industrial, Spacer, Ultratech |
-
-### Float Menu Interaction
-
-When a pawn is selected and the player right-clicks a workbench, the float menu option goes through the following checks **in order**. Each check either hides the option entirely (irrelevant context) or shows it disabled with a parenthesized reason (actionable blocker). This ordering ensures the most relevant blocker is shown first.
-
-| #   | Check                                                             | If failed                                                                                                             |
-| --- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| 1   | Workbench is a smithy, machining table, or fabrication bench      | **Hidden** — irrelevant workbench                                                                                     |
-| 2   | Weapon has a unique variant AND Unique Smithing research is done  | **Hidden** — not a customizable weapon, or player hasn't engaged with the mod's research tree yet                     |
-| 3   | Workbench tier is sufficient for the weapon's tech level          | **Disabled**: "requires machining table" / "requires fabrication bench"                                               |
-| 4   | Base weapon's crafting recipe research is done                    | **Disabled**: "requires {research name}"                                                                              |
-| 5   | Weapon customization research for the weapon's tech level is done | **Disabled**: "requires {research name}"                                                                              |
-| 6   | Pawn can reach the workbench / workbench is not forbidden         | **Disabled**: "no path" / "forbidden"                                                                                 |
-| 7   | All checks pass                                                   | **Enabled** — selecting it queues a job for the pawn to go to the workbench and opens the Weapon Customization Dialog |
-
-**Design rationale:**
-
-- **Check 1** scopes the float menu to weapon-crafting workbenches only, avoiding clutter on thematically irrelevant benches (tailoring, drug lab, etc.).
-- **Check 2** gates all UI on Unique Smithing research, so players who haven't engaged with the mod's content never see customization options.
-- **Checks 3–5** are ordered from most "fundamental" to most "mod-specific": workbench mismatch → missing vanilla research → missing mod research. This ensures the player sees the most actionable blocker first.
-- **Workbench labels** in check 3 are derived from def labels at init time. For workbench tiers with multiple variants (e.g. fueled/electric smithy), the common label suffix is computed automatically (→ "smithy").
+Blocker ordering (hidden → disabled-with-reason → enabled) is preserved, minus the tier and craftability checks.
 
 ---
 
 ## Weapon Customization Dialog
 
-The dialog should look and behave similarly to Ideology's **Styling Station**.
+Same styling-station-inspired dialog as UWU:
 
-### Layout and Behavior
+- **Weapon preview** — live, tint-faithful (never-spawned preview Thing).
+- **Traits tab** — only-bladelink traits, search, discovery-progression filtering, per-trait cost display.
+- **Color tab** — persona swatch + Ideology/Structure palettes. (The texture tab is gone: persona weapons have no texture variants.)
+- **Naming** — auto-generate via the bladelink namer or type your own.
+- **Confirm** — builds a job spec; each change is a separate work op; resources consumed on completion; interruption is non-destructive.
 
-- **Weapon preview graphic** — updates live as traits are added/removed.
-- **Current traits** — displayed on the weapon.
-- **Available traits list** — valid traits that can be added, dynamically filtered as the player makes selections (respecting exclusion rules, max count, etc.).
-- **Per-trait cost** — shown next to each addable trait.
-- **Total cost summary** — aggregate cost of all previewed changes.
-- **Confirm button** — queues individual jobs for each trait change.
+### Trait Discovery Progression (optional setting)
 
-### Job Queuing (Styling Station Model)
-
-- Each trait addition or removal is queued as a **separate job**, mirroring the Styling Station's approach.
-- Resources are consumed **on job completion**, not on confirmation.
-- Interrupting the job sequence is **non-destructive** — no resources are lost for incomplete jobs, unlike crafting recipes that create unfinished items.
-
-### Weapon Naming
-
-- If the weapon is still unique after customization, the player should be able to **rename** it (possibly a separate job).
-- A **randomize name button** should generate a new name from the weapon's current traits, since traits contribute 2–5 adjectives to the name pool, of which only 1–2 are typically selected.
+When enabled, only traits present on persona weapons the player has *seen* (on any map, caravan, or hostile pawn) are offered — hostile-held sources show but can't be added until captured. No persistent save state.
 
 ---
 
 ## Mod Compatibility Goals
 
-This mod should be **inherently compatible** with other mods that:
+- **Automatic support** for modded persona weapons: any ThingDef with `CompBladelinkWeapon` participates; base↔persona pairing via `descriptionHyperlinks` or the `*Bladelink` defName suffix (case-insensitive — vanilla itself has a `Zeushammer`/`ZeusHammerBladelink` casing quirk); custom `nameMaker`s respected.
+- **Automatic support** for modded bladelink traits: anything with `weaponCategory == BladeLink`, including `exclusionTags`, `canGenerateAlone` (opt-in enforcement setting), `forcedColor`, and bonded/equipped hediffs.
+- **Coexistence with UWU**: disjoint identifiers everywhere (packageId, Harmony ID, assembly, namespaces, defNames, localization keys) and complementary trait filters.
+- No hard-coded def references for detection; the three vanilla def pairs resolve through the same dynamic pairing as modded ones.
 
-- Add new `Unique`-prefixed weapon defs paired with base weapons.
-- Add new weapon traits with proper category/tag metadata.
-- Add new crafting recipes or research prerequisites for weapons.
-- Add new workbenches (future consideration).
-
-No hard-coded def references should be used for weapon/trait detection. All logic should operate on def properties, categories, tags, and relationships.
+See `Docs/Specs/PERSONA_FORK.md` for the implementation-level specification and `Docs/Research/BLADELINK_WEAPONS.md` for the decompilation research this design is grounded in.

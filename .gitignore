@@ -1,6 +1,9 @@
 # Claude Code
 .claude
 
+# Working orchestration brief — never committed (see Docs/Specs/PERSONA_FORK.md for the durable spec)
+Docs/HANDOFF.md
+
 # Visual Studio
 .vs/
 *.suo
