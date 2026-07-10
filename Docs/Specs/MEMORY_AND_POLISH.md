@@ -9,12 +9,12 @@ Relationship to `PERSONA_FORK.md`: decision numbering continues from D11. **§2 
 
 ## 1. Summary
 
-| #   | Change                                                                                         | Section |
-| --- | ---------------------------------------------------------------------------------------------- | ------- |
-| 1   | Remove weapon recoloring entirely — vanilla's static pink tint `(255,200,200)` wins            | §2      |
-| 2   | LHS trait/op chips: give the label a greater share of the width (costs are single-resource)    | §3      |
-| 3   | New **Memory** tab: one-time "Wipe bonding" / "Wipe kill tracker" operations, costed in components | §4  |
-| 4   | Re-equip-after-customization pops vanilla's persona-bond confirmation when the equip would bond | §5      |
+| #   | Change                                                                                             | Section |
+| --- | -------------------------------------------------------------------------------------------------- | ------- |
+| 1   | Remove weapon recoloring entirely — vanilla's static pink tint `(255,200,200)` wins                | §2      |
+| 2   | LHS trait/op chips: give the label a greater share of the width (costs are single-resource)        | §3      |
+| 3   | New **Memory** tab: a one-time memory wipe — bond or kill tracker, a 3-way radio — costed in components | §4      |
+| 4   | Re-equip-after-customization pops vanilla's persona-bond confirmation when the equip would bond    | §5      |
 
 Changes 1–3 are all inside `Dialog_WeaponCustomization` and its job pipeline; change 4 is in the job driver's recovery path. No Harmony patches are added or removed by any of them.
 
@@ -31,17 +31,17 @@ Verdict: the vanilla persona tint `(255,200,200)` looks better than almost every
 
 ### Surgical edits
 
-| File | Remove |
-| --- | --- |
-| `Dialog_WeaponCustomization.cs` | Fields `originalColor`, `personaDefaultColor`, `availablePersonaColors`, `availableIdeoColors`, `availableStructureColors`, `initialDesiredColor`, `desiredColor`, `colorTabScroll`; consts `ColorSwatchSize`/`ColorSwatchGap`/`ColorIndicatorSize` (:126-128); ctor palette-build block (~:203-281, persona tint + Ideology loop + structure loop + `CompColorable` snapshot); methods `FindColorDefForColor`, `MakeRuntimeColorDef`, `EffectiveColor`, `GetForcedColor`, `IsScribeSafeColor`; the color clause in `HasChanges` (:429-430); the forced-color fallback block in `OnTraitsChanged` (:457-466); `desiredColor` reset in `ResetToOriginal` (:450); in `BuildOperations` (:598-743): `hasForcedColorTraits`, the removal-loop forced-color block (:626-643), all `colorChanged`/`deferredColor`/`colorToApply`/`clearColor` branches in the cosmetics section (:648-705) and addition loop (:720-735). Header ASCII diagram/comments (:17-36) updated. |
-| `Dialog_WeaponCustomization.Controls.cs` | In `DrawTabs` (:157-183): the `PWU_TabColor` `TabRecord` (incl. its label-padding spaces) and the entire swatch-inside-tab drawing block (:167-181). **Keep the tab-container shell** (`activeTab`, `TabRecord` list, dispatch branch in `DrawControlsPanel` :32-35) — the Memory tab (§4) takes the vacated `activeTab == 1` slot. |
-| `Dialog_WeaponCustomization.Preview.cs` | `cachedPreviewColor` field (:18); the `ColorDef` parameter/threading through `DrawPreviewIcon` → `RebuildPreviewRT` → `BuildPreviewGraphic`; the `WeaponModificationUtility.SetColor(previewThing, colorDef)` call (:351). Trait/def stamping and the RT blit stay. |
-| `Dialog_WeaponCustomization.Footer.cs` | In `BuildCustomizationSpec` (:285-309): the `finalColor`/`finalColorClear` block (:294-298, :306-307). |
-| `Jobs/CustomizationSpec.cs` | `CustomizationOp.colorToApply`/`.clearColor` + their `Scribe_*` lines; `CustomizationSpec.finalColor`/`.finalColorClear` + their `Scribe_*` lines. |
-| `Jobs/JobDriver_CustomizeWeapon.Work.cs` | The trailing `CompColorable` application block in `ApplyOperationInner` (:302-310). |
-| `Jobs/JobDriver_CustomizeWeapon.cs` | The `finalize` toil's `CompColorable` body + its `PWU_FinalizeColorFailed` catch (:707-723); "color" in the header comment (:16). |
-| `Utilities/WeaponModificationUtility.cs` | `SetColor(Thing, ColorDef)` (:203-220) + its doc block; "(name, color)" → "(name)" in the class doc (:11). |
-| `Defs/PWU_Textures.cs` | `FavoriteColor` and `IdeoColor` (:13-16) — consumed only by the deleted Color tab. `Customize` stays. |
+| File                                     | Remove                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Dialog_WeaponCustomization.cs`          | Fields `originalColor`, `personaDefaultColor`, `availablePersonaColors`, `availableIdeoColors`, `availableStructureColors`, `initialDesiredColor`, `desiredColor`, `colorTabScroll`; consts `ColorSwatchSize`/`ColorSwatchGap`/`ColorIndicatorSize` (:126-128); ctor palette-build block (~:203-281, persona tint + Ideology loop + structure loop + `CompColorable` snapshot); methods `FindColorDefForColor`, `MakeRuntimeColorDef`, `EffectiveColor`, `GetForcedColor`, `IsScribeSafeColor`; the color clause in `HasChanges` (:429-430); the forced-color fallback block in `OnTraitsChanged` (:457-466); `desiredColor` reset in `ResetToOriginal` (:450); in `BuildOperations` (:598-743): `hasForcedColorTraits`, the removal-loop forced-color block (:626-643), all `colorChanged`/`deferredColor`/`colorToApply`/`clearColor` branches in the cosmetics section (:648-705) and addition loop (:720-735). Header ASCII diagram/comments (:17-36) updated. |
+| `Dialog_WeaponCustomization.Controls.cs` | In `DrawTabs` (:157-183): the `PWU_TabColor` `TabRecord` (incl. its label-padding spaces) and the entire swatch-inside-tab drawing block (:167-181). **Keep the tab-container shell** (`activeTab`, `TabRecord` list, dispatch branch in `DrawControlsPanel` :32-35) — the Memory tab (§4) takes the vacated `activeTab == 1` slot.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `Dialog_WeaponCustomization.Preview.cs`  | `cachedPreviewColor` field (:18); the `ColorDef` parameter/threading through `DrawPreviewIcon` → `RebuildPreviewRT` → `BuildPreviewGraphic`; the `WeaponModificationUtility.SetColor(previewThing, colorDef)` call (:351). Trait/def stamping and the RT blit stay.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `Dialog_WeaponCustomization.Footer.cs`   | In `BuildCustomizationSpec` (:285-309): the `finalColor`/`finalColorClear` block (:294-298, :306-307).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `Jobs/CustomizationSpec.cs`              | `CustomizationOp.colorToApply`/`.clearColor` + their `Scribe_*` lines; `CustomizationSpec.finalColor`/`.finalColorClear` + their `Scribe_*` lines.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `Jobs/JobDriver_CustomizeWeapon.Work.cs` | The trailing `CompColorable` application block in `ApplyOperationInner` (:302-310).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `Jobs/JobDriver_CustomizeWeapon.cs`      | The `finalize` toil's `CompColorable` body + its `PWU_FinalizeColorFailed` catch (:707-723); "color" in the header comment (:16).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `Utilities/WeaponModificationUtility.cs` | `SetColor(Thing, ColorDef)` (:203-220) + its doc block; "(name, color)" → "(name)" in the class doc (:11).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `Defs/PWU_Textures.cs`                   | `FavoriteColor` and `IdeoColor` (:13-16) — consumed only by the deleted Color tab. `Customize` stays.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 
 The `forcedColor` handling goes too (dialog lock UI, fallback picks, per-op forced-color emission): with `CompColorable` gone the entire path is permanently dead — `WeaponTraitDef.forcedColor` is only otherwise read by Odyssey's `CompUniqueWeapon`, and no vanilla bladelink trait sets it (PERSONA_FORK §5).
 
@@ -94,38 +94,43 @@ The persona's memory is data: its bond to a wielder and its record of kills. Rep
 
 ### Operations
 
-| Op | Effect | Setting (slider 0–5, `ComponentSpacer`) | Default |
-| --- | --- | --- | --- |
-| **Wipe bonding** | Severs the bond; biocode state returns to bond-on-next-equip | `wipeBondingComponentCost` | 3 |
-| **Wipe kill tracker** | Clears the persona's kill memory (`lastKillTick`) | `wipeKillTrackerComponentCost` | 1 |
+The tab offers a **three-way radio choice** — "Do not wipe" (default, free), or exactly one of:
 
-Costs are flat — no quality scaling (unlike trait changes; the handoff defines these as plain sliders). Never refunded. Both ops are one-time: they don't persist as weapon state, so they never show as "original" chips.
+| Op                    | Effect                                                                                        | Setting (slider 0–5, `ComponentSpacer`) | Default |
+| --------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- | ------- |
+| **Wipe bonding**      | Severs the bond; biocode state returns to bond-on-next-equip. **Erases kill memory with it.** | `wipeBondingComponentCost`              | 3       |
+| **Wipe kill tracker** | Clears the persona's kill memory (`lastKillTick`) only; the bond is untouched                 | `wipeKillTrackerComponentCost`          | 1       |
+
+The ops are mutually exclusive by construction (D17): `UnCode()` resets `lastKillTick`, so a bond wipe strictly subsumes the kill wipe — "both" is not a distinct outcome and the UI must not express it (a checkbox model would either sell the same wipe twice or need disable/deselect machinery to hide the phantom state). The radio group also makes the subsumption legible: staging the bond wipe visibly deselects any kill-wipe choice, and the bond-wipe label/tooltip say the kill memory goes with it.
+
+Costs are flat — no quality scaling (unlike trait changes; the handoff defines these as plain sliders). Never refunded. The wipe is one-time: it doesn't persist as weapon state, so it never shows as an "original" chip.
 
 ### Dialog state
 
-- New field `List<MemoryOpKind> desiredMemoryOps` with `enum MemoryOpKind { WipeBonding, WipeKillTracker }` (display order = enum order; the list keeps future ops cheap — TODOs already float re-roll/rebond ideas).
-- `HasChanges` (:416-433) gains `|| desiredMemoryOps.Count > 0`; `ResetToOriginal` clears the list.
-- `OnTraitsChanged` re-validates the selections and prunes any that a trait change invalidated (see gating below), so a stale memory op can never reach the spec.
-- When the preview flips to base (`IsRevertedToBase` becomes true — last trait removed), all memory selections are pruned; their chips disappear and the cost preview updates.
+- New field `MemoryOpKind desiredMemoryOp` with `enum MemoryOpKind { None, WipeBonding, WipeKillTracker }`, default `None` (display order = enum order; a future op — TODOs float re-roll/rebond ideas — is one more enum member and radio row).
+- `HasChanges` (:416-433) gains `|| desiredMemoryOp != MemoryOpKind.None`; `ResetToOriginal` resets it to `None`.
+- `OnTraitsChanged` re-validates the selection: if the selected option's row is now disabled (see gating below), the selection snaps back to `None` — a stale memory op can never reach the spec.
+- When the preview flips to base (`IsRevertedToBase` becomes true — last trait removed), the selection resets to `None`; its chip disappears and the cost preview updates.
 
 ### Tab UI
 
 - `activeTab == 1` becomes the Memory tab (Color's old slot): `TabRecord("PWU_TabMemory".Translate(), () => activeTab = 1, activeTab == 1)` in `DrawTabs`; `DrawMemoryTab(tabContentRect)` in the `DrawControlsPanel` dispatch (:32-35). No swatch or icon in the tab label.
 - **Base-state gate** (handoff: ops require persona/bladelink form): when `IsRevertedToBase`, the tab body shows only a centered gray message — the exact pattern the Color tab used (`Color.cs:18-31`, `TextAnchor.MiddleCenter` + `Color.gray`): `PWU_MemoryRequiresPersona`.
-- Otherwise: one row per operation, mirroring `DrawTraitRow`'s geometry and affordances (`Traits.cs:198-331`) — `TraitRowHeight` 34px + 2px gap, label left at 35% width, disabled-reason text centered in the middle gap, cost right-aligned via `DrawCostIcons(rightAlign: true, insufficientResources: insufficientResources)`, whole-row `Widgets.ButtonInvisible` toggle, selected state = the same `DrawBoxSolid` highlight, disabled state = grayed label + reason text. (The handoff's "next to the check" maps onto this existing selection affordance — trait rows draw no literal checkbox glyph, and the Memory rows match them; D19 note.)
-- Row tooltips: `PWU_MemoryWipeBondingDesc` / `PWU_MemoryWipeKillTrackerDesc`. The kill-tracker tooltip appends the current memory when one exists ("Last kill: {0} days ago", from `comp.TicksSinceLastKill`) — this also satisfies the TODOs.md "surface the kill tracker" idea.
+- Otherwise: a **radio group of three rows** — "Do not wipe" (`PWU_MemoryNoWipe`, no cost, selected by default), "Wipe bonding", "Wipe kill tracker". Each row mirrors `DrawTraitRow`'s geometry (`Traits.cs:198-331`) — `TraitRowHeight` 34px + 2px gap, disabled-reason text centered in the middle gap, cost right-aligned via `DrawCostIcons(rightAlign: true, insufficientResources: insufficientResources)`, whole-row `Widgets.ButtonInvisible` select, disabled state = grayed label + reason text — plus a `Widgets.RadioButton` glyph at the left with the label beside it (the handoff's "label lhs next to the check"). The glyph is the one deliberate deviation from trait rows: a radio group has to communicate exactly-one-of, which a bare highlight can't (D19). Clicking a disabled row does nothing; the selected row also gets the `DrawBoxSolid` highlight for consistency with trait rows.
+- Row tooltips: `PWU_MemoryWipeBondingDesc` (explicitly states the kill memory is erased with the bond) / `PWU_MemoryWipeKillTrackerDesc`. The kill-tracker tooltip appends the current memory when one exists ("Last kill: {0} days ago", from `comp.TicksSinceLastKill`) — this also satisfies the TODOs.md "surface the kill tracker" idea.
 
 ### Row gating (current-state, not preview-state)
 
-The tab gates on the **preview** def state; the rows gate on the **current** weapon's comp state — you can't wipe what isn't there yet:
+The tab gates on the **preview** def state; the rows gate on the **current** weapon's comp state — you can't wipe what isn't there yet. "Do not wipe" is always enabled; when the selected op's row becomes disabled, the selection snaps back to it:
 
-| Condition | Wipe bonding | Wipe kill tracker |
-| --- | --- | --- |
-| Current weapon has no `CompBladelinkWeapon` (base being upgraded this spec) | disabled — `PWU_MemoryNotBonded` | disabled — `PWU_MemoryNoKillMemory` |
-| Comp present, not bonded (`!comp.Biocoded`) | disabled — `PWU_MemoryNotBonded` | enabled iff `lastKillTick >= 0` (freewielders can kill without bonding), else disabled — `PWU_MemoryNoKillMemory` |
-| Bonded | enabled | enabled iff `lastKillTick >= 0` |
-| A `neverBond` trait is staged for addition | disabled — `PWU_MemoryBondSeveredByTrait` (adding freewielder already severs, D8) — and deselected | unaffected |
-| **Wipe bonding is selected** | — | disabled — `PWU_MemoryIncludedInBondWipe` — and deselected (D17: `UnCode()` resets `lastKillTick` anyway; don't let the player pay for a freebie) |
+| Condition                                                                   | Wipe bonding                                                                      | Wipe kill tracker                                                                                                                                                          |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Current weapon has no `CompBladelinkWeapon` (base being upgraded this spec) | disabled — `PWU_MemoryNotBonded`                                                  | disabled — `PWU_MemoryNoKillMemory`                                                                                                                                        |
+| Comp present, not bonded (`!comp.Biocoded`)                                 | disabled — `PWU_MemoryNotBonded`                                                  | enabled iff `lastKillTick >= 0` (freewielders can kill without bonding), else disabled — `PWU_MemoryNoKillMemory`                                                          |
+| Bonded, no `neverBond` trait staged                                         | enabled                                                                           | enabled (`lastKillTick` is always ≥ 0 once bonded — `OnCodedFor` stamps it)                                                                                                |
+| Bonded, a `neverBond` trait staged for addition                             | disabled — `PWU_MemoryBondSeveredByTrait` (adding freewielder already severs, D8) | disabled — `PWU_MemoryKillWipedByTrait`: the trait add's `UnCode()` clears the kill tracker too, and additions run **before** the memory op — the wipe would buy a no-op |
+
+Note the last row: staging freewielder onto a *bonded* weapon disables **both** wipes (its `UnCode()` does everything either wipe would). Staging it onto an *unbonded* weapon with kill memory triggers no `UnCode()`, so the kill wipe stays available — hence the gate is "bonded AND neverBond staged", not "neverBond staged".
 
 `lastKillTick` is read through the existing `WeaponModificationUtility.LastKillTickField` reflection handle (already verified at startup).
 
@@ -133,16 +138,16 @@ No footer confirmation for wiping a bond: unlike the downgrade path's `PWU_BondS
 
 ### LHS chips
 
-Selected memory ops render as chips beneath the trait chips, above the cost/refund summary — inside the same scroll view (`Preview.cs:72-142`), appended after the `desiredTraits` loop in enum order:
+A selected wipe (at most one, by the radio model) renders as a chip beneath the trait chips, above the cost/refund summary — inside the same scroll view (`Preview.cs:72-142`), appended after the `desiredTraits` loop:
 
-- Guard at `Preview.cs:60` widens to `(desiredTraits.Count > 0 || desiredMemoryOps.Count > 0)`; content height (:65) becomes `(desiredTraits.Count + desiredMemoryOps.Count) * chipStride`.
+- Guard at `Preview.cs:60` widens to `(desiredTraits.Count > 0 || desiredMemoryOp != MemoryOpKind.None)`; content height (:65) becomes `(desiredTraits.Count + (desiredMemoryOp != MemoryOpKind.None ? 1 : 0)) * chipStride`.
 - Styling identical to trait chips (background/hover colors, `MiddleLeft` label at the §3 fraction, cost right-aligned via `DrawCostIcons`, tooltip = the op's desc key).
-- Click: `activeTab = 1` (jump to the Memory tab, mirroring how trait chips jump to the Traits tab; no scroll-to needed — the tab holds two rows).
+- Click: `activeTab = 1` (jump to the Memory tab, mirroring how trait chips jump to the Traits tab; no scroll-to needed — the tab holds three rows).
 
 ### Spec & op model
 
-- New `OpType.WipeMemory`; `CustomizationOp` gains two scribed bools `wipeBonding`, `wipeKillTracker`.
-- **One op per spec** (handoff: all memory operations roll into a single op): `BuildOperations` appends it **after** the addition loop when `!IsRevertedToBase && desiredMemoryOps.Count > 0`, with `cost = [ComponentSpacer × (selected sliders' sum)]` (empty list when the sum is 0 — a free wipe still runs). No refund. Ordering rationale (D16): it operates on the spec's final persona state, and since it never changes the simulated trait count it can't perturb the §6 boundary-cost attribution.
+- New `OpType.WipeMemory`; `CustomizationOp` gains a scribed `MemoryOpKind memoryOp` field (default `None`). (The radio model makes the handoff's "roll all memory operations into a single op" trivially true — at most one is ever staged.)
+- **One op per spec**: `BuildOperations` appends it **after** the addition loop when `!IsRevertedToBase && desiredMemoryOp != MemoryOpKind.None`, with `cost = [ComponentSpacer × (that op's slider)]` (empty list when the slider is 0 — a free wipe still runs). No refund. Ordering rationale (D16): it operates on the spec's final persona state, and since it never changes the simulated trait count it can't perturb the §6 boundary-cost attribution.
 - The cost flows through the existing generic plumbing untouched: `SumOpCosts` → `ComputeNetCostAndSurplus` → footer preview → `CustomizationSpec.totalCost` → `IngredientReservation.TryReserveIngredientsForJob` → haul planners → per-op `TryConsumeOpCost`. Zero haul-side changes.
 - Work: one op = the flat `WorkTicksPerOp` 1000 ticks, like every other op.
 
@@ -153,17 +158,24 @@ case OpType.WipeMemory:
     if (!TryConsumeOpCost(op.cost)) { /* shortfall bail */ }
     CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
     if (comp == null) break;                       // defensive; op is only built for persona final states
-    if (op.wipeBonding && comp.Biocoded)
-        comp.UnCode();                             // severs bond, fires Notify_Unbonded per trait,
-                                                   // strips bonded hediffs, resets lastKillTick;
-                                                   // biocodeOnEquip then re-arms bond-on-next-equip
-    if (op.wipeKillTracker)
-        LastKillTickField.SetValue(comp,
-            comp.Biocoded ? Find.TickManager.TicksAbs : -1);   // D18
+    switch (op.memoryOp)
+    {
+        case MemoryOpKind.WipeBonding:
+            if (comp.Biocoded)
+                comp.UnCode();                     // severs bond, fires Notify_Unbonded per trait,
+                                                   // strips bonded hediffs, resets lastKillTick (kill
+                                                   // memory goes with the bond); biocodeOnEquip then
+                                                   // re-arms bond-on-next-equip
+            break;
+        case MemoryOpKind.WipeKillTracker:
+            LastKillTickField.SetValue(comp,
+                comp.Biocoded ? Find.TickManager.TicksAbs : -1);   // D18
+            break;
+    }
     break;
 ```
 
-D18 rationale: for a still-bonded weapon, "cleared" means a fresh kill clock (`TicksAbs`, the same 20-day grace D9 grants when adding NeedKill — writing −1 would risk an instant kill-thirst mood hit). For an unbonded weapon, −1 is vanilla's init/`UnCode` state. When both ops are selected, `UnCode()` has already unbonded the weapon, so the second write lands −1 — consistent either way.
+D18 rationale: for a still-bonded weapon, "cleared" means a fresh kill clock (`TicksAbs`, the same 20-day grace D9 grants when adding NeedKill — writing −1 would risk an instant kill-thirst mood hit). For an unbonded weapon (a freewielder that has killed), −1 is vanilla's init/`UnCode` state. The bond wipe reaches −1 through `UnCode()` itself — the two branches are exclusive by the radio model, so the writes never stack.
 
 Running last means `UnCode()` iterates the final trait list, so bonded hediffs of traits added earlier in the same spec are applied then correctly removed (transient but sound; the Notify machinery is PERSONA_FORK §5's).
 
@@ -216,7 +228,7 @@ case WeaponReturnMode.Reequip:
     break;
 ```
 
-- **Confirm** uses `TryTakeOrderedJob` (vanilla's manual-equip dispatch), not `EnqueueFirst`: the delegate runs from the window stack after the customize job has ended, where an ordered job is both safe and semantically right — it *is* a player decision now. The fleck matches vanilla feedback; the tutorial `KnowledgeDemonstrated` ping is deliberately skipped (nothing was manually demonstrated). Bonding itself then happens downstream exactly as vanilla: `Notify_Equipped` → `CodeFor` → bond letter.
+- **Confirm** uses `TryTakeOrderedJob` (vanilla's manual-equip dispatch), not `EnqueueFirst`: the delegate runs from the window stack after the customize job has ended, where an ordered job is both safe and semantically right — it _is_ a player decision now. The fleck matches vanilla feedback; the tutorial `KnowledgeDemonstrated` ping is deliberately skipped (nothing was manually demonstrated). Bonding itself then happens downstream exactly as vanilla: `Notify_Equipped` → `CodeFor` → bond letter.
 - **Reject** ("No", null action): nothing is queued. The weapon is already spawned at the workbench, unforbidden (dropped by the `placeWeapon` toil, forbidden cleared at job start and never re-set) — i.e. precisely the `LeaveOnWorkbench` terminal state, and the flow ends normally.
 - The no-dialog path is byte-for-byte today's behavior (synchronous `EnqueueFirst` inside job teardown — `TryTakeOrderedJob` there would interrupt the ending job; don't touch it).
 
@@ -247,26 +259,27 @@ Resulting section order: Progression / Trait costs (3 sliders + live cost table)
 **Renamed:** `PWU_ApplyingCosmetics` → `PWU_RenamingWeapon` ("Renaming {0}"); `PWU_BailOpCosmeticsFailed` → `PWU_BailOpRenameFailed`.
 **Added:**
 
-| Key | English |
-| --- | --- |
-| `PWU_TabMemory` | Memory |
-| `PWU_MemoryRequiresPersona` | The weapon must host a persona before its memory can be wiped. |
-| `PWU_MemoryWipeBonding` | Wipe bonding |
-| `PWU_MemoryWipeBondingDesc` | Erase the persona's bond. The weapon returns to bonding with the next pawn to equip it. |
-| `PWU_MemoryWipeKillTracker` | Wipe kill tracker |
-| `PWU_MemoryWipeKillTrackerDesc` | Erase the persona's memory of its kills. (+ "Last kill: {0} days ago" when known) |
-| `PWU_MemoryNotBonded` | Not bonded |
-| `PWU_MemoryNoKillMemory` | No kills remembered |
-| `PWU_MemoryBondSeveredByTrait` | The freewielder trait already severs the bond |
-| `PWU_MemoryIncludedInBondWipe` | Included in the bond wipe |
-| `PWU_MemoryWipeLabel` | memory wipe (shortfall-bail op label) |
-| `PWU_WipingMemory` | Wiping memory of {0} |
-| `PWU_BailOpMemoryFailed` | (op-failure bail, matching existing bail phrasing) |
-| `PWU_SettingsMemoryCosts` | Memory costs |
-| `PWU_WipeBondingComponentCost` | Bond wipe component cost: {0} |
-| `PWU_WipeBondingComponentCostDesc` | Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip. |
-| `PWU_WipeKillTrackerComponentCost` | Kill tracker wipe component cost: {0} |
-| `PWU_WipeKillTrackerComponentCostDesc` | Advanced components charged to wipe a persona weapon's kill memory. |
+| Key                                    | English                                                                                          |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `PWU_TabMemory`                        | Memory                                                                                           |
+| `PWU_MemoryRequiresPersona`            | The weapon must host a persona before its memory can be wiped.                                   |
+| `PWU_MemoryNoWipe`                     | Do not wipe                                                                                      |
+| `PWU_MemoryWipeBonding`                | Wipe bonding                                                                                     |
+| `PWU_MemoryWipeBondingDesc`            | Erase the persona's bond, and its kill memory with it. The weapon returns to bonding with the next pawn to equip it. |
+| `PWU_MemoryWipeKillTracker`            | Wipe kill tracker                                                                                |
+| `PWU_MemoryWipeKillTrackerDesc`        | Erase the persona's memory of its kills. The bond is untouched. (+ "Last kill: {0} days ago" when known) |
+| `PWU_MemoryNotBonded`                  | Not bonded                                                                                       |
+| `PWU_MemoryNoKillMemory`               | No kills remembered                                                                              |
+| `PWU_MemoryBondSeveredByTrait`         | The freewielder trait already severs the bond                                                    |
+| `PWU_MemoryKillWipedByTrait`           | Severing the bond wipes kill memory too                                                          |
+| `PWU_MemoryWipeLabel`                  | memory wipe (shortfall-bail op label)                                                            |
+| `PWU_WipingMemory`                     | Wiping memory of {0}                                                                             |
+| `PWU_BailOpMemoryFailed`               | (op-failure bail, matching existing bail phrasing)                                               |
+| `PWU_SettingsMemoryCosts`              | Memory costs                                                                                     |
+| `PWU_WipeBondingComponentCost`         | Bond wipe component cost: {0}                                                                    |
+| `PWU_WipeBondingComponentCostDesc`     | Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip. |
+| `PWU_WipeKillTrackerComponentCost`     | Kill tracker wipe component cost: {0}                                                            |
+| `PWU_WipeKillTrackerComponentCostDesc` | Advanced components charged to wipe a persona weapon's kill memory.                              |
 
 Exact copy may be tuned during the copy review pass (TODOs.md); the key set is fixed. Final step: rerun the C#↔XML key cross-check (PERSONA_FORK §12).
 
@@ -284,18 +297,18 @@ Exact copy may be tuned during the copy review pass (TODOs.md); the key set is f
 
 ## 9. Decisions
 
-| #   | Decision | Resolution |
-| --- | --- | --- |
-| D12 | Color feature | **Removed** (reverses D3) — vanilla tint wins; delete comp patch, tab, settings, keys, forced-color path (handoff, 2026-07-11) |
-| D13 | Tab container | Keep the two-slot shell; Memory takes Color's `activeTab == 1` slot |
-| D14 | `ApplyCosmetics` op | Rename to `Rename` (name-only after §2); pre-release, no scribe migration for in-flight specs |
-| D15 | LHS chip split | Label fraction `0.5f` → `0.7f` (`Preview.cs:92`); costs are single-resource in PWU |
-| D16 | Memory op shape | All selections compile into **one** `WipeMemory` op, appended last (removals → rename → additions → memory); flat costs, no quality scaling, never crosses the persona-core boundary |
-| D17 | Op interaction | Selecting Wipe bonding disables + deselects Wipe kill tracker (`UnCode()` resets `lastKillTick` for free) |
-| D18 | Kill-tracker "cleared" value | `TicksAbs` while bonded (fresh 20-day grace, per D9's rationale); −1 when unbonded (vanilla init state) |
-| D19 | Memory gating | Tab gates on preview state (`IsRevertedToBase` message, ex-Color-tab pattern); rows gate on current comp state with disabled-reasons; `OnTraitsChanged` prunes; selection affordance = trait-row highlight (no checkbox glyph) |
-| D20 | Bond confirm placement | In `QueueWeaponRecoveryFor`'s `Reequip` case (covers success + interruption recovery); vanilla `GetPersonaWeaponConfirmationText` + `Dialog_MessageBox` Yes/No; confirm = revalidate + `TryTakeOrderedJob`; reject = `LeaveOnWorkbench` terminal state; no-dialog path unchanged |
-| D21 | Memory sliders' home | New "Memory costs" settings section after "Trait costs" (which the user's copy pass scoped to trait changes) |
+| #   | Decision                     | Resolution                                                                                                                                                                                                                                                                       |
+| --- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D12 | Color feature                | **Removed** (reverses D3) — vanilla tint wins; delete comp patch, tab, settings, keys, forced-color path (handoff, 2026-07-11)                                                                                                                                                   |
+| D13 | Tab container                | Keep the two-slot shell; Memory takes Color's `activeTab == 1` slot                                                                                                                                                                                                              |
+| D14 | `ApplyCosmetics` op          | Rename to `Rename` (name-only after §2); pre-release, no scribe migration for in-flight specs                                                                                                                                                                                    |
+| D15 | LHS chip split               | Label fraction `0.5f` → `0.7f` (`Preview.cs:92`); costs are single-resource in PWU                                                                                                                                                                                               |
+| D16 | Memory op shape              | The selected wipe compiles into **one** `WipeMemory` op, appended last (removals → rename → additions → memory); flat costs, no quality scaling, never crosses the persona-core boundary                                                                                         |
+| D17 | Op exclusivity               | **3-way radio** — Do not wipe (default) / Wipe bonding / Wipe kill tracker (user, 2026-07-11; replaces the checkbox model): `UnCode()` resets `lastKillTick`, so the bond wipe strictly subsumes the kill wipe and "both" is not a distinct outcome — the UI must not express it |
+| D18 | Kill-tracker "cleared" value | `TicksAbs` while bonded (fresh 20-day grace, per D9's rationale); −1 when unbonded (vanilla init state); bond wipe reaches −1 via `UnCode()` itself                                                                                                                              |
+| D19 | Memory gating                | Tab gates on preview state (`IsRevertedToBase` message, ex-Color-tab pattern); rows gate on current comp state with disabled-reasons — incl. **both** wipes disabling when freewielder is staged onto a bonded weapon (its `UnCode()` pre-empts either wipe); a disabled selection snaps to None via `OnTraitsChanged`; affordance = trait-row geometry + `Widgets.RadioButton` glyph (the glyph is the one deviation from trait rows — a radio group must read as exactly-one-of) |
+| D20 | Bond confirm placement       | In `QueueWeaponRecoveryFor`'s `Reequip` case (covers success + interruption recovery); vanilla `GetPersonaWeaponConfirmationText` + `Dialog_MessageBox` Yes/No; confirm = revalidate + `TryTakeOrderedJob`; reject = `LeaveOnWorkbench` terminal state; no-dialog path unchanged |
+| D21 | Memory sliders' home         | New "Memory costs" settings section after "Trait costs" (which the user's copy pass scoped to trait changes)                                                                                                                                                                     |
 
 ---
 
@@ -303,9 +316,9 @@ Exact copy may be tuned during the copy review pass (TODOs.md); the key set is f
 
 - [ ] Builds clean; `grep -rn "CompColorable\|ColorDef\|desiredColor\|forcedColor" Source/` returns nothing; `1.6/Patches/` no longer ships `BladelinkColorable.xml`
 - [ ] Dialog shows exactly two tabs (Traits, Memory), no swatch anywhere; rename works standalone (free `Rename` op) and bundled with a trait add
-- [ ] LHS chips: label takes 70%; single-resource costs right-aligned; memory chips styled identically, click jumps to the Memory tab; chips render when only memory ops are selected (no trait changes)
-- [ ] Memory tab: base preview state shows the centered gray message; row gating matches the §4 table in all five conditions (incl. auto-deselect on NeverBond staging and on Wipe-bonding selection)
-- [ ] Wipe bonding on a bonded weapon: bond severed, bonded hediffs stripped, weapon re-bonds on next equip; wipe kill tracker: `lastKillTick` = `TicksAbs` (still bonded) / −1 (unbonded); verb reads "Wiping memory of …"; cost = slider sum in components, hauled like any other ingredients; sliders at 0 → free op still runs
+- [ ] LHS chips: label takes 70%; single-resource costs right-aligned; the memory chip is styled identically, click jumps to the Memory tab; the chip renders when only a wipe is selected (no trait changes)
+- [ ] Memory tab: base preview state shows the centered gray message; otherwise a 3-row radio group with "Do not wipe" selected by default; exactly one row is ever selected; row gating matches the §4 table in all four conditions — in particular, staging freewielder on a bonded weapon disables **both** wipes, and a selection whose row becomes disabled snaps back to "Do not wipe"
+- [ ] Wipe bonding on a bonded weapon: bond severed, bonded hediffs stripped, kill tracker cleared with it, weapon re-bonds on next equip; wipe kill tracker: bond untouched, `lastKillTick` = `TicksAbs` (still bonded) / −1 (unbonded freewielder); verb reads "Wiping memory of …"; cost = the selected op's slider in components, hauled like any other ingredients; slider at 0 → free op still runs
 - [ ] Settings page: "Memory costs" section with the two sliders (defaults 3/1, range 0–5, default-suffix behavior); color toggles gone; triple invariant holds
 - [ ] Upgrade-while-equipped flow: on completion the game pauses with vanilla's persona warning (traits listed); Yes → pawn equips, bond letter fires; No → weapon stays on the bench unforbidden, no job queued
 - [ ] No dialog on re-equip when: weapon already bonded to the pawn, weapon downgraded to base, or weapon carries freewielder
