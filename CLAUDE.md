@@ -47,7 +47,7 @@ xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run with `./
 
 ### Entry Point
 
-`Source/1.6/Core/ModInitializer.cs` - Static constructor with `[StaticConstructorOnStartup]` auto-patches via Harmony attribute discovery. Harmony ID: `shunter.personaweaponsunbound` (must never collide with UWU's `shunter.uniqueweaponsunbound` — the two mods are designed to coexist).
+`Source/1.6/Core/ModInitializer.cs` - Static constructor with `[StaticConstructorOnStartup]` auto-patches via Harmony attribute discovery. Harmony ID: `shunter.personaweaponsunbound` (must never collide with the UWU sibling mod's Harmony ID — the two mods are designed to coexist).
 
 ### Mod Structure
 

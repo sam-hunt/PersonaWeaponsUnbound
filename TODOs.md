@@ -22,9 +22,4 @@ Further bladelink-comp surfaces we could offer customization of (review 2026-07-
 
 ## Cleanup
 
-- Add `Docs/HANDOFF.md` to `.gitignore` so the working handoff can never be committed accidentally
-- Purge stale `obj/`/`bin/` caches after the project renames (legacy `CustomizeUniqueWeapons.*` and `UniqueWeaponsUnbound.*` artifacts linger there)
-- The old `Mods/UniqueWeaponsUnbound` deploy folder in the local RimWorld install belongs to the UWU repo now — confirm this fork stops writing there after the csproj `ModDeployPath` rename, and remove it only if the UWU checkout doesn't still deploy it
-- Remove the "Fork status" note from CLAUDE.md once the rename/conversion lands (note says so itself)
-- `PWU_Mod.DrawHaulPlannerOption` carries a never-used disabled-radio branch — prune or keep as extension point
 - Retire the Odyssey-era sections of `Docs/Research/CUSTOMIZATION_SYSTEM.md` once the persona dialog stabilizes (kept as historical context for now)

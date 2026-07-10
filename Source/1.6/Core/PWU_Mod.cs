@@ -170,20 +170,17 @@ namespace PersonaWeaponsUnbound
             DrawHaulPlannerOption(listing,
                 HaulPlannerKind.Sequential,
                 "PWU_HaulPlannerSequential".Translate() + "PWU_VanillaSuffix".Translate(),
-                "PWU_HaulPlannerSequentialDesc".Translate(),
-                enabled: true);
+                "PWU_HaulPlannerSequentialDesc".Translate());
 
             DrawHaulPlannerOption(listing,
                 HaulPlannerKind.Sweep,
                 "PWU_HaulPlannerSweep".Translate() + "PWU_DefaultSuffix".Translate(),
-                "PWU_HaulPlannerSweepDesc".Translate(),
-                enabled: true);
+                "PWU_HaulPlannerSweepDesc".Translate());
 
             DrawHaulPlannerOption(listing,
                 HaulPlannerKind.Thorough,
                 "PWU_HaulPlannerThorough".Translate() + "PWU_ExperimentalSuffix".Translate(),
-                "PWU_HaulPlannerThoroughDesc".Translate(),
-                enabled: true);
+                "PWU_HaulPlannerThoroughDesc".Translate());
 
             listing.Gap(24.0f);
 
@@ -242,8 +239,7 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Renders one row of the haul-planner radio group. Disabled options
-        /// render darkened and ignore clicks. Selecting an enabled option
+        /// Renders one row of the haul-planner radio group. Selecting an option
         /// flips Settings.haulPlannerKind to that value. The label is passed
         /// in fully composed (including any "(default)" / "(vanilla)" suffix).
         /// </summary>
@@ -251,35 +247,12 @@ namespace PersonaWeaponsUnbound
             Listing_Standard listing,
             HaulPlannerKind kind,
             string label,
-            string tooltip,
-            bool enabled)
+            string tooltip)
         {
             bool active = Settings.haulPlannerKind == kind;
-
-            if (enabled)
+            if (listing.RadioButton(label, active, tabIn: 0f, tooltip: tooltip))
             {
-                if (listing.RadioButton(label, active, tabIn: 0f, tooltip: tooltip))
-                {
-                    Settings.haulPlannerKind = kind;
-                }
-            }
-            else
-            {
-                Color prevColor = GUI.color;
-                Color prevContent = GUI.contentColor;
-                // Compound the tint: GUI.color attenuates the whole control,
-                // GUI.contentColor specifically attenuates text/icon glyphs.
-                // Together they multiply (~0.4 * 0.5 = 0.2 effective), which
-                // reads as visibly darker than plain Color.gray would.
-                GUI.color = new Color(0.4f, 0.4f, 0.4f);
-                GUI.contentColor = new Color(0.5f, 0.5f, 0.5f);
-                // Force-render as inactive even if Settings somehow points
-                // here (e.g. via a save from a future build); the runtime
-                // factory falls back to Sequential for unrecognized values
-                // anyway, so showing it inactive here matches behavior.
-                listing.RadioButton(label, active: false, tabIn: 0f, tooltip: tooltip);
-                GUI.contentColor = prevContent;
-                GUI.color = prevColor;
+                Settings.haulPlannerKind = kind;
             }
             listing.Gap(8f);
         }
