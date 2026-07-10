@@ -43,9 +43,9 @@ All claims verified against a local RimWorld 1.6 install (build dated 2026-07-01
 - `public List<WeaponTraitDef> TraitsListForReading => traits;` — **returns the live list by reference**. A mod can add/remove entries directly, no reflection. Mutations persist in saves. Caveat: nothing re-fires `Worker.Notify_*` hooks or (un)applies hediffs on mutation — the mutator must do that (see [Customization Surface](#customization-surface-summary)).
 - `public override bool Biocodable` — `false` if any trait has `neverBond` (freewielder), else `true`.
 - `CodeFor(Pawn)` — sends the bond letter (player pawns, first bond), then `base.CodeFor` sets the biocode fields, then `OnCodedFor`: sets `lastKillTick`, sets `pawn.equipment.bondedWeapon = parent`, fires `traits[i].Worker.Notify_Bonded(pawn)` (applies `bondedHediffs`).
-- `UnCode()` — **public**: clears `CodedPawn.equipment.bondedWeapon`, fires `Notify_Unbonded` per trait (removes bonded hediffs), clears biocode fields, resets `lastKillTick`. Called by vanilla on `PostDestroy` and `Notify_MapRemoved`. There is no separate `TryUnbond`.
+- `UnCode()` — **public**: clears `CodedPawn.equipment.bondedWeapon`, fires `Notify_Unbonded` per trait (removes bonded hediffs), clears biocode fields, resets `lastKillTick`. Called by vanilla on `PostDestroy`, `Notify_MapRemoved`, and `Pawn_EquipmentTracker.Notify_PawnDied`. There is no separate `TryUnbond`.
 - **Bond storage**: reuses `CompBiocodable`'s `protected bool biocoded; protected string codedPawnLabel; protected Pawn codedPawn;` — there is no separate `bondedPawn` field on the comp. The pawn-side link is `pawn.equipment.bondedWeapon`.
-- **Death**: no death hook — the weapon stays coded to the dead pawn.
+- **Death**: `Pawn_EquipmentTracker.Notify_PawnDied` calls `UnCode()` on the bonded weapon — on the wielder's death the weapon comes back **fully unbonded** (biocode cleared, bonded hediffs stripped, `lastKillTick` reset). _(Corrected 2026-07-10; this doc previously claimed there was no death hook.)_
 - Per-trait hooks forwarded to `WeaponTraitWorker`: `Notify_Equipped`, `Notify_Bonded`, `Notify_KilledPawn` (also updates `lastKillTick`), `Notify_EquipmentLost`, `Notify_OtherWeaponWielded`, `Notify_Unbonded`.
 
 ### Trait initialization at generation

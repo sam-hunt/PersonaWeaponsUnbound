@@ -7,7 +7,7 @@
   <UWU_RequiresWorkbench>requires {0}</UWU_RequiresWorkbench>
   <UWU_NoSuitableWorkbench>no suitable workbench</UWU_NoSuitableWorkbench>
   <UWU_RequiresMinimumQuality>requires {0} quality or better</UWU_RequiresMinimumQuality>
-  <UWU_CustomizeGizmoLabel>Customize</UWU_CustomizeGizmoLabel>
+  <UWU_CustomizeGizmoLabel>Customize persona</UWU_CustomizeGizmoLabel>
   <UWU_CustomizeGizmoDesc>Select a colonist to customize this weapon at a nearby workbench.</UWU_CustomizeGizmoDesc>
 
   <!-- Dev-mode diagnostic reasons (surfaced when Prefs.DevMode is on, otherwise hidden) -->

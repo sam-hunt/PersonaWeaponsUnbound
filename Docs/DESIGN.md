@@ -6,13 +6,13 @@ RimWorld's Royalty DLC introduced **bladelink weapons** (player-facing: **person
 
 This mod lets players customize them: add and remove persona traits, rename the persona, recolor the weapon, and convert base weapons to and from their persona variants at a fabrication bench.
 
-**A note on language:** *Bladelink* and *persona* are largely interchangeable. Bladelink is ubiquitous in code (`CompBladelinkWeapon`, the `BladeLink` weapon category); persona is the player-facing adjective (persona monosword, persona core). We use "persona" in player-facing text and "bladelink" freely in code and internal docs.
+**A note on language:** _Bladelink_ and _persona_ are largely interchangeable. Bladelink is ubiquitous in code (`CompBladelinkWeapon`, the `BladeLink` weapon category); persona is the player-facing adjective (persona monosword, persona core). We use "persona" in player-facing text and "bladelink" freely in code and internal docs.
 
 ### Scope: Royalty Persona Weapons Only
 
 This mod targets **Royalty bladelink weapons** exclusively. Odyssey's unique weapons (`CompUniqueWeapon`) are categorically excluded — they are served by our sibling mod **Unique Weapons Unbound** (UWU), which this project was forked from.
 
-**Why a separate mod:** UWU hard-depends on Odyssey. Supporting persona weapons inside UWU would lock out players who own Royalty but not Odyssey. The two comps are also different enough (bonding, generated names, no art comp, no ability wiring) that most of UWU's Odyssey machinery is dead weight for personas — and the fiction differs: Odyssey traits are physical modifications a crafter makes; bladelink traits are properties of an AI personality that must be *reprogrammed*.
+**Why a separate mod:** UWU hard-depends on Odyssey. Supporting persona weapons inside UWU would lock out players who own Royalty but not Odyssey. The two comps are also different enough (bonding, generated names, no art comp, no ability wiring) that most of UWU's Odyssey machinery is dead weight for personas — and the fiction differs: Odyssey traits are physical modifications a crafter makes; bladelink traits are properties of an AI personality that must be _reprogrammed_.
 
 **Technical note:** Both systems share the `WeaponTraitDef` class, discriminated by `weaponCategory`: bladelink traits use the single Royalty category `BladeLink`; Odyssey traits use its 15 disjoint categories. `CompBladelinkWeapon.CanAddTrait` hardcodes `weaponCategory == WeaponCategoryDefOf.BladeLink`, so that check is authoritative. Our trait filtering is **only-bladelink** (UWU's is not-bladelink), so both mods can coexist — even on a hypothetical modded weapon carrying both comps — without conflict.
 
@@ -58,11 +58,11 @@ Player-initiated changes respect the rules vanilla enforces for generated person
 Bladelink traits are facets of the persona's personality, not bolt-on parts. Changing them means forcefully reprogramming the persona with advanced computer components that burn out in the process:
 
 - **First trait / last trait** (def conversion): costs / refunds exactly **1 AI persona core**.
-- **Every other change** (add *or* remove): costs **advanced components**. Both directions are costs — reprogramming is destructive; there are no refunds.
+- **Every other change** (add _or_ remove): costs **advanced components**. Both directions are costs — reprogramming is destructive; there are no refunds.
 - The component count scales with weapon quality above a configurable threshold:
-  `N = base + levelsAboveThreshold × perLevel × multiplier` (all four knobs are mod settings; the settings page shows a live table of the resulting cost per quality level).
+  `N = base + levelsAboveThreshold × perLevel` (all three knobs are mod settings; the settings page shows a live table of the resulting cost per quality level).
 
-Defaults: base 2, threshold Normal, +1/level, ×1.0 → Normal-quality changes cost 2 advanced components; a Legendary weapon costs 6 per change.
+Defaults: base 2, threshold Normal, +1/level → Normal-quality changes cost 2 advanced components; a Legendary weapon costs 6 per change.
 
 ---
 
@@ -70,12 +70,12 @@ Defaults: base 2, threshold Normal, +1/level, ×1.0 → Normal-quality changes c
 
 A single ultratech research project: **Bladelink Customization** (`PWU_BladelinkCustomization`).
 
-| Property | Value |
-| --- | --- |
-| Prerequisite | Advanced fabrication |
-| Bench | Hi-tech research bench + multi-analyzer |
-| Cost | 4000 |
-| Techprint | 1 × Empire-sourced (market value 2000) |
+| Property     | Value                                   |
+| ------------ | --------------------------------------- |
+| Prerequisite | Advanced fabrication                    |
+| Bench        | Hi-tech research bench + multi-analyzer |
+| Cost         | 4000                                    |
+| Techprint    | 1 × Empire-sourced (market value 2000)  |
 
 The required techprint count is a mod setting (0–3, default 1), applied live to the def — 0 removes the requirement entirely. The research also gates the crafting recipes below.
 
@@ -85,11 +85,11 @@ The required techprint count is a mod setting (0–3, default 1), applied live t
 
 Persona weapons' base variants aren't craftable in vanilla. With Bladelink Customization researched, the fabrication bench offers (each individually toggleable in settings):
 
-| Product | Ingredients |
-| --- | --- |
-| Monosword | 140 plasteel, 4 advanced components |
-| Plasmasword | 100 plasteel, 6 advanced components |
-| Zeushammer | 80 plasteel, 20 uranium, 8 advanced components |
+| Product     | Ingredients                                    |
+| ----------- | ---------------------------------------------- |
+| Monosword   | 140 plasteel, 4 advanced components            |
+| Plasmasword | 100 plasteel, 6 advanced components            |
+| Zeushammer  | 80 plasteel, 20 uranium, 8 advanced components |
 
 Craft the base weapon, then install a persona core through customization — a fully in-colony path to a bespoke persona weapon.
 
@@ -119,7 +119,7 @@ Same styling-station-inspired dialog as UWU:
 
 ### Trait Discovery Progression (optional setting)
 
-When enabled, only traits present on persona weapons the player has *seen* (on any map, caravan, or hostile pawn) are offered — hostile-held sources show but can't be added until captured. No persistent save state.
+When enabled, only traits present on persona weapons the player has _seen_ (on any map, caravan, or hostile pawn) are offered — hostile-held sources show but can't be added until captured. No persistent save state.
 
 ---
 
