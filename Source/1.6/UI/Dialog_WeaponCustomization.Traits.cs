@@ -303,6 +303,12 @@ namespace PersonaWeaponsUnbound
                 if (isLastSource)
                     TooltipHandler.TipRegion(rowRect,
                         "<color=#ffff14>" + "PWU_LastTraitSourceWarning".Translate() + "</color>");
+                // NeverBond ("freewielder") added to a currently-bonded weapon severs
+                // the bond (spec D8). A bonded weapon can't already carry neverBond
+                // (it flips Biocodable false), so this only ever fires as an add warning.
+                if (trait.neverBond && WeaponIsBonded)
+                    TooltipHandler.TipRegion(rowRect,
+                        "<color=#ffff14>" + "PWU_NeverBondSeversBond".Translate(BondedPawnLabel) + "</color>");
             }
 
             // Click to add or remove

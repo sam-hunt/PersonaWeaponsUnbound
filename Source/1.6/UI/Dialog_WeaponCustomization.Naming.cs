@@ -14,11 +14,13 @@ namespace PersonaWeaponsUnbound
         private const int NameRegenMaxAttempts = 3;
 
         /// <summary>
-        /// Generates a random weapon name using vanilla's grammar system
-        /// (NameGenerator + RulePackDefOf.NamerUniqueWeapon), matching the same
-        /// code path used by CompUniqueWeapon.PostPostMake() for initial generation.
-        /// Returns null if generation fails after <see cref="NameRegenMaxAttempts"/>
-        /// attempts; callers should leave the name field unchanged in that case.
+        /// Generates a random persona weapon name via the persona def's own namer
+        /// (vanilla: <c>NamerWeaponBladelink</c>), reusing the exact static method
+        /// <c>CompGeneratedNames.GenerateName</c> the game uses for initial
+        /// generation — so modded persona weapons with a custom nameMaker are
+        /// respected. Returns null if generation fails after
+        /// <see cref="NameRegenMaxAttempts"/> attempts; callers should leave the
+        /// name field unchanged in that case.
         /// </summary>
         private string GenerateWeaponName()
         {
@@ -49,55 +51,44 @@ namespace PersonaWeaponsUnbound
 
         private string GenerateWeaponNameOnce()
         {
-            // Collect adjectives from all desired traits
-            var adjectives = new List<string>();
-            foreach (WeaponTraitDef trait in desiredTraits)
-            {
-                if (trait.traitAdjectives != null && trait.traitAdjectives.Count > 0)
-                    adjectives.AddRange(trait.traitAdjectives);
-            }
+            // Use the persona def's own generated-name props (nameMaker). Bladelink
+            // namers are self-contained (noun+verber / syllables / person-name) — no
+            // trait adjectives, weapon-type, or color grammar inputs.
+            CompProperties_GeneratedName props = GetGeneratedNameProps();
+            if (props?.nameMaker == null)
+                return null;
 
-            // Get weapon type label from CompProperties_UniqueWeapon.namerLabels
-            CompProperties_UniqueWeapon props = uniqueDef?.comps?
-                .OfType<CompProperties_UniqueWeapon>()
+            // Exactly the game's own generation path (r_weapon_name + CapitalizeAsTitle).
+            return CompGeneratedNames.GenerateName(props);
+        }
+
+        /// <summary>
+        /// The persona def's <see cref="CompProperties_GeneratedName"/>, or null if
+        /// it has none (an un-namered modded persona weapon).
+        /// </summary>
+        private CompProperties_GeneratedName GetGeneratedNameProps()
+        {
+            return personaDef?.comps?
+                .OfType<CompProperties_GeneratedName>()
                 .FirstOrDefault();
-            string weaponType = (props?.namerLabels != null && props.namerLabels.Count > 0)
-                ? props.namerLabels.RandomElement()
-                : "PWU_WeaponTypeFallback".Translate();
-
-            string colorLabel = EffectiveColor?.label ?? "PWU_ColorFallback".Translate();
-
-            GrammarRequest request = default;
-            request.Includes.Add(RulePackDefOf.NamerUniqueWeapon);
-            request.Rules.Add(new Rule_String("weapon_type", weaponType));
-            request.Rules.Add(new Rule_String("color", colorLabel));
-            if (adjectives.Count > 0)
-                request.Rules.Add(new Rule_String("trait_adjective", adjectives.RandomElement()));
-
-            // Add the customizing pawn's name data for ANYPAWN_* grammar rules,
-            // enabling possessive name patterns like "Kira's Gold Rifle"
-            foreach (Rule rule in TaleData_Pawn.GenerateFrom(pawn).GetRules("ANYPAWN"))
-                request.Rules.Add(rule);
-
-            return NameGenerator.GenerateName(request, null, false, "r_weapon_name").StripTags();
         }
 
         /// <summary>
         /// Builds a diagnostic message pointing the user toward the most likely
-        /// source of the failure: a malformed translation of the vanilla
-        /// NamerUniqueWeapon rule pack. The original raw rule string is discarded
-        /// by Rule_String when its regex parse fails, so we report the count of
-        /// rules whose keyword ended up null/empty alongside the active language
-        /// and the rule pack's owning mod.
+        /// source of the failure: a malformed translation of the persona weapon's
+        /// bladelink rule pack. The original raw rule string is discarded by
+        /// Rule_String when its regex parse fails, so we report the count of rules
+        /// whose keyword ended up null/empty alongside the active language and the
+        /// rule pack's owning mod.
         /// </summary>
-        private static string BuildNameRegenFailureMessage(int attempt, Exception ex)
+        private string BuildNameRegenFailureMessage(int attempt, Exception ex)
         {
             string langName = LanguageDatabase.activeLanguage?.FriendlyNameNative
                 ?? LanguageDatabase.activeLanguage?.LegacyFolderName
                 ?? "(unknown)";
 
-            RulePackDef pack = RulePackDefOf.NamerUniqueWeapon;
-            string packName = pack?.defName ?? "NamerUniqueWeapon";
+            RulePackDef pack = GetGeneratedNameProps()?.nameMaker;
+            string packName = pack?.defName ?? "NamerWeaponBladelink";
             string ownerMod = pack?.modContentPack?.Name ?? "(unknown)";
 
             int badRuleCount = 0;

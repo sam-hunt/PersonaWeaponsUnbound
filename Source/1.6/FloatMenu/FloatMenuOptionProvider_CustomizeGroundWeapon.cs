@@ -54,14 +54,14 @@ namespace PersonaWeaponsUnbound
 
             Thing weapon = clickedThing;
 
-            // Variant exists + UniqueSmithing gate
+            // Variant exists + research gate
             AcceptanceReport customizable = CustomizationRules.IsCustomizable(weapon);
             if (!customizable.Accepted && customizable.Reason.NullOrEmpty())
                 return null;
 
-            // Resolve base/unique defs
+            // Resolve base/persona defs
             WeaponRegistry.ResolveWeaponDefs(weapon,
-                out ThingDef baseDef, out ThingDef uniqueDef);
+                out ThingDef baseDef, out ThingDef personaDef);
 
             TechLevel weaponTechLevel = CustomizationRules.GetWeaponTechLevel(weapon);
 
@@ -84,7 +84,7 @@ namespace PersonaWeaponsUnbound
 
             // Find best workbench (most expensive check — runs last)
             var result = WorkbenchUtility.FindBestWorkbench(
-                pawn, baseDef, uniqueDef, weaponTechLevel, weapon.Position);
+                pawn, baseDef, personaDef, weaponTechLevel, weapon.Position);
 
             if (!result.Found)
                 return DisabledOrHidden(weapon, result.BestRejection);

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Persona weapons ship a static def-level tint (255,200,200) but no CompColorable,
+       so per-thing recolor isn't possible out of the box. Add CompColorable to the
+       abstract parent BaseWeapon_Bladelink (Royalty), whose <comps> node is inherited
+       by all three concrete persona defs (monosword / plasmasword / zeushammer);
+       patches run before inheritance, so one add covers all three. PWU's color tab
+       then recolors via CompColorable (thing.SetColor / Disable), which persists in
+       saves and falls back to the def tint when inactive.
+
+       CompColorable has no dedicated CompProperties subclass, so it's declared with
+       <compClass> against the base CompProperties (matching vanilla usage). Royalty
+       is a hard dependency, so BaseWeapon_Bladelink always exists. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[@Name="BaseWeapon_Bladelink"]/comps</xpath>
+    <value>
+      <li>
+        <compClass>CompColorable</compClass>
+      </li>
+    </value>
+  </Operation>
+
+</Patch>

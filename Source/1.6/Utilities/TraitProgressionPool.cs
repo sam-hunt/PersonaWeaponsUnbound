@@ -7,7 +7,7 @@ using Verse;
 namespace PersonaWeaponsUnbound
 {
     /// <summary>
-    /// Snapshot of which weapon traits exist on player-discoverable unique weapons,
+    /// Snapshot of which weapon traits exist on player-discoverable persona weapons,
     /// classified by whether any source weapon is held by a non-hostile actor.
     ///
     /// Sources counted:
@@ -117,14 +117,14 @@ namespace PersonaWeaponsUnbound
 
             FogGrid fog = map.fogGrid;
 
-            // Ground/loose unique weapons. ListerThings excludes things held in
+            // Ground/loose persona weapons. ListerThings excludes things held in
             // non-spawned ThingOwners (pawn equipment/inventory, casket contents),
             // so this naturally implements the "not in unknown container" rule.
             foreach (Thing t in map.listerThings.AllThings)
             {
                 if (t is Pawn)
                     continue;
-                if (!WeaponRegistry.IsUniqueWeapon(t.def))
+                if (!WeaponRegistry.IsPersonaWeapon(t.def))
                     continue;
                 IntVec3 pos = t.PositionHeld;
                 if (fog != null && fog.IsFogged(pos))
@@ -154,26 +154,26 @@ namespace PersonaWeaponsUnbound
             Dictionary<WeaponTraitDef, int> bucket = isHostile ? hostile : nonHostile;
 
             ThingWithComps eq = p.equipment?.Primary;
-            if (eq != null && WeaponRegistry.IsUniqueWeapon(eq.def))
+            if (eq != null && WeaponRegistry.IsPersonaWeapon(eq.def))
                 AddWeaponTraits(eq, bucket);
 
             if (p.inventory?.innerContainer != null)
             {
                 foreach (Thing item in p.inventory.innerContainer)
                 {
-                    if (WeaponRegistry.IsUniqueWeapon(item.def))
+                    if (WeaponRegistry.IsPersonaWeapon(item.def))
                         AddWeaponTraits(item, bucket);
                 }
             }
 
             Thing carried = p.carryTracker?.CarriedThing;
-            if (carried != null && WeaponRegistry.IsUniqueWeapon(carried.def))
+            if (carried != null && WeaponRegistry.IsPersonaWeapon(carried.def))
                 AddWeaponTraits(carried, bucket);
         }
 
         private static void AddWeaponTraits(Thing weapon, Dictionary<WeaponTraitDef, int> dest)
         {
-            CompUniqueWeapon comp = weapon.TryGetComp<CompUniqueWeapon>();
+            CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
             List<WeaponTraitDef> traits = comp?.TraitsListForReading;
             if (traits == null)
                 return;

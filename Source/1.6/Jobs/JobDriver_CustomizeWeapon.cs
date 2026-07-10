@@ -13,7 +13,7 @@ namespace PersonaWeaponsUnbound
     //   .Haul.cs     - pickup/unload routing, drop-cell selection,
     //                  placedIngredients population (TrackAndReservePlaced)
     //   .Work.cs     - placedIngredients/refundLedger reads + writes,
-    //                  per-op trait/cosmetics/color mutation, base<->unique
+    //                  per-op trait/cosmetics/color mutation, base<->persona
     //                  def conversion
     //   .Recovery.cs - end-of-job cleanup: drop unloaded inventory, queue
     //                  Equip/TakeInventory follow-up so the weapon returns
@@ -640,7 +640,7 @@ namespace PersonaWeaponsUnbound
             // === WORK LOOP ===
             // Each operation is applied after its work tick completes, so each
             // completed step leaves the weapon in a consistent state. Def
-            // conversions (base↔unique) are bundled into the trait operation
+            // conversions (base↔persona) are bundled into the trait operation
             // that crosses the 0↔1 trait boundary.
 
             yield return startWorkLoop;
@@ -704,9 +704,14 @@ namespace PersonaWeaponsUnbound
                 // regardless of any intermediate trait-driven color change.
                 try
                 {
-                    CompUniqueWeapon uniqueComp = weapon.TryGetComp<CompUniqueWeapon>();
-                    if (spec.finalColor != null && uniqueComp != null)
-                        WeaponModificationUtility.SetColor(weapon, spec.finalColor);
+                    CompColorable colorComp = weapon.TryGetComp<CompColorable>();
+                    if (colorComp != null)
+                    {
+                        if (spec.finalColorClear)
+                            WeaponModificationUtility.SetColor(weapon, null); // revert to default tint
+                        else if (spec.finalColor != null)
+                            WeaponModificationUtility.SetColor(weapon, spec.finalColor);
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using RimWorld;
 using Verse;
 
@@ -11,31 +12,45 @@ namespace PersonaWeaponsUnbound
     /// </summary>
     public static class TraitValidationUtility
     {
-        public const int MaxTraits = 3;
+        /// <summary>
+        /// Maximum trait count, derived from the bladelink comp's own generation
+        /// range (vanilla <c>IntRange(1, 2)</c> → cap 2) rather than hardcoded, so a
+        /// mod that widens the range is honoured. The range is a private static
+        /// field on <see cref="CompBladelinkWeapon"/>, so it's read via reflection
+        /// once; falls back to 2 if the field can't be resolved.
+        /// </summary>
+        public static readonly int MaxTraits = DeriveMaxTraits();
+
+        private static int DeriveMaxTraits()
+        {
+            FieldInfo field = typeof(CompBladelinkWeapon)
+                .GetField("TraitsRange", BindingFlags.NonPublic | BindingFlags.Static);
+            if (field != null && field.GetValue(null) is IntRange range && range.max > 0)
+                return range.max;
+            Log.Warning("[Persona Weapons Unbound] Could not read CompBladelinkWeapon.TraitsRange "
+                + "via reflection; defaulting the max trait cap to 2. RimWorld API may have changed.");
+            return 2;
+        }
 
         /// <summary>
-        /// Returns all weapon traits compatible with the given unique weapon def's
-        /// categories, excluding BladeLink (Royalty persona) traits.
-        /// This is the full list shown in the UI — individual traits may still be
-        /// disabled based on the current desired trait selection.
+        /// Returns all persona (bladelink) weapon traits — the only ones a persona
+        /// weapon can carry. This is the full list shown in the UI; individual
+        /// traits may still be disabled based on the current desired selection.
+        /// The <paramref name="personaDef"/> is accepted for symmetry with the
+        /// call sites but not consulted: bladelink is a single category shared by
+        /// every persona weapon.
         /// </summary>
-        public static List<WeaponTraitDef> GetCompatibleTraits(ThingDef uniqueDef)
+        public static List<WeaponTraitDef> GetCompatibleTraits(ThingDef personaDef)
         {
-            List<WeaponCategoryDef> categories = GetWeaponCategories(uniqueDef);
-            if (categories == null || categories.Count == 0)
-                return new List<WeaponTraitDef>();
-
             var result = new List<WeaponTraitDef>();
             foreach (WeaponTraitDef trait in DefDatabase<WeaponTraitDef>.AllDefs)
             {
-                // Exclude Royalty bladelink/persona traits
+                // Only bladelink/persona traits. This is exactly
+                // CompBladelinkWeapon.CanAddTrait's discriminator, so it's
+                // authoritative for mod-added traits too.
                 if (IsBladeLink(trait))
-                    continue;
-
-                if (categories.Contains(trait.weaponCategory))
                     result.Add(trait);
             }
-
             return result;
         }
 
@@ -121,26 +136,9 @@ namespace PersonaWeaponsUnbound
             return a.exclusionTags.Any(tag => b.exclusionTags.Contains(tag));
         }
 
-        /// <summary>
-        /// Extracts the accepted weapon categories from a unique weapon def's
-        /// CompProperties_UniqueWeapon.
-        /// </summary>
-        public static List<WeaponCategoryDef> GetWeaponCategories(ThingDef uniqueDef)
-        {
-            if (uniqueDef?.comps == null)
-                return null;
-
-            CompProperties_UniqueWeapon props = uniqueDef.comps
-                .OfType<CompProperties_UniqueWeapon>()
-                .FirstOrDefault();
-
-            return props?.weaponCategories;
-        }
-
         private static bool IsBladeLink(WeaponTraitDef trait)
         {
-            return trait.weaponCategory != null
-                && trait.weaponCategory.defName == "BladeLink";
+            return trait.weaponCategory == WeaponCategoryDefOf.BladeLink;
         }
     }
 }

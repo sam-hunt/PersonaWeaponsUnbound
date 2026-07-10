@@ -108,19 +108,19 @@ namespace PersonaWeaponsUnbound
         private static FloatMenuOption GetOptionForWeapon(
             Pawn pawn, Thing weapon, Building_WorkTable workbench)
         {
-            // Variant exists + UniqueSmithing gate
+            // Variant exists + research gate
             AcceptanceReport customizable = CustomizationRules.IsCustomizable(weapon);
             if (!customizable.Accepted && customizable.Reason.NullOrEmpty())
                 return null;
 
-            // Resolve base/unique defs for the workbench check
+            // Resolve base/persona defs for the workbench check
             WeaponRegistry.ResolveWeaponDefs(weapon,
-                out ThingDef baseDef, out ThingDef uniqueDef);
+                out ThingDef baseDef, out ThingDef personaDef);
 
             // Workbench: must be a fabrication bench (or VEF equivalent)
             TechLevel weaponTechLevel = CustomizationRules.GetWeaponTechLevel(weapon);
             AcceptanceReport workbenchReport = WorkbenchUtility.CanCustomizeAtWorkbench(
-                baseDef, uniqueDef, weaponTechLevel, workbench);
+                baseDef, personaDef, weaponTechLevel, workbench);
             if (!workbenchReport.Accepted)
                 return DisabledOrHidden(weapon, workbenchReport);
 

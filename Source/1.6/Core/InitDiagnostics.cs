@@ -39,8 +39,8 @@ namespace PersonaWeaponsUnbound
 
         private void LogSummaryInner()
         {
-            var pairsByMod = GroupBySourceMod(WeaponRegistry.AllUniqueDefs);
-            var orphansByMod = GroupBySourceMod(WeaponRegistry.OrphanUniqueDefs);
+            var pairsByMod = GroupBySourceMod(WeaponRegistry.AllPersonaDefs);
+            var orphansByMod = GroupBySourceMod(WeaponRegistry.OrphanPersonaDefs);
             var traitsByMod = GroupBySourceMod(DefDatabase<WeaponTraitDef>.AllDefs);
 
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
@@ -58,7 +58,7 @@ namespace PersonaWeaponsUnbound
             // a "(0): none" line for the typical clean-install case would be
             // noise. Per-orphan warnings are emitted by WeaponRegistry itself.
             if (orphansByMod.Values.Sum() > 0)
-                AppendCategory(sb, "Orphan Unique Weapons", orphansByMod);
+                AppendCategory(sb, "Orphan Persona Weapons", orphansByMod);
             AppendCategory(sb, "Weapon Traits", traitsByMod);
             Log.Message(sb.ToString().TrimEnd());
         }

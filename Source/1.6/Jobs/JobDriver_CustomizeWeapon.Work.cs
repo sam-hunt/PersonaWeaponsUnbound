@@ -11,7 +11,7 @@ namespace PersonaWeaponsUnbound
     // by the Haul phase) and the refundLedger float credits, then per-op
     // mutation of the weapon Thing. Pays each op's cost from the ledger
     // before applying the trait/cosmetics/color change, and converts
-    // base<->unique atomically when the trait count crosses the 0<->1
+    // base<->persona atomically when the trait count crosses the 0<->1
     // boundary. A throw inside an op bails the whole job rather than
     // continuing onto the next op (which could blow trait limits or
     // depend on a refund credit that never materialised).
@@ -247,8 +247,8 @@ namespace PersonaWeaponsUnbound
                         }
                     }
 
-                    // If removing the last trait, convert unique→base atomically
-                    CompUniqueWeapon removeComp = weapon.TryGetComp<CompUniqueWeapon>();
+                    // If removing the last trait, convert persona→base atomically
+                    CompBladelinkWeapon removeComp = weapon.TryGetComp<CompBladelinkWeapon>();
                     if (removeComp != null && removeComp.TraitsListForReading.Count == 0
                         && PWU_Mod.Settings.allowDefConversion)
                     {
@@ -259,7 +259,7 @@ namespace PersonaWeaponsUnbound
                     break;
 
                 case OpType.ApplyCosmetics:
-                    if (weapon.TryGetComp<CompUniqueWeapon>() != null)
+                    if (weapon.TryGetComp<CompBladelinkWeapon>() != null)
                     {
                         if (op.nameToApply != null)
                             WeaponModificationUtility.SetName(weapon, op.nameToApply);
@@ -277,19 +277,21 @@ namespace PersonaWeaponsUnbound
                         return;
                     }
 
-                    // If weapon is currently base, convert base→unique first
-                    if (!WeaponRegistry.IsUniqueWeapon(weapon.def) && PWU_Mod.Settings.allowDefConversion)
+                    // If weapon is currently base, convert base→persona first.
+                    // AddTrait then bonds naturally on next equip (biocodeOnEquip);
+                    // the fresh persona weapon must not be pre-bonded (spec §4).
+                    if (!WeaponRegistry.IsPersonaWeapon(weapon.def) && PWU_Mod.Settings.allowDefConversion)
                     {
-                        ThingDef uniqueDef = WeaponRegistry.GetUniqueVariant(weapon.def);
-                        if (uniqueDef != null)
-                            ConvertWeaponInPlace(uniqueDef);
+                        ThingDef personaDef = WeaponRegistry.GetPersonaVariant(weapon.def);
+                        if (personaDef != null)
+                            ConvertWeaponInPlace(personaDef);
                     }
 
                     WeaponModificationUtility.AddTrait(weapon, op.trait);
 
                     // Apply bundled cosmetics (merged from a cosmetics op that
                     // would have been a no-op when the weapon was in base state)
-                    if (weapon.TryGetComp<CompUniqueWeapon>() != null)
+                    if (weapon.TryGetComp<CompBladelinkWeapon>() != null)
                     {
                         if (op.nameToApply != null)
                             WeaponModificationUtility.SetName(weapon, op.nameToApply);
@@ -297,8 +299,9 @@ namespace PersonaWeaponsUnbound
                     break;
             }
 
-            // Apply color change if this op carries one
-            if (weapon.TryGetComp<CompUniqueWeapon>() != null)
+            // Apply color change if this op carries one (CompColorable, patched
+            // onto the persona defs). No-op on a base weapon without the comp.
+            if (weapon.TryGetComp<CompColorable>() != null)
             {
                 if (op.clearColor)
                     WeaponModificationUtility.SetColor(weapon, null);
@@ -308,13 +311,22 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Converts the weapon to a different ThingDef in-place (base↔unique).
+        /// Converts the weapon to a different ThingDef in-place (base↔persona).
         /// Destroys the current weapon, spawns a new one at the same position,
         /// and updates reservations. Called atomically within an ApplyOperation
         /// step when a trait change crosses the 0↔1 boundary.
         /// </summary>
         private void ConvertWeaponInPlace(ThingDef targetDef)
         {
+            // Downgrade (persona→base): sever the bond BEFORE the def swap while
+            // the old weapon still exists, so UnCode clears the coded pawn's
+            // bondedWeapon back-reference and biocode fields (spec §4). Biocode
+            // state is never carried onto the new base weapon. On an upgrade the
+            // old weapon has no CompBladelinkWeapon, so this is skipped.
+            CompBladelinkWeapon oldBladelink = weapon.TryGetComp<CompBladelinkWeapon>();
+            if (oldBladelink != null)
+                oldBladelink.UnCode();
+
             Thing newWeapon = WeaponDefConversion.ConvertWeaponDef(weapon, targetDef);
             IntVec3 pos = weapon.Position;
             Map map = weapon.Map;

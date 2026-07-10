@@ -19,17 +19,17 @@ namespace PersonaWeaponsUnbound
         {
             ThingDef def = weapon.def;
 
-            if (WeaponRegistry.IsUniqueWeapon(def))
+            if (WeaponRegistry.IsPersonaWeapon(def))
             {
-                // Unique weapons are always in the customization system
+                // Persona weapons are always in the customization system
                 // regardless of whether a base def exists.
             }
             else
             {
-                if (WeaponRegistry.GetUniqueVariant(def) == null)
-                    return HiddenUnlessDev("PWU_DevNoUniqueVariant".Translate());
+                if (WeaponRegistry.GetPersonaVariant(def) == null)
+                    return HiddenUnlessDev("PWU_DevNoPersonaVariant".Translate());
 
-                // When def conversion is disabled, only already-unique weapons
+                // When def conversion is disabled, only already-persona weapons
                 // can enter the customization system.
                 if (!PWU_Mod.Settings.allowDefConversion)
                     return HiddenUnlessDev("PWU_DevDefConversionDisabled".Translate());
@@ -104,10 +104,10 @@ namespace PersonaWeaponsUnbound
         {
             ThingDef def = weapon.def;
 
-            if (WeaponRegistry.IsUniqueWeapon(def))
+            if (WeaponRegistry.IsPersonaWeapon(def))
                 return def.techLevel;
 
-            if (WeaponRegistry.GetUniqueVariant(def) != null)
+            if (WeaponRegistry.GetPersonaVariant(def) != null)
                 return def.techLevel;
 
             return TechLevel.Undefined;

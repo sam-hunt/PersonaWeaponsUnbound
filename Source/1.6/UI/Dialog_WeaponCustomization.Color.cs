@@ -8,6 +8,13 @@ namespace PersonaWeaponsUnbound
     {
         // --- Color tab ---
 
+        /// <summary>
+        /// Whether the weapon can be recolored: the resulting persona def carries
+        /// CompColorable (vanilla persona defs get it via the BladelinkColorable.xml
+        /// patch; an un-patched modded persona weapon does not).
+        /// </summary>
+        private bool CanRecolor => personaDef != null && personaDef.HasComp(typeof(CompColorable));
+
         private void DrawColorTab(Rect rect)
         {
             // Disabled: reverted to base
@@ -18,6 +25,18 @@ namespace PersonaWeaponsUnbound
                 GUI.color = Color.gray;
                 Widgets.Label(rect,
                     "PWU_SelectTraitsForColor".Translate());
+                GUI.color = prevColor;
+                Text.Anchor = TextAnchor.UpperLeft;
+                return;
+            }
+
+            // Disabled: this persona weapon has no CompColorable (modded, un-patched)
+            if (!CanRecolor)
+            {
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Color prevColor = GUI.color;
+                GUI.color = Color.gray;
+                Widgets.Label(rect, "PWU_ColorNotSupported".Translate());
                 GUI.color = prevColor;
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
@@ -74,13 +93,13 @@ namespace PersonaWeaponsUnbound
             float curY = 0f;
             float startX = 0f;
 
-            // --- Weapon colors ---
+            // --- Persona weapon colors (single default-tint swatch) ---
             Text.Font = GameFont.Small;
             Widgets.Label(new Rect(startX, curY, scrollWidth, SectionHeaderHeight),
-                "PWU_WeaponColors".Translate());
+                "PWU_PersonaColors".Translate());
             curY += SectionHeaderHeight;
 
-            DrawColorGrid(ref curY, startX, cols, availableWeaponColors, false);
+            DrawColorGrid(ref curY, startX, cols, availablePersonaColors, false);
 
             // --- Ideology colors (Ideo + Misc palette, when DLC active) ---
             if (PWU_Mod.Settings.enableIdeologyColors
@@ -158,9 +177,9 @@ namespace PersonaWeaponsUnbound
         {
             float height = 0f;
 
-            // Weapon colors
+            // Persona colors
             height += SectionHeaderHeight;
-            height += GridHeight(availableWeaponColors.Count, cols);
+            height += GridHeight(availablePersonaColors.Count, cols);
 
             // Ideology colors
             if (PWU_Mod.Settings.enableIdeologyColors

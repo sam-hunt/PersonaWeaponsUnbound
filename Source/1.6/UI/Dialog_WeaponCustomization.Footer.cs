@@ -162,59 +162,24 @@ namespace PersonaWeaponsUnbound
             {
                 if (Widgets.ButtonText(confirmRect, "PWU_Confirm".Translate()))
                 {
-                    // Auto-generate name if result is unique but name is empty
-                    if (ResultingDef == uniqueDef
-                        && string.IsNullOrEmpty(desiredName)
-                        && desiredTraits.Count > 0)
+                    // Reverting a BONDED persona weapon to base severs its bond
+                    // (UnCode runs during conversion) — confirm first (spec D5/§9).
+                    CompBladelinkWeapon bladelink = weapon.TryGetComp<CompBladelinkWeapon>();
+                    if (IsRevertedToBase && bladelink != null
+                        && bladelink.Biocoded && bladelink.CodedPawn != null)
                     {
-                        string regenerated = GenerateWeaponName();
-                        if (regenerated != null)
-                            desiredName = regenerated;
+                        string bondedLabel = !string.IsNullOrEmpty(bladelink.CodedPawnLabel)
+                            ? bladelink.CodedPawnLabel
+                            : bladelink.CodedPawn.LabelShortCap;
+                        Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                            "PWU_BondSeveredWarning".Translate(bondedLabel),
+                            CommitCustomization,
+                            destructive: true));
                     }
-
-                    // Build the ordered operations list and spec. Costs/refunds are
-                    // priced by the same sequential simulation as the live preview
-                    // (BuildOperations), so what the player saw is what they're charged.
-                    var spec = BuildCustomizationSpec();
-
-                    // Reserve ingredients synchronously while forcePause holds the game
-                    // still — no other pawn AI runs between the per-frame availability
-                    // check and this commit, so what the player saw is what they get.
-                    //
-                    // Explicit CurJob null guard: in a single-player session forcePause
-                    // + absorbInputAroundWindow makes this impossible, but RimWorld
-                    // Multiplayer doesn't enforce pause across clients — a peer could
-                    // retarget our pawn between dialog open and confirm. The downstream
-                    // driver lookup inside TryReserveIngredientsForJob would also catch
-                    // this, but a paired check at the call site keeps the multiplayer-
-                    // readiness visible here next to the reservation call it protects.
-                    if (pawn.CurJob == null)
+                    else
                     {
-                        HandleReservationFailure(
-                            IngredientReservation.ReservationResult.NoActiveDriver());
-                        return;
+                        CommitCustomization();
                     }
-                    var result = IngredientReservation.TryReserveIngredientsForJob(
-                        pawn, spec.totalCost);
-                    if (!result.IsSuccess)
-                    {
-                        // Leave the dialog open (per-frame availability recompute
-                        // reveals new state on the next render) and surface both a
-                        // log line and a player-visible message via the helper, so
-                        // log + Messages text agree and the click isn't perceived
-                        // as a no-op. NoActiveDriver is a genuine invariant break
-                        // and logs at Error; the others at Warning.
-                        HandleReservationFailure(result);
-                        return;
-                    }
-
-                    // Set the spec directly on the driver field (not the static
-                    // pending-spec dict) so the field-scribe carries it across a
-                    // save/reload taken in the one-tick gap between Close() and
-                    // the consumeSpec toil — autosave landing in that gap would
-                    // otherwise orphan a confirmed customization.
-                    ((JobDriver_CustomizeWeapon)pawn.jobs.curDriver).SetSpec(spec);
-                    Close();
                 }
             }
             else
@@ -248,6 +213,66 @@ namespace PersonaWeaponsUnbound
             }
         }
 
+        /// <summary>
+        /// Commits the staged customization: auto-generates a name if needed, builds
+        /// the spec, reserves ingredients synchronously (while forcePause holds the
+        /// game still — so what the player saw is what they get), hands the spec to
+        /// the running job driver, and closes. Invoked directly on confirm, or via a
+        /// confirmation dialog when the change severs a bond.
+        /// </summary>
+        private void CommitCustomization()
+        {
+            // Auto-generate name if result is a persona weapon but the name is empty
+            if (ResultingDef == personaDef
+                && string.IsNullOrEmpty(desiredName)
+                && desiredTraits.Count > 0)
+            {
+                string regenerated = GenerateWeaponName();
+                if (regenerated != null)
+                    desiredName = regenerated;
+            }
+
+            // Build the ordered operations list and spec. Costs/refunds are
+            // priced by the same sequential simulation as the live preview
+            // (BuildOperations), so what the player saw is what they're charged.
+            var spec = BuildCustomizationSpec();
+
+            // Explicit CurJob null guard: in a single-player session forcePause
+            // + absorbInputAroundWindow makes this impossible, but RimWorld
+            // Multiplayer doesn't enforce pause across clients — a peer could
+            // retarget our pawn between dialog open and confirm. The downstream
+            // driver lookup inside TryReserveIngredientsForJob would also catch
+            // this, but a paired check at the call site keeps the multiplayer-
+            // readiness visible here next to the reservation call it protects.
+            if (pawn.CurJob == null)
+            {
+                HandleReservationFailure(
+                    IngredientReservation.ReservationResult.NoActiveDriver());
+                return;
+            }
+            var result = IngredientReservation.TryReserveIngredientsForJob(
+                pawn, spec.totalCost);
+            if (!result.IsSuccess)
+            {
+                // Leave the dialog open (per-frame availability recompute
+                // reveals new state on the next render) and surface both a
+                // log line and a player-visible message via the helper, so
+                // log + Messages text agree and the click isn't perceived
+                // as a no-op. NoActiveDriver is a genuine invariant break
+                // and logs at Error; the others at Warning.
+                HandleReservationFailure(result);
+                return;
+            }
+
+            // Set the spec directly on the driver field (not the static
+            // pending-spec dict) so the field-scribe carries it across a
+            // save/reload taken in the one-tick gap between Close() and
+            // the consumeSpec toil — autosave landing in that gap would
+            // otherwise orphan a confirmed customization.
+            ((JobDriver_CustomizeWeapon)pawn.jobs.curDriver).SetSpec(spec);
+            Close();
+        }
+
         // --- Spec Building ---
 
         /// <summary>
@@ -266,13 +291,20 @@ namespace PersonaWeaponsUnbound
             ComputeNetCostAndSurplus(totalCostAgg, totalRefundAgg,
                 out List<ThingDefCountClass> netCost, out _);
 
+            // Only a registered ColorDef is Scribe-safe. The default-tint / custom
+            // runtime pseudo-defs are carried as finalColorClear (revert to default)
+            // so a save landing in the confirm→finalize gap can't fail to reload it.
+            ColorDef effective = ResultingDef == personaDef ? EffectiveColor : null;
+            bool clearFinal = effective != null && !IsScribeSafeColor(effective);
+
             return new CustomizationSpec
             {
                 operations = ops,
                 resultingDef = ResultingDef,
                 totalCost = netCost,
                 totalRefund = totalRefundAgg,
-                finalColor = ResultingDef == uniqueDef ? EffectiveColor : null,
+                finalColor = clearFinal ? null : effective,
+                finalColorClear = clearFinal,
             };
         }
 

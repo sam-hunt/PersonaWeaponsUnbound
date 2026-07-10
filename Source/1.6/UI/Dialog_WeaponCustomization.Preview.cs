@@ -288,17 +288,17 @@ namespace PersonaWeaponsUnbound
         /// draw-time patch and never changes the thing's graphic can't be
         /// reconstructed by anything short of invoking that draw path.)</para>
         ///
-        /// <para>Only the trait list and the comp's color field need setting:
-        /// color one is read live from <c>CompUniqueWeapon.ForceColor</c> (just that
-        /// field — no trait scan, no Setup() cache), and color two is derived from
-        /// the trait list (+ stuff) by the weapon's own <c>DrawColorTwo</c>.
-        /// Abilities/verbs don't affect appearance, so the heavier AddTrait wiring
-        /// is skipped — the list is replaced directly.</para>
+        /// <para>Only the trait list and the color need setting: the color is
+        /// applied through <c>CompColorable</c> (<c>Thing.DrawColor</c> reads it
+        /// first), and color two is derived from the trait list (+ stuff) by the
+        /// weapon's own <c>DrawColorTwo</c>. Bonding/hediff wiring doesn't affect
+        /// appearance, so the heavier AddTrait side effects are skipped — the trait
+        /// list is replaced directly.</para>
         ///
         /// <para>Building a Thing mutates <em>global</em> sim state, which the old
         /// graphic-only path never touched: <c>Thing.PostMake</c> pulls a
-        /// <c>UniqueIDsManager</c> id and <c>CompUniqueWeapon.PostPostMake</c> rolls
-        /// random traits/name/color off the global <c>Rand</c>. Two guards keep that
+        /// <c>UniqueIDsManager</c> id and <c>CompBladelinkWeapon.PostPostMake</c> rolls
+        /// random traits/name off the global <c>Rand</c>. Two guards keep that
         /// from leaking (a multiplayer desync risk, since rebuilds run during GUI
         /// layout, off the synchronized tick): the make is wrapped in
         /// <c>Rand.Push/PopState</c> so the throwaway rolls don't perturb the shared
@@ -336,19 +336,19 @@ namespace PersonaWeaponsUnbound
                 }
             }
 
-            CompUniqueWeapon comp = previewThing.TryGetComp<CompUniqueWeapon>();
+            CompBladelinkWeapon comp = previewThing.TryGetComp<CompBladelinkWeapon>();
             if (comp != null)
             {
                 // Replace PostPostMake's random roll with the prospective trait set.
                 List<WeaponTraitDef> traits = comp.TraitsListForReading;
                 traits.Clear();
                 traits.AddRange(desiredTraits);
-
-                // Write color one and invalidate the cached graphic (SetColor fires
-                // Notify_ColorChanged), so Graphic rebuilds against the prospective
-                // state below. Color two is left to the thing's own DrawColorTwo.
-                WeaponModificationUtility.SetColor(previewThing, colorDef);
             }
+
+            // Write the desired color via CompColorable (SetColor fires
+            // Notify_ColorChanged) so Graphic rebuilds against the prospective state.
+            // No-op if the preview thing lacks CompColorable (e.g. the base def).
+            WeaponModificationUtility.SetColor(previewThing, colorDef);
 
             return previewThing.Graphic;
         }

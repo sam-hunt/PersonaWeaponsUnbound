@@ -38,21 +38,25 @@ namespace PersonaWeaponsUnbound
 
     public partial class Dialog_WeaponCustomization : Window
     {
-        // Reflection: delegate to WeaponModificationUtility which owns the FieldInfo statics
+        // Reflection: delegate to WeaponModificationUtility which owns the FieldInfo static.
+        // CompNameField targets CompGeneratedNames.name (the persona weapon's name).
         private static FieldInfo CompNameField => WeaponModificationUtility.CompNameField;
-        private static FieldInfo CompColorField => WeaponModificationUtility.CompColorField;
 
         // Immutable state — set in constructor, never modified
         private readonly Pawn pawn;
         private readonly Thing weapon;
         private readonly Building_WorkTable workbench;
-        private readonly ThingDef uniqueDef;
-        private readonly ThingDef baseDef; // null if unique weapon has no detected base
+        private readonly ThingDef personaDef;
+        private readonly ThingDef baseDef; // null if persona weapon has no detected base
         private readonly List<WeaponTraitDef> originalTraits;
         private readonly List<WeaponTraitDef> compatibleTraits;
         private readonly string originalName;
         private readonly ColorDef originalColor;
-        private readonly List<ColorDef> availableWeaponColors;
+        // Single-swatch "default persona tint" pseudo-def, plus the palette lists.
+        // The persona swatch's color equals the weapon def's own tint (255,200,200),
+        // so selecting it deactivates CompColorable (reverts to the def tint).
+        private readonly ColorDef personaDefaultColor;
+        private readonly List<ColorDef> availablePersonaColors;
         private readonly List<ColorDef> availableIdeoColors; // Ideology DLC: Ideo + Misc colors
         private readonly List<ColorDef> availableStructureColors;
         private readonly ColorDef initialDesiredColor;
@@ -140,30 +144,30 @@ namespace PersonaWeaponsUnbound
             absorbInputAroundWindow = true;
             onlyOneOfTypeAllowed = true;
 
-            // Determine unique/base defs
-            if (WeaponRegistry.IsUniqueWeapon(weapon.def))
+            // Determine persona/base defs
+            if (WeaponRegistry.IsPersonaWeapon(weapon.def))
             {
-                uniqueDef = weapon.def;
+                personaDef = weapon.def;
                 baseDef = WeaponRegistry.GetBaseVariant(weapon.def);
             }
             else
             {
                 baseDef = weapon.def;
-                uniqueDef = WeaponRegistry.GetUniqueVariant(weapon.def);
+                personaDef = WeaponRegistry.GetPersonaVariant(weapon.def);
             }
 
-            // Snapshot original traits
-            CompUniqueWeapon uniqueComp = weapon.TryGetComp<CompUniqueWeapon>();
-            if (uniqueComp != null && uniqueComp.TraitsListForReading != null)
-                originalTraits = new List<WeaponTraitDef>(uniqueComp.TraitsListForReading);
+            // Snapshot original traits from the live bladelink comp
+            CompBladelinkWeapon bladelinkComp = weapon.TryGetComp<CompBladelinkWeapon>();
+            if (bladelinkComp != null && bladelinkComp.TraitsListForReading != null)
+                originalTraits = new List<WeaponTraitDef>(bladelinkComp.TraitsListForReading);
             else
                 originalTraits = new List<WeaponTraitDef>();
-            // Note: non-unique weapons start with empty originalTraits — user can only add.
+            // Note: base weapons start with empty originalTraits — user can only add.
 
             desiredTraits = new List<WeaponTraitDef>(originalTraits);
 
-            // Cache the full compatible trait list for this weapon type
-            compatibleTraits = TraitValidationUtility.GetCompatibleTraits(uniqueDef);
+            // Cache the full compatible trait list (all bladelink traits)
+            compatibleTraits = TraitValidationUtility.GetCompatibleTraits(personaDef);
 
             // Progression mode: snapshot the player's currently-known trait pool so the
             // RHS list can hide traits the player can't yet see and disable traits only
@@ -175,16 +179,17 @@ namespace PersonaWeaponsUnbound
             // Default to hiding negative traits unless the weapon already has one
             hideNegativeTraits = !originalTraits.Any(t => TraitCostUtility.IsNegativeTrait(t));
 
-            // Snapshot original name via reflection
-            if (uniqueComp != null && CompNameField != null)
-                originalName = (string)CompNameField.GetValue(uniqueComp) ?? "";
+            // Snapshot original name via reflection (CompGeneratedNames.name)
+            CompGeneratedNames nameComp = weapon.TryGetComp<CompGeneratedNames>();
+            if (nameComp != null && CompNameField != null)
+                originalName = (string)CompNameField.GetValue(nameComp) ?? "";
             else
                 originalName = "";
             desiredName = originalName;
             nameLocked = !string.IsNullOrEmpty(originalName);
 
             // Ideology DLC: if the weapon is a relic, use the precept's display name
-            // as the desired name. This writes the relic name into CompUniqueWeapon.name
+            // as the desired name. This writes the relic name into CompGeneratedNames.name
             // so it persists even if relic status is later revoked via ideology reform.
             // The name field is disabled for relics — editing happens via form/reform.
             if (ModsConfig.IdeologyActive && weapon.StyleSourcePrecept is Precept_Relic relicPrecept)
@@ -195,27 +200,21 @@ namespace PersonaWeaponsUnbound
                 nameLocked = true;
             }
 
-            // Snapshot original color via reflection and build available colors list
-            if (uniqueComp != null && CompColorField != null)
-                originalColor = (ColorDef)CompColorField.GetValue(uniqueComp);
-            else
-                originalColor = null;
-
-            availableWeaponColors = new List<ColorDef>();
-            foreach (ColorDef colorDef in DefDatabase<ColorDef>.AllDefs)
+            // Build the "default persona tint" swatch from the persona def's own
+            // graphic color (vanilla: 255,200,200), so it doubles as the "revert to
+            // default" option — SetColor deactivates CompColorable when the chosen
+            // color equals the def tint.
+            Color personaTint = (personaDef?.graphicData != null)
+                ? personaDef.graphicData.color
+                : new Color(1f, 200f / 255f, 200f / 255f);
+            personaDefaultColor = new ColorDef
             {
-                try
-                {
-                    if (colorDef.colorType == ColorType.Weapon && colorDef.randomlyPickable)
-                        availableWeaponColors.Add(colorDef);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error("[Persona Weapons Unbound] Skipped weapon color "
-                        + colorDef.SourceForLog() + " due to error: " + ex);
-                }
-            }
-            availableWeaponColors.SortByColor(c => c.color);
+                defName = "PWU_PersonaDefaultColor_Runtime",
+                label = "PWU_PersonaDefaultColor".Translate(),
+                color = personaTint,
+                colorType = ColorType.Misc,
+            };
+            availablePersonaColors = new List<ColorDef> { personaDefaultColor };
 
             if (ModsConfig.IdeologyActive)
             {
@@ -236,10 +235,10 @@ namespace PersonaWeaponsUnbound
                 availableIdeoColors.SortByColor(c => c.color);
             }
 
-            // Structure colors: exclude colors already in weapon/ideo sections
+            // Structure colors: exclude colors already in persona/ideo sections
             // and colors that match any compatible trait's forced color.
             HashSet<Color> excludedColors = new HashSet<Color>();
-            foreach (ColorDef cd in availableWeaponColors)
+            foreach (ColorDef cd in availablePersonaColors)
                 excludedColors.Add(cd.color);
             if (availableIdeoColors != null)
             {
@@ -269,10 +268,55 @@ namespace PersonaWeaponsUnbound
             }
             availableStructureColors.SortByColor(c => c.color);
 
-            desiredColor = originalColor;
-            if (desiredColor == null && availableWeaponColors.Count > 0)
-                desiredColor = availableWeaponColors.RandomElement();
+            // Snapshot the original color now that every palette exists: an active
+            // CompColorable means the weapon carries a custom tint (mapped back to a
+            // palette ColorDef where possible); otherwise it shows the default swatch.
+            CompColorable colorComp = weapon.TryGetComp<CompColorable>();
+            if (colorComp != null && colorComp.Active)
+                originalColor = FindColorDefForColor(colorComp.Color) ?? MakeRuntimeColorDef(colorComp.Color);
+            else
+                originalColor = personaDefaultColor;
+
+            desiredColor = originalColor ?? personaDefaultColor;
             initialDesiredColor = desiredColor;
+        }
+
+        /// <summary>
+        /// Finds a palette ColorDef (persona swatch, ideo, or structure) whose color
+        /// is indistinguishable from <paramref name="color"/>, or null if none match.
+        /// Lets a weapon already recolored by an in-palette color re-select its swatch.
+        /// </summary>
+        private ColorDef FindColorDefForColor(Color color)
+        {
+            foreach (ColorDef cd in availablePersonaColors)
+                if (cd.color.IndistinguishableFrom(color))
+                    return cd;
+            if (availableIdeoColors != null)
+                foreach (ColorDef cd in availableIdeoColors)
+                    if (cd.color.IndistinguishableFrom(color))
+                        return cd;
+            if (availableStructureColors != null)
+                foreach (ColorDef cd in availableStructureColors)
+                    if (cd.color.IndistinguishableFrom(color))
+                        return cd;
+            return null;
+        }
+
+        /// <summary>
+        /// Wraps an arbitrary <see cref="Color"/> (a custom tint not present in any
+        /// palette) in a throwaway ColorDef so the dialog can carry it through its
+        /// ColorDef-keyed model. Not registered in the DefDatabase; used only for
+        /// equality/preview within this dialog's lifetime.
+        /// </summary>
+        private static ColorDef MakeRuntimeColorDef(Color color)
+        {
+            return new ColorDef
+            {
+                defName = "PWU_CustomColor_Runtime",
+                label = "PWU_PersonaDefaultColor".Translate(),
+                color = color,
+                colorType = ColorType.Misc,
+            };
         }
 
         // --- Computed properties ---
@@ -282,19 +326,19 @@ namespace PersonaWeaponsUnbound
             get
             {
                 if (desiredTraits.Count > 0)
-                    return uniqueDef;
+                    return personaDef;
                 // No desired traits — revert to base if one exists
                 if (baseDef != null && PWU_Mod.Settings.allowDefConversion)
                     return baseDef;
-                // Unique weapon with no detected base — keep unique def with zero traits.
-                // This handles edge cases where a unique weapon has no base weapon mapping.
-                return uniqueDef;
+                // Persona weapon with no detected base — keep persona def with zero traits.
+                // This handles edge cases where a persona weapon has no base weapon mapping.
+                return personaDef;
             }
         }
 
         /// <summary>
-        /// True when weapon will revert to its non-unique base def (no traits, base exists).
-        /// Name/texture/color controls are disabled in this state.
+        /// True when weapon will revert to its base def (no traits, base exists).
+        /// Name/color controls are disabled in this state.
         /// </summary>
         private bool IsRevertedToBase => desiredTraits.Count == 0 && baseDef != null && PWU_Mod.Settings.allowDefConversion;
 
@@ -307,6 +351,35 @@ namespace PersonaWeaponsUnbound
         /// rules 1–2 tie the core strictly to actual def conversion).
         /// </summary>
         private bool ConversionAvailable => baseDef != null && PWU_Mod.Settings.allowDefConversion;
+
+        /// <summary>
+        /// True when the weapon is currently bonded (biocoded) to a pawn. Drives the
+        /// NeverBond "severs the bond" warning and the footer bond-severed confirm.
+        /// </summary>
+        private bool WeaponIsBonded
+        {
+            get
+            {
+                CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
+                return comp != null && comp.Biocoded && comp.CodedPawn != null;
+            }
+        }
+
+        /// <summary>
+        /// Display label of the pawn the weapon is bonded to, or empty if unbonded.
+        /// </summary>
+        private string BondedPawnLabel
+        {
+            get
+            {
+                CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
+                if (comp == null || !comp.Biocoded || comp.CodedPawn == null)
+                    return "";
+                return !string.IsNullOrEmpty(comp.CodedPawnLabel)
+                    ? comp.CodedPawnLabel
+                    : comp.CodedPawn.LabelShortCap;
+            }
+        }
 
         /// <summary>
         /// The effective display color: forced color from traits takes priority,
@@ -327,6 +400,17 @@ namespace PersonaWeaponsUnbound
                     forced = trait.forcedColor;
             }
             return forced;
+        }
+
+        /// <summary>
+        /// Whether a ColorDef is safe to Scribe: it must be the DefDatabase-registered
+        /// instance for its defName. The dialog's synthetic "default tint" / custom-color
+        /// pseudo-defs are runtime-only and fail this — the spec routes them through the
+        /// CompColorable-clear (revert to default tint) path instead of Scribing them.
+        /// </summary>
+        private static bool IsScribeSafeColor(ColorDef c)
+        {
+            return c != null && DefDatabase<ColorDef>.GetNamedSilentFail(c.defName) == c;
         }
 
         private bool HasChanges
@@ -377,8 +461,8 @@ namespace PersonaWeaponsUnbound
                 && originalTraits.Any(t => t.forcedColor == originalColor
                     && !desiredTraits.Contains(t)))
             {
-                if (availableWeaponColors.Count > 0)
-                    desiredColor = availableWeaponColors.RandomElement();
+                if (availablePersonaColors.Count > 0)
+                    desiredColor = availablePersonaColors.RandomElement();
             }
 
             if (!nameLocked && !isRelic && desiredTraits.Count > 0 && !IsRevertedToBase)
@@ -561,27 +645,27 @@ namespace PersonaWeaponsUnbound
                 ops.Add(op);
             }
 
-            // 2. Cosmetics op (only if result is unique)
+            // 2. Cosmetics op (only if result is persona)
             // If the weapon will be in base state after removals (all original
             // traits removed) and there are additions, cosmetics can't apply to
             // a base weapon. Merge them into the first AddTrait op instead,
-            // which will convert base→unique and then apply cosmetics atomically.
-            // Cosmetics can only apply to a unique weapon. We must defer them
+            // which will convert base→persona and then apply cosmetics atomically.
+            // Cosmetics can only apply to a persona weapon. We must defer them
             // onto the first AddTrait op if the weapon will be in base state when
             // the cosmetics step would run. Two cases:
-            // (a) Weapon starts as unique but all original traits are removed → base
-            // (b) Weapon starts as base (non-unique) → already in base state
+            // (a) Weapon starts as persona but all original traits are removed → base
+            // (b) Weapon starts as base → already in base state
             bool willBeBaseAfterRemovals = remainingOriginalTraits.Count == 0
-                && WeaponRegistry.IsUniqueWeapon(weapon.def)
+                && WeaponRegistry.IsPersonaWeapon(weapon.def)
                 && ConversionAvailable;
-            bool startsAsBase = !WeaponRegistry.IsUniqueWeapon(weapon.def)
+            bool startsAsBase = !WeaponRegistry.IsPersonaWeapon(weapon.def)
                 && PWU_Mod.Settings.allowDefConversion;
             bool deferCosmetics = (willBeBaseAfterRemovals || startsAsBase) && adds.Count > 0;
 
             string deferredName = null;
             ColorDef deferredColor = null;
 
-            if (ResultingDef == uniqueDef)
+            if (ResultingDef == personaDef)
             {
                 bool nameChanged = desiredName != originalName;
                 bool colorChanged = EffectiveColor != originalColor;
@@ -589,9 +673,9 @@ namespace PersonaWeaponsUnbound
                 if (deferCosmetics)
                 {
                     // Always save ALL desired cosmetics when deferring. The round-trip
-                    // through base state (unique→base→unique) destroys the CompUniqueWeapon,
+                    // through base state (persona→base→persona) destroys the comps,
                     // so existing name/color are lost even if unchanged by the player.
-                    // They must be re-applied after the first AddTrait converts back to unique.
+                    // They must be re-applied after the first AddTrait converts back to persona.
                     deferredName = desiredName;
                     if (!hasForcedColorTraits)
                         deferredColor = desiredColor;
@@ -606,7 +690,15 @@ namespace PersonaWeaponsUnbound
                     if (nameChanged)
                         cosOp.nameToApply = desiredName;
                     if (colorChanged && !hasForcedColorTraits)
-                        cosOp.colorToApply = desiredColor;
+                    {
+                        // Registered palette color → apply it; the default-tint /
+                        // custom runtime pseudo-def → clear CompColorable instead
+                        // (unregistered defs can't be Scribed on the op).
+                        if (IsScribeSafeColor(desiredColor))
+                            cosOp.colorToApply = desiredColor;
+                        else
+                            cosOp.clearColor = true;
+                    }
 
                     ops.Add(cosOp);
                 }
@@ -633,7 +725,14 @@ namespace PersonaWeaponsUnbound
                 {
                     op.nameToApply = deferredName;
                     if (deferredColor != null && op.colorToApply == null)
-                        op.colorToApply = deferredColor;
+                    {
+                        // As above: registered color applies; default/custom runtime
+                        // pseudo-def clears CompColorable (revert to default tint).
+                        if (IsScribeSafeColor(deferredColor))
+                            op.colorToApply = deferredColor;
+                        else
+                            op.clearColor = true;
+                    }
                     firstAdd = false;
                 }
 

@@ -14,11 +14,11 @@ namespace PersonaWeaponsUnbound.Patches
     // ground carries CompForbiddable, so the gizmo's reachability set is
     // unchanged.
     //
-    // CompUniqueWeapon would be the narrowest possible target (unique
+    // CompBladelinkWeapon would be the narrowest possible target (persona
     // weapons only) but vanilla doesn't override CompGetGizmosExtra on it,
     // so there's no method body to postfix. It would also miss base
-    // weapons with a registered unique variant, which still need the
-    // gizmo to start a base→unique conversion.
+    // weapons with a registered persona variant, which still need the
+    // gizmo to start a base→persona conversion.
     [HarmonyPatch(typeof(CompForbiddable), nameof(CompForbiddable.CompGetGizmosExtra))]
     public static class CompForbiddable_CompGetGizmosExtra_Patch
     {
@@ -71,7 +71,7 @@ namespace PersonaWeaponsUnbound.Patches
                 return null;
 
             WeaponRegistry.ResolveWeaponDefs(parent,
-                out ThingDef baseDef, out ThingDef uniqueDef);
+                out ThingDef baseDef, out ThingDef personaDef);
             TechLevel techLevel = CustomizationRules.GetWeaponTechLevel(parent);
 
             Command_Action gizmo = new Command_Action();
@@ -88,7 +88,7 @@ namespace PersonaWeaponsUnbound.Patches
             else
             {
                 var workbenchCheck = WorkbenchUtility.FindBestWorkbench(
-                    parent.Map, baseDef, uniqueDef, techLevel, parent.Position);
+                    parent.Map, baseDef, personaDef, techLevel, parent.Position);
                 if (!workbenchCheck.Found)
                 {
                     gizmo.Disabled = true;
@@ -99,7 +99,7 @@ namespace PersonaWeaponsUnbound.Patches
             // Capture locals for the delegate closures
             Thing weapon = parent;
             ThingDef capturedBaseDef = baseDef;
-            ThingDef capturedUniqueDef = uniqueDef;
+            ThingDef capturedPersonaDef = personaDef;
             TechLevel capturedTechLevel = techLevel;
 
             gizmo.action = delegate
@@ -110,7 +110,7 @@ namespace PersonaWeaponsUnbound.Patches
                 try
                 {
                     BeginCustomizeTargeting(
-                        weapon, capturedBaseDef, capturedUniqueDef, capturedTechLevel);
+                        weapon, capturedBaseDef, capturedPersonaDef, capturedTechLevel);
                 }
                 catch (Exception ex)
                 {
@@ -126,7 +126,7 @@ namespace PersonaWeaponsUnbound.Patches
         }
 
         private static void BeginCustomizeTargeting(
-            Thing weapon, ThingDef baseDef, ThingDef uniqueDef, TechLevel techLevel)
+            Thing weapon, ThingDef baseDef, ThingDef personaDef, TechLevel techLevel)
         {
             TargetingParameters parms = TargetingParameters.ForColonist();
 
@@ -136,7 +136,7 @@ namespace PersonaWeaponsUnbound.Patches
                 if (!(targetInfo.Thing is Pawn p))
                     return false;
                 return WorkbenchUtility.FindBestWorkbench(
-                    p, baseDef, uniqueDef, techLevel, weapon.Position).Found;
+                    p, baseDef, personaDef, techLevel, weapon.Position).Found;
             };
 
             Find.Targeter.BeginTargeting(parms,
@@ -148,7 +148,7 @@ namespace PersonaWeaponsUnbound.Patches
                         return;
 
                     var result = WorkbenchUtility.FindBestWorkbench(
-                        pawn, baseDef, uniqueDef, techLevel, weapon.Position);
+                        pawn, baseDef, personaDef, techLevel, weapon.Position);
                     if (!result.Found)
                     {
                         Messages.Message(

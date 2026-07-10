@@ -54,10 +54,10 @@ namespace PersonaWeaponsUnbound
         /// forbidden status relative to the pawn.
         /// </summary>
         public static WorkbenchSearchResult FindBestWorkbench(
-            Pawn pawn, ThingDef baseDef, ThingDef uniqueDef, TechLevel weaponTechLevel,
+            Pawn pawn, ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             IntVec3 distanceOrigin)
         {
-            return FindBestWorkbenchCore(pawn.Map, baseDef, uniqueDef, weaponTechLevel,
+            return FindBestWorkbenchCore(pawn.Map, baseDef, personaDef, weaponTechLevel,
                 distanceOrigin, pawn, workbench =>
                 {
                     if (!pawn.CanReach(workbench, PathEndMode.InteractionCell, Danger.Deadly))
@@ -75,10 +75,10 @@ namespace PersonaWeaponsUnbound
         /// state where no specific pawn is known yet.
         /// </summary>
         public static WorkbenchSearchResult FindBestWorkbench(
-            Map map, ThingDef baseDef, ThingDef uniqueDef, TechLevel weaponTechLevel,
+            Map map, ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             IntVec3 distanceOrigin)
         {
-            return FindBestWorkbenchCore(map, baseDef, uniqueDef, weaponTechLevel,
+            return FindBestWorkbenchCore(map, baseDef, personaDef, weaponTechLevel,
                 distanceOrigin, null, workbench =>
                 {
                     if (!map.reachability.CanReach(distanceOrigin, workbench,
@@ -96,11 +96,11 @@ namespace PersonaWeaponsUnbound
         /// fabrication-set and operational checks, then delegates reachability/forbidden
         /// checks to the caller-provided predicate. Returns the closest valid workbench or
         /// the highest-priority rejection reason. <paramref name="baseDef"/>/
-        /// <paramref name="uniqueDef"/>/<paramref name="weaponTechLevel"/> are accepted for
+        /// <paramref name="personaDef"/>/<paramref name="weaponTechLevel"/> are accepted for
         /// call-site stability but unused now that there is a single bench tier (§8).
         /// </summary>
         private static WorkbenchSearchResult FindBestWorkbenchCore(
-            Map map, ThingDef baseDef, ThingDef uniqueDef, TechLevel weaponTechLevel,
+            Map map, ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             IntVec3 distanceOrigin, Pawn pawn,
             Func<Building_WorkTable, AcceptanceReport> accessCheck)
         {
@@ -198,12 +198,12 @@ namespace PersonaWeaponsUnbound
         /// <summary>
         /// Whether the given workbench supports customizing weapons at all. With the
         /// single fabrication-bench tier (§8) this is just set membership; <paramref
-        /// name="baseDef"/>/<paramref name="uniqueDef"/>/<paramref name="weaponTechLevel"/>
+        /// name="baseDef"/>/<paramref name="personaDef"/>/<paramref name="weaponTechLevel"/>
         /// are accepted for call-site stability only. Returns AcceptanceReport naming the
         /// fabrication bench when the workbench doesn't qualify.
         /// </summary>
         public static AcceptanceReport CanCustomizeAtWorkbench(
-            ThingDef baseDef, ThingDef uniqueDef, TechLevel weaponTechLevel,
+            ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             Building_WorkTable workbench)
         {
             if (fabricationDefs.Contains(workbench.def))

@@ -11,7 +11,7 @@
   <PWU_CustomizeGizmoDesc>Select a colonist to customize this weapon at a nearby workbench.</PWU_CustomizeGizmoDesc>
 
   <!-- Dev-mode diagnostic reasons (surfaced when Prefs.DevMode is on, otherwise hidden) -->
-  <PWU_DevNoUniqueVariant>no unique variant</PWU_DevNoUniqueVariant>
+  <PWU_DevNoPersonaVariant>no persona variant</PWU_DevNoPersonaVariant>
   <PWU_DevDefConversionDisabled>base variant upgrades disabled</PWU_DevDefConversionDisabled>
   <PWU_DevTechLevelBeyondComprehension>{0} is beyond comprehension</PWU_DevTechLevelBeyondComprehension>
 
@@ -40,8 +40,11 @@
 
   <!-- Dialog: Color sections -->
   <PWU_WeaponColors>Weapon colors</PWU_WeaponColors>
+  <PWU_PersonaColors>Persona weapon colors</PWU_PersonaColors>
+  <PWU_PersonaDefaultColor>Default persona tint</PWU_PersonaDefaultColor>
   <PWU_IdeologyColors>Ideology colors</PWU_IdeologyColors>
   <PWU_StructureColors>Structure colors</PWU_StructureColors>
+  <PWU_ColorNotSupported>This persona weapon does not support recoloring.</PWU_ColorNotSupported>
 
   <!-- Dialog: Cost display -->
   <PWU_NetRefund>Net refund: </PWU_NetRefund>
@@ -72,8 +75,10 @@
   <PWU_TraitCannotBeOnlyTrait>{0} cannot be the only trait</PWU_TraitCannotBeOnlyTrait>
   <PWU_OnlyOnHostiles>Must disarm from hostile</PWU_OnlyOnHostiles>
   <PWU_LastTraitSourceWarning>Warning: this is the only weapon in your pool with this trait. Removing it will remove the trait from the pool of traits you can apply to other weapons.</PWU_LastTraitSourceWarning>
+  <PWU_NeverBondSeversBond>Adding this trait makes the weapon free-wielding, severing its bond with {0}.</PWU_NeverBondSeversBond>
+  <PWU_BondSeveredWarning>Reverting this weapon to its base form will sever its bond with {0}. Continue?</PWU_BondSeveredWarning>
   <PWU_NoTraitsMatchSearch>No traits match your search.</PWU_NoTraitsMatchSearch>
-  <PWU_NoTraitsDiscovered>No traits available yet.\n\nRecover unique weapons via quests or world loot\nto unlock their traits for customization.</PWU_NoTraitsDiscovered>
+  <PWU_NoTraitsDiscovered>No traits available yet.\n\nRecover persona weapons via Empire traders or quests\nto unlock their traits for customization.</PWU_NoTraitsDiscovered>
   <PWU_NoTraitsAfterHideNegative>All available traits for this weapon are negative. Disable "Hide negative traits" below to view them.</PWU_NoTraitsAfterHideNegative>
   <PWU_NoTraitsAvailable>No traits are compatible with this weapon.</PWU_NoTraitsAvailable>
 
@@ -151,17 +156,17 @@
 
   <!-- Settings: Miscellaneous -->
   <PWU_AllowDefConversion>Allow weapon def conversion</PWU_AllowDefConversion>
-  <PWU_AllowDefConversionDesc>Allow weapons to convert between base and unique defs during customization. When disabled, only already-unique weapons can be customized, and removing all traits keeps the weapon as a zero-trait unique instead of reverting to its base weapon.</PWU_AllowDefConversionDesc>
+  <PWU_AllowDefConversionDesc>Allow weapons to convert between base and persona defs during customization. When disabled, only already-persona weapons can be customized, and removing all traits keeps the weapon as a zero-trait persona weapon instead of reverting to its base weapon.</PWU_AllowDefConversionDesc>
   <PWU_EnableIdeoColors>Enable Ideology color options</PWU_EnableIdeoColors>
   <PWU_EnableIdeoColorsDesc>Show Ideology and miscellaneous color palettes in the weapon customization color picker.</PWU_EnableIdeoColorsDesc>
   <PWU_EnableStructureColors>Enable structure color options</PWU_EnableStructureColors>
   <PWU_EnableStructureColorsDesc>Show structure color palette in the weapon customization color picker.</PWU_EnableStructureColorsDesc>
   <PWU_EnforceMaxTraitLimit>Enforce trait count limit</PWU_EnforceMaxTraitLimit>
-  <PWU_EnforceMaxTraitLimitDesc>Vanilla unique weapons generate with no more than three traits. Enable this to enforce the same limit during customization. Disable to allow any number of traits (other rules such as category and exclusion restrictions still apply).</PWU_EnforceMaxTraitLimitDesc>
+  <PWU_EnforceMaxTraitLimitDesc>Vanilla persona weapons generate with no more than two traits. Enable this to enforce the same limit during customization. Disable to allow any number of traits (other rules such as exclusion restrictions still apply).</PWU_EnforceMaxTraitLimitDesc>
   <PWU_EnforceSoleTrait>Enforce sole-trait restrictions</PWU_EnforceSoleTrait>
   <PWU_EnforceSoleTraitDesc>Some traits cannot be the only trait on a weapon during vanilla generation. Enable this to enforce the same restriction during customization.</PWU_EnforceSoleTraitDesc>
   <PWU_RestrictTraitsToDiscovered>Restrict available traits to discovered weapons</PWU_RestrictTraitsToDiscovered>
-  <PWU_RestrictTraitsToDiscoveredDesc>Lightweight progression system. When enabled, the customization dialog only offers traits found on unique weapons currently visible to the colony: on a loaded map (not fogged, sealed, or possessed by hostiles) or in a player-faction caravan. No persistent state is added to saves; toggling this off restores the full trait list immediately.</PWU_RestrictTraitsToDiscoveredDesc>
+  <PWU_RestrictTraitsToDiscoveredDesc>Lightweight progression system. When enabled, the customization dialog only offers traits found on persona weapons currently visible to the colony: on a loaded map (not fogged, sealed, or possessed by hostiles) or in a player-faction caravan. No persistent state is added to saves; toggling this off restores the full trait list immediately.</PWU_RestrictTraitsToDiscoveredDesc>
   <PWU_EnableGroundCustomization>Enable ground weapon right-click menu</PWU_EnableGroundCustomization>
   <PWU_EnableGroundCustomizationDesc>Show "Customize" options when right-clicking weapons on the ground. Disable this to reduce float menu clutter, especially with storage mods that stack items in the same cell. Weapons can still be customized by selecting them and using the gizmo button.</PWU_EnableGroundCustomizationDesc>
 

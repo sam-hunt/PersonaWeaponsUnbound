@@ -57,7 +57,7 @@ namespace PersonaWeaponsUnbound
 
         /// <summary>
         /// The final ThingDef the weapon should have after all operations.
-        /// Used for def conversion decisions (base↔unique).
+        /// Used for def conversion decisions (base↔persona).
         /// </summary>
         public ThingDef resultingDef;
 
@@ -79,9 +79,19 @@ namespace PersonaWeaponsUnbound
         /// The final color to apply after all operations complete.
         /// Set from EffectiveColor in the dialog. Applied in the finalize toil
         /// to ensure it persists through Setup() calls and def conversions.
-        /// Null means no color change (e.g., reverting to base with no unique comp).
+        /// Null means no color change (e.g., reverting to base with no colorable comp).
+        /// Only ever holds a DefDatabase-registered ColorDef so it Scribes safely;
+        /// the "revert to default tint" case is carried by <see cref="finalColorClear"/>.
         /// </summary>
         public ColorDef finalColor;
+
+        /// <summary>
+        /// When true, the finalize toil deactivates CompColorable (reverts the weapon
+        /// to its default persona tint) instead of applying <see cref="finalColor"/>.
+        /// Used when the chosen color is the default swatch (an unregistered runtime
+        /// ColorDef that must not be Scribed).
+        /// </summary>
+        public bool finalColorClear;
 
         public void ExposeData()
         {
@@ -90,6 +100,7 @@ namespace PersonaWeaponsUnbound
             Scribe_Collections.Look(ref totalCost, "totalCost", LookMode.Deep);
             Scribe_Collections.Look(ref totalRefund, "totalRefund", LookMode.Deep);
             Scribe_Defs.Look(ref finalColor, "finalColor");
+            Scribe_Values.Look(ref finalColorClear, "finalColorClear", false);
         }
     }
 }

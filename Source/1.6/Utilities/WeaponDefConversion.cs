@@ -7,10 +7,16 @@ namespace PersonaWeaponsUnbound
     /// <summary>
     /// Transforms a weapon Thing into a different ThingDef while preserving
     /// identity-bearing properties: stuff (material), quality, hitpoint
-    /// percentage, texture override, biocoding, authored/relic art, and (when
-    /// applicable) Ideology relic status. Used during customization at the 0↔1
-    /// trait boundary to swap between a weapon's base def and its unique
-    /// counterpart.
+    /// percentage, texture override, authored/relic art, and (when applicable)
+    /// Ideology relic status. Used during customization at the 0↔1 trait
+    /// boundary to swap between a weapon's base def and its persona counterpart.
+    ///
+    /// <para>Biocode/bond state is deliberately NOT carried across the swap: the
+    /// persona core is added or stripped at the boundary, so the bond belongs to
+    /// the persona, not the steel (fork spec §4). The job driver severs the bond
+    /// (<c>UnCode</c>) on a persona→base downgrade before the swap, and a fresh
+    /// persona weapon spawns unbonded and bonds on next equip via
+    /// <c>biocodeOnEquip</c>.</para>
     /// </summary>
     [StaticConstructorOnStartup]
     public static class WeaponDefConversion
@@ -38,27 +44,13 @@ namespace PersonaWeaponsUnbound
         private static readonly FieldInfo ArtTaleRefField = typeof(CompArt)
             .GetField("taleRef", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        // CompBiocodable persisted state (RimWorld core). The scribed fields are
-        // copied directly rather than via CodeFor(pawn): CodeFor NREs on a null
-        // pawn (so it can't reproduce an owner-discarded, label-only biocode) and
-        // re-fires OnCodedFor side effects on the brand-new weapon. See
-        // CopyBiocodeState.
-        private static readonly FieldInfo BiocodedField = typeof(CompBiocodable)
-            .GetField("biocoded", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        private static readonly FieldInfo BiocodedPawnLabelField = typeof(CompBiocodable)
-            .GetField("codedPawnLabel", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        private static readonly FieldInfo BiocodedPawnField = typeof(CompBiocodable)
-            .GetField("codedPawn", BindingFlags.NonPublic | BindingFlags.Instance);
-
         static WeaponDefConversion()
         {
             if (ModsConfig.IdeologyActive && GeneratedRelicField == null)
             {
                 Log.Error("[Persona Weapons Unbound] Ideology active but "
                     + "Precept_Relic.generatedRelic could not be resolved via reflection; "
-                    + "relic-flagged weapons that undergo a base<->unique def conversion "
+                    + "relic-flagged weapons that undergo a base<->persona def conversion "
                     + "during customization will leave the precept pointing at the "
                     + "destroyed pre-conversion weapon. RimWorld API may have changed.");
             }
@@ -68,23 +60,16 @@ namespace PersonaWeaponsUnbound
                 Log.Error("[Persona Weapons Unbound] CompArt private fields "
                     + "(authorNameInt/titleInt/taleRef) could not be resolved via reflection; "
                     + "authored/relic art (title, author, description) will be dropped when a "
-                    + "weapon crosses the base<->unique boundary. RimWorld API may have changed.");
-            }
-
-            if (BiocodedField == null || BiocodedPawnLabelField == null || BiocodedPawnField == null)
-            {
-                Log.Error("[Persona Weapons Unbound] CompBiocodable private fields "
-                    + "(biocoded/codedPawnLabel/codedPawn) could not be resolved via reflection; "
-                    + "biocoding will be dropped when a weapon crosses the base<->unique boundary. "
-                    + "RimWorld API may have changed.");
+                    + "weapon crosses the base<->persona boundary. RimWorld API may have changed.");
             }
         }
 
         /// <summary>
         /// Creates a new weapon Thing from targetDef, copying stuff, quality,
-        /// hitpoints, texture, and biocoding from oldWeapon. If targetDef has
-        /// CompUniqueWeapon (base→unique conversion), clears the auto-generated
-        /// traits/name/color from PostPostMake(). Returns the new weapon.
+        /// hitpoints, and texture from oldWeapon. If targetDef has
+        /// CompBladelinkWeapon (base→persona conversion), clears the auto-generated
+        /// traits/name from PostPostMake()/Initialize(). Returns the new weapon.
+        /// Biocode/bond state is intentionally not copied (see class remarks).
         ///
         /// Does NOT destroy oldWeapon, and does NOT transfer art or relic status:
         /// both move a reference whose teardown must be sequenced against the old
@@ -124,48 +109,16 @@ namespace PersonaWeaponsUnbound
                     newWeapon.HitPoints = 1;
             }
 
-            // Copy texture index
+            // Copy texture index (harmless preservation for modded weapons that
+            // vary by index; persona weapons render via Graphic_Single).
             newWeapon.overrideGraphicIndex = oldWeapon.overrideGraphicIndex;
 
-            // Carry biocoding across (no-op if neither weapon is biocodable).
-            CopyBiocodeState(oldWeapon, newWeapon);
-
-            // Scrub the random state PostPostMake leaves on a fresh unique weapon
-            // (trait list, name, color, accuracy-malus cache, and any equippable-
-            // ability comp wiring from a rolled ability trait). See the helper
-            // for the full rationale — without the ability-comp scrub, abilities
-            // from auto-rolled traits like SmokeLauncher persist as phantom
-            // gizmos even after the trait list is cleared.
-            WeaponModificationUtility.ClearAutoGeneratedUniqueState(newWeapon);
+            // Scrub the random state a fresh persona weapon rolls in PostPostMake
+            // (1–2 auto traits) and CompGeneratedNames.Initialize (a rolled name)
+            // so customization starts from a clean slate. No-op on a base target.
+            WeaponModificationUtility.ClearAutoGeneratedPersonaState(newWeapon);
 
             return newWeapon;
-        }
-
-        /// <summary>
-        /// Copies CompBiocodable state (biocoded flag, coded-pawn label, coded-pawn
-        /// reference) from oldWeapon to newWeapon. No-op if either weapon lacks the
-        /// comp or the old weapon isn't biocoded.
-        ///
-        /// Copies the scribed fields directly rather than calling CodeFor(pawn):
-        /// CodeFor dereferences pawn.Name (NREs on the owner-discarded, label-only
-        /// biocode that survives a save/load), and re-runs OnCodedFor side effects
-        /// on a freshly created weapon. A faithful state transfer mirrors what
-        /// Scribe persists, which is exactly these three fields.
-        /// </summary>
-        private static void CopyBiocodeState(Thing oldWeapon, Thing newWeapon)
-        {
-            CompBiocodable oldBio = oldWeapon.TryGetComp<CompBiocodable>();
-            CompBiocodable newBio = newWeapon.TryGetComp<CompBiocodable>();
-            if (oldBio == null || newBio == null || !oldBio.Biocoded)
-                return;
-
-            // Drift already logged at startup; bail rather than half-copy.
-            if (BiocodedField == null || BiocodedPawnLabelField == null || BiocodedPawnField == null)
-                return;
-
-            BiocodedField.SetValue(newBio, true);
-            BiocodedPawnLabelField.SetValue(newBio, BiocodedPawnLabelField.GetValue(oldBio));
-            BiocodedPawnField.SetValue(newBio, BiocodedPawnField.GetValue(oldBio));
         }
 
         /// <summary>
