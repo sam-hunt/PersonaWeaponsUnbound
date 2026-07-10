@@ -1,73 +1,76 @@
-# Unique Weapons Unbound
+# Persona Weapons Unbound
 
-> A RimWorld mod for customizing unique weapons
+> A RimWorld mod for customizing Royalty's persona (bladelink) weapons
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
-[![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey-blue.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
-[![Version](https://img.shields.io/badge/Version-1.3.0-brightgreen.svg)](https://github.com/sam-hunt/UniqueWeaponsUnbound/releases)
-[![Development Status](https://img.shields.io/badge/Status-Released-brightgreen.svg)](https://github.com/sam-hunt/UniqueWeaponsUnbound/releases)
+[![Royalty DLC](https://img.shields.io/badge/DLC-Royalty-blue.svg)](https://store.steampowered.com/app/1178350/RimWorld__Royalty/)
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](https://github.com/sam-hunt/PersonaWeaponsUnbound/releases)
+[![Development Status](https://img.shields.io/badge/Status-Released-brightgreen.svg)](https://github.com/sam-hunt/PersonaWeaponsUnbound/releases)
 
 ![Preview](About/Preview.png)
 
 ## About
 
-RimWorld's Odyssey DLC introduced unique weapons — special variants of existing weapons with 1-3 weapon traits that alter properties like accuracy, weight, name, color, or grant abilities. But once you find one, you're stuck with whatever traits it rolled.
+RimWorld's Royalty DLC introduced bladelink weapons — player-facing: **persona weapons** — the persona monosword, persona plasmasword, and persona zeushammer. Each carries an onboard AI persona with 1–2 weapon traits and bonds permanently to the first pawn who equips it. In vanilla, persona weapons only come from Empire traders, quest rewards, and relics — and you're stuck with whatever traits they rolled.
 
-This mod lets you take control. Customize traits, colors, textures, and names at crafting workbenches — with full vanilla validation, research-gated progression, and configurable balance settings.
+This mod lets you take control. Add and remove persona traits, rename the persona, recolor the weapon, and convert base weapons to and from their persona variants — all at a fabrication bench, with research gating and configurable balance settings.
 
 ## Features
 
 ### Trait Customization
 
-- **Add traits** to weapons at crafting workbenches, converting normal weapons into unique variants
-- **Remove traits** from existing unique weapons, reverting them if all traits are removed
-- **Full trait validation** respecting vanilla rules — max count, category exclusions, sole-trait restrictions
-- **Dynamic resource costs** based on recipes, quality, thematic keywords, and more
+- **Add traits** to a base monosword/plasmasword/zeushammer, converting it into its persona variant — the first trait costs an **AI persona core**, physically installed
+- **Remove traits** from existing persona weapons; removing the **last trait** reverts the weapon to its base form and **refunds the persona core**
+- **Full trait validation** respecting vanilla rules — max trait count, exclusion-tag conflicts, sole-trait restrictions
+- **Reprogramming cost model**: every other trait change (add or remove) costs advanced components that scale with weapon quality above a configurable threshold — reprogramming a persona is destructive, so neither direction refunds
 
-### Color, Texture & Name
+### Rename & Recolor
 
-- **Color selection** across three palettes: weapon colors, structure colors, and Ideology colors (when DLC is active, including favorite and ideo color indicators)
-- **Texture variants** for weapons with multiple visual styles
-- **Name customization** with auto-generated names using vanilla grammar, or type your own
-- **Trait-forced colors** are respected — when a trait dictates a color, the picker shows which trait controls it
+- **Rename** the persona using vanilla's bladelink namer, or type your own. Ideology relic names stay locked per Ideology rules
+- **Recolor** the weapon via a patched `CompColorable`: the default persona tint, plus Ideology and structure palettes
 
-### Ideology DLC Support
+### Royalty DLC Integration
 
-- **Relic handling**: Ideology relics can be customized while preserving relic status; the relic name is locked and managed through ideology reform
-- **Ideo & favorite color overlays**: The color picker highlights your pawn's ideo color and favorite color, matching the vanilla styling station
+- **Bonding respected**: bonded hediffs/thoughts are applied and removed alongside their trait; adding the free-wielding trait severs an existing bond (with warning); reverting a bonded weapon to its base form severs the bond (with confirm warning)
+- **Relic handling**: Ideology relics can be customized while preserving relic status; their names stay locked and are only changed through ideology reform
 
 ### Multiple Entry Points
 
-- **Weapon gizmo**: Select any weapon on the ground and click the customize button, then choose a colonist
-- **Workbench right-click**: Right-click a workbench with a colonist selected to customize their equipped or carried weapons
-- **Ground weapon right-click**: Right-click a weapon on the ground to send a colonist to customize it at the nearest suitable workbench
+- **Weapon gizmo**: select a persona (or convertible base) weapon and click "Customize persona", then choose a colonist
+- **Workbench right-click**: right-click a fabrication bench with a colonist selected to customize their equipped or carried weapons
+- **Ground weapon right-click**: right-click a weapon on the ground to send a colonist to the nearest operational fabrication bench
 
 ### Workbench & Research
 
-- **Tiered workbenches**: Smithy (Neolithic/Medieval), Machining Table (up to Industrial), Fabrication Bench (all tiers)
-- **Research progression**: Basic (Smithing), Standard (Machining), and Advanced (Advanced Fabrication) weapon customization
-- **Job-based system**: Each change is a separate crafting job — interrupt safely without losing resources
+- **Static fabrication bench**: persona weapons are all ultratech, so there's no workbench tier system — customization happens at the fabrication bench (or a VEF-recognized equivalent, e.g. VFE's compact fabrication bench)
+- **Single research project**: "Bladelink Customization" (ultratech tier, gated behind Advanced Fabrication, one Empire-sourced techprint by default) gates customization and the crafting recipes below
+- **Job-based system**: each trait or cosmetic change is a separate crafting job — interrupt safely without losing resources
+
+### Crafting Recipes
+
+Persona weapons' base variants aren't craftable in vanilla. With Bladelink Customization researched, the fabrication bench offers craftable base monoswords, plasmaswords, and zeushammers (each individually toggleable in settings) — craft the base weapon, then install a persona core through customization for a fully in-colony path to a bespoke persona weapon.
 
 ### Mod Settings
 
 All balance levers are configurable from the in-game mod settings:
 
-- **Trait cost multiplier** (0–300%) — scale all trait costs up or down, or disable them entirely
-- **Trait refund rate** (0–100%) — control how much material is returned when removing traits
-- **Research toggles** — disable customization research requirements or weapon crafting research prerequisites
-- **Workbench restrictions** — allow any weapon-crafting workbench regardless of tech level
-- **Tech-level gates** — independently allow or block ultratech and archotech weapon customization
-- **Uncraftable weapons** — allow customization of weapons with no crafting recipe
-- **Sole-trait enforcement** — optionally enforce vanilla's sole-trait generation restrictions during customization
+- **Persona cost sliders** — base component cost per trait change, the quality tier at which a surcharge kicks in, and the surcharge per quality level above it, with a live cost table
+- **Techprint count** (0–3) — how many Empire techprints the research requires; 0 removes the requirement entirely, no restart needed
+- **Crafting recipe toggles** — enable/disable each of the three base weapon recipes independently
+- **Minimum weapon quality** — restrict customization to weapons at or above a quality threshold
+- **Trait discovery progression** — optionally restrict available traits to those seen on persona weapons held by the colony, in caravans, or on hostiles
+- **Color palette toggles** — enable/disable the Ideology and structure color palettes
+- **Trait limit / sole-trait enforcement** — optionally enforce vanilla's generation restrictions during customization
+- **Ingredient hauling** — choose between Sequential (vanilla-equivalent), Sweep, and Thorough haul planners
 
 ### Mod Compatibility
 
-Designed for automatic compatibility with mods that add new unique weapons, weapon traits, or crafting recipes. No hard-coded def references — all detection is dynamic.
+Designed for automatic compatibility with modded persona weapons and traits — any `ThingDef` with `CompBladelinkWeapon` and a resolvable base/persona pairing participates automatically, as does any trait with `weaponCategory == BladeLink`. No hard-coded def references.
 
 ## Requirements
 
 - **RimWorld 1.6** or later
-- **Odyssey DLC** (required - depends on Odyssey's unique weapon system)
+- **Royalty DLC** (required — depends on Royalty's bladelink weapon system)
 - **Harmony** (auto-download from Steam Workshop if you don't have it)
 
 ## Installation
@@ -78,8 +81,8 @@ Subscribe on the Steam Workshop and it will auto-download.
 
 ### Manual Installation
 
-1. Download the latest release from the [Releases](https://github.com/sam-hunt/UniqueWeaponsUnbound/releases) page
-2. Extract the `UniqueWeaponsUnbound` folder to your RimWorld `Mods` directory:
+1. Download the latest release from the [Releases](https://github.com/sam-hunt/PersonaWeaponsUnbound/releases) page
+2. Extract the `PersonaWeaponsUnbound` folder to your RimWorld `Mods` directory:
    - **Windows**: `C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\`
    - **Mac**: `~/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/`
    - **Linux**: `~/.steam/steam/steamapps/common/RimWorld/Mods/`
@@ -89,11 +92,13 @@ Subscribe on the Steam Workshop and it will auto-download.
 ## Compatibility
 
 - **Safe to add** to existing saves.
-- **Safe to remove** from saves (no persistent game state modifications).
+- **Safe to remove** from saves (no persistent game state modifications — converted weapons simply revert to plain Royalty defs).
+- **Coexists with [Unique Weapons Unbound](https://github.com/sam-hunt/UniqueWeaponsUnbound)** (this mod's sibling for Odyssey unique weapons): disjoint packageId, Harmony ID, assembly, namespaces, defNames, and localization keys, with complementary trait filters — UWU handles Odyssey unique weapons, PWU handles Royalty persona weapons.
+- **VEF**: benches that inherit recipes from the fabrication bench (e.g. VFE's compact fabrication bench) are automatically recognized as customization benches.
 
 ## Contributing
 
-Bug reports and feature requests welcome on [GitHub Issues](https://github.com/sam-hunt/UniqueWeaponsUnbound/issues).
+Bug reports and feature requests welcome on [GitHub Issues](https://github.com/sam-hunt/PersonaWeaponsUnbound/issues).
 Please attach any relevant logs/stack traces/mod lists etc.
 
 For development setup, see [CLAUDE.md](CLAUDE.md).
@@ -101,6 +106,8 @@ For development setup, see [CLAUDE.md](CLAUDE.md).
 ## Credits
 
 **Author**: Sam Hunt ([@sam-hunt](https://github.com/sam-hunt))
+
+Forked from [Unique Weapons Unbound](https://github.com/sam-hunt/UniqueWeaponsUnbound), which customizes Odyssey's unique weapons — check it out if you play with Odyssey.
 
 **Built With**:
 

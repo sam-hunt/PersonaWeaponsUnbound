@@ -8,24 +8,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repo is a fork of **Unique Weapons Unbound** (UWU, Odyssey unique weapons), carrying its git history. Design: `Docs/DESIGN.md`. Conversion spec: `Docs/Specs/PERSONA_FORK.md`. Bladelink internals research: `Docs/Research/BLADELINK_WEAPONS.md`.
 
-> **Fork status:** the UWU→PWU code conversion is in progress. Until the rename lands, on-disk names (solution, csproj, namespaces, `UWU_*` classes/keys) still say `UniqueWeaponsUnbound`/`UWU` — the build commands below reflect what currently exists. When the conversion completes, replace `UniqueWeaponsUnbound` with `PersonaWeaponsUnbound` throughout this file and delete this note.
-
 **Key Technologies:** C# (.NET Framework 4.7.2), Harmony library, RimWorld modding API, XML definitions
 
 ## Build Commands
 
 ```bash
 # Build the mod (outputs to 1.6/Assemblies/ AND atomically redeploys to the RimWorld Mods folder)
-dotnet build UniqueWeaponsUnbound.sln -c Release
+dotnet build PersonaWeaponsUnbound.sln -c Release
 
 # Build only the main project (also triggers the deploy)
-dotnet build Source/1.6/UniqueWeaponsUnbound.csproj
+dotnet build Source/1.6/PersonaWeaponsUnbound.csproj
 
 # Clean build artifacts
-dotnet clean UniqueWeaponsUnbound.sln
+dotnet clean PersonaWeaponsUnbound.sln
 
 # Override RimWorld install path
-RIMWORLD_PATH="/path/to/RimWorld" dotnet build UniqueWeaponsUnbound.sln -c Release
+RIMWORLD_PATH="/path/to/RimWorld" dotnet build PersonaWeaponsUnbound.sln -c Release
 # Or: dotnet build -p:RimWorldPath="/path/to/RimWorld"
 ```
 
@@ -33,7 +31,7 @@ The build system auto-detects the RimWorld installation path on Windows/Linux/Ma
 
 ### Deployment
 
-Every local build auto-deploys into the RimWorld `Mods/` folder (when a local install is detected) — no separate clean/copy step. The `StageMod` target in `Source/1.6/UniqueWeaponsUnbound.csproj` is the **single source of truth** for what ships: it wipes the target dir and recopies a whitelist of runtime file types, so deleted/renamed files never linger. To change what ships, edit its `_ModFiles` ItemGroup. CI (`.github/workflows/release.yml`) and the local Stop hook both reuse this target, so the release zip can't drift from the local deploy.
+Every local build auto-deploys into the RimWorld `Mods/` folder (when a local install is detected) — no separate clean/copy step. The `StageMod` target in `Source/1.6/PersonaWeaponsUnbound.csproj` is the **single source of truth** for what ships: it wipes the target dir and recopies a whitelist of runtime file types, so deleted/renamed files never linger. To change what ships, edit its `_ModFiles` ItemGroup. CI (`.github/workflows/release.yml`) and the local Stop hook both reuse this target, so the release zip can't drift from the local deploy.
 
 A gitignored Stop hook (`.claude/hooks/sync-mod.sh`) rebuilds + redeploys after any turn that touched mod source/content.
 
@@ -75,7 +73,7 @@ Source/1.6/
 
 **Serialized Fields:** Use camelCase for fields serialized via `Scribe_Values.Look` to match save file XML element names (per .editorconfig). PascalCase for all other public members.
 
-**Settings Triple Invariant (`UWU_Settings.cs`):** Every settings field must appear in three places with matching defaults: (1) field declaration, (2) `ResetToDefaults()`, (3) `ExposeData()`'s `Scribe_Values.Look` default. Missing a spot fails silently — drops from save, skips reset, or drifts from declared default. All three lists are kept in the UI's display order (the section ordering from `UWU_Mod.DoSettingsWindowContents`) with section comments, so a diff across the three blocks lines up row-for-row. When adding/removing/renaming a setting, update all three and slot it into its UI section.
+**Settings Triple Invariant (`PWU_Settings.cs`):** Every settings field must appear in three places with matching defaults: (1) field declaration, (2) `ResetToDefaults()`, (3) `ExposeData()`'s `Scribe_Values.Look` default. Missing a spot fails silently — drops from save, skips reset, or drifts from declared default. All three lists are kept in the UI's display order (the section ordering from `PWU_Mod.DoSettingsWindowContents`) with section comments, so a diff across the three blocks lines up row-for-row. When adding/removing/renaming a setting, update all three and slot it into its UI section.
 
 ## Debugging
 
