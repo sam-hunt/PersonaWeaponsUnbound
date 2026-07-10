@@ -56,12 +56,15 @@ namespace PersonaWeaponsUnbound
                 float summaryHeight = costRowHeight * 2f + bottomPadding;
                 float chipsAreaHeight = Mathf.Max(0f, rect.yMax - curY - summaryHeight - 4f);
 
-                if (desiredTraits.Count > 0 && chipsAreaHeight > 0f)
+                if ((desiredTraits.Count > 0 || desiredMemoryOp != MemoryOpKind.None)
+                    && chipsAreaHeight > 0f)
                 {
                     Rect chipsOuterRect = new Rect(
                         rect.x + 8f, curY, rect.width - 16f, chipsAreaHeight);
                     float chipStride = TraitRowHeight + 2f;
-                    float chipsContentHeight = desiredTraits.Count * chipStride;
+                    float chipsContentHeight =
+                        (desiredTraits.Count + (desiredMemoryOp != MemoryOpKind.None ? 1 : 0))
+                        * chipStride;
                     bool needsScroll = chipsContentHeight > chipsAreaHeight;
                     float innerWidth = needsScroll
                         ? chipsOuterRect.width - 16f
@@ -136,6 +139,45 @@ namespace PersonaWeaponsUnbound
                         }
 
                         chipY += chipStride;
+                    }
+
+                    // Memory-op chip (§4): the selected wipe (at most one, by
+                    // the radio model) renders as one chip after the trait
+                    // chips, styled identically. It's a one-time operation —
+                    // never an "original" — so it always shows its cost.
+                    if (desiredMemoryOp != MemoryOpKind.None)
+                    {
+                        Rect chipRect = new Rect(0f, chipY, innerWidth, TraitRowHeight);
+
+                        bool hovered = Mouse.IsOver(chipRect);
+                        Widgets.DrawBoxSolid(chipRect, hovered
+                            ? new Color(0.3f, 0.3f, 0.3f, 0.5f)
+                            : new Color(0.2f, 0.2f, 0.2f, 0.4f));
+
+                        Text.Anchor = TextAnchor.MiddleLeft;
+                        Rect labelRect = new Rect(
+                            chipRect.x + 4f, chipRect.y,
+                            chipRect.width * 0.7f, chipRect.height);
+                        Widgets.Label(labelRect, MemoryOpLabel(desiredMemoryOp));
+
+                        List<ThingDefCountClass> chipCosts = MemoryWipeCost(desiredMemoryOp);
+                        Rect chipCostRect = new Rect(
+                            labelRect.xMax, chipRect.y,
+                            chipRect.xMax - labelRect.xMax - 4f, chipRect.height);
+                        DrawCostIcons(chipCostRect, chipCosts, rightAlign: true,
+                            insufficientResources: insufficientResources);
+
+                        Text.Anchor = TextAnchor.UpperLeft;
+
+                        string opTooltip = BuildMemoryOpTooltip(desiredMemoryOp);
+                        if (!string.IsNullOrEmpty(opTooltip))
+                            TooltipHandler.TipRegion(chipRect, opTooltip);
+
+                        // Click: jump to the Memory tab (mirrors trait chips
+                        // jumping to the Traits tab; no scroll-to needed — the
+                        // tab holds three rows).
+                        if (Widgets.ButtonInvisible(chipRect))
+                            activeTab = 1;
                     }
 
                     Widgets.EndScrollView();

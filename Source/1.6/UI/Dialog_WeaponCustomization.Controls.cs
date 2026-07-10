@@ -32,10 +32,7 @@ namespace PersonaWeaponsUnbound
             if (activeTab == 0)
                 DrawTraitsTab(tabContentRect);
             else
-            {
-                // Memory tab (§4 of the memory/polish spec) takes this slot
-                // in a later pass.
-            }
+                DrawMemoryTab(tabContentRect);
         }
 
         private void DrawNameRow(float x, ref float curY, float width)
@@ -161,6 +158,7 @@ namespace PersonaWeaponsUnbound
         {
             var tabs = new List<TabRecord>();
             tabs.Add(new TabRecord("PWU_TabTraits".Translate(), () => activeTab = 0, activeTab == 0));
+            tabs.Add(new TabRecord("PWU_TabMemory".Translate(), () => activeTab = 1, activeTab == 1));
 
             TabDrawer.DrawTabs(menuRect, tabs);
         }

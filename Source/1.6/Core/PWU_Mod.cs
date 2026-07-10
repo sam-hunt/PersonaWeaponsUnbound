@@ -98,6 +98,31 @@ namespace PersonaWeaponsUnbound
             listing.Gap(24.0f);
 
             Text.Font = GameFont.Medium;
+            listing.Label("PWU_SettingsMemoryCosts".Translate());
+            Text.Font = GameFont.Small;
+            listing.Gap(6f);
+
+            string wipeBondingLabel = "PWU_WipeBondingComponentCost".Translate(
+                Settings.wipeBondingComponentCost);
+            if (Settings.wipeBondingComponentCost == 3)
+                wipeBondingLabel += "PWU_DefaultSuffix".Translate();
+            listing.Label(wipeBondingLabel, tooltip: "PWU_WipeBondingComponentCostDesc".Translate());
+            Settings.wipeBondingComponentCost =
+                Mathf.RoundToInt(listing.Slider(Settings.wipeBondingComponentCost, 0f, 5f));
+
+            listing.Gap();
+
+            string wipeKillTrackerLabel = "PWU_WipeKillTrackerComponentCost".Translate(
+                Settings.wipeKillTrackerComponentCost);
+            if (Settings.wipeKillTrackerComponentCost == 1)
+                wipeKillTrackerLabel += "PWU_DefaultSuffix".Translate();
+            listing.Label(wipeKillTrackerLabel, tooltip: "PWU_WipeKillTrackerComponentCostDesc".Translate());
+            Settings.wipeKillTrackerComponentCost =
+                Mathf.RoundToInt(listing.Slider(Settings.wipeKillTrackerComponentCost, 0f, 5f));
+
+            listing.Gap(24.0f);
+
+            Text.Font = GameFont.Medium;
             listing.Label("PWU_SettingsPrerequisites".Translate());
             Text.Font = GameFont.Small;
             listing.Gap(6f);

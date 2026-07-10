@@ -10,7 +10,7 @@ namespace PersonaWeaponsUnbound
     // Work phase: ledger reads/writes against placedIngredients (populated
     // by the Haul phase) and the refundLedger float credits, then per-op
     // mutation of the weapon Thing. Pays each op's cost from the ledger
-    // before applying the trait/cosmetics/color change, and converts
+    // before applying the trait/rename/memory-wipe change, and converts
     // base<->persona atomically when the trait count crosses the 0<->1
     // boundary. A throw inside an op bails the whole job rather than
     // continuing onto the next op (which could blow trait limits or
@@ -196,6 +196,10 @@ namespace PersonaWeaponsUnbound
                     opDescr = "renaming weapon";
                     bailMessageText = "PWU_BailOpRenameFailed".Translate(WeaponLabel);
                     break;
+                case OpType.WipeMemory:
+                    opDescr = "wiping memory (" + op.memoryOp + ")";
+                    bailMessageText = "PWU_BailOpMemoryFailed".Translate(WeaponLabel);
+                    break;
                 default:
                     opDescr = "op type " + op.type;
                     bailMessageText = "PWU_BailUnexpected".Translate(WeaponLabel);
@@ -224,7 +228,7 @@ namespace PersonaWeaponsUnbound
                     // payment recorded.
                     if (!TryConsumeOpCost(op.cost))
                     {
-                        RecordShortfallBail(op.trait);
+                        RecordShortfallBail(op);
                         EndJobWith(JobCondition.Incompletable);
                         return;
                     }
@@ -272,7 +276,7 @@ namespace PersonaWeaponsUnbound
                     // mutation (def conversion, trait add) leaves a partial state.
                     if (!TryConsumeOpCost(op.cost))
                     {
-                        RecordShortfallBail(op.trait);
+                        RecordShortfallBail(op);
                         EndJobWith(JobCondition.Incompletable);
                         return;
                     }
@@ -295,6 +299,39 @@ namespace PersonaWeaponsUnbound
                     {
                         if (op.nameToApply != null)
                             WeaponModificationUtility.SetName(weapon, op.nameToApply);
+                    }
+                    break;
+
+                case OpType.WipeMemory:
+                    // Pay the flat component cost first, mirroring the trait ops.
+                    if (!TryConsumeOpCost(op.cost))
+                    {
+                        RecordShortfallBail(op);
+                        EndJobWith(JobCondition.Incompletable);
+                        return;
+                    }
+
+                    CompBladelinkWeapon memoryComp = weapon.TryGetComp<CompBladelinkWeapon>();
+                    if (memoryComp == null)
+                        break;                     // defensive; op is only built for persona final states
+                    switch (op.memoryOp)
+                    {
+                        case MemoryOpKind.WipeBonding:
+                            if (memoryComp.Biocoded)
+                                memoryComp.UnCode();   // severs bond, fires Notify_Unbonded per trait,
+                                                       // strips bonded hediffs, resets lastKillTick (kill
+                                                       // memory goes with the bond); biocodeOnEquip then
+                                                       // re-arms bond-on-next-equip
+                            break;
+                        case MemoryOpKind.WipeKillTracker:
+                            // D18: "cleared" means a fresh kill clock while still
+                            // bonded (TicksAbs — same 20-day grace D9 grants when
+                            // adding NeedKill; −1 would risk an instant kill-thirst
+                            // mood hit), or vanilla's −1 init state when unbonded
+                            // (a freewielder that has killed).
+                            WeaponModificationUtility.LastKillTickField?.SetValue(memoryComp,
+                                memoryComp.Biocoded ? Find.TickManager.TicksAbs : -1);
+                            break;
                     }
                     break;
             }

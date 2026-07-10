@@ -33,6 +33,7 @@ namespace PersonaWeaponsUnbound
     // Left pane (35%): Preview.cs — weapon icon, name, status, trait list with [x]
     // Right pane (65%): Controls.cs — name field, tab bar, tab content
     //   Traits tab: Traits.cs — scrollable checkbox list with per-trait costs and rejection reasons
+    //   Memory tab: Memory.cs — 3-way memory-wipe radio group (none / bond / kill tracker)
     // Footer: Footer.cs — Cancel/Reset/Confirm buttons (ideology styling station layout)
 
     public partial class Dialog_WeaponCustomization : Window
@@ -61,12 +62,15 @@ namespace PersonaWeaponsUnbound
         // Desired state — mutated by user interaction
         private readonly List<WeaponTraitDef> desiredTraits;
         private string desiredName;
+        // Selected memory-wipe op (memory/polish spec §4) — a one-time
+        // destructive operation, at most one per spec (3-way radio, D17).
+        private MemoryOpKind desiredMemoryOp;
 
         // UI state
         private Vector2 traitListScroll;
         private Vector2 desiredTraitsScroll;
         private readonly QuickSearchWidget traitSearchWidget = new QuickSearchWidget();
-        private int activeTab; // 0 = Traits (slot 1 reserved for a future Memory tab)
+        private int activeTab; // 0 = Traits, 1 = Memory
         private bool nameLocked;
         private bool hideNegativeTraits;
         private string lastAutoName;
@@ -261,6 +265,8 @@ namespace PersonaWeaponsUnbound
                 }
                 if (desiredName != originalName)
                     return true;
+                if (desiredMemoryOp != MemoryOpKind.None)
+                    return true;
                 return false;
             }
         }
@@ -278,6 +284,7 @@ namespace PersonaWeaponsUnbound
             desiredTraits.Clear();
             desiredTraits.AddRange(originalTraits);
             desiredName = originalName;
+            desiredMemoryOp = MemoryOpKind.None;
             nameLocked = !string.IsNullOrEmpty(originalName);
             lastAutoName = null;
             traitListScroll = Vector2.zero;
@@ -295,6 +302,14 @@ namespace PersonaWeaponsUnbound
                     lastAutoName = desiredName;
                 }
             }
+
+            // Re-validate the staged memory op (§4): trait edits can flip the
+            // preview to base (Memory tab gated off) or disable the selected
+            // row's gate (e.g. staging freewielder onto a bonded weapon). Snap
+            // back to None so a stale memory op can never reach the spec.
+            if (desiredMemoryOp != MemoryOpKind.None
+                && (IsRevertedToBase || GetMemoryOpRejection(desiredMemoryOp) != null))
+                desiredMemoryOp = MemoryOpKind.None;
         }
 
         // --- Helpers ---
@@ -406,7 +421,8 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Builds the ordered operation list (removals → rename → additions),
+        /// Builds the ordered operation list (removals → rename → additions →
+        /// memory wipe),
         /// pricing each op by sequential simulation: a running trait count starting
         /// at the weapon's current trait count crosses the base↔persona boundary on
         /// whichever op actually takes it to/from zero, and only that op is priced
@@ -506,6 +522,21 @@ namespace PersonaWeaponsUnbound
                 }
 
                 ops.Add(op);
+            }
+
+            // 4. Memory-wipe op (§4) — at most one per spec (D17), appended
+            // after the additions (D16): it operates on the spec's final
+            // persona state and never changes the simulated trait count, so
+            // it can't perturb the boundary-cost attribution above. Flat
+            // component cost from the op's settings slider; never refunded.
+            if (!IsRevertedToBase && desiredMemoryOp != MemoryOpKind.None)
+            {
+                ops.Add(new CustomizationOp
+                {
+                    type = OpType.WipeMemory,
+                    memoryOp = desiredMemoryOp,
+                    cost = MemoryWipeCost(desiredMemoryOp),
+                });
             }
 
             return ops;

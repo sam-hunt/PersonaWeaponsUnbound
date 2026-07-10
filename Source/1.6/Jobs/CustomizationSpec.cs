@@ -9,6 +9,20 @@ namespace PersonaWeaponsUnbound
         RemoveTrait,
         AddTrait,
         Rename,
+        WipeMemory,
+    }
+
+    /// <summary>
+    /// Which persona memory a <see cref="OpType.WipeMemory"/> op erases
+    /// (memory/polish spec §4). The two wipes are mutually exclusive by
+    /// construction (D17): a bond wipe's UnCode() also resets the kill
+    /// tracker, so at most one is ever staged per spec.
+    /// </summary>
+    public enum MemoryOpKind
+    {
+        None,
+        WipeBonding,
+        WipeKillTracker,
     }
 
     public class CustomizationOp : IExposable
@@ -22,6 +36,9 @@ namespace PersonaWeaponsUnbound
         // deferred across a base→persona conversion).
         public string nameToApply;
 
+        // Only for WipeMemory ops: which persona memory to erase.
+        public MemoryOpKind memoryOp;
+
         public void ExposeData()
         {
             Scribe_Values.Look(ref type, "type");
@@ -29,6 +46,7 @@ namespace PersonaWeaponsUnbound
             Scribe_Collections.Look(ref cost, "cost", LookMode.Deep);
             Scribe_Collections.Look(ref refund, "refund", LookMode.Deep);
             Scribe_Values.Look(ref nameToApply, "nameToApply", null);
+            Scribe_Values.Look(ref memoryOp, "memoryOp", MemoryOpKind.None);
         }
     }
 
@@ -42,7 +60,7 @@ namespace PersonaWeaponsUnbound
     public class CustomizationSpec : IExposable
     {
         /// <summary>
-        /// Ordered operations: removals → cosmetics → additions.
+        /// Ordered operations: removals → rename → additions → memory wipe.
         /// Each op carries its own per-op cost and optional cosmetic changes.
         /// </summary>
         public List<CustomizationOp> operations;

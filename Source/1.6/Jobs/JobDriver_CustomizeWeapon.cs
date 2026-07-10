@@ -103,13 +103,17 @@ namespace PersonaWeaponsUnbound
 
         /// <summary>
         /// Records the standard "ingredients lost mid-customization" bail message
-        /// for the given trait. Used by the precheck toil and by the per-op consume
-        /// paths in <see cref="ApplyOperation"/>.
+        /// for the given op. Used by the precheck toil and by the per-op consume
+        /// paths in <see cref="ApplyOperation"/>. The op label is null-safe:
+        /// trait ops name their trait, memory ops (which carry no trait) name
+        /// the generic "memory wipe" label.
         /// </summary>
-        private void RecordShortfallBail(WeaponTraitDef trait)
+        private void RecordShortfallBail(CustomizationOp op)
         {
-            string traitLabel = trait?.LabelCap ?? "";
-            SetBailMessage("PWU_IngredientShortfall".Translate(WeaponLabel, traitLabel));
+            string opLabel = op.type == OpType.WipeMemory
+                ? (string)"PWU_MemoryWipeLabel".Translate()
+                : op.trait?.LabelCap ?? "";
+            SetBailMessage("PWU_IngredientShortfall".Translate(WeaponLabel, opLabel));
         }
 
         public override void ExposeData()
@@ -222,6 +226,8 @@ namespace PersonaWeaponsUnbound
                             op.trait.LabelCap, weaponLabel);
                     case OpType.Rename:
                         return "PWU_RenamingWeapon".Translate(weaponLabel);
+                    case OpType.WipeMemory:
+                        return "PWU_WipingMemory".Translate(weaponLabel);
                 }
             }
 
@@ -656,7 +662,7 @@ namespace PersonaWeaponsUnbound
                 CustomizationOp op = spec.operations[currentOpIndex];
                 if (!CanAffordOpCost(op.cost))
                 {
-                    RecordShortfallBail(op.trait);
+                    RecordShortfallBail(op);
                     EndJobWith(JobCondition.Incompletable);
                 }
             };

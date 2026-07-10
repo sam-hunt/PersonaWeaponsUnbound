@@ -14,6 +14,10 @@ namespace PersonaWeaponsUnbound
         public QualityCategory traitChangeQualitySurchargeThreshold = QualityCategory.Normal;
         public int traitChangeQualitySurchargePerLevel = 1;
 
+        // Memory Costs
+        public int wipeBondingComponentCost = 3;
+        public int wipeKillTrackerComponentCost = 1;
+
         // Prerequisites
         public QualityCategory minimumQuality = QualityCategory.Awful;
         public bool allowDefConversion = true;
@@ -41,6 +45,10 @@ namespace PersonaWeaponsUnbound
             traitChangeQualitySurchargeThreshold = QualityCategory.Normal;
             traitChangeQualitySurchargePerLevel = 1;
 
+            // Memory Costs
+            wipeBondingComponentCost = 3;
+            wipeKillTrackerComponentCost = 1;
+
             minimumQuality = QualityCategory.Awful;
             allowDefConversion = true;
             requireCustomizationResearch = true;
@@ -67,6 +75,10 @@ namespace PersonaWeaponsUnbound
                 "traitChangeQualitySurchargeThreshold", QualityCategory.Normal);
             Scribe_Values.Look(ref traitChangeQualitySurchargePerLevel,
                 "traitChangeQualitySurchargePerLevel", 1);
+
+            // Memory Costs
+            Scribe_Values.Look(ref wipeBondingComponentCost, "wipeBondingComponentCost", 3);
+            Scribe_Values.Look(ref wipeKillTrackerComponentCost, "wipeKillTrackerComponentCost", 1);
 
             Scribe_Values.Look(ref minimumQuality, "minimumQuality", QualityCategory.Awful);
             Scribe_Values.Look(ref allowDefConversion, "allowDefConversion", true);
