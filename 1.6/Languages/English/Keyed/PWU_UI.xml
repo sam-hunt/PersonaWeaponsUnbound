@@ -111,7 +111,7 @@
   <!-- Settings: Section headers -->
   <PWU_SettingsCategory>Persona Weapons Unbound</PWU_SettingsCategory>
   <PWU_SettingsProgression>Progression</PWU_SettingsProgression>
-  <PWU_SettingsTraitCosts>Persona costs</PWU_SettingsTraitCosts>
+  <PWU_SettingsTraitCosts>Trait costs</PWU_SettingsTraitCosts>
   <PWU_SettingsPrerequisites>Prerequisites</PWU_SettingsPrerequisites>
   <PWU_SettingsCraftingRecipes>Crafting recipes</PWU_SettingsCraftingRecipes>
   <PWU_SettingsHaulPlanner>Ingredient hauling</PWU_SettingsHaulPlanner>
@@ -125,7 +125,7 @@
 
   <!-- Settings: Persona costs -->
   <PWU_TraitChangeBaseComponentCost>Base component cost per trait change: {0}</PWU_TraitChangeBaseComponentCost>
-  <PWU_TraitChangeBaseComponentCostDesc>Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost — neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting.</PWU_TraitChangeBaseComponentCostDesc>
+  <PWU_TraitChangeBaseComponentCostDesc>Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost, neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting.</PWU_TraitChangeBaseComponentCostDesc>
   <PWU_TraitChangeQualitySurchargeThreshold>Quality surcharge threshold: {0}</PWU_TraitChangeQualitySurchargeThreshold>
   <PWU_TraitChangeQualitySurchargeThresholdDesc>The weapon quality tier at which the per-level component surcharge below starts applying. Trait changes on weapons at or below this quality cost only the base component amount.</PWU_TraitChangeQualitySurchargeThresholdDesc>
   <PWU_TraitChangeQualitySurchargePerLevel>Quality surcharge per level: {0}</PWU_TraitChangeQualitySurchargePerLevel>
@@ -138,7 +138,7 @@
   <PWU_RequireCustomizationResearch>Require customization research</PWU_RequireCustomizationResearch>
   <PWU_RequireCustomizationResearchDesc>Require the completion of the Bladelink Customization research project before customizing weapons. When disabled, the project is hidden from the research tree.</PWU_RequireCustomizationResearchDesc>
   <PWU_TechprintCount>Techprints required: {0}</PWU_TechprintCount>
-  <PWU_TechprintCountDesc>Number of Bladelink Customization techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately — no restart needed.</PWU_TechprintCountDesc>
+  <PWU_TechprintCountDesc>Number of Bladelink Customization techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed.</PWU_TechprintCountDesc>
 
   <!-- Settings: Crafting recipes -->
   <PWU_EnableMonoswordRecipe>Enable monosword crafting recipe</PWU_EnableMonoswordRecipe>

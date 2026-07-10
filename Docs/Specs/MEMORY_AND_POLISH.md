@@ -9,12 +9,12 @@ Relationship to `PERSONA_FORK.md`: decision numbering continues from D11. **§2 
 
 ## 1. Summary
 
-| #   | Change                                                                                             | Section |
-| --- | -------------------------------------------------------------------------------------------------- | ------- |
-| 1   | Remove weapon recoloring entirely — vanilla's static pink tint `(255,200,200)` wins                | §2      |
-| 2   | LHS trait/op chips: give the label a greater share of the width (costs are single-resource)        | §3      |
+| #   | Change                                                                                                  | Section |
+| --- | ------------------------------------------------------------------------------------------------------- | ------- |
+| 1   | Remove weapon recoloring entirely — vanilla's static pink tint `(255,200,200)` wins                     | §2      |
+| 2   | LHS trait/op chips: give the label a greater share of the width (costs are single-resource)             | §3      |
 | 3   | New **Memory** tab: a one-time memory wipe — bond or kill tracker, a 3-way radio — costed in components | §4      |
-| 4   | Re-equip-after-customization pops vanilla's persona-bond confirmation when the equip would bond    | §5      |
+| 4   | Re-equip-after-customization pops vanilla's persona-bond confirmation when the equip would bond         | §5      |
 
 Changes 1–3 are all inside `Dialog_WeaponCustomization` and its job pipeline; change 4 is in the job driver's recovery path. No Harmony patches are added or removed by any of them.
 
@@ -123,14 +123,14 @@ Costs are flat — no quality scaling (unlike trait changes; the handoff defines
 
 The tab gates on the **preview** def state; the rows gate on the **current** weapon's comp state — you can't wipe what isn't there yet. "Do not wipe" is always enabled; when the selected op's row becomes disabled, the selection snaps back to it:
 
-| Condition                                                                   | Wipe bonding                                                                      | Wipe kill tracker                                                                                                                                                          |
-| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Current weapon has no `CompBladelinkWeapon` (base being upgraded this spec) | disabled — `PWU_MemoryNotBonded`                                                  | disabled — `PWU_MemoryNoKillMemory`                                                                                                                                        |
-| Comp present, not bonded (`!comp.Biocoded`)                                 | disabled — `PWU_MemoryNotBonded`                                                  | enabled iff `lastKillTick >= 0` (freewielders can kill without bonding), else disabled — `PWU_MemoryNoKillMemory`                                                          |
-| Bonded, no `neverBond` trait staged                                         | enabled                                                                           | enabled (`lastKillTick` is always ≥ 0 once bonded — `OnCodedFor` stamps it)                                                                                                |
+| Condition                                                                   | Wipe bonding                                                                      | Wipe kill tracker                                                                                                                                                        |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Current weapon has no `CompBladelinkWeapon` (base being upgraded this spec) | disabled — `PWU_MemoryNotBonded`                                                  | disabled — `PWU_MemoryNoKillMemory`                                                                                                                                      |
+| Comp present, not bonded (`!comp.Biocoded`)                                 | disabled — `PWU_MemoryNotBonded`                                                  | enabled iff `lastKillTick >= 0` (freewielders can kill without bonding), else disabled — `PWU_MemoryNoKillMemory`                                                        |
+| Bonded, no `neverBond` trait staged                                         | enabled                                                                           | enabled (`lastKillTick` is always ≥ 0 once bonded — `OnCodedFor` stamps it)                                                                                              |
 | Bonded, a `neverBond` trait staged for addition                             | disabled — `PWU_MemoryBondSeveredByTrait` (adding freewielder already severs, D8) | disabled — `PWU_MemoryKillWipedByTrait`: the trait add's `UnCode()` clears the kill tracker too, and additions run **before** the memory op — the wipe would buy a no-op |
 
-Note the last row: staging freewielder onto a *bonded* weapon disables **both** wipes (its `UnCode()` does everything either wipe would). Staging it onto an *unbonded* weapon with kill memory triggers no `UnCode()`, so the kill wipe stays available — hence the gate is "bonded AND neverBond staged", not "neverBond staged".
+Note the last row: staging freewielder onto a _bonded_ weapon disables **both** wipes (its `UnCode()` does everything either wipe would). Staging it onto an _unbonded_ weapon with kill memory triggers no `UnCode()`, so the kill wipe stays available — hence the gate is "bonded AND neverBond staged", not "neverBond staged".
 
 `lastKillTick` is read through the existing `WeaponModificationUtility.LastKillTickField` reflection handle (already verified at startup).
 
@@ -259,27 +259,27 @@ Resulting section order: Progression / Trait costs (3 sliders + live cost table)
 **Renamed:** `PWU_ApplyingCosmetics` → `PWU_RenamingWeapon` ("Renaming {0}"); `PWU_BailOpCosmeticsFailed` → `PWU_BailOpRenameFailed`.
 **Added:**
 
-| Key                                    | English                                                                                          |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `PWU_TabMemory`                        | Memory                                                                                           |
-| `PWU_MemoryRequiresPersona`            | The weapon must host a persona before its memory can be wiped.                                   |
-| `PWU_MemoryNoWipe`                     | Do not wipe                                                                                      |
-| `PWU_MemoryWipeBonding`                | Wipe bonding                                                                                     |
+| Key                                    | English                                                                                                              |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `PWU_TabMemory`                        | Memory                                                                                                               |
+| `PWU_MemoryRequiresPersona`            | The weapon must host a persona before its memory can be wiped.                                                       |
+| `PWU_MemoryNoWipe`                     | No change                                                                                                            |
+| `PWU_MemoryWipeBonding`                | Wipe bonding                                                                                                         |
 | `PWU_MemoryWipeBondingDesc`            | Erase the persona's bond, and its kill memory with it. The weapon returns to bonding with the next pawn to equip it. |
-| `PWU_MemoryWipeKillTracker`            | Wipe kill tracker                                                                                |
-| `PWU_MemoryWipeKillTrackerDesc`        | Erase the persona's memory of its kills. The bond is untouched. (+ "Last kill: {0} days ago" when known) |
-| `PWU_MemoryNotBonded`                  | Not bonded                                                                                       |
-| `PWU_MemoryNoKillMemory`               | No kills remembered                                                                              |
-| `PWU_MemoryBondSeveredByTrait`         | The freewielder trait already severs the bond                                                    |
-| `PWU_MemoryKillWipedByTrait`           | Severing the bond wipes kill memory too                                                          |
-| `PWU_MemoryWipeLabel`                  | memory wipe (shortfall-bail op label)                                                            |
-| `PWU_WipingMemory`                     | Wiping memory of {0}                                                                             |
-| `PWU_BailOpMemoryFailed`               | (op-failure bail, matching existing bail phrasing)                                               |
-| `PWU_SettingsMemoryCosts`              | Memory costs                                                                                     |
-| `PWU_WipeBondingComponentCost`         | Bond wipe component cost: {0}                                                                    |
-| `PWU_WipeBondingComponentCostDesc`     | Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip. |
-| `PWU_WipeKillTrackerComponentCost`     | Kill tracker wipe component cost: {0}                                                            |
-| `PWU_WipeKillTrackerComponentCostDesc` | Advanced components charged to wipe a persona weapon's kill memory.                              |
+| `PWU_MemoryWipeKillTracker`            | Wipe kill tracker                                                                                                    |
+| `PWU_MemoryWipeKillTrackerDesc`        | Erase the persona's memory of its kills. The bond is untouched. (+ "Last kill: {0} days ago" when known)             |
+| `PWU_MemoryNotBonded`                  | Not bonded                                                                                                           |
+| `PWU_MemoryNoKillMemory`               | No kills remembered                                                                                                  |
+| `PWU_MemoryBondSeveredByTrait`         | The freewielder trait already severs the bond                                                                        |
+| `PWU_MemoryKillWipedByTrait`           | Severing the bond wipes kill memory too                                                                              |
+| `PWU_MemoryWipeLabel`                  | memory wipe (shortfall-bail op label)                                                                                |
+| `PWU_WipingMemory`                     | Wiping memory of {0}                                                                                                 |
+| `PWU_BailOpMemoryFailed`               | (op-failure bail, matching existing bail phrasing)                                                                   |
+| `PWU_SettingsMemoryCosts`              | Memory costs                                                                                                         |
+| `PWU_WipeBondingComponentCost`         | Bond wipe component cost: {0}                                                                                        |
+| `PWU_WipeBondingComponentCostDesc`     | Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip.                     |
+| `PWU_WipeKillTrackerComponentCost`     | Kill tracker wipe component cost: {0}                                                                                |
+| `PWU_WipeKillTrackerComponentCostDesc` | Advanced components charged to wipe a persona weapon's kill memory.                                                  |
 
 Exact copy may be tuned during the copy review pass (TODOs.md); the key set is fixed. Final step: rerun the C#↔XML key cross-check (PERSONA_FORK §12).
 
@@ -297,18 +297,18 @@ Exact copy may be tuned during the copy review pass (TODOs.md); the key set is f
 
 ## 9. Decisions
 
-| #   | Decision                     | Resolution                                                                                                                                                                                                                                                                       |
-| --- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| D12 | Color feature                | **Removed** (reverses D3) — vanilla tint wins; delete comp patch, tab, settings, keys, forced-color path (handoff, 2026-07-11)                                                                                                                                                   |
-| D13 | Tab container                | Keep the two-slot shell; Memory takes Color's `activeTab == 1` slot                                                                                                                                                                                                              |
-| D14 | `ApplyCosmetics` op          | Rename to `Rename` (name-only after §2); pre-release, no scribe migration for in-flight specs                                                                                                                                                                                    |
-| D15 | LHS chip split               | Label fraction `0.5f` → `0.7f` (`Preview.cs:92`); costs are single-resource in PWU                                                                                                                                                                                               |
-| D16 | Memory op shape              | The selected wipe compiles into **one** `WipeMemory` op, appended last (removals → rename → additions → memory); flat costs, no quality scaling, never crosses the persona-core boundary                                                                                         |
-| D17 | Op exclusivity               | **3-way radio** — Do not wipe (default) / Wipe bonding / Wipe kill tracker (user, 2026-07-11; replaces the checkbox model): `UnCode()` resets `lastKillTick`, so the bond wipe strictly subsumes the kill wipe and "both" is not a distinct outcome — the UI must not express it |
-| D18 | Kill-tracker "cleared" value | `TicksAbs` while bonded (fresh 20-day grace, per D9's rationale); −1 when unbonded (vanilla init state); bond wipe reaches −1 via `UnCode()` itself                                                                                                                              |
+| #   | Decision                     | Resolution                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| --- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D12 | Color feature                | **Removed** (reverses D3) — vanilla tint wins; delete comp patch, tab, settings, keys, forced-color path (handoff, 2026-07-11)                                                                                                                                                                                                                                                                                                                                                     |
+| D13 | Tab container                | Keep the two-slot shell; Memory takes Color's `activeTab == 1` slot                                                                                                                                                                                                                                                                                                                                                                                                                |
+| D14 | `ApplyCosmetics` op          | Rename to `Rename` (name-only after §2); pre-release, no scribe migration for in-flight specs                                                                                                                                                                                                                                                                                                                                                                                      |
+| D15 | LHS chip split               | Label fraction `0.5f` → `0.7f` (`Preview.cs:92`); costs are single-resource in PWU                                                                                                                                                                                                                                                                                                                                                                                                 |
+| D16 | Memory op shape              | The selected wipe compiles into **one** `WipeMemory` op, appended last (removals → rename → additions → memory); flat costs, no quality scaling, never crosses the persona-core boundary                                                                                                                                                                                                                                                                                           |
+| D17 | Op exclusivity               | **3-way radio** — Do not wipe (default) / Wipe bonding / Wipe kill tracker (user, 2026-07-11; replaces the checkbox model): `UnCode()` resets `lastKillTick`, so the bond wipe strictly subsumes the kill wipe and "both" is not a distinct outcome — the UI must not express it                                                                                                                                                                                                   |
+| D18 | Kill-tracker "cleared" value | `TicksAbs` while bonded (fresh 20-day grace, per D9's rationale); −1 when unbonded (vanilla init state); bond wipe reaches −1 via `UnCode()` itself                                                                                                                                                                                                                                                                                                                                |
 | D19 | Memory gating                | Tab gates on preview state (`IsRevertedToBase` message, ex-Color-tab pattern); rows gate on current comp state with disabled-reasons — incl. **both** wipes disabling when freewielder is staged onto a bonded weapon (its `UnCode()` pre-empts either wipe); a disabled selection snaps to None via `OnTraitsChanged`; affordance = trait-row geometry + `Widgets.RadioButton` glyph (the glyph is the one deviation from trait rows — a radio group must read as exactly-one-of) |
-| D20 | Bond confirm placement       | In `QueueWeaponRecoveryFor`'s `Reequip` case (covers success + interruption recovery); vanilla `GetPersonaWeaponConfirmationText` + `Dialog_MessageBox` Yes/No; confirm = revalidate + `TryTakeOrderedJob`; reject = `LeaveOnWorkbench` terminal state; no-dialog path unchanged |
-| D21 | Memory sliders' home         | New "Memory costs" settings section after "Trait costs" (which the user's copy pass scoped to trait changes)                                                                                                                                                                     |
+| D20 | Bond confirm placement       | In `QueueWeaponRecoveryFor`'s `Reequip` case (covers success + interruption recovery); vanilla `GetPersonaWeaponConfirmationText` + `Dialog_MessageBox` Yes/No; confirm = revalidate + `TryTakeOrderedJob`; reject = `LeaveOnWorkbench` terminal state; no-dialog path unchanged                                                                                                                                                                                                   |
+| D21 | Memory sliders' home         | New "Memory costs" settings section after "Trait costs" (which the user's copy pass scoped to trait changes)                                                                                                                                                                                                                                                                                                                                                                       |
 
 ---
 
