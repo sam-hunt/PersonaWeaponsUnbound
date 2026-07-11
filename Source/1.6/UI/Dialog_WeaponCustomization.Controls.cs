@@ -13,6 +13,13 @@ namespace PersonaWeaponsUnbound
 
         private void DrawControlsPanel(Rect rect)
         {
+            // The texture tab can disappear mid-session (setting toggled off,
+            // or the resulting def's catalog changes as traits are staged) —
+            // snap back to Traits rather than dispatch to a tab with no
+            // TabRecord, mirroring OnTraitsChanged's memory-op snap-back.
+            if (activeTab == 2 && !TextureTabAvailable)
+                activeTab = 0;
+
             float curY = rect.y + 8f;
             float innerWidth = rect.width - 16f;
             float innerX = rect.x + 8f;
@@ -31,8 +38,10 @@ namespace PersonaWeaponsUnbound
             tabContentRect.height -= 6f;
             if (activeTab == 0)
                 DrawTraitsTab(tabContentRect);
-            else
+            else if (activeTab == 1)
                 DrawMemoryTab(tabContentRect);
+            else
+                DrawTextureTab(tabContentRect);
         }
 
         private void DrawNameRow(float x, ref float curY, float width)
@@ -159,6 +168,9 @@ namespace PersonaWeaponsUnbound
             var tabs = new List<TabRecord>();
             tabs.Add(new TabRecord("PWU_TabTraits".Translate(), () => activeTab = 0, activeTab == 0));
             tabs.Add(new TabRecord("PWU_TabMemory".Translate(), () => activeTab = 1, activeTab == 1));
+
+            if (TextureTabAvailable)
+                tabs.Add(new TabRecord("PWU_TabTexture".Translate(), () => activeTab = 2, activeTab == 2));
 
             TabDrawer.DrawTabs(menuRect, tabs);
         }

@@ -228,6 +228,8 @@ namespace PersonaWeaponsUnbound
                         return "PWU_RenamingWeapon".Translate(weaponLabel);
                     case OpType.WipeMemory:
                         return "PWU_WipingMemory".Translate(weaponLabel);
+                    case OpType.Restyle:
+                        return "PWU_RestylingWeapon".Translate(weaponLabel);
                 }
             }
 

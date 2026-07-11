@@ -34,6 +34,10 @@ namespace PersonaWeaponsUnbound
     // Right pane (65%): Controls.cs — name field, tab bar, tab content
     //   Traits tab: Traits.cs — scrollable checkbox list with per-trait costs and rejection reasons
     //   Memory tab: Memory.cs — 3-way memory-wipe radio group (none / bond / kill tracker)
+    //   Texture tab (optional 3rd tab): Texture.cs — VPWE/VEF appearance customization via a
+    //     "< [Part] >" selector above a scrollable grid of rendered thumbnails per variant,
+    //     shown only when PWU_Settings.integrateVpweCustomization + VPWEIntegration.UiSurfaceAvailable
+    //     + the resulting def has a texture catalog (see VPWEIntegration.GetPartCatalog)
     // Footer: Footer.cs — Cancel/Reset/Confirm buttons (ideology styling station layout)
 
     public partial class Dialog_WeaponCustomization : Window
@@ -67,6 +71,15 @@ namespace PersonaWeaponsUnbound
         // isn't active. See VPWEIntegration and Dialog_WeaponCustomization.Preview.cs.
         private List<string> vpweTexPaths;
 
+        // Snapshot of vpweTexPaths taken the moment it's first established —
+        // in the ctor (already-VPWE weapon) or by the lazy preview capture
+        // (base weapon rolling its first persona skin; see BuildPreviewGraphic).
+        // Never mutated afterward. Compared against the live vpweTexPaths by
+        // TextureChanged (Dialog_WeaponCustomization.Texture.cs) to drive the
+        // Texture tab's dirty-tracking, LHS chip, and confirm-button gating —
+        // exactly the role originalTraits/originalName play for the other tabs.
+        private List<string> originalVpweTexPaths;
+
         // Desired state — mutated by user interaction
         private readonly List<WeaponTraitDef> desiredTraits;
         private string desiredName;
@@ -78,7 +91,7 @@ namespace PersonaWeaponsUnbound
         private Vector2 traitListScroll;
         private Vector2 desiredTraitsScroll;
         private readonly QuickSearchWidget traitSearchWidget = new QuickSearchWidget();
-        private int activeTab; // 0 = Traits, 1 = Memory
+        private int activeTab; // 0 = Traits, 1 = Memory, 2 = Texture (only when TextureTabAvailable)
         private bool nameLocked;
         private bool hideNegativeTraits;
         private string lastAutoName;
@@ -167,6 +180,7 @@ namespace PersonaWeaponsUnbound
             // the confirmed job reproduce it instead of rolling a new random one on
             // each re-made persona Thing. Null for base or non-VPWE weapons.
             vpweTexPaths = VPWEIntegration.CaptureTexPaths(weapon);
+            originalVpweTexPaths = vpweTexPaths != null ? new List<string>(vpweTexPaths) : null;
 
             // Cache the full compatible trait list (all bladelink traits)
             compatibleTraits = TraitValidationUtility.GetCompatibleTraits(personaDef);
@@ -280,6 +294,8 @@ namespace PersonaWeaponsUnbound
                     return true;
                 if (desiredMemoryOp != MemoryOpKind.None)
                     return true;
+                if (TextureChanged)
+                    return true;
                 return false;
             }
         }
@@ -302,6 +318,7 @@ namespace PersonaWeaponsUnbound
             lastAutoName = null;
             traitListScroll = Vector2.zero;
             desiredTraitsScroll = Vector2.zero;
+            vpweTexPaths = originalVpweTexPaths != null ? new List<string>(originalVpweTexPaths) : null;
         }
 
         private void OnTraitsChanged()
@@ -512,6 +529,25 @@ namespace PersonaWeaponsUnbound
                         nameToApply = desiredName,
                     });
                 }
+            }
+
+            // 2.5. Restyle op (VPWE/VEF texture tab, D-Texture) — a marker op:
+            // no trait, no cost, no refund. The payload rides spec.vpweTexPaths
+            // (set in BuildCustomizationSpec), not this op — see OpType.Restyle's
+            // doc comment. Gated on ResultingDef == personaDef, mirroring the
+            // memory-wipe gate below: a restyle only means something for a
+            // persona final state (reverting to base has no comp to restyle).
+            // Placement here (adjacent to rename) is mostly cosmetic — order
+            // barely matters because ConvertWeaponInPlace re-applies
+            // spec.vpweTexPaths on ANY def conversion regardless of which op
+            // triggers it. Overall op order: removals → rename → restyle →
+            // additions → memory wipe.
+            if (ResultingDef == personaDef && TextureChanged)
+            {
+                ops.Add(new CustomizationOp
+                {
+                    type = OpType.Restyle,
+                });
             }
 
             // 3. Addition ops

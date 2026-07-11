@@ -10,6 +10,19 @@ namespace PersonaWeaponsUnbound
         AddTrait,
         Rename,
         WipeMemory,
+
+        /// <summary>
+        /// VPWE/VEF unified texture tab: a marker op only — carries no trait,
+        /// no cost, no refund. The actual payload rides
+        /// <see cref="CustomizationSpec.vpweTexPaths"/>, not this op;
+        /// <c>JobDriver_CustomizeWeapon.ApplyOperationInner</c> just re-applies
+        /// that field via <c>VPWEIntegration.ApplyTexPaths</c> when it sees this
+        /// op type. Staged by <c>Dialog_WeaponCustomization.BuildOperations</c>
+        /// whenever the Texture tab's selection diverges from the weapon's
+        /// original skin (see <c>Dialog_WeaponCustomization.Texture.cs</c>'s
+        /// <c>TextureChanged</c>).
+        /// </summary>
+        Restyle,
     }
 
     /// <summary>

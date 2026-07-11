@@ -200,6 +200,10 @@ namespace PersonaWeaponsUnbound
                     opDescr = "wiping memory (" + op.memoryOp + ")";
                     bailMessageText = "PWU_BailOpMemoryFailed".Translate(WeaponLabel);
                     break;
+                case OpType.Restyle:
+                    opDescr = "restyling weapon (VPWE/VEF texture)";
+                    bailMessageText = "PWU_BailOpRestyleFailed".Translate(WeaponLabel);
+                    break;
                 default:
                     opDescr = "op type " + op.type;
                     bailMessageText = "PWU_BailUnexpected".Translate(WeaponLabel);
@@ -312,16 +316,31 @@ namespace PersonaWeaponsUnbound
                     }
 
                     CompBladelinkWeapon memoryComp = weapon.TryGetComp<CompBladelinkWeapon>();
+
+                    // defensive; op is only built for persona final states
                     if (memoryComp == null)
-                        break;                     // defensive; op is only built for persona final states
+                        break;
+
                     switch (op.memoryOp)
                     {
                         case MemoryOpKind.WipeBonding:
                             if (memoryComp.Biocoded)
-                                memoryComp.UnCode();   // severs bond, fires Notify_Unbonded per trait,
-                                                       // strips bonded hediffs, resets lastKillTick (kill
-                                                       // memory goes with the bond); biocodeOnEquip then
-                                                       // re-arms bond-on-next-equip
+                            {
+                                // severs bond, fires Notify_Unbonded per trait, strips bonded hediffs,
+                                // resets lastKillTick (kill memory goes with the bond); biocodeOnEquip
+                                // then re-arms bond-on-next-equip
+                                memoryComp.UnCode();
+
+                                // A pawn who walked in wearing this weapon had it auto-
+                                // queued to reequip; wiping the bond mid-job means an
+                                // auto-reequip would just re-bond it right back, defeating
+                                // the point of the wipe. Once the wipe actually lands,
+                                // leave the weapon on the bench instead. If the job gets
+                                // interrupted before this op runs, returnMode is untouched
+                                // and the pawn reequips as normal.
+                                if (returnMode == WeaponReturnMode.Reequip)
+                                    returnMode = WeaponReturnMode.LeaveOnWorkbench;
+                            }
                             break;
                         case MemoryOpKind.WipeKillTracker:
                             // D18: "cleared" means a fresh kill clock while still
@@ -333,6 +352,17 @@ namespace PersonaWeaponsUnbound
                                 memoryComp.Biocoded ? Find.TickManager.TicksAbs : -1);
                             break;
                     }
+                    break;
+
+                case OpType.Restyle:
+                    // Marker op — the payload rides spec.vpweTexPaths, not this
+                    // op (see OpType.Restyle's doc comment). No cost to pay.
+                    // Null-safe/no-op on a weapon with no VPWE/VEF comp (base
+                    // weapon, or VPWE/VEF absent) or when nothing was staged;
+                    // ApplyTexPaths now also dirties the map mesh itself when
+                    // the weapon is spawned, so a live re-texture renders
+                    // immediately without any extra plumbing here.
+                    VPWEIntegration.ApplyTexPaths(weapon, spec?.vpweTexPaths);
                     break;
             }
         }

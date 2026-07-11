@@ -24,6 +24,7 @@
   <!-- Dialog: Tabs -->
   <PWU_TabTraits>Traits</PWU_TabTraits>
   <PWU_TabMemory>Memory</PWU_TabMemory>
+  <PWU_TabTexture>Texture</PWU_TabTexture>
 
   <!-- Dialog: Controls -->
   <PWU_RelicNameTooltip>This weapon is an ideology relic. Its name can only be changed when forming or reforming an ideoligion.</PWU_RelicNameTooltip>
@@ -63,7 +64,7 @@
   <PWU_NeverBondSeversBond>Adding this trait makes the weapon free-wielding, severing its bond with {0}.</PWU_NeverBondSeversBond>
   <PWU_BondSeveredWarning>Reverting this weapon to its base form will sever its bond with {0}. Continue?</PWU_BondSeveredWarning>
   <PWU_NoTraitsMatchSearch>No traits match your search.</PWU_NoTraitsMatchSearch>
-  <PWU_NoTraitsDiscovered>No traits available yet.\n\nEncounter persona weapons via Empire traders, quests, or hostiles\nto unlock their traits for customization.</PWU_NoTraitsDiscovered>
+  <PWU_NoTraitsDiscovered>No traits available yet.\n\nEncounter persona weapons via Empire traders, quests, relics, or hostiles\nto unlock their traits for customization.</PWU_NoTraitsDiscovered>
   <PWU_NoTraitsAfterHideNegative>All available traits for this weapon are negative. Disable "Hide negative traits" below to view them.</PWU_NoTraitsAfterHideNegative>
   <PWU_NoTraitsAvailable>No traits are compatible with this weapon.</PWU_NoTraitsAvailable>
 
@@ -81,6 +82,11 @@
   <PWU_MemoryKillWipedByTrait>Severing the bond wipes kill memory too</PWU_MemoryKillWipedByTrait>
   <PWU_MemoryWipeLabel>memory wipe</PWU_MemoryWipeLabel>
 
+  <!-- Dialog: Texture tab (VPWE/VEF unified appearance customization) -->
+  <PWU_NoTextureOptions>This weapon has no texture customization options.</PWU_NoTextureOptions>
+  <PWU_TextureRollingPlaceholder>Rolling appearance...</PWU_TextureRollingPlaceholder>
+  <PWU_ResetTexture>Reset appearance</PWU_ResetTexture>
+
   <!-- Fallbacks -->
   <PWU_WeaponFallback>weapon</PWU_WeaponFallback>
 
@@ -90,6 +96,7 @@
   <PWU_RemovingTrait>Removing {0} from {1}</PWU_RemovingTrait>
   <PWU_RenamingWeapon>Renaming {0}</PWU_RenamingWeapon>
   <PWU_WipingMemory>Wiping memory of {0}</PWU_WipingMemory>
+  <PWU_RestylingWeapon>Updating appearance of {0}</PWU_RestylingWeapon>
   <PWU_PlacingWeapon>Placing {0} on {1}</PWU_PlacingWeapon>
   <PWU_GatheringMaterials>Gathering materials for {0}</PWU_GatheringMaterials>
   <PWU_AdmiringWork>Admiring work</PWU_AdmiringWork>
@@ -107,6 +114,7 @@
   <PWU_BailOpRemoveTraitFailed>{0} customization interrupted: an error occurred while removing {1}.</PWU_BailOpRemoveTraitFailed>
   <PWU_BailOpRenameFailed>{0} customization interrupted: an error occurred while renaming the weapon.</PWU_BailOpRenameFailed>
   <PWU_BailOpMemoryFailed>{0} customization interrupted: an error occurred while wiping the persona's memory.</PWU_BailOpMemoryFailed>
+  <PWU_BailOpRestyleFailed>{0} customization interrupted: an error occurred while updating its appearance.</PWU_BailOpRestyleFailed>
   <PWU_BailUnexpected>{0} customization failed unexpectedly.</PWU_BailUnexpected>
   <PWU_BailDialogOpenFailed>{0} customization interrupted: the customization dialog could not be opened. See log.</PWU_BailDialogOpenFailed>
   <PWU_DialogErrored>{0} customization dialog errored and was closed. See log.</PWU_DialogErrored>
@@ -120,6 +128,7 @@
   <PWU_SettingsCraftingRecipes>Crafting recipes</PWU_SettingsCraftingRecipes>
   <PWU_SettingsHaulPlanner>Ingredient hauling</PWU_SettingsHaulPlanner>
   <PWU_SettingsMiscellaneous>Miscellaneous</PWU_SettingsMiscellaneous>
+  <PWU_SettingsVpweIntegration>VPWE integration</PWU_SettingsVpweIntegration>
 
   <!-- Settings: Reusable label suffixes (each includes a leading space) -->
   <PWU_DefaultSuffix> (default)</PWU_DefaultSuffix>
@@ -166,15 +175,19 @@
   <PWU_EnforceSoleTrait>Enforce sole-trait restrictions</PWU_EnforceSoleTrait>
   <PWU_EnforceSoleTraitDesc>Some traits cannot be the only trait on a weapon during vanilla generation. Enable this to enforce the same restriction during customization.</PWU_EnforceSoleTraitDesc>
   <PWU_RestrictTraitsToDiscovered>Restrict available traits to discovered weapons</PWU_RestrictTraitsToDiscovered>
-  <PWU_RestrictTraitsToDiscoveredDesc>Lightweight progression system. When enabled, the customization dialog only offers traits found on persona weapons the colony has seen: unfogged and unsealed on a loaded map, or carried in a player-faction caravan. Weapons carried by hostiles count too, but their traits stay disabled until the weapon is captured. No persistent state is added to saves; toggling this off restores the full trait list immediately.</PWU_RestrictTraitsToDiscoveredDesc>
+  <PWU_RestrictTraitsToDiscoveredDesc>A lightweight progression system: when enabled, the customization dialog only offers traits found on persona weapons the colony has seen: unfogged and unsealed on a loaded map, or carried in a player-faction caravan. Weapons carried by hostiles count too, but their traits stay disabled until the weapon is captured. No persistent state is added to saves; toggling this off restores the full trait list immediately.</PWU_RestrictTraitsToDiscoveredDesc>
   <PWU_EnableGroundCustomization>Enable ground weapon right-click menu</PWU_EnableGroundCustomization>
   <PWU_EnableGroundCustomizationDesc>Show "Customize" options when right-clicking weapons on the ground. Disable this to reduce float menu clutter, especially with storage mods that stack items in the same cell. Weapons can still be customized by selecting them and using the gizmo button.</PWU_EnableGroundCustomizationDesc>
+
+  <!-- Settings: VPWE integration (only shown when the extended VEF reflection surface resolved) -->
+  <PWU_IntegrateVpweCustomization>Integrate VPWE/VEF texture customization</PWU_IntegrateVpweCustomization>
+  <PWU_IntegrateVpweCustomizationDesc>Add a Texture tab to PWU's customization dialog for editing a Vanilla Persona Weapons Expanded weapon's composed appearance (grip, blade, and similar parts), and hide VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VPWE workflow untouched.</PWU_IntegrateVpweCustomizationDesc>
 
   <!-- Settings: Haul planner -->
   <PWU_HaulPlannerSequential>Sequential</PWU_HaulPlannerSequential>
   <PWU_HaulPlannerSequentialDesc>Vanilla behavior. Pawns carry up to one ingredient stack at a time, always grabbing the nearest first. Simple and predictable, but means lots of short trips for resource-heavy customizations.</PWU_HaulPlannerSequentialDesc>
   <PWU_HaulPlannerSweep>Sweep</PWU_HaulPlannerSweep>
-  <PWU_HaulPlannerSweepDesc>Pawns plan ahead and use spare inventory space to carry more at once, while also routing more efficiently between pickups. Much fewer trips than Sequential, with negligible planning overhead.</PWU_HaulPlannerSweepDesc>
+  <PWU_HaulPlannerSweepDesc>Pawns plan ahead and use spare inventory space to carry more at once, while also routing more efficiently between pickups. Far fewer trips than Sequential, with negligible planning overhead.</PWU_HaulPlannerSweepDesc>
   <PWU_HaulPlannerThorough>Thorough</PWU_HaulPlannerThorough>
   <PWU_HaulPlannerThoroughDesc>Like Sweep, but also weighs which stacks to draw from when the map has multiple candidates, rather than always taking the closest. Slower to plan, but usually finds the shortest runs when ingredients are scattered or carrying capacity is tight. Falls back to Sweep for hauls too complex to fully analyze.</PWU_HaulPlannerThoroughDesc>
 

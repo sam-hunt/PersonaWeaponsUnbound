@@ -37,22 +37,39 @@ namespace PersonaWeaponsUnbound
 
         private static FloatMenuOption BuildOption(Thing clickedThing, FloatMenuContext context)
         {
-            if (PWU_Mod.Settings == null || !PWU_Mod.Settings.enableGroundCustomization)
-                return null;
-            if (clickedThing == null || clickedThing.def == null)
-                return null;
-            if (clickedThing is Building)
-                return null;
-            if (!clickedThing.def.IsWeapon)
-                return null;
-            if (!clickedThing.Spawned)
-                return null;
-
             Pawn pawn = context.FirstSelectedPawn;
             if (pawn == null)
                 return null;
+            return BuildOptionFor(clickedThing, pawn);
+        }
 
-            Thing weapon = clickedThing;
+        /// <summary>
+        /// Core option-building logic, factored out of <see cref="BuildOption"/>
+        /// so the VPWE/VEF float-menu-suppression patch
+        /// (<c>VEF_CompGraphicCustomization_CompFloatMenuOptions_Patch</c>) can ask
+        /// "would PWU show its own ground-customize option for this weapon/pawn,
+        /// and would it be enabled?" without needing a <see cref="FloatMenuContext"/>
+        /// — the only thing that type contributed here was
+        /// <c>FirstSelectedPawn</c>, so the pawn is taken directly. Returns null
+        /// when the option would be hidden entirely; a non-null result may still
+        /// be <see cref="FloatMenuOption.Disabled"/> (action == null) when it's
+        /// shown-but-blocked (no path, no research, etc.) — callers that only
+        /// care about a genuinely usable option must check both.
+        /// </summary>
+        internal static FloatMenuOption BuildOptionFor(Thing weapon, Pawn pawn)
+        {
+            if (PWU_Mod.Settings == null || !PWU_Mod.Settings.enableGroundCustomization)
+                return null;
+            if (weapon == null || weapon.def == null)
+                return null;
+            if (weapon is Building)
+                return null;
+            if (!weapon.def.IsWeapon)
+                return null;
+            if (!weapon.Spawned)
+                return null;
+            if (pawn == null)
+                return null;
 
             // Variant exists + research gate
             AcceptanceReport customizable = CustomizationRules.IsCustomizable(weapon);

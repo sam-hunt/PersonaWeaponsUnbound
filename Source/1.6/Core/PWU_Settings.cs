@@ -37,6 +37,9 @@ namespace PersonaWeaponsUnbound
         public bool enforceMaxTraitLimit = true;
         public bool enforceCanGenerateAlone;
 
+        // VPWE Integration (section only shown when VPWEIntegration.UiSurfaceAvailable)
+        public bool integrateVpweCustomization = true;
+
         public void ResetToDefaults()
         {
             restrictTraitsToDiscovered = false;
@@ -63,6 +66,9 @@ namespace PersonaWeaponsUnbound
             enableGroundCustomization = true;
             enforceMaxTraitLimit = true;
             enforceCanGenerateAlone = false;
+
+            // VPWE Integration
+            integrateVpweCustomization = true;
         }
 
         public override void ExposeData()
@@ -94,6 +100,9 @@ namespace PersonaWeaponsUnbound
             Scribe_Values.Look(ref enableGroundCustomization, "enableGroundCustomization", true);
             Scribe_Values.Look(ref enforceMaxTraitLimit, "enforceMaxTraitLimit", true);
             Scribe_Values.Look(ref enforceCanGenerateAlone, "enforceCanGenerateAlone");
+
+            // VPWE Integration
+            Scribe_Values.Look(ref integrateVpweCustomization, "integrateVpweCustomization", true);
         }
     }
 }

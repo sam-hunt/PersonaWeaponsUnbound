@@ -233,6 +233,25 @@ namespace PersonaWeaponsUnbound
                 ref Settings.enforceCanGenerateAlone,
                 "PWU_EnforceSoleTraitDesc".Translate());
 
+            // VPWE/VEF integration — only shown when the extended reflection
+            // surface it depends on actually resolved (see VPWEIntegration.
+            // UiSurfaceAvailable); players without VPWE/VEF, or on a version
+            // where the surface has drifted, never see a dead toggle.
+            if (VPWEIntegration.UiSurfaceAvailable)
+            {
+                listing.Gap(24.0f);
+
+                Text.Font = GameFont.Medium;
+                listing.Label("PWU_SettingsVpweIntegration".Translate());
+                Text.Font = GameFont.Small;
+                listing.Gap(6f);
+
+                listing.CheckboxLabeled(
+                    "PWU_IntegrateVpweCustomization".Translate(),
+                    ref Settings.integrateVpweCustomization,
+                    "PWU_IntegrateVpweCustomizationDesc".Translate());
+            }
+
             listing.Gap(60f);
 
             Text.Font = prev;

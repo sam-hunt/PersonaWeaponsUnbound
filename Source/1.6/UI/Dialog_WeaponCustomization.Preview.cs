@@ -18,11 +18,25 @@ namespace PersonaWeaponsUnbound
         private ThingDef cachedPreviewDef;
         private List<WeaponTraitDef> cachedPreviewTraits;
 
+        // VPWE/VEF texPaths snapshot the preview render was last built from —
+        // included in the rebuild key alongside def/traits so a Texture-tab
+        // variant edit (which reassigns vpweTexPaths to a fresh list) refreshes
+        // the preview icon, not just the confirmed job's appearance.
+        private List<string> cachedPreviewTexPaths;
+
         // One prospective Thing reused across rebuilds (re-made only on def change).
         // ThingMaker.MakeThing mutates global sim state — Thing.PostMake draws a
         // UniqueIDsManager id and PostPostMake rolls off the global Rand — so caching
         // it bounds those draws to def changes instead of firing on every rebuild.
         private Thing previewThing;
+
+        // What vpweTexPaths previewThing's comp was last stamped with (see
+        // BuildPreviewGraphic) — null when never stamped (fresh Thing, or a
+        // def with no VPWE/VEF comp). Distinct from cachedPreviewTexPaths:
+        // this tracks the reused previewThing's own state, so a Texture-tab
+        // edit re-stamps the same Thing rather than only affecting a future
+        // def-change remake.
+        private List<string> previewThingStampedTexPaths;
 
         // --- Left pane: weapon preview ---
 
@@ -179,6 +193,10 @@ namespace PersonaWeaponsUnbound
                         if (Widgets.ButtonInvisible(chipRect))
                             activeTab = 1;
                     }
+                    // A pending texture restyle (VPWE/VEF texture tab) deliberately
+                    // gets NO chip: the chip list exists to itemize cost-bearing
+                    // ops, and OpType.Restyle never carries a cost. The Texture
+                    // tab's own controls are the only staging surface it needs.
 
                     Widgets.EndScrollView();
                 }
@@ -281,7 +299,8 @@ namespace PersonaWeaponsUnbound
 
             bool needsRebuild = previewRT == null
                 || cachedPreviewDef != resultDef
-                || !SameTraits(cachedPreviewTraits, desiredTraits);
+                || !SameTraits(cachedPreviewTraits, desiredTraits)
+                || !SameTexPaths(cachedPreviewTexPaths, vpweTexPaths);
 
             // Rebuild during Layout to avoid disrupting Repaint's active rendering.
             // Graphics.Blit changes RenderTexture.active, which during Repaint would
@@ -291,6 +310,7 @@ namespace PersonaWeaponsUnbound
                 RebuildPreviewRT(resultDef);
                 cachedPreviewDef = resultDef;
                 cachedPreviewTraits = new List<WeaponTraitDef>(desiredTraits);
+                cachedPreviewTexPaths = vpweTexPaths != null ? new List<string>(vpweTexPaths) : null;
             }
 
             if (previewRT != null)
@@ -372,6 +392,10 @@ namespace PersonaWeaponsUnbound
                     Rand.PopState();
                 }
                 madeThisCall = true;
+                // A fresh Thing carries no stamp yet — reset so the skin
+                // logic below re-stamps it rather than assuming the previous
+                // (now-replaced) previewThing's stamp still applies.
+                previewThingStampedTexPaths = null;
             }
 
             CompBladelinkWeapon comp = previewThing.TryGetComp<CompBladelinkWeapon>();
@@ -383,13 +407,18 @@ namespace PersonaWeaponsUnbound
                 traits.AddRange(desiredTraits);
             }
 
-            // VPWE/VEF skin preservation. A fresh persona preview Thing would roll a
-            // new random skin on first graphic access; stamp the captured skin onto
-            // it first (before the .Graphic read below) so the preview matches the
-            // real weapon. Only on a fresh make: the Thing is cached and reused
-            // across rebuilds, so a persona→base→persona flip re-makes and re-stamps.
-            if (madeThisCall && vpweTexPaths != null)
+            // VPWE/VEF skin preservation AND live Texture-tab edits. Stamp
+            // whenever the desired paths differ from what's currently on the
+            // preview Thing — not only on a fresh make — so picking a new
+            // variant in the Texture tab recomposes the reused previewThing
+            // immediately instead of only taking effect on a future def
+            // change. ApplyTexPaths clears the cached graphic/texture, so a
+            // reused Thing recomposes correctly from the new paths.
+            if (vpweTexPaths != null && !SameTexPaths(previewThingStampedTexPaths, vpweTexPaths))
+            {
                 VPWEIntegration.ApplyTexPaths(previewThing, vpweTexPaths);
+                previewThingStampedTexPaths = new List<string>(vpweTexPaths);
+            }
 
             // Resolving .Graphic can trigger VEF's lazy skin roll — when customizing a
             // base weapon there's no captured skin to stamp, so VEF rolls off the
@@ -405,7 +434,18 @@ namespace PersonaWeaponsUnbound
             {
                 graphic = previewThing.Graphic;
                 if (madeThisCall && vpweTexPaths == null)
+                {
                     vpweTexPaths = VPWEIntegration.CaptureTexPaths(previewThing);
+                    if (vpweTexPaths != null)
+                    {
+                        previewThingStampedTexPaths = new List<string>(vpweTexPaths);
+                        // First time a skin is ever established for this dialog
+                        // (base weapon rolling its first persona skin) — this
+                        // roll becomes the Texture tab's "original" baseline too.
+                        if (originalVpweTexPaths == null)
+                            originalVpweTexPaths = new List<string>(vpweTexPaths);
+                    }
+                }
             }
             finally
             {
@@ -413,6 +453,29 @@ namespace PersonaWeaponsUnbound
             }
 
             return graphic;
+        }
+
+        /// <summary>
+        /// Ordered equality for the two preview caches' texPaths snapshots
+        /// (and the reused previewThing's stamp check). Unlike
+        /// <see cref="SameTraits"/>, a null/null pair matches — no VPWE/VEF,
+        /// or nothing rolled yet, is a stable "unchanged" state that must not
+        /// force a rebuild every frame.
+        /// </summary>
+        private static bool SameTexPaths(List<string> cached, List<string> current)
+        {
+            if (cached == null && current == null)
+                return true;
+            if (cached == null || current == null)
+                return false;
+            if (cached.Count != current.Count)
+                return false;
+            for (int i = 0; i < cached.Count; i++)
+            {
+                if (cached[i] != current[i])
+                    return false;
+            }
+            return true;
         }
 
         /// <summary>

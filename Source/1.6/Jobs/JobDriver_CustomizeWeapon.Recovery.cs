@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -91,6 +90,22 @@ namespace PersonaWeaponsUnbound
                     // manual-equip dialog here; GetPersonaWeaponConfirmationText already
                     // returns null for the common cases (bonded to this pawn, freewielder,
                     // downgraded to base), so most re-equips still take the fast path below.
+                    //
+                    // Vanilla also checks AlreadyBondedToWeapon before that confirmation
+                    // (see FloatMenuOptionProvider_Equip) and shows an info-only dialog
+                    // instead of queuing an Equip job, since JobDriver_Equip itself has no
+                    // messaging and would just silently fail to reserve the weapon. Without
+                    // this check, a pawn who forgot about an existing bond (weapon dropped,
+                    // hauled off, left on another map) would see the "will bond" confirm
+                    // dialog, click yes, and have the weapon left stranded on the workbench
+                    // with no explanation.
+                    if (EquipmentUtility.AlreadyBondedToWeapon(recoverWeapon, pawn))
+                    {
+                        Find.WindowStack.Add(new Dialog_MessageBox("BladelinkAlreadyBondedDialog".Translate(
+                            pawn.Named("PAWN"), recoverWeapon.Named("WEAPON"), pawn.equipment.bondedWeapon.Named("BONDEDWEAPON"))));
+                        break;
+                    }
+
                     string confirmText = EquipmentUtility.GetPersonaWeaponConfirmationText(recoverWeapon, pawn);
                     if (confirmText.NullOrEmpty())
                     {
@@ -107,6 +122,16 @@ namespace PersonaWeaponsUnbound
                         if (recoverWeapon.DestroyedOrNull() || !recoverWeapon.Spawned
                             || pawn.DestroyedOrNull() || !pawn.Spawned || pawn.Map != recoverWeapon.Map)
                             return;
+
+                        // Bond state can also change while the dialog was open (e.g. the
+                        // pawn bonded to another persona weapon in the meantime) — re-check
+                        // rather than queue a job that would silently fail to reserve.
+                        if (EquipmentUtility.AlreadyBondedToWeapon(recoverWeapon, pawn))
+                        {
+                            Find.WindowStack.Add(new Dialog_MessageBox("BladelinkAlreadyBondedDialog".Translate(
+                                pawn.Named("PAWN"), recoverWeapon.Named("WEAPON"), pawn.equipment.bondedWeapon.Named("BONDEDWEAPON"))));
+                            return;
+                        }
 
                         recoverWeapon.SetForbidden(false);
                         pawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(JobDefOf.Equip, recoverWeapon), JobTag.Misc);
