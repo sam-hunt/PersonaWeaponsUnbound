@@ -355,6 +355,14 @@ namespace PersonaWeaponsUnbound
                 oldBladelink.UnCode();
 
             Thing newWeapon = WeaponDefConversion.ConvertWeaponDef(weapon, targetDef);
+
+            // Preserve the weapon's VPWE/VEF skin across the swap: a fresh persona
+            // Thing would otherwise roll a new random skin on first render. Applied
+            // before spawn so the first composition uses these paths. No-op on a
+            // base target (no comp), when VPWE/VEF is absent, or when nothing was
+            // captured (non-VPWE weapon). See VPWEIntegration.
+            VPWEIntegration.ApplyTexPaths(newWeapon, spec?.vpweTexPaths);
+
             IntVec3 pos = weapon.Position;
             Map map = weapon.Map;
 

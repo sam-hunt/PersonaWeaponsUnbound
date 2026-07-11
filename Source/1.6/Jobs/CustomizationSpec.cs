@@ -85,12 +85,23 @@ namespace PersonaWeaponsUnbound
         /// </summary>
         public List<ThingDefCountClass> totalRefund;
 
+        /// <summary>
+        /// The original weapon's VPWE/VEF composed-texture "skin" (VEF's
+        /// <c>texPaths</c>), captured by the dialog so the job can re-apply it onto
+        /// the new Thing whenever a base→persona conversion would otherwise roll a
+        /// fresh random skin (see <see cref="VPWEIntegration"/>). Null when VPWE/VEF
+        /// isn't active or the weapon has no customization comp — the common case.
+        /// A plain string list so it scribes without any VEF type dependency.
+        /// </summary>
+        public List<string> vpweTexPaths;
+
         public void ExposeData()
         {
             Scribe_Collections.Look(ref operations, "operations", LookMode.Deep);
             Scribe_Defs.Look(ref resultingDef, "resultingDef");
             Scribe_Collections.Look(ref totalCost, "totalCost", LookMode.Deep);
             Scribe_Collections.Look(ref totalRefund, "totalRefund", LookMode.Deep);
+            Scribe_Collections.Look(ref vpweTexPaths, "vpweTexPaths", LookMode.Value);
         }
     }
 }

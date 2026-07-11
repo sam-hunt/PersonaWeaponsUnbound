@@ -59,6 +59,14 @@ namespace PersonaWeaponsUnbound
         // See <see cref="TraitProgressionPool"/> for the scan rules.
         private readonly TraitProgressionPool progressionPool;
 
+        // VPWE/VEF composed-texture "skin" to preserve across preview re-makes and
+        // the confirmed conversion (VEF's texPaths). Seeded from the live weapon in
+        // the ctor when it's a VPWE persona weapon; when the weapon is base (no skin
+        // yet), it's captured lazily from the first persona preview roll so every
+        // later preview — and the job — reproduce that same skin. Null when VPWE/VEF
+        // isn't active. See VPWEIntegration and Dialog_WeaponCustomization.Preview.cs.
+        private List<string> vpweTexPaths;
+
         // Desired state — mutated by user interaction
         private readonly List<WeaponTraitDef> desiredTraits;
         private string desiredName;
@@ -154,6 +162,11 @@ namespace PersonaWeaponsUnbound
             // Note: base weapons start with empty originalTraits — user can only add.
 
             desiredTraits = new List<WeaponTraitDef>(originalTraits);
+
+            // Capture the weapon's current VPWE/VEF skin (if any) so the preview and
+            // the confirmed job reproduce it instead of rolling a new random one on
+            // each re-made persona Thing. Null for base or non-VPWE weapons.
+            vpweTexPaths = VPWEIntegration.CaptureTexPaths(weapon);
 
             // Cache the full compatible trait list (all bladelink traits)
             compatibleTraits = TraitValidationUtility.GetCompatibleTraits(personaDef);

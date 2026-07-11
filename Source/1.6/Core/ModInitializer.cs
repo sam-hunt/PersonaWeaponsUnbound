@@ -17,6 +17,10 @@ namespace PersonaWeaponsUnbound
             WeaponModificationUtility.VerifyReflection();
             PWU_ResearchDefOf.ApplyTechprintCount();
 
+            // Force the optional VPWE/VEF skin integration to resolve now so any
+            // API drift is reported at startup rather than lazily on first use.
+            _ = VPWEIntegration.Available;
+
             report.LogSummary();
         }
     }

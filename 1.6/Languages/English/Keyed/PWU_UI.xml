@@ -2,7 +2,7 @@
 <LanguageData>
 
   <!-- Float menu / Gizmo -->
-  <PWU_CustomizeWeapon>Customize {0}</PWU_CustomizeWeapon>
+  <PWU_CustomizeWeapon>Customize persona: {0}</PWU_CustomizeWeapon>
   <PWU_RequiresResearch>requires {0}</PWU_RequiresResearch>
   <PWU_RequiresWorkbench>requires a {0}</PWU_RequiresWorkbench>
   <PWU_NoSuitableWorkbench>no suitable workbench</PWU_NoSuitableWorkbench>

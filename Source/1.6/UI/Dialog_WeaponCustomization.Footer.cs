@@ -297,6 +297,9 @@ namespace PersonaWeaponsUnbound
                 resultingDef = ResultingDef,
                 totalCost = netCost,
                 totalRefund = totalRefundAgg,
+                // Carry the VPWE/VEF skin so a base→persona conversion in the job
+                // reproduces the previewed appearance instead of rolling a new one.
+                vpweTexPaths = vpweTexPaths,
             };
         }
 

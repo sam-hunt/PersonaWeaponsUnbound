@@ -349,6 +349,7 @@ namespace PersonaWeaponsUnbound
             if (resultDef?.graphicData == null)
                 return null;
 
+            bool madeThisCall = false;
             if (previewThing == null || previewThing.def != resultDef)
             {
                 // Mirror WeaponDefConversion: carry the live weapon's material across
@@ -370,6 +371,7 @@ namespace PersonaWeaponsUnbound
                 {
                     Rand.PopState();
                 }
+                madeThisCall = true;
             }
 
             CompBladelinkWeapon comp = previewThing.TryGetComp<CompBladelinkWeapon>();
@@ -381,7 +383,36 @@ namespace PersonaWeaponsUnbound
                 traits.AddRange(desiredTraits);
             }
 
-            return previewThing.Graphic;
+            // VPWE/VEF skin preservation. A fresh persona preview Thing would roll a
+            // new random skin on first graphic access; stamp the captured skin onto
+            // it first (before the .Graphic read below) so the preview matches the
+            // real weapon. Only on a fresh make: the Thing is cached and reused
+            // across rebuilds, so a persona→base→persona flip re-makes and re-stamps.
+            if (madeThisCall && vpweTexPaths != null)
+                VPWEIntegration.ApplyTexPaths(previewThing, vpweTexPaths);
+
+            // Resolving .Graphic can trigger VEF's lazy skin roll — when customizing a
+            // base weapon there's no captured skin to stamp, so VEF rolls off the
+            // global Rand on this first access. Contain it in Rand.Push/PopState like
+            // the MakeThing rolls above, so a rebuild during GUI layout can't perturb
+            // the synchronized Rand stream (MP-desync guard). Then capture that roll
+            // so every later preview and the confirmed job reproduce the same skin
+            // instead of rerolling. With a captured skin already stamped, texPaths is
+            // non-empty and VEF doesn't roll at all here.
+            Graphic graphic;
+            Rand.PushState();
+            try
+            {
+                graphic = previewThing.Graphic;
+                if (madeThisCall && vpweTexPaths == null)
+                    vpweTexPaths = VPWEIntegration.CaptureTexPaths(previewThing);
+            }
+            finally
+            {
+                Rand.PopState();
+            }
+
+            return graphic;
         }
 
         /// <summary>
