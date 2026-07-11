@@ -240,11 +240,16 @@ Replace the three-project ladder with a single project (no Royalty conditional p
 
 Three `RecipeDef`s modeled on the `Make_ComponentSpacer` pattern (`recipeUsers: FabricationBench` wiring on the recipe side; `researchPrerequisite: PWU_BladelinkCustomization`; `workSkill: Crafting`, `skillRequirements: Crafting 8`; `unfinishedThingDef: UnfinishedWeapon`; `workSpeedStat: GeneralLaborSpeed`; `effectWorking`/`soundWorking` matching vanilla weapon smithing):
 
-| defName                | Product                   | Ingredients                                  | workAmount (suggested) |
-| ---------------------- | ------------------------- | -------------------------------------------- | ---------------------- |
-| `PWU_Make_MonoSword`   | `MeleeWeapon_MonoSword`   | 140 plasteel, 6 `ComponentSpacer`            | 45000                  |
-| `PWU_Make_PlasmaSword` | `MeleeWeapon_PlasmaSword` | 120 plasteel, 7 `ComponentSpacer`            | 45000                  |
-| `PWU_Make_Zeushammer`  | `MeleeWeapon_Zeushammer`  | 70 plasteel, 30 uranium, 8 `ComponentSpacer` | 45000                  |
+Each recipe lives in its own file under `1.6/Defs/RecipeDefs/` (`PWU_Make_MonoSword.xml`, `PWU_Make_PlasmaSword.xml`, `PWU_Make_Zeushammer.xml`).
+
+| defName                | Product                   | Ingredients                                  | workAmount |
+| ---------------------- | ------------------------- | -------------------------------------------- | ---------- |
+| `PWU_Make_MonoSword`   | `MeleeWeapon_MonoSword`   | 140 plasteel, 4 `ComponentSpacer`            | 75000      |
+| `PWU_Make_PlasmaSword` | `MeleeWeapon_PlasmaSword` | 120 plasteel, 5 `ComponentSpacer`            | 75000      |
+| `PWU_Make_Zeushammer`  | `MeleeWeapon_Zeushammer`  | 70 plasteel, 30 uranium, 6 `ComponentSpacer` | 75000      |
+
+- **Work-amount rationale (ultratech premium):** 75000 = charge lance (60000, the vanilla craftable ceiling, Spacer tier) × 1.25. These are Ultra-tier weapons — a full tech step above the charge lance — that vanilla makes quest/reward-only. A uniform floor above the top craftable spacer weapon keeps the tier legible. (Vanilla reference points: plasteel longsword 39600, charge rifle 45000, charge lance 60000.)
+- **Material cost, tuned to ~break-even at Normal quality:** base weapons all inherit `MarketValue` 2000. Ingredient market values (plasteel 9, uranium 6, `ComponentSpacer` 200) total ≈2060 / 2080 / 2010 for mono/plasma/zeus — a few silver underwater at Normal, positive from Good quality up, before the persona-conversion payoff. Spacer components dominate the bill (~800–1200 each), so the recipes are gated by the scarce resource. Material cost lands ≈1.8× the charge lance's 1140, matching the 75000 vs 60000 work premium.
 
 - **Per-def setting gating** (`enableMonoswordRecipe` etc., default true): Harmony postfix on `RecipeDef.AvailableNow` returning false when the toggle is off — no def surgery, works mid-save. Perf is a non-issue: the property's only callers are UI/event-scoped (bills-tab clipboard check, add-bill menus, quest gen) — never work-scan or tick code. **Accepted behavior:** because the work scan never consults `AvailableNow`, toggling a recipe off hides it from the add-bill menu but does not suspend bills that already exist — they keep producing. The toggle means "stop offering this", not "ban it retroactively".
 - Products are the **base** variants; players then convert them to persona weapons through customization (1 persona core for the first trait), completing the fiction loop.

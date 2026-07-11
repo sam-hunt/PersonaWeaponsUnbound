@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Base-variant crafting recipe for the plasmasword (fork spec §10). Product is
+       the BASE weapon — the player persona-converts it at the customization bench
+       afterward, completing the fiction loop (install a persona core, then
+       reprogram traits). Modeled on vanilla Make_ComponentSpacer;
+       effectWorking/soundWorking/workSpeedStat/workSkill match BaseMeleeWeapon's
+       smithing recipeMaker convention. Per-recipe toggle gating lives in
+       RecipeDef_AvailableNow_Patch.cs. -->
+
+  <RecipeDef>
+    <defName>PWU_Make_PlasmaSword</defName>
+    <label>make plasmasword</label>
+    <description>Craft a plasmasword: a metal-cored sword wrapped in a plasma sheath that slices and burns. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits.</description>
+    <jobString>Making plasmasword.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Smith</soundWorking>
+    <workAmount>75000</workAmount>
+    <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+    <recipeUsers>
+      <li>FabricationBench</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </filter>
+        <count>120</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentSpacer</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Plasteel</li>
+        <li>ComponentSpacer</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <MeleeWeapon_PlasmaSword>1</MeleeWeapon_PlasmaSword>
+    </products>
+    <researchPrerequisite>PWU_BladelinkCustomization</researchPrerequisite>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+</Defs>
