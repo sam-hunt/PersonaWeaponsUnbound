@@ -30,6 +30,41 @@ namespace PersonaWeaponsUnbound
         // and miss that pair.
         private static Dictionary<string, ThingDef> baseWeaponsByName;
 
+        // Index of non-persona weapons by graphicData.texPath, for the art-based
+        // fallback in FindBaseWeapon. A persona variant almost always reuses its base
+        // weapon's texture, so a persona whose texPath matches exactly one base weapon
+        // (cardinality one) is very likely that weapon's persona form — even when its
+        // mod-prefixed or infixed defName defeats the naming convention (e.g. Medieval
+        // Persona Weapons' 'MPW_Bladelink_Mace'). Case-sensitive: texPaths are literal
+        // asset paths. The match is corroborated by a shared weaponTag (see
+        // FindBaseByReusedArt) so a coincidental texture reuse across unrelated weapon
+        // families can't mis-pair.
+        private static Dictionary<string, List<ThingDef>> basesByTexPath;
+
+        // Curated pairings for cross-mod persona variants, used for two things the
+        // automatic strategies in FindBaseWeapon can't do on their own:
+        //   1. Priority — when several persona variants legitimately resolve to one
+        //      base (e.g. the eltex staff, offered by both VPWE and MPT), only the
+        //      player's preferred variant should win the base→persona slot. The
+        //      automatic winner is otherwise load-order-dependent.
+        //   2. Backstop — a hard-coded link for a pair that no automatic strategy
+        //      catches (no hyperlink, non-conventional defName, bespoke art).
+        // Each entry maps a base weapon defName to candidate persona defNames in
+        // priority order; the first present candidate wins the base's persona slot and
+        // every present candidate is reverse-mapped so it stays revertible. Applied
+        // after the automatic scan, and authoritative — it overrides the automatic
+        // base→persona winner. See ResolveCuratedPairings.
+        private static readonly (string BaseDefName, string[] PersonaDefNames)[] CuratedPairings =
+        {
+            // Eltex staff (Royalty base) — prefer Vanilla Persona Weapons Expanded's
+            // persona eltex staff, else fall back to More Persona Traits' amplifying rod.
+            ("MeleeWeapon_PsyfocusStaff", new[]
+            {
+                "VPWE_MeleeWeapon_PsyfocusStaffBladelink",
+                "MPT_MeleeWeapon_PsyfocusStaffBladelink",
+            }),
+        };
+
         /// <summary>
         /// Builds the base↔persona weapon pair cache. Must be called during
         /// StaticConstructorOnStartup (after all defs are loaded). A non-null
@@ -46,13 +81,26 @@ namespace PersonaWeaponsUnbound
                 orphanPersonaDefs = new List<ThingDef>();
 
                 // Index candidate base weapons (all weapons that are NOT persona
-                // weapons) by defName, case-insensitively, for the pairing lookup.
+                // weapons) by defName (case-insensitive) for the naming lookup, and by
+                // texPath for the art-based fallback. Persona weapons are excluded from
+                // both, so a persona sharing a base's texPath sees only the base.
                 baseWeaponsByName = new Dictionary<string, ThingDef>(StringComparer.OrdinalIgnoreCase);
+                basesByTexPath = new Dictionary<string, List<ThingDef>>(StringComparer.Ordinal);
                 foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
                 {
-                    if (def.IsWeapon && !IsPersonaWeapon(def)
-                        && !baseWeaponsByName.ContainsKey(def.defName))
+                    if (!def.IsWeapon || IsPersonaWeapon(def))
+                        continue;
+
+                    if (!baseWeaponsByName.ContainsKey(def.defName))
                         baseWeaponsByName[def.defName] = def;
+
+                    string texPath = def.graphicData?.texPath;
+                    if (!string.IsNullOrEmpty(texPath))
+                    {
+                        if (!basesByTexPath.TryGetValue(texPath, out List<ThingDef> withTex))
+                            basesByTexPath[texPath] = withTex = new List<ThingDef>();
+                        withTex.Add(def);
+                    }
                 }
 
                 foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
@@ -68,6 +116,13 @@ namespace PersonaWeaponsUnbound
                     }
                 }
 
+                // Apply curated priority/backstop pairings after the automatic scan:
+                // pin the preferred persona for known multi-variant bases (e.g. the
+                // eltex staff, offered by both VPWE and MPT) and rescue any hard-coded
+                // pair the automatic strategies missed, pruning it from the orphan list
+                // before the warnings below.
+                ResolveCuratedPairings();
+
                 // One warning per orphan, after the scan completes, so the log
                 // groups them together rather than interleaving with per-def
                 // error spam from the catch above. Orphans stay customizable
@@ -77,8 +132,9 @@ namespace PersonaWeaponsUnbound
                 {
                     Log.Warning("[Persona Weapons Unbound] No base weapon detected for "
                         + orphan.SourceForLog()
-                        + "; customizable but cannot revert to base. "
-                        + "Add a descriptionHyperlinks entry or use the 'Bladelink' suffix.");
+                        + "; customizable but cannot revert to base. Add a "
+                        + "descriptionHyperlinks entry, use the 'Bladelink' suffix, or "
+                        + "reuse the base weapon's texPath and a shared weaponTag.");
                 }
 
                 WarnOnPairConflicts();
@@ -130,12 +186,63 @@ namespace PersonaWeaponsUnbound
         }
 
         /// <summary>
-        /// Detects the base weapon for a persona weapon def.
-        /// Primary: descriptionHyperlinks. Fallback: naming convention.
+        /// Applies the <see cref="CuratedPairings"/> table after the automatic scan.
+        /// For each entry whose base weapon is present, walks its candidate persona
+        /// defNames in priority order: every present candidate that carries the
+        /// bladelink comp is reverse-mapped to the base (rescuing any the automatic
+        /// scan left orphaned), and the first present candidate is pinned as the base's
+        /// persona form — overriding the automatic base→persona winner, since curated
+        /// priority is authoritative for known multi-variant conflicts.
+        /// </summary>
+        private static void ResolveCuratedPairings()
+        {
+            foreach ((string baseDefName, string[] personaDefNames) in CuratedPairings)
+            {
+                // Base must exist as a real (non-persona) weapon; baseWeaponsByName
+                // already excludes persona defs.
+                if (!baseWeaponsByName.TryGetValue(baseDefName, out ThingDef baseDef))
+                    continue;
+
+                ThingDef preferred = null;
+                foreach (string personaName in personaDefNames)
+                {
+                    ThingDef personaDef = DefDatabase<ThingDef>.GetNamedSilentFail(personaName);
+                    if (personaDef == null || !IsPersonaWeapon(personaDef))
+                        continue;
+
+                    // Reverse mapping: the persona knows its base. A candidate the
+                    // automatic scan missed (unconventional name, bespoke art) is
+                    // rescued here and dropped from the orphan list.
+                    if (!personaToBase.ContainsKey(personaDef))
+                    {
+                        personaToBase[personaDef] = baseDef;
+                        orphanPersonaDefs.Remove(personaDef);
+                    }
+
+                    // First present candidate = highest priority.
+                    if (preferred == null)
+                        preferred = personaDef;
+                }
+
+                // Forward mapping: pin the base's persona form to the preferred
+                // candidate, overriding whatever the automatic scan picked.
+                if (preferred != null)
+                    baseToPersona[baseDef] = preferred;
+            }
+        }
+
+        /// <summary>
+        /// Detects the base weapon for a persona weapon def, trying each signal from
+        /// most to least authoritative:
+        ///   1. descriptionHyperlinks — an explicit author-declared link (opt-in).
+        ///   2. Naming convention — defName is '{BaseDefName}Bladelink'.
+        ///   3. Reused art — the persona's texPath matches exactly one base weapon and
+        ///      the two share a weaponTag (see <see cref="FindBaseByReusedArt"/>).
+        /// Returns null if none resolve (the def becomes a customizable orphan).
         /// </summary>
         private static ThingDef FindBaseWeapon(ThingDef personaDef)
         {
-            // Primary: descriptionHyperlinks — works for modded weapons that may not follow naming conventions
+            // 1. descriptionHyperlinks — works for modded weapons that may not follow naming conventions.
             if (personaDef.descriptionHyperlinks != null)
             {
                 foreach (DefHyperlink link in personaDef.descriptionHyperlinks)
@@ -145,9 +252,8 @@ namespace PersonaWeaponsUnbound
                 }
             }
 
-            // Fallback: naming convention ({BaseDefName}Bladelink), resolved
-            // case-insensitively so 'MeleeWeapon_ZeusHammerBladelink' pairs with
-            // 'MeleeWeapon_Zeushammer'.
+            // 2. Naming convention ({BaseDefName}Bladelink), resolved case-insensitively
+            // so 'MeleeWeapon_ZeusHammerBladelink' pairs with 'MeleeWeapon_Zeushammer'.
             if (personaDef.defName.EndsWith(PersonaSuffix, StringComparison.OrdinalIgnoreCase))
             {
                 string baseName = personaDef.defName.Substring(
@@ -157,7 +263,48 @@ namespace PersonaWeaponsUnbound
                     return baseDef;
             }
 
-            return null;
+            // 3. Reused art (corroborated by a shared weaponTag).
+            return FindBaseByReusedArt(personaDef);
+        }
+
+        /// <summary>
+        /// Fallback pairing for persona defs whose name defeats the naming convention
+        /// (mod prefixes/infixes) but which reuse their base weapon's texture. Matches
+        /// only when the persona's texPath belongs to exactly one non-persona weapon
+        /// (cardinality one — an ambiguous texture is rejected) AND that weapon shares
+        /// at least one weaponTag with the persona. Requiring both signals keeps a
+        /// coincidental texture reuse from mis-pairing unrelated weapons, and leaves
+        /// deliberately base-less persona weapons (bespoke art, e.g. warcasket weapons)
+        /// as orphans.
+        /// </summary>
+        private static ThingDef FindBaseByReusedArt(ThingDef personaDef)
+        {
+            string texPath = personaDef.graphicData?.texPath;
+            if (string.IsNullOrEmpty(texPath) || basesByTexPath == null)
+                return null;
+
+            if (!basesByTexPath.TryGetValue(texPath, out List<ThingDef> bases) || bases.Count != 1)
+                return null;
+
+            ThingDef candidate = bases[0];
+            return SharesWeaponTag(personaDef, candidate) ? candidate : null;
+        }
+
+        /// <summary>
+        /// Whether two weapon defs list at least one weaponTag in common. Persona-only
+        /// tags inherited from the bladelink base (e.g. 'Bladelink') never appear on a
+        /// non-persona base, so only genuine weapon-family tags can produce a match.
+        /// </summary>
+        private static bool SharesWeaponTag(ThingDef a, ThingDef b)
+        {
+            if (a.weaponTags == null || b.weaponTags == null)
+                return false;
+            foreach (string tag in a.weaponTags)
+            {
+                if (b.weaponTags.Contains(tag))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
