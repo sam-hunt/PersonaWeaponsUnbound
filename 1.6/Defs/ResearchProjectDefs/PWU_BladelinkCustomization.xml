@@ -20,10 +20,8 @@
     <heldByFactionCategoryTags>
       <li>Empire</li>
     </heldByFactionCategoryTags>
-    <!-- One column right of AdvancedFabrication (18.00, 3.00); row 3.00 is clear
-         at x=19 (neighbors: CataphractArmor 1.10, BeamWeapons 1.80, WastepackAtomizer 2.40). -->
     <researchViewX>19.00</researchViewX>
-    <researchViewY>3.00</researchViewY>
+    <researchViewY>0.00</researchViewY>
   </ResearchProjectDef>
 
 </Defs>

@@ -2,7 +2,6 @@
 
 ## Features
 
-- Rebond as a paid dialog operation — `CodeFor(pawn)` is public API
 - Negative thoughts on memory ops
 - Multiplayer support
 
