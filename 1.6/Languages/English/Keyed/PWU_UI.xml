@@ -128,7 +128,7 @@
   <PWU_SettingsCraftingRecipes>Crafting recipes</PWU_SettingsCraftingRecipes>
   <PWU_SettingsHaulPlanner>Ingredient hauling</PWU_SettingsHaulPlanner>
   <PWU_SettingsMiscellaneous>Miscellaneous</PWU_SettingsMiscellaneous>
-  <PWU_SettingsVpweIntegration>VPWE integration</PWU_SettingsVpweIntegration>
+  <PWU_SettingsVpweIntegration>Vanilla Persona Weapons Expanded</PWU_SettingsVpweIntegration>
 
   <!-- Settings: Reusable label suffixes (each includes a leading space) -->
   <PWU_DefaultSuffix> (default)</PWU_DefaultSuffix>
