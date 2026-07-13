@@ -10,6 +10,7 @@ namespace PersonaWeaponsUnbound
         public bool restrictTraitsToDiscovered;
 
         // Persona Costs
+        public bool firstTraitCostsPersonaCore = true;
         public int traitChangeBaseComponentCost = 2;
         public QualityCategory traitChangeQualitySurchargeThreshold = QualityCategory.Normal;
         public int traitChangeQualitySurchargePerLevel = 1;
@@ -44,6 +45,7 @@ namespace PersonaWeaponsUnbound
         {
             restrictTraitsToDiscovered = false;
 
+            firstTraitCostsPersonaCore = true;
             traitChangeBaseComponentCost = 2;
             traitChangeQualitySurchargeThreshold = QualityCategory.Normal;
             traitChangeQualitySurchargePerLevel = 1;
@@ -76,6 +78,7 @@ namespace PersonaWeaponsUnbound
             base.ExposeData();
             Scribe_Values.Look(ref restrictTraitsToDiscovered, "restrictTraitsToDiscovered");
 
+            Scribe_Values.Look(ref firstTraitCostsPersonaCore, "firstTraitCostsPersonaCore", true);
             Scribe_Values.Look(ref traitChangeBaseComponentCost, "traitChangeBaseComponentCost", 2);
             Scribe_Values.Look(ref traitChangeQualitySurchargeThreshold,
                 "traitChangeQualitySurchargeThreshold", QualityCategory.Normal);

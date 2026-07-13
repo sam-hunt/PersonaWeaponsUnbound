@@ -61,6 +61,13 @@ namespace PersonaWeaponsUnbound
             Text.Font = GameFont.Small;
             listing.Gap(6f);
 
+            listing.CheckboxLabeled(
+                "PWU_FirstTraitCostsPersonaCore".Translate(),
+                ref Settings.firstTraitCostsPersonaCore,
+                "PWU_FirstTraitCostsPersonaCoreDesc".Translate());
+
+            listing.Gap();
+
             string baseCostLabel = "PWU_TraitChangeBaseComponentCost".Translate(Settings.traitChangeBaseComponentCost);
             if (Settings.traitChangeBaseComponentCost == 2)
                 baseCostLabel += "PWU_DefaultSuffix".Translate();

@@ -14,6 +14,10 @@ namespace PersonaWeaponsUnbound
     ///   - Last trait removed from a persona weapon: refunds 1 AI persona core.
     ///   - Every other addition or removal: N advanced components (both
     ///     directions cost — never refund).
+    /// When <see cref="PWU_Settings.firstTraitCostsPersonaCore"/> is disabled, the
+    /// two boundary cases above lose their persona-core special-casing and are
+    /// priced exactly like any other change: N advanced components in both
+    /// directions, never refunded.
     /// </summary>
     public static class TraitCostUtility
     {
@@ -27,7 +31,7 @@ namespace PersonaWeaponsUnbound
         public static List<ThingDefCountClass> GetChangeCost(
             Thing weapon, bool crossesConversionBoundary, bool isRemoval)
         {
-            if (crossesConversionBoundary)
+            if (crossesConversionBoundary && PWU_Mod.Settings.firstTraitCostsPersonaCore)
             {
                 if (isRemoval)
                     return new List<ThingDefCountClass>();
@@ -55,12 +59,15 @@ namespace PersonaWeaponsUnbound
         /// persona cost model is the whole AI persona core, paid when a removal
         /// crosses the 0↔1 boundary (the weapon's last trait comes off and it
         /// reverts to its base def). Every other change — including boundary
-        /// additions — refunds nothing.
+        /// additions — refunds nothing. When
+        /// <see cref="PWU_Settings.firstTraitCostsPersonaCore"/> is disabled the
+        /// core is never installed, so this refund never applies either.
         /// </summary>
         public static List<ThingDefCountClass> GetChangeRefund(
             bool crossesConversionBoundary, bool isRemoval)
         {
-            if (crossesConversionBoundary && isRemoval)
+            if (crossesConversionBoundary && isRemoval
+                && PWU_Mod.Settings.firstTraitCostsPersonaCore)
             {
                 return new List<ThingDefCountClass>
                 {

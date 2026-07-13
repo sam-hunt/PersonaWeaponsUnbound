@@ -137,6 +137,8 @@
   <PWU_ExperimentalSuffix> (experimental)</PWU_ExperimentalSuffix>
 
   <!-- Settings: Persona costs -->
+  <PWU_FirstTraitCostsPersonaCore>First trait costs an AI persona core</PWU_FirstTraitCostsPersonaCore>
+  <PWU_FirstTraitCostsPersonaCoreDesc>When enabled (default), adding the first trait to a base weapon installs an AI persona core, which is refunded when the last trait is removed and the weapon reverts to base. When disabled, the first trait added and the last trait removed are priced like any other change: advanced components (scaled by weapon quality per the table below), which are never refunded.</PWU_FirstTraitCostsPersonaCoreDesc>
   <PWU_TraitChangeBaseComponentCost>Base component cost per trait change: {0}</PWU_TraitChangeBaseComponentCost>
   <PWU_TraitChangeBaseComponentCostDesc>Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost, neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting.</PWU_TraitChangeBaseComponentCostDesc>
   <PWU_TraitChangeQualitySurchargeThreshold>Quality surcharge threshold: {0}</PWU_TraitChangeQualitySurchargeThreshold>
