@@ -1,0 +1,5 @@
+# Commits listed here are ignored by `git blame` (see blame.ignoreRevsFile).
+# Only large mechanical/non-semantic changes belong here.
+
+# refactor: Replace XML-doc comments with plain comments
+cd9ea2b4e12052ed81123aa38ad9da050284d349
