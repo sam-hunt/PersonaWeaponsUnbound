@@ -6,12 +6,10 @@ using Xunit;
 
 namespace PersonaWeaponsUnbound.Tests
 {
-    /// <summary>
-    /// Property tests for SweepHaulPlanner's hybrid bin-pack. These guard
-    /// the per-trip invariants the JobDriver's hybrid haul chain relies on:
-    /// at most one CarryTracker pickup per trip, inventory mass under the
-    /// configured budget, and total counts equal to demand.
-    /// </summary>
+    // Property tests for SweepHaulPlanner's hybrid bin-pack. These guard
+    // the per-trip invariants the JobDriver's hybrid haul chain relies on:
+    // at most one CarryTracker pickup per trip, inventory mass under the
+    // configured budget, and total counts equal to demand.
     public class SweepHaulPlannerTests
     {
         private static readonly SweepHaulPlanner Planner = new SweepHaulPlanner();

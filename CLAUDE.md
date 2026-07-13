@@ -75,6 +75,8 @@ Source/1.6/
 
 **Settings Triple Invariant (`PWU_Settings.cs`):** Every settings field must appear in three places with matching defaults: (1) field declaration, (2) `ResetToDefaults()`, (3) `ExposeData()`'s `Scribe_Values.Look` default. Missing a spot fails silently — drops from save, skips reset, or drifts from declared default. All three lists are kept in the UI's display order (the section ordering from `PWU_Mod.DoSettingsWindowContents`) with section comments, so a diff across the three blocks lines up row-for-row. When adding/removing/renaming a setting, update all three and slot it into its UI section.
 
+**No XML-doc comments:** We don't use `///` XML-doc style comments (`<summary>`, `<param>`, etc.) anywhere in this codebase — no tooling here consumes them. Use plain `//` comments instead.
+
 ## Debugging
 
 1. **Enable RimWorld Dev Mode:** Settings → Dev Mode → Logging

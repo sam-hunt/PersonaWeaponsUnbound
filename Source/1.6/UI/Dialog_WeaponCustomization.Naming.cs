@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using Verse;
@@ -13,15 +12,13 @@ namespace PersonaWeaponsUnbound
 
         private const int NameRegenMaxAttempts = 3;
 
-        /// <summary>
-        /// Generates a random persona weapon name via the persona def's own namer
-        /// (vanilla: <c>NamerWeaponBladelink</c>), reusing the exact static method
-        /// <c>CompGeneratedNames.GenerateName</c> the game uses for initial
-        /// generation — so modded persona weapons with a custom nameMaker are
-        /// respected. Returns null if generation fails after
-        /// <see cref="NameRegenMaxAttempts"/> attempts; callers should leave the
-        /// name field unchanged in that case.
-        /// </summary>
+        // Generates a random persona weapon name via the persona def's own namer
+        // (vanilla: NamerWeaponBladelink), reusing the exact static method
+        // CompGeneratedNames.GenerateName the game uses for initial
+        // generation — so modded persona weapons with a custom nameMaker are
+        // respected. Returns null if generation fails after
+        // NameRegenMaxAttempts attempts; callers should leave the name field
+        // unchanged in that case.
         private string GenerateWeaponName()
         {
             Exception lastException = null;
@@ -62,10 +59,8 @@ namespace PersonaWeaponsUnbound
             return CompGeneratedNames.GenerateName(props);
         }
 
-        /// <summary>
-        /// The persona def's <see cref="CompProperties_GeneratedName"/>, or null if
-        /// it has none (an un-namered modded persona weapon).
-        /// </summary>
+        // The persona def's CompProperties_GeneratedName, or null if it has
+        // none (an un-namered modded persona weapon).
         private CompProperties_GeneratedName GetGeneratedNameProps()
         {
             return personaDef?.comps?
@@ -73,14 +68,12 @@ namespace PersonaWeaponsUnbound
                 .FirstOrDefault();
         }
 
-        /// <summary>
-        /// Builds a diagnostic message pointing the user toward the most likely
-        /// source of the failure: a malformed translation of the persona weapon's
-        /// bladelink rule pack. The original raw rule string is discarded by
-        /// Rule_String when its regex parse fails, so we report the count of rules
-        /// whose keyword ended up null/empty alongside the active language and the
-        /// rule pack's owning mod.
-        /// </summary>
+        // Builds a diagnostic message pointing the user toward the most likely
+        // source of the failure: a malformed translation of the persona weapon's
+        // bladelink rule pack. The original raw rule string is discarded by
+        // Rule_String when its regex parse fails, so we report the count of rules
+        // whose keyword ended up null/empty alongside the active language and the
+        // rule pack's owning mod.
         private string BuildNameRegenFailureMessage(int attempt, Exception ex)
         {
             string langName = LanguageDatabase.activeLanguage?.FriendlyNameNative

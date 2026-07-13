@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using PersonaWeaponsUnbound.HaulPlanning;
 using RimWorld;
 using UnityEngine;
-using PersonaWeaponsUnbound.HaulPlanning;
 using Verse;
 using Verse.AI;
 
@@ -72,11 +72,9 @@ namespace PersonaWeaponsUnbound
         private Building_WorkTable Workbench =>
             (Building_WorkTable)job.GetTarget(WorkbenchIndex).Thing;
 
-        /// <summary>
-        /// Best label for the weapon: the live Thing if we have one, otherwise the
-        /// job target (still labelled even if despawned), otherwise a fallback.
-        /// Stays valid through every bail path including pre-acquire failures.
-        /// </summary>
+        // Best label for the weapon: the live Thing if we have one, otherwise the
+        // job target (still labelled even if despawned), otherwise a fallback.
+        // Stays valid through every bail path including pre-acquire failures.
         private string WeaponLabel
         {
             get
@@ -90,24 +88,20 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Records the first bail reason. Subsequent calls are ignored so a primary
-        /// failure isn't overwritten by a downstream cascade. The recorded text is
-        /// surfaced as a top-left Messages.Message when the finish action runs.
-        /// </summary>
+        // Records the first bail reason. Subsequent calls are ignored so a primary
+        // failure isn't overwritten by a downstream cascade. The recorded text is
+        // surfaced as a top-left Messages.Message when the finish action runs.
         private void SetBailMessage(string text)
         {
             if (string.IsNullOrEmpty(bailMessage))
                 bailMessage = text;
         }
 
-        /// <summary>
-        /// Records the standard "ingredients lost mid-customization" bail message
-        /// for the given op. Used by the precheck toil and by the per-op consume
-        /// paths in <see cref="ApplyOperation"/>. The op label is null-safe:
-        /// trait ops name their trait, memory ops (which carry no trait) name
-        /// the generic "memory wipe" label.
-        /// </summary>
+        // Records the standard "ingredients lost mid-customization" bail message
+        // for the given op. Used by the precheck toil and by the per-op consume
+        // paths in ApplyOperation. The op label is null-safe:
+        // trait ops name their trait, memory ops (which carry no trait) name
+        // the generic "memory wipe" label.
         private void RecordShortfallBail(CustomizationOp op)
         {
             string opLabel = op.type == OpType.WipeMemory
@@ -161,24 +155,20 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Called by Dialog_WeaponCustomization at confirm time, while the
-        /// dialog's forcePause still holds the game still. Writes the spec to
-        /// the scribed field directly so a save/reload taken in the one-tick
-        /// gap between Close() and the consumeSpec toil round-trips a
-        /// confirmed customization correctly.
-        /// </summary>
+        // Called by Dialog_WeaponCustomization at confirm time, while the
+        // dialog's forcePause still holds the game still. Writes the spec to
+        // the scribed field directly so a save/reload taken in the one-tick
+        // gap between Close() and the consumeSpec toil round-trips a
+        // confirmed customization correctly.
         public void SetSpec(CustomizationSpec s)
         {
             spec = s;
         }
 
-        /// <summary>
-        /// Called by IngredientReservation after a plan is committed. Stores
-        /// the execution strategy so MakeNewToils builds the right haul chain,
-        /// plus per-pickup destination and trip-boundary flags in lockstep
-        /// with job.targetQueueA / countQueue (used by the hybrid path only).
-        /// </summary>
+        // Called by IngredientReservation after a plan is committed. Stores
+        // the execution strategy so MakeNewToils builds the right haul chain,
+        // plus per-pickup destination and trip-boundary flags in lockstep
+        // with job.targetQueueA / countQueue (used by the hybrid path only).
         public void SetHaulPickupMetadata(
             HaulPlanExecutionStrategy strategy,
             List<int> destinations,

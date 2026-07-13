@@ -3,13 +3,11 @@ using Xunit;
 
 namespace PersonaWeaponsUnbound.Tests
 {
-    /// <summary>
-    /// Unit tests for <see cref="VPWETexPathMath"/> — pure index/texPaths math for
-    /// the VPWE/VEF unified texture tab. No live RimWorld/VEF assembly needed:
-    /// <see cref="VpweTexturePart"/>/<see cref="VpweTextureVariantOption"/> are
-    /// plain data, reachable here via InternalsVisibleTo (see
-    /// Source/1.6/Properties/AssemblyInfo.cs).
-    /// </summary>
+    // Unit tests for VPWETexPathMath — pure index/texPaths math for
+    // the VPWE/VEF unified texture tab. No live RimWorld/VEF assembly needed:
+    // VpweTexturePart/VpweTextureVariantOption are
+    // plain data, reachable here via InternalsVisibleTo (see
+    // Source/1.6/Properties/AssemblyInfo.cs).
     public class VpweTexPathMathTests
     {
         private static VpweTexturePart MakePart(string name, params (string label, string outline, string texture)[] variants)

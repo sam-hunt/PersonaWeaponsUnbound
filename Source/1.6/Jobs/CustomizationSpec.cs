@@ -11,26 +11,22 @@ namespace PersonaWeaponsUnbound
         Rename,
         WipeMemory,
 
-        /// <summary>
-        /// VPWE/VEF unified texture tab: a marker op only — carries no trait,
-        /// no cost, no refund. The actual payload rides
-        /// <see cref="CustomizationSpec.vpweTexPaths"/>, not this op;
-        /// <c>JobDriver_CustomizeWeapon.ApplyOperationInner</c> just re-applies
-        /// that field via <c>VPWEIntegration.ApplyTexPaths</c> when it sees this
-        /// op type. Staged by <c>Dialog_WeaponCustomization.BuildOperations</c>
-        /// whenever the Texture tab's selection diverges from the weapon's
-        /// original skin (see <c>Dialog_WeaponCustomization.Texture.cs</c>'s
-        /// <c>TextureChanged</c>).
-        /// </summary>
+        // VPWE/VEF unified texture tab: a marker op only — carries no trait,
+        // no cost, no refund. The actual payload rides
+        // CustomizationSpec.vpweTexPaths, not this op;
+        // JobDriver_CustomizeWeapon.ApplyOperationInner just re-applies
+        // that field via VPWEIntegration.ApplyTexPaths when it sees this
+        // op type. Staged by Dialog_WeaponCustomization.BuildOperations
+        // whenever the Texture tab's selection diverges from the weapon's
+        // original skin (see Dialog_WeaponCustomization.Texture.cs's
+        // TextureChanged).
         Restyle,
     }
 
-    /// <summary>
-    /// Which persona memory a <see cref="OpType.WipeMemory"/> op erases
-    /// (memory/polish spec §4). The two wipes are mutually exclusive by
-    /// construction (D17): a bond wipe's UnCode() also resets the kill
-    /// tracker, so at most one is ever staged per spec.
-    /// </summary>
+    // Which persona memory a OpType.WipeMemory op erases
+    // (memory/polish spec §4). The two wipes are mutually exclusive by
+    // construction (D17): a bond wipe's UnCode() also resets the kill
+    // tracker, so at most one is ever staged per spec.
     public enum MemoryOpKind
     {
         None,
@@ -63,49 +59,37 @@ namespace PersonaWeaponsUnbound
         }
     }
 
-    /// <summary>
-    /// Data transfer object between Dialog_WeaponCustomization and
-    /// JobDriver_CustomizeWeapon. The dialog writes this directly to the
-    /// driver's spec field on confirm via JobDriver_CustomizeWeapon.SetSpec,
-    /// so the (scribed) field carries it across save/reload taken in the
-    /// gap between the dialog's Close() and the consumeSpec toil.
-    /// </summary>
+    // Data transfer object between Dialog_WeaponCustomization and
+    // JobDriver_CustomizeWeapon. The dialog writes this directly to the
+    // driver's spec field on confirm via JobDriver_CustomizeWeapon.SetSpec,
+    // so the (scribed) field carries it across save/reload taken in the
+    // gap between the dialog's Close() and the consumeSpec toil.
     public class CustomizationSpec : IExposable
     {
-        /// <summary>
-        /// Ordered operations: removals → rename → additions → memory wipe.
-        /// Each op carries its own per-op cost and optional cosmetic changes.
-        /// </summary>
+        // Ordered operations: removals -> rename -> additions -> memory wipe.
+        // Each op carries its own per-op cost and optional cosmetic changes.
         public List<CustomizationOp> operations;
 
-        /// <summary>
-        /// The final ThingDef the weapon should have after all operations.
-        /// Used for def conversion decisions (base↔persona).
-        /// </summary>
+        // The final ThingDef the weapon should have after all operations.
+        // Used for def conversion decisions (base<->persona).
         public ThingDef resultingDef;
 
-        /// <summary>
-        /// Aggregate net resource cost across all operations (addition costs minus
-        /// expected refunds). Used for pre-flight ingredient reservation and hauling.
-        /// </summary>
+        // Aggregate net resource cost across all operations (addition costs minus
+        // expected refunds). Used for pre-flight ingredient reservation and hauling.
         public List<ThingDefCountClass> totalCost;
 
-        /// <summary>
-        /// Aggregate resource refund from all removal operations — under the persona
-        /// cost model, the AI persona core refunded by any removal that crosses the
-        /// persona→base boundary (§6). Initializes the job driver's virtual refund
-        /// ledger, which offsets addition costs and spawns any surplus at job end.
-        /// </summary>
+        // Aggregate resource refund from all removal operations — under the persona
+        // cost model, the AI persona core refunded by any removal that crosses the
+        // persona->base boundary (§6). Initializes the job driver's virtual refund
+        // ledger, which offsets addition costs and spawns any surplus at job end.
         public List<ThingDefCountClass> totalRefund;
 
-        /// <summary>
-        /// The original weapon's VPWE/VEF composed-texture "skin" (VEF's
-        /// <c>texPaths</c>), captured by the dialog so the job can re-apply it onto
-        /// the new Thing whenever a base→persona conversion would otherwise roll a
-        /// fresh random skin (see <see cref="VPWEIntegration"/>). Null when VPWE/VEF
-        /// isn't active or the weapon has no customization comp — the common case.
-        /// A plain string list so it scribes without any VEF type dependency.
-        /// </summary>
+        // The original weapon's VPWE/VEF composed-texture "skin" (VEF's
+        // texPaths), captured by the dialog so the job can re-apply it onto
+        // the new Thing whenever a base->persona conversion would otherwise roll a
+        // fresh random skin (see VPWEIntegration). Null when VPWE/VEF
+        // isn't active or the weapon has no customization comp — the common case.
+        // A plain string list so it scribes without any VEF type dependency.
         public List<string> vpweTexPaths;
 
         public void ExposeData()

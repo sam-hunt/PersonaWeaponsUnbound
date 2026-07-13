@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using RimWorld;
 using PersonaWeaponsUnbound.HaulPlanning;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -234,26 +234,20 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// True when weapon will revert to its base def (no traits, base exists).
-        /// Name controls are disabled in this state.
-        /// </summary>
+        // True when weapon will revert to its base def (no traits, base exists).
+        // Name controls are disabled in this state.
         private bool IsRevertedToBase => desiredTraits.Count == 0 && baseDef != null && PWU_Mod.Settings.allowDefConversion;
 
-        /// <summary>
-        /// True when the 0↔1 trait-count boundary actually converts the def (a base
-        /// pairing exists and def conversion is enabled). When false — orphan persona
-        /// weapon or conversion disabled — the weapon keeps its persona def at zero
-        /// traits, so no change ever crosses the boundary: the persona core is never
-        /// charged nor refunded and every change is priced as components (spec §6
-        /// rules 1–2 tie the core strictly to actual def conversion).
-        /// </summary>
+        // True when the 0<->1 trait-count boundary actually converts the def (a base
+        // pairing exists and def conversion is enabled). When false — orphan persona
+        // weapon or conversion disabled — the weapon keeps its persona def at zero
+        // traits, so no change ever crosses the boundary: the persona core is never
+        // charged nor refunded and every change is priced as components (spec §6
+        // rules 1-2 tie the core strictly to actual def conversion).
         private bool ConversionAvailable => baseDef != null && PWU_Mod.Settings.allowDefConversion;
 
-        /// <summary>
-        /// True when the weapon is currently bonded (biocoded) to a pawn. Drives the
-        /// NeverBond "severs the bond" warning and the footer bond-severed confirm.
-        /// </summary>
+        // True when the weapon is currently bonded (biocoded) to a pawn. Drives the
+        // NeverBond "severs the bond" warning and the footer bond-severed confirm.
         private bool WeaponIsBonded
         {
             get
@@ -263,9 +257,7 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Display label of the pawn the weapon is bonded to, or empty if unbonded.
-        /// </summary>
+        // Display label of the pawn the weapon is bonded to, or empty if unbonded.
         private string BondedPawnLabel
         {
             get
@@ -344,11 +336,9 @@ namespace PersonaWeaponsUnbound
 
         // --- Helpers ---
 
-        /// <summary>
-        /// Returns the available count for a material on the map, cached for
-        /// the dialog's lifetime. See <see cref="availableResources"/> for why
-        /// the count is stable while the dialog is open.
-        /// </summary>
+        // Returns the available count for a material on the map, cached for
+        // the dialog's lifetime. See availableResources for why the count is
+        // stable while the dialog is open.
         private int GetAvailableCount(ThingDef thingDef)
         {
             if (availableResources.TryGetValue(thingDef, out int count))
@@ -358,12 +348,10 @@ namespace PersonaWeaponsUnbound
             return count;
         }
 
-        /// <summary>
-        /// Returns the set of insufficient materials if this trait's cost were added
-        /// on top of the currently committed resources. Accounts for unused refund
-        /// surplus that can offset the hypothetical trait's cost. Returns null if
-        /// fully affordable.
-        /// </summary>
+        // Returns the set of insufficient materials if this trait's cost were added
+        // on top of the currently committed resources. Accounts for unused refund
+        // surplus that can offset the hypothetical trait's cost. Returns null if
+        // fully affordable.
         private HashSet<ThingDef> GetHypotheticalInsufficient(List<ThingDefCountClass> traitCosts)
         {
             if (traitCosts == null || traitCosts.Count == 0)
@@ -390,37 +378,31 @@ namespace PersonaWeaponsUnbound
             return result;
         }
 
-        /// <summary>
-        /// Number of the weapon's original traits still kept in <see cref="desiredTraits"/>
-        /// (i.e. not staged for removal). Boundary-crossing during the removal phase of
-        /// <see cref="BuildOperations"/> depends on this count, not <c>desiredTraits.Count</c>
-        /// as a whole — new additions staged alongside a removal haven't happened yet at
-        /// the point removals are processed, so they must not inflate the denominator.
-        /// </summary>
+        // Number of the weapon's original traits still kept in desiredTraits
+        // (i.e. not staged for removal). Boundary-crossing during the removal phase of
+        // BuildOperations depends on this count, not desiredTraits.Count
+        // as a whole — new additions staged alongside a removal haven't happened yet at
+        // the point removals are processed, so they must not inflate the denominator.
         private int KeptOriginalsCount => originalTraits.Count(t => desiredTraits.Contains(t));
 
-        /// <summary>
-        /// Preview cost for adding a not-yet-selected <paramref name="trait"/> right now,
-        /// appended after every other currently staged addition: crosses the base→persona
-        /// boundary exactly when no original traits remain kept and no addition is staged
-        /// yet (i.e. <c>desiredTraits</c> is currently empty). Used for the "unselected"
-        /// row hover preview in Traits.cs. A trait already staged as an addition should
-        /// use <see cref="StagedAdditionCost"/> instead, which reflects its real position
-        /// in the addition sequence rather than re-deriving it in isolation.
-        /// </summary>
+        // Preview cost for adding a not-yet-selected trait right now,
+        // appended after every other currently staged addition: crosses the base->persona
+        // boundary exactly when no original traits remain kept and no addition is staged
+        // yet (i.e. desiredTraits is currently empty). Used for the "unselected"
+        // row hover preview in Traits.cs. A trait already staged as an addition should
+        // use StagedAdditionCost instead, which reflects its real position
+        // in the addition sequence rather than re-deriving it in isolation.
         private List<ThingDefCountClass> PreviewAdditionCost(WeaponTraitDef trait)
         {
             bool crossesBoundary = desiredTraits.Count == 0 && ConversionAvailable;
             return TraitCostUtility.GetChangeCost(weapon, crossesBoundary, isRemoval: false);
         }
 
-        /// <summary>
-        /// The real cost of a trait already staged as an addition (in <see cref="desiredTraits"/>,
-        /// not in <see cref="originalTraits"/>). Only the first staged addition can cross the
-        /// base→persona boundary, and only when no original traits remain kept — mirrors
-        /// <see cref="BuildOperations"/>'s addition loop exactly, so this matches the price
-        /// that trait's real op will carry at confirm time.
-        /// </summary>
+        // The real cost of a trait already staged as an addition (in desiredTraits,
+        // not in originalTraits). Only the first staged addition can cross the
+        // base->persona boundary, and only when no original traits remain kept — mirrors
+        // BuildOperations's addition loop exactly, so this matches the price
+        // that trait's real op will carry at confirm time.
         private List<ThingDefCountClass> StagedAdditionCost(WeaponTraitDef trait)
         {
             List<WeaponTraitDef> stagedAdds = TraitsToAdd.ToList();
@@ -429,39 +411,32 @@ namespace PersonaWeaponsUnbound
             return TraitCostUtility.GetChangeCost(weapon, crossesBoundary, isRemoval: false);
         }
 
-        /// <summary>
-        /// Preview cost for removing a still-kept original <paramref name="trait"/> right
-        /// now, in isolation from any other staged change: crosses the persona→base
-        /// boundary exactly when this is the last original trait still kept.
-        /// </summary>
+        // Preview cost for removing a still-kept original trait right
+        // now, in isolation from any other staged change: crosses the persona->base
+        // boundary exactly when this is the last original trait still kept.
         private List<ThingDefCountClass> PreviewRemovalCost(WeaponTraitDef trait)
         {
             bool crossesBoundary = KeptOriginalsCount == 1 && ConversionAvailable;
             return TraitCostUtility.GetChangeCost(weapon, crossesBoundary, isRemoval: true);
         }
 
-        /// <summary>
-        /// Preview refund for removing a still-kept original <paramref name="trait"/> right
-        /// now, mirroring <see cref="PreviewRemovalCost"/>'s boundary check.
-        /// </summary>
+        // Preview refund for removing a still-kept original trait right
+        // now, mirroring PreviewRemovalCost's boundary check.
         private List<ThingDefCountClass> PreviewRemovalRefund(WeaponTraitDef trait)
         {
             bool crossesBoundary = KeptOriginalsCount == 1 && ConversionAvailable;
             return TraitCostUtility.GetChangeRefund(crossesBoundary, isRemoval: true);
         }
 
-        /// <summary>
-        /// Builds the ordered operation list (removals → rename → additions →
-        /// memory wipe),
-        /// pricing each op by sequential simulation: a running trait count starting
-        /// at the weapon's current trait count crosses the base↔persona boundary on
-        /// whichever op actually takes it to/from zero, and only that op is priced
-        /// as the persona-core install/refund — every other op costs advanced
-        /// components (fork spec §6 rule 4). Pure and side-effect-free, so it's
-        /// cheap enough to rebuild every frame; shared by the live cost preview
-        /// (<see cref="DoWindowContentsInner"/>) and the confirmed spec
-        /// (<see cref="BuildCustomizationSpec"/>).
-        /// </summary>
+        // Builds the ordered operation list (removals -> rename -> additions ->
+        // memory wipe),
+        // pricing each op by sequential simulation: a running trait count starting
+        // at the weapon's current trait count crosses the base<->persona boundary on
+        // whichever op actually takes it to/from zero, and only that op is priced
+        // as the persona-core install/refund — every other op costs advanced
+        // components (fork spec §6 rule 4). Pure and side-effect-free, so it's
+        // cheap enough to rebuild every frame; shared by the live cost preview
+        // (DoWindowContentsInner) and the confirmed spec (BuildCustomizationSpec).
         private List<CustomizationOp> BuildOperations()
         {
             var ops = new List<CustomizationOp>();
@@ -591,10 +566,8 @@ namespace PersonaWeaponsUnbound
             return ops;
         }
 
-        /// <summary>
-        /// Sums a per-op cost or refund list (selected via <paramref name="selector"/>)
-        /// across every op, collapsing duplicate ThingDefs.
-        /// </summary>
+        // Sums a per-op cost or refund list (selected via selector)
+        // across every op, collapsing duplicate ThingDefs.
         private static List<ThingDefCountClass> SumOpCosts(
             List<CustomizationOp> ops, Func<CustomizationOp, List<ThingDefCountClass>> selector)
         {
@@ -613,12 +586,10 @@ namespace PersonaWeaponsUnbound
             return totals.Select(kv => new ThingDefCountClass(kv.Key, kv.Value)).ToList();
         }
 
-        /// <summary>
-        /// Computes net cost and net surplus by subtracting refunds from costs per-material.
-        /// Net cost contains materials where addition costs exceed refunds.
-        /// Net surplus contains materials where refunds exceed addition costs (or appear
-        /// only in refunds). These are what the player actually receives back.
-        /// </summary>
+        // Computes net cost and net surplus by subtracting refunds from costs per-material.
+        // Net cost contains materials where addition costs exceed refunds.
+        // Net surplus contains materials where refunds exceed addition costs (or appear
+        // only in refunds). These are what the player actually receives back.
         private static void ComputeNetCostAndSurplus(
             List<ThingDefCountClass> costs, List<ThingDefCountClass> refunds,
             out List<ThingDefCountClass> netCost, out List<ThingDefCountClass> netSurplus)

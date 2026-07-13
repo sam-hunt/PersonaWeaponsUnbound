@@ -41,15 +41,13 @@ namespace PersonaWeaponsUnbound
                 DrawMemoryOpRow(rect.x, ref curY, rect.width - 6f, kind);
         }
 
-        /// <summary>
-        /// Draws one row of the memory-op radio group, mirroring
-        /// <see cref="DrawTraitRow"/>'s geometry (row height/gap, disabled
-        /// reason centered in the middle gap, cost right-aligned, whole-row
-        /// invisible button, selected-row solid highlight) plus a
-        /// <c>Widgets.RadioButton</c> glyph at the left — the one deliberate
-        /// deviation from trait rows: a radio group has to communicate
-        /// exactly-one-of, which a bare highlight can't (D19).
-        /// </summary>
+        // Draws one row of the memory-op radio group, mirroring
+        // DrawTraitRow's geometry (row height/gap, disabled reason centered
+        // in the middle gap, cost right-aligned, whole-row invisible button,
+        // selected-row solid highlight) plus a Widgets.RadioButton glyph at
+        // the left — the one deliberate deviation from trait rows: a radio
+        // group has to communicate exactly-one-of, which a bare highlight
+        // can't (D19).
         private void DrawMemoryOpRow(float x, ref float curY, float width, MemoryOpKind kind)
         {
             Rect rowRect = new Rect(x, curY, width, TraitRowHeight);
@@ -130,28 +128,22 @@ namespace PersonaWeaponsUnbound
 
         // --- Gating (§4 table) ---
 
-        /// <summary>
-        /// Returns the disabled reason for a memory-op row, or null when the
-        /// row is enabled. The tab gates on the preview def state
-        /// (<see cref="IsRevertedToBase"/>); the rows gate on the CURRENT
-        /// weapon's comp state — you can't wipe what isn't there yet:
-        /// <list type="bullet">
-        /// <item>No <c>CompBladelinkWeapon</c> (base being upgraded this
-        /// spec): both wipes disabled.</item>
-        /// <item>Comp present, not bonded: bond wipe disabled; kill wipe
-        /// enabled iff <c>lastKillTick >= 0</c> (freewielders can kill
-        /// without bonding).</item>
-        /// <item>Bonded, no neverBond staged: both enabled
-        /// (<c>lastKillTick</c> is always ≥ 0 once bonded — OnCodedFor
-        /// stamps it).</item>
-        /// <item>Bonded with a neverBond trait staged for addition: BOTH
-        /// wipes disabled — the trait add's UnCode() severs the bond (D8)
-        /// and clears the kill tracker, and additions run before the memory
-        /// op, so either wipe would buy a no-op.</item>
-        /// </list>
-        /// "Do not wipe" is always enabled; <see cref="OnTraitsChanged"/>
-        /// snaps a selection back to it when its row goes disabled.
-        /// </summary>
+        // Returns the disabled reason for a memory-op row, or null when the
+        // row is enabled. The tab gates on the preview def state
+        // (IsRevertedToBase); the rows gate on the CURRENT weapon's comp
+        // state — you can't wipe what isn't there yet:
+        // - No CompBladelinkWeapon (base being upgraded this spec): both
+        //   wipes disabled.
+        // - Comp present, not bonded: bond wipe disabled; kill wipe enabled
+        //   iff lastKillTick >= 0 (freewielders can kill without bonding).
+        // - Bonded, no neverBond staged: both enabled (lastKillTick is
+        //   always >= 0 once bonded — OnCodedFor stamps it).
+        // - Bonded with a neverBond trait staged for addition: BOTH wipes
+        //   disabled — the trait add's UnCode() severs the bond (D8) and
+        //   clears the kill tracker, and additions run before the memory
+        //   op, so either wipe would buy a no-op.
+        // "Do not wipe" is always enabled; OnTraitsChanged snaps a selection
+        // back to it when its row goes disabled.
         private string GetMemoryOpRejection(MemoryOpKind kind)
         {
             if (kind == MemoryOpKind.None)
@@ -186,11 +178,9 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// The current weapon's raw <c>lastKillTick</c> (−1 = no kill memory),
-        /// read through the startup-verified reflection handle. Returns −1
-        /// when the comp or the handle is missing.
-        /// </summary>
+        // The current weapon's raw lastKillTick (-1 = no kill memory), read
+        // through the startup-verified reflection handle. Returns -1 when
+        // the comp or the handle is missing.
         private int CurrentLastKillTick
         {
             get
@@ -217,12 +207,10 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Tooltip for a memory-op row (and the LHS chip): the op's desc key.
-        /// The kill-tracker tooltip appends the persona's current memory when
-        /// one exists ("Last kill: N days ago") — the kill tracker's only
-        /// player-facing surface.
-        /// </summary>
+        // Tooltip for a memory-op row (and the LHS chip): the op's desc key.
+        // The kill-tracker tooltip appends the persona's current memory when
+        // one exists ("Last kill: N days ago") — the kill tracker's only
+        // player-facing surface.
         private string BuildMemoryOpTooltip(MemoryOpKind kind)
         {
             switch (kind)
@@ -243,13 +231,11 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// The flat component cost of a memory wipe: ComponentSpacer × the
-        /// op's settings slider (no quality scaling, unlike trait changes;
-        /// never refunded). Empty list when the slider is 0 — a free wipe
-        /// still runs. Mirrors <see cref="TraitCostUtility.GetChangeCost"/>'s
-        /// cost-list shape.
-        /// </summary>
+        // The flat component cost of a memory wipe: ComponentSpacer times the
+        // op's settings slider (no quality scaling, unlike trait changes;
+        // never refunded). Empty list when the slider is 0 — a free wipe
+        // still runs. Mirrors TraitCostUtility.GetChangeCost's cost-list
+        // shape.
         private static List<ThingDefCountClass> MemoryWipeCost(MemoryOpKind kind)
         {
             int componentCount;

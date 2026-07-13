@@ -6,13 +6,11 @@ using Xunit;
 
 namespace PersonaWeaponsUnbound.Tests
 {
-    /// <summary>
-    /// Property tests for SequentialHaulPlanner. These guard the bedrock
-    /// fallback path against regressions: every non-null plan must be
-    /// VanillaCarryOnly with one CarryTracker pickup per trip — that shape
-    /// is what the JobDriver's vanilla haul chain assumes, and a deviation
-    /// breaks the no-abort guarantee for the default planner.
-    /// </summary>
+    // Property tests for SequentialHaulPlanner. These guard the bedrock
+    // fallback path against regressions: every non-null plan must be
+    // VanillaCarryOnly with one CarryTracker pickup per trip — that shape
+    // is what the JobDriver's vanilla haul chain assumes, and a deviation
+    // breaks the no-abort guarantee for the default planner.
     public class SequentialHaulPlannerTests
     {
         private static readonly SequentialHaulPlanner Planner = new SequentialHaulPlanner();

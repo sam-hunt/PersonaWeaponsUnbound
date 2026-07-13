@@ -56,14 +56,12 @@ namespace PersonaWeaponsUnbound
         private static readonly Dictionary<string, Texture2D> TextureLookupCache =
             new Dictionary<string, Texture2D>();
 
-        /// <summary>
-        /// Gates both the tab's presence in <see cref="DrawTabs"/> and the
-        /// dispatch guard in <see cref="DrawControlsPanel"/>. Recomputed every
-        /// frame — cheap, since <see cref="VPWEIntegration.GetPartCatalog"/>
-        /// caches per def — so it tracks live setting toggles and the
-        /// resulting def changing as traits are staged (e.g. reverting to
-        /// base hides the tab, since base defs carry no texture catalog).
-        /// </summary>
+        // Gates both the tab's presence in DrawTabs and the dispatch guard in
+        // DrawControlsPanel. Recomputed every frame — cheap, since
+        // VPWEIntegration.GetPartCatalog caches per def — so it tracks live
+        // setting toggles and the resulting def changing as traits are
+        // staged (e.g. reverting to base hides the tab, since base defs
+        // carry no texture catalog).
         private bool TextureTabAvailable
         {
             get
@@ -75,13 +73,11 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// True once the weapon's VPWE/VEF skin has actually been edited from
-        /// its captured baseline (<see cref="originalVpweTexPaths"/>). Both
-        /// sides are established together (ctor, or the lazy preview
-        /// capture in BuildPreviewGraphic) so a null/null pair (no VPWE/VEF,
-        /// or nothing rolled yet) correctly reads as "unchanged".
-        /// </summary>
+        // True once the weapon's VPWE/VEF skin has actually been edited from
+        // its captured baseline (originalVpweTexPaths). Both sides are
+        // established together (ctor, or the lazy preview capture in
+        // BuildPreviewGraphic) so a null/null pair (no VPWE/VEF, or nothing
+        // rolled yet) correctly reads as "unchanged".
         private bool TextureChanged =>
             originalVpweTexPaths != null && vpweTexPaths != null
             && !originalVpweTexPaths.SequenceEqual(vpweTexPaths);
@@ -143,14 +139,12 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// The single "&lt; [Part] &gt;" row picking which composable graphic part
-        /// the thumbnail grid below edits — left/right arrows step through
-        /// <paramref name="catalog"/> with wraparound, the center button opens
-        /// a FloatMenu listing every part by name. Mirrors the old per-part
-        /// variant row's control geometry, applied one level up (parts
-        /// instead of variants).
-        /// </summary>
+        // The single "< [Part] >" row picking which composable graphic part
+        // the thumbnail grid below edits — left/right arrows step through
+        // catalog with wraparound, the center button opens a FloatMenu
+        // listing every part by name. Mirrors the old per-part variant
+        // row's control geometry, applied one level up (parts instead of
+        // variants).
         private void DrawTexturePartSelectorRow(
             float x, ref float curY, float width, List<VpweTexturePart> catalog)
         {
@@ -186,12 +180,9 @@ namespace PersonaWeaponsUnbound
             curY += rowRect.height;
         }
 
-        /// <summary>
-        /// Scrollable grid of square thumbnails, one cell per variant of the
-        /// currently selected part (<see cref="texturePartIndex"/>). Column
-        /// count fits the available width; rows scroll via
-        /// <see cref="textureGridScroll"/>.
-        /// </summary>
+        // Scrollable grid of square thumbnails, one cell per variant of the
+        // currently selected part (texturePartIndex). Column count fits the
+        // available width; rows scroll via textureGridScroll.
         private void DrawTextureThumbnailGrid(Rect rect, List<VpweTexturePart> catalog)
         {
             List<VpweTextureVariantOption> variants = catalog[texturePartIndex].Variants;
@@ -229,16 +220,13 @@ namespace PersonaWeaponsUnbound
             Widgets.EndScrollView();
         }
 
-        /// <summary>
-        /// Rebuilds <see cref="cachedCellPaths"/> — one full layer-stack path
-        /// list per variant of the selected part — unless the cache already
-        /// matches the current (part, vpweTexPaths-reference) pair. Each
-        /// entry substitutes that variant into the current selection (via
-        /// <see cref="VPWETexPathMath.SelectedIndices"/>, with any
-        /// unresolved/-1 part coerced to variant 0, mirroring
-        /// <see cref="SelectPartVariant"/>'s own fallback) and rebuilds the
-        /// full path list with <see cref="VPWETexPathMath.BuildTexPaths"/>.
-        /// </summary>
+        // Rebuilds cachedCellPaths — one full layer-stack path list per
+        // variant of the selected part — unless the cache already matches
+        // the current (part, vpweTexPaths-reference) pair. Each entry
+        // substitutes that variant into the current selection (via
+        // VPWETexPathMath.SelectedIndices, with any unresolved/-1 part
+        // coerced to variant 0, mirroring SelectPartVariant's own fallback)
+        // and rebuilds the full path list with VPWETexPathMath.BuildTexPaths.
         private void EnsureCellPathsCache(List<VpweTexturePart> catalog, int variantCount)
         {
             if (cachedCellPaths != null
@@ -266,17 +254,13 @@ namespace PersonaWeaponsUnbound
             cachedCellPathsPart = texturePartIndex;
         }
 
-        /// <summary>
-        /// One thumbnail cell: draws the full composed layer stack (all
-        /// outlines then all textures, in the order
-        /// <see cref="VPWETexPathMath.BuildTexPaths"/> returns them) with
-        /// plain <c>GUI.DrawTexture</c> calls stacked on the same rect — the
-        /// GPU's alpha blending reproduces VEF's own CPU
-        /// <c>Color.Lerp(bg, overlay, overlay.a)</c> composition exactly, with
-        /// no VEF calls or reflection in this hot path. Tinted with the
-        /// weapon's own <see cref="Thing.DrawColor"/> to match VEF's own
-        /// preview coloring.
-        /// </summary>
+        // One thumbnail cell: draws the full composed layer stack (all
+        // outlines then all textures, in the order VPWETexPathMath.BuildTexPaths
+        // returns them) with plain GUI.DrawTexture calls stacked on the same
+        // rect — the GPU's alpha blending reproduces VEF's own CPU
+        // Color.Lerp(bg, overlay, overlay.a) composition exactly, with no
+        // VEF calls or reflection in this hot path. Tinted with the
+        // weapon's own Thing.DrawColor to match VEF's own preview coloring.
         private void DrawTextureCell(
             Rect cellRect, List<VpweTexturePart> catalog, int variantIndex,
             VpweTextureVariantOption variant, bool isSelected)
@@ -314,11 +298,9 @@ namespace PersonaWeaponsUnbound
                 SelectPartVariant(catalog, texturePartIndex, variantIndex);
         }
 
-        /// <summary>
-        /// Memoized <see cref="ContentFinder{T}"/> lookup — misses are cached
-        /// too (as null) so a missing/renamed asset doesn't re-search every
-        /// frame the grid is visible.
-        /// </summary>
+        // Memoized ContentFinder<T> lookup — misses are cached too (as null)
+        // so a missing/renamed asset doesn't re-search every frame the grid
+        // is visible.
         private static Texture2D LookupTexture(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -330,16 +312,13 @@ namespace PersonaWeaponsUnbound
             return tex;
         }
 
-        /// <summary>
-        /// Steps <paramref name="current"/> by <paramref name="delta"/> (±1),
-        /// wrapping around <paramref name="count"/>. An unset current index
-        /// (-1, e.g. texPaths not yet rolled or unmatched) starts from the
-        /// first/last variant depending on direction, so the very first click
-        /// lands on a real selection instead of wrapping past it. Also reused
-        /// for stepping <see cref="texturePartIndex"/> through the part
-        /// catalog, where current is always in-range so it behaves as a
-        /// plain wraparound step.
-        /// </summary>
+        // Steps current by delta (+-1), wrapping around count. An unset
+        // current index (-1, e.g. texPaths not yet rolled or unmatched)
+        // starts from the first/last variant depending on direction, so the
+        // very first click lands on a real selection instead of wrapping
+        // past it. Also reused for stepping texturePartIndex through the
+        // part catalog, where current is always in-range so it behaves as a
+        // plain wraparound step.
         private static int StepVariantIndex(int current, int count, int delta)
         {
             if (count <= 0)
@@ -352,13 +331,11 @@ namespace PersonaWeaponsUnbound
             return next;
         }
 
-        /// <summary>
-        /// Applies one part's variant selection and rebuilds vpweTexPaths as a
-        /// fresh list via the pure helper. Any other part with no current
-        /// selection (-1 — texPaths not yet rolled, or a stale/unmatched
-        /// pair) falls back to its own variant 0 rather than leaving a gap,
-        /// mirroring VPWETexPathMath.BuildTexPaths's own fallback.
-        /// </summary>
+        // Applies one part's variant selection and rebuilds vpweTexPaths as a
+        // fresh list via the pure helper. Any other part with no current
+        // selection (-1 — texPaths not yet rolled, or a stale/unmatched
+        // pair) falls back to its own variant 0 rather than leaving a gap,
+        // mirroring VPWETexPathMath.BuildTexPaths's own fallback.
         private void SelectPartVariant(List<VpweTexturePart> catalog, int partIndex, int newIndex)
         {
             int[] indices = VPWETexPathMath.SelectedIndices(vpweTexPaths, catalog);

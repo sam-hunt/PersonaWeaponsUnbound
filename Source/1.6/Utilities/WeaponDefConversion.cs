@@ -4,20 +4,18 @@ using Verse;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// Transforms a weapon Thing into a different ThingDef while preserving
-    /// identity-bearing properties: stuff (material), quality, hitpoint
-    /// percentage, texture override, authored/relic art, and (when applicable)
-    /// Ideology relic status. Used during customization at the 0↔1 trait
-    /// boundary to swap between a weapon's base def and its persona counterpart.
-    ///
-    /// <para>Biocode/bond state is deliberately NOT carried across the swap: the
-    /// persona core is added or stripped at the boundary, so the bond belongs to
-    /// the persona, not the steel (fork spec §4). The job driver severs the bond
-    /// (<c>UnCode</c>) on a persona→base downgrade before the swap, and a fresh
-    /// persona weapon spawns unbonded and bonds on next equip via
-    /// <c>biocodeOnEquip</c>.</para>
-    /// </summary>
+    // Transforms a weapon Thing into a different ThingDef while preserving
+    // identity-bearing properties: stuff (material), quality, hitpoint
+    // percentage, texture override, authored/relic art, and (when applicable)
+    // Ideology relic status. Used during customization at the 0↔1 trait
+    // boundary to swap between a weapon's base def and its persona counterpart.
+    //
+    // Biocode/bond state is deliberately NOT carried across the swap: the
+    // persona core is added or stripped at the boundary, so the bond belongs to
+    // the persona, not the steel (fork spec §4). The job driver severs the bond
+    // (UnCode) on a persona→base downgrade before the swap, and a fresh
+    // persona weapon spawns unbonded and bonds on next equip via
+    // biocodeOnEquip.
     [StaticConstructorOnStartup]
     public static class WeaponDefConversion
     {
@@ -64,18 +62,16 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Creates a new weapon Thing from targetDef, copying stuff, quality,
-        /// hitpoints, and texture from oldWeapon. If targetDef has
-        /// CompBladelinkWeapon (base→persona conversion), clears the auto-generated
-        /// traits/name from PostPostMake()/Initialize(). Returns the new weapon.
-        /// Biocode/bond state is intentionally not copied (see class remarks).
-        ///
-        /// Does NOT destroy oldWeapon, and does NOT transfer art or relic status:
-        /// both move a reference whose teardown must be sequenced against the old
-        /// weapon's Destroy(), so the caller invokes <see cref="TransferArt"/> and
-        /// <see cref="TransferRelicStatus"/> before destroying oldWeapon.
-        /// </summary>
+        // Creates a new weapon Thing from targetDef, copying stuff, quality,
+        // hitpoints, and texture from oldWeapon. If targetDef has
+        // CompBladelinkWeapon (base→persona conversion), clears the auto-generated
+        // traits/name from PostPostMake()/Initialize(). Returns the new weapon.
+        // Biocode/bond state is intentionally not copied (see class remarks).
+        //
+        // Does NOT destroy oldWeapon, and does NOT transfer art or relic status:
+        // both move a reference whose teardown must be sequenced against the old
+        // weapon's Destroy(), so the caller invokes TransferArt and
+        // TransferRelicStatus before destroying oldWeapon.
         public static Thing ConvertWeaponDef(Thing oldWeapon, ThingDef targetDef)
         {
             // Carry the material across when the target is stuffable. Passing the
@@ -121,18 +117,16 @@ namespace PersonaWeaponsUnbound
             return newWeapon;
         }
 
-        /// <summary>
-        /// Transfers authored/relic art (author, title, and the backing
-        /// TaleReference that produces the art description) from oldWeapon to
-        /// newWeapon. No-op if either weapon lacks CompArt.
-        ///
-        /// Must be called BEFORE destroying oldWeapon: the TaleReference is moved,
-        /// not cloned, so the old weapon's pointer is nulled here to stop
-        /// CompArt.PostDestroy from calling TaleReference.ReferenceDestroyed() on
-        /// the tale the new weapon now owns (which would decrement the tale's
-        /// reference count and could free a tale still in use). Same
-        /// before-destroy contract as <see cref="TransferRelicStatus"/>.
-        /// </summary>
+        // Transfers authored/relic art (author, title, and the backing
+        // TaleReference that produces the art description) from oldWeapon to
+        // newWeapon. No-op if either weapon lacks CompArt.
+        //
+        // Must be called BEFORE destroying oldWeapon: the TaleReference is moved,
+        // not cloned, so the old weapon's pointer is nulled here to stop
+        // CompArt.PostDestroy from calling TaleReference.ReferenceDestroyed() on
+        // the tale the new weapon now owns (which would decrement the tale's
+        // reference count and could free a tale still in use). Same
+        // before-destroy contract as TransferRelicStatus.
         public static void TransferArt(Thing oldWeapon, Thing newWeapon)
         {
             CompArt oldArt = oldWeapon.TryGetComp<CompArt>();
@@ -160,19 +154,17 @@ namespace PersonaWeaponsUnbound
             ArtTaleRefField.SetValue(oldArt, null);
         }
 
-        /// <summary>
-        /// Transfers Ideology relic status from the old weapon to the new weapon.
-        /// Must be called BEFORE destroying the old weapon — clears the old weapon's
-        /// StyleSourcePrecept so that Thing.Destroy() does not fire Notify_ThingLost,
-        /// which would trigger RelicDestroyed events, mood debuffs, and permanently
-        /// orphan the relic precept.
-        ///
-        /// Updates both sides of the bidirectional reference:
-        ///   Thing.StyleSourcePrecept → Precept_Relic (via CompStyleable)
-        ///   Precept_Relic.generatedRelic → Thing (via reflection)
-        ///
-        /// No-op if Ideology is not active or the weapon is not a relic.
-        /// </summary>
+        // Transfers Ideology relic status from the old weapon to the new weapon.
+        // Must be called BEFORE destroying the old weapon — clears the old weapon's
+        // StyleSourcePrecept so that Thing.Destroy() does not fire Notify_ThingLost,
+        // which would trigger RelicDestroyed events, mood debuffs, and permanently
+        // orphan the relic precept.
+        //
+        // Updates both sides of the bidirectional reference:
+        //   Thing.StyleSourcePrecept → Precept_Relic (via CompStyleable)
+        //   Precept_Relic.generatedRelic → Thing (via reflection)
+        //
+        // No-op if Ideology is not active or the weapon is not a relic.
         public static void TransferRelicStatus(Thing oldWeapon, Thing newWeapon)
         {
             if (!ModsConfig.IdeologyActive)

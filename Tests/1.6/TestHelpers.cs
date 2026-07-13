@@ -7,13 +7,11 @@ using Verse;
 
 namespace PersonaWeaponsUnbound.Tests
 {
-    /// <summary>
-    /// Synthetic data builders for planner tests. The planners are pure (no
-    /// Find.* / no live world state), so these only need to populate the
-    /// fields the planner actually reads: ThingDef.stackLimit and
-    /// ThingDef.smallVolume (which drives VolumePerUnit), plus the
-    /// HaulCandidate quartet (Thing, Position, AvailableCount, MassPerUnit).
-    /// </summary>
+    // Synthetic data builders for planner tests. The planners are pure (no
+    // Find.* / no live world state), so these only need to populate the
+    // fields the planner actually reads: ThingDef.stackLimit and
+    // ThingDef.smallVolume (which drives VolumePerUnit), plus the
+    // HaulCandidate quartet (Thing, Position, AvailableCount, MassPerUnit).
     internal static class TestHelpers
     {
         // ThingDef.smallVolume drives the VolumePerUnit getter that
@@ -91,9 +89,7 @@ namespace PersonaWeaponsUnbound.Tests
             };
         }
 
-        /// <summary>
-        /// Sums up Count by Thing.def across every pickup in every trip.
-        /// </summary>
+        // Sums up Count by Thing.def across every pickup in every trip.
         public static Dictionary<ThingDef, int> TotalsByDef(HaulPlan plan)
         {
             var totals = new Dictionary<ThingDef, int>();

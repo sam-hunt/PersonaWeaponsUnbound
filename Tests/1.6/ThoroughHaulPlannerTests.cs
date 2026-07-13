@@ -9,13 +9,11 @@ using Xunit;
 
 namespace PersonaWeaponsUnbound.Tests
 {
-    /// <summary>
-    /// Tests for ThoroughHaulPlanner per the spec's TESTING NOTES: contract
-    /// invariants, guard behavior, grouping semantics, determinism, an
-    /// exhaustive brute-force oracle on small instances (including plans that
-    /// split a stack across trips), a comparative property against Sweep, and
-    /// op-count performance asserts (wall-clock is flaky on the CI runner).
-    /// </summary>
+    // Tests for ThoroughHaulPlanner per the spec's TESTING NOTES: contract
+    // invariants, guard behavior, grouping semantics, determinism, an
+    // exhaustive brute-force oracle on small instances (including plans that
+    // split a stack across trips), a comparative property against Sweep, and
+    // op-count performance asserts (wall-clock is flaky on the CI runner).
     public class ThoroughHaulPlannerTests
     {
         private static readonly ThoroughHaulPlanner Planner = new ThoroughHaulPlanner();
@@ -32,11 +30,9 @@ namespace PersonaWeaponsUnbound.Tests
         // Fixture plumbing
         // ------------------------------------------------------------------
 
-        /// <summary>
-        /// Builds planner inputs while remembering each created Thing's
-        /// position, availability, and unit mass — HaulPickup carries only
-        /// the Thing, so cost and invariant checks need this side table.
-        /// </summary>
+        // Builds planner inputs while remembering each created Thing's
+        // position, availability, and unit mass — HaulPickup carries only
+        // the Thing, so cost and invariant checks need this side table.
         private sealed class Fixture
         {
             public readonly Dictionary<ThingDef, int> Demand = new Dictionary<ThingDef, int>();
@@ -544,13 +540,11 @@ namespace PersonaWeaponsUnbound.Tests
             public int DefIndex;
         }
 
-        /// <summary>
-        /// Exhaustive optimum over ALL plans, including ones that split a
-        /// stack across trips: DP over "units taken so far per stack", where
-        /// each transition is one feasible trip (any take vector under the
-        /// shared capacity model) costed by brute-force tour enumeration.
-        /// Returns null when no sequence of feasible trips meets demand.
-        /// </summary>
+        // Exhaustive optimum over ALL plans, including ones that split a
+        // stack across trips: DP over "units taken so far per stack", where
+        // each transition is one feasible trip (any take vector under the
+        // shared capacity model) costed by brute-force tour enumeration.
+        // Returns null when no sequence of feasible trips meets demand.
         private static int? OracleSolve(
             List<OracleStack> stacks, int[] demand, float budget, IntVec3 wb)
         {

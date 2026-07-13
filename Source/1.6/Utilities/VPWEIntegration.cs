@@ -7,14 +7,12 @@ using Verse;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// One texture variant option for a <see cref="VpweTexturePart"/>, as
-    /// plain data — no VEF <c>TextureVariant</c> type leaks out of
-    /// <see cref="VPWEIntegration"/>. <see cref="Outline"/>/<see cref="Texture"/>
-    /// are the raw texPath strings used to match/build texPaths lists (see
-    /// <see cref="VPWETexPathMath"/>); <see cref="Label"/> is VEF's
-    /// <c>texName</c>, shown to the player.
-    /// </summary>
+    // One texture variant option for a VpweTexturePart, as
+    // plain data — no VEF TextureVariant type leaks out of
+    // VPWEIntegration. Outline/Texture
+    // are the raw texPath strings used to match/build texPaths lists (see
+    // VPWETexPathMath); Label is VEF's
+    // texName, shown to the player.
     internal sealed class VpweTextureVariantOption
     {
         public string Label;
@@ -22,48 +20,44 @@ namespace PersonaWeaponsUnbound
         public string Texture;
     }
 
-    /// <summary>
-    /// One composable graphic part (grip, blade, …) on a VPWE/VEF persona
-    /// weapon def, with its declared variant options. Returned by
-    /// <see cref="VPWEIntegration.GetPartCatalog"/>; part count is dynamic
-    /// (3–4 on VPWE weapons observed so far) — never assume a fixed count.
-    /// </summary>
+    // One composable graphic part (grip, blade, …) on a VPWE/VEF persona
+    // weapon def, with its declared variant options. Returned by
+    // VPWEIntegration.GetPartCatalog; part count is dynamic
+    // (3–4 on VPWE weapons observed so far) — never assume a fixed count.
     internal sealed class VpweTexturePart
     {
         public string PartName;
         public List<VpweTextureVariantOption> Variants;
     }
-    /// <summary>
-    /// Optional integration with Vanilla Persona Weapons Expanded (VPWE) — really
-    /// with its dependency Vanilla Expanded Framework (VEF), where the composable
-    /// texture system actually lives (<c>VEF.Graphics.CompGraphicCustomization</c>).
-    /// VPWE only attaches VEF's comp to the Royalty persona weapons.
-    ///
-    /// <para>The comp gives each persona weapon a per-instance random "skin": one
-    /// weighted <c>TextureVariant</c> pick per graphic part (grip, blade, …),
-    /// combined into a single texture. The selection is rolled lazily — VEF's
-    /// <c>TryInit()</c> fires on first graphic access only when <c>texPaths</c> is
-    /// empty — so any fresh <c>ThingMaker.MakeThing</c> of a persona def rolls a
-    /// brand-new skin the first time it renders.</para>
-    ///
-    /// <para>PWU's customization re-makes persona Things constantly: the dialog
-    /// preview builds a throwaway Thing per target def, and the real weapon is
-    /// destroyed+respawned at the 0↔1 trait boundary (see
-    /// <see cref="WeaponDefConversion"/>). Without intervention each of those
-    /// re-rolls the skin, so the preview — and the finished weapon — look nothing
-    /// like the weapon the player started customizing. This helper captures the
-    /// original skin (<c>texPaths</c>) once and re-applies it onto every persona
-    /// Thing PWU makes, so the skin is preserved rather than rerolled.</para>
-    ///
-    /// <para>All access is reflection so PWU compiles and runs without VPWE/VEF.
-    /// The static ctor resolves the whole surface once and logs a single warning
-    /// when VEF is loaded but that surface has drifted; when VEF is absent the
-    /// integration is silently unavailable and every method no-ops. Availability
-    /// requires <em>every</em> member needed for a self-consistent write —
-    /// crucially both <c>texPaths</c> and <c>texVariants</c>: VEF's own customize
-    /// dialog seeds from <c>texVariants</c> and would throw on an empty one
-    /// (<c>GetCombinedTexture([])</c>), so we never set one without the other.</para>
-    /// </summary>
+    // Optional integration with Vanilla Persona Weapons Expanded (VPWE) — really
+    // with its dependency Vanilla Expanded Framework (VEF), where the composable
+    // texture system actually lives (VEF.Graphics.CompGraphicCustomization).
+    // VPWE only attaches VEF's comp to the Royalty persona weapons.
+    //
+    // The comp gives each persona weapon a per-instance random "skin": one
+    // weighted TextureVariant pick per graphic part (grip, blade, …),
+    // combined into a single texture. The selection is rolled lazily — VEF's
+    // TryInit() fires on first graphic access only when texPaths is
+    // empty — so any fresh ThingMaker.MakeThing of a persona def rolls a
+    // brand-new skin the first time it renders.
+    //
+    // PWU's customization re-makes persona Things constantly: the dialog
+    // preview builds a throwaway Thing per target def, and the real weapon is
+    // destroyed+respawned at the 0↔1 trait boundary (see
+    // WeaponDefConversion). Without intervention each of those
+    // re-rolls the skin, so the preview — and the finished weapon — look nothing
+    // like the weapon the player started customizing. This helper captures the
+    // original skin (texPaths) once and re-applies it onto every persona
+    // Thing PWU makes, so the skin is preserved rather than rerolled.
+    //
+    // All access is reflection so PWU compiles and runs without VPWE/VEF.
+    // The static ctor resolves the whole surface once and logs a single warning
+    // when VEF is loaded but that surface has drifted; when VEF is absent the
+    // integration is silently unavailable and every method no-ops. Availability
+    // requires every member needed for a self-consistent write —
+    // crucially both texPaths and texVariants: VEF's own customize
+    // dialog seeds from texVariants and would throw on an empty one
+    // (GetCombinedTexture([])), so we never set one without the other.
     internal static class VPWEIntegration
     {
         // VPWE's packageId — kept for documentation; the comp itself is VEF's, so
@@ -127,14 +121,12 @@ namespace PersonaWeaponsUnbound
         // the method that actually runs for VPWE weapons too.
         internal static readonly MethodInfo CompFloatMenuOptionsMethod;
 
-        /// <summary>
-        /// True when the full surface needed for a self-consistent skin write
-        /// resolved. Requires the reconstruction members too: setting texPaths
-        /// without a matching texVariants would make VEF's own customize dialog
-        /// throw, so if any piece is missing we no-op entirely and let VEF roll as
-        /// it normally would (the pre-integration behaviour) rather than corrupt
-        /// the comp.
-        /// </summary>
+        // True when the full surface needed for a self-consistent skin write
+        // resolved. Requires the reconstruction members too: setting texPaths
+        // without a matching texVariants would make VEF's own customize dialog
+        // throw, so if any piece is missing we no-op entirely and let VEF roll as
+        // it normally would (the pre-integration behaviour) rather than corrupt
+        // the comp.
         public static bool Available =>
             CompType != null
             && TextureVariantType != null
@@ -146,14 +138,12 @@ namespace PersonaWeaponsUnbound
             && TexVariantOutlineField != null
             && TexVariantTextureField != null;
 
-        /// <summary>
-        /// True when, in addition to <see cref="Available"/>, the extra
-        /// surface needed by the opt-in unified texture tab and the
-        /// float-menu-suppression patch also resolved. Gated separately from
-        /// <see cref="Available"/> so a drift in this (larger, more
-        /// speculative) surface can never disable the core skin-preservation
-        /// path — only the opt-in UI features are affected.
-        /// </summary>
+        // True when, in addition to Available, the extra
+        // surface needed by the opt-in unified texture tab and the
+        // float-menu-suppression patch also resolved. Gated separately from
+        // Available so a drift in this (larger, more
+        // speculative) surface can never disable the core skin-preservation
+        // path — only the opt-in UI features are affected.
         public static bool UiSurfaceAvailable =>
             Available
             && PropsType != null
@@ -246,13 +236,11 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Returns a copy of the weapon's current composed-texture selection (VEF's
-        /// <c>texPaths</c>), or null when VPWE/VEF is unavailable, the weapon carries
-        /// no customization comp, or it has not rolled a skin yet. The copy is a
-        /// plain <c>List&lt;string&gt;</c> so it scribes trivially and carries no VEF
-        /// type dependency across the dialog→spec→job lifecycle.
-        /// </summary>
+        // Returns a copy of the weapon's current composed-texture selection (VEF's
+        // texPaths), or null when VPWE/VEF is unavailable, the weapon carries
+        // no customization comp, or it has not rolled a skin yet. The copy is a
+        // plain List<string> so it scribes trivially and carries no VEF
+        // type dependency across the dialog→spec→job lifecycle.
         public static List<string> CaptureTexPaths(Thing weapon)
         {
             if (!Available || weapon == null)
@@ -274,25 +262,23 @@ namespace PersonaWeaponsUnbound
             return null;
         }
 
-        /// <summary>
-        /// Writes <paramref name="paths"/> onto the weapon's customization comp so it
-        /// renders that exact skin instead of rolling a random one, keeping
-        /// <c>texVariants</c> consistent with <c>texPaths</c> (rebuilt from the def's
-        /// variants) and clearing the cached graphic/texture so the skin recomposes
-        /// on next render.
-        ///
-        /// <para>No-op when unavailable, the weapon has no comp, the paths are
-        /// empty/odd-length, or texVariants can't be reconstructed consistently — in
-        /// the last case we deliberately leave the comp untouched (VEF rolls as
-        /// usual) rather than set a texPaths/texVariants pair VEF's own dialog would
-        /// choke on. Call BEFORE the Thing is first rendered (i.e. before spawn) so
-        /// the very first composition already uses these paths.</para>
-        ///
-        /// <para>When <paramref name="weapon"/> is already spawned, also dirties its
-        /// map cell's mesh (mirroring VEF's own <c>Customize()</c>) so a live
-        /// re-texture — e.g. from the Texture tab's <c>OpType.Restyle</c> — actually
-        /// renders instead of waiting for some other mesh invalidation.</para>
-        /// </summary>
+        // Writes paths onto the weapon's customization comp so it
+        // renders that exact skin instead of rolling a random one, keeping
+        // texVariants consistent with texPaths (rebuilt from the def's
+        // variants) and clearing the cached graphic/texture so the skin recomposes
+        // on next render.
+        //
+        // No-op when unavailable, the weapon has no comp, the paths are
+        // empty/odd-length, or texVariants can't be reconstructed consistently — in
+        // the last case we deliberately leave the comp untouched (VEF rolls as
+        // usual) rather than set a texPaths/texVariants pair VEF's own dialog would
+        // choke on. Call BEFORE the Thing is first rendered (i.e. before spawn) so
+        // the very first composition already uses these paths.
+        //
+        // When weapon is already spawned, also dirties its
+        // map cell's mesh (mirroring VEF's own Customize()) so a live
+        // re-texture — e.g. from the Texture tab's OpType.Restyle — actually
+        // renders instead of waiting for some other mesh invalidation.
         public static void ApplyTexPaths(Thing weapon, List<string> paths)
         {
             if (!Available || weapon == null || paths == null || paths.Count == 0 || (paths.Count % 2) != 0)
@@ -327,17 +313,15 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Rebuilds the comp's <c>texVariants</c> list from <paramref name="paths"/>
-        /// by matching each (outline, texture) pair back to a <c>TextureVariant</c>
-        /// instance declared on the comp's def. Returns a correctly-typed
-        /// <c>List&lt;TextureVariant&gt;</c>, or null if any pair fails to resolve
-        /// (so the caller can abort rather than write an inconsistent state).
-        ///
-        /// <para><c>texPaths</c> is laid out as all outlines followed by all textures
-        /// (VEF's <c>GetTexPaths</c>), so pair <c>i</c> is
-        /// <c>(paths[i], paths[i + n])</c> for <c>n = paths.Count / 2</c>.</para>
-        /// </summary>
+        // Rebuilds the comp's texVariants list from paths
+        // by matching each (outline, texture) pair back to a TextureVariant
+        // instance declared on the comp's def. Returns a correctly-typed
+        // List<TextureVariant>, or null if any pair fails to resolve
+        // (so the caller can abort rather than write an inconsistent state).
+        //
+        // texPaths is laid out as all outlines followed by all textures
+        // (VEF's GetTexPaths), so pair i is
+        // (paths[i], paths[i + n]) for n = paths.Count / 2.
         private static IList ReconstructVariants(ThingComp comp, List<string> paths)
         {
             object props = PropsProperty.GetValue(comp);
@@ -377,17 +361,15 @@ namespace PersonaWeaponsUnbound
             return rebuilt;
         }
 
-        /// <summary>
-        /// Returns the declared texture-customization catalog for a ThingDef — one
-        /// <see cref="VpweTexturePart"/> per composable graphic part (grip, blade, …),
-        /// each with its full list of variant options — or null when the UI surface
-        /// is unavailable or <paramref name="def"/> carries no
-        /// <c>CompProperties_GraphicCustomization</c>. Reads the def's declared comp
-        /// <em>properties</em> rather than a live comp instance, so it works for a
-        /// def that has no spawned Thing yet (e.g. previewing a base→persona
-        /// conversion target in the dialog). Results are cached per def — the
-        /// declared catalog is static content, fixed at load.
-        /// </summary>
+        // Returns the declared texture-customization catalog for a ThingDef — one
+        // VpweTexturePart per composable graphic part (grip, blade, …),
+        // each with its full list of variant options — or null when the UI surface
+        // is unavailable or def carries no
+        // CompProperties_GraphicCustomization. Reads the def's declared comp
+        // properties rather than a live comp instance, so it works for a
+        // def that has no spawned Thing yet (e.g. previewing a base→persona
+        // conversion target in the dialog). Results are cached per def — the
+        // declared catalog is static content, fixed at load.
         public static List<VpweTexturePart> GetPartCatalog(ThingDef def)
         {
             if (!UiSurfaceAvailable || def == null)
@@ -459,10 +441,8 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// The weapon's <c>CompGraphicCustomization</c> instance (or a subclass such
-        /// as VPWE's psychic-weapon variant), or null if it carries none.
-        /// </summary>
+        // The weapon's CompGraphicCustomization instance (or a subclass such
+        // as VPWE's psychic-weapon variant), or null if it carries none.
         private static ThingComp FindComp(Thing weapon)
         {
             if (!(weapon is ThingWithComps twc))

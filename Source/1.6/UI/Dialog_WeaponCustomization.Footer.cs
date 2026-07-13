@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using RimWorld;
 using PersonaWeaponsUnbound.HaulPlanning;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -213,13 +213,11 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Commits the staged customization: auto-generates a name if needed, builds
-        /// the spec, reserves ingredients synchronously (while forcePause holds the
-        /// game still — so what the player saw is what they get), hands the spec to
-        /// the running job driver, and closes. Invoked directly on confirm, or via a
-        /// confirmation dialog when the change severs a bond.
-        /// </summary>
+        // Commits the staged customization: auto-generates a name if needed, builds
+        // the spec, reserves ingredients synchronously (while forcePause holds the
+        // game still — so what the player saw is what they get), hands the spec to
+        // the running job driver, and closes. Invoked directly on confirm, or via a
+        // confirmation dialog when the change severs a bond.
         private void CommitCustomization()
         {
             // Auto-generate name if result is a persona weapon but the name is empty
@@ -275,13 +273,11 @@ namespace PersonaWeaponsUnbound
 
         // --- Spec Building ---
 
-        /// <summary>
-        /// Builds the confirmed spec from <see cref="BuildOperations"/>'s sequential
-        /// simulation: <c>totalCost</c> is the net cost (aggregate op cost minus
-        /// aggregate op refund, positive remainder only) for pre-flight ingredient
-        /// reservation and hauling; <c>totalRefund</c> is the raw aggregate refund
-        /// that seeds the job driver's virtual refund ledger.
-        /// </summary>
+        // Builds the confirmed spec from BuildOperations's sequential
+        // simulation: totalCost is the net cost (aggregate op cost minus
+        // aggregate op refund, positive remainder only) for pre-flight ingredient
+        // reservation and hauling; totalRefund is the raw aggregate refund
+        // that seeds the job driver's virtual refund ledger.
         private CustomizationSpec BuildCustomizationSpec()
         {
             List<CustomizationOp> ops = BuildOperations();
@@ -308,15 +304,13 @@ namespace PersonaWeaponsUnbound
             Close();
         }
 
-        /// <summary>
-        /// Maps a non-Success <see cref="IngredientReservation.ReservationResult"/>
-        /// to a paired log line + player-visible message describing what happened
-        /// at confirm time. Centralised so the two strings can't drift apart.
-        /// For <see cref="IngredientReservation.ReservationOutcome.ReservationConflict"/>
-        /// the result carries the specific def + count that failed to reserve,
-        /// so the message can name it concretely (e.g. "failed to reserve
-        /// plasteel x75") instead of saying "materials unavailable."
-        /// </summary>
+        // Maps a non-Success IngredientReservation.ReservationResult
+        // to a paired log line + player-visible message describing what happened
+        // at confirm time. Centralised so the two strings can't drift apart.
+        // For IngredientReservation.ReservationOutcome.ReservationConflict
+        // the result carries the specific def + count that failed to reserve,
+        // so the message can name it concretely (e.g. "failed to reserve
+        // plasteel x75") instead of saying "materials unavailable."
         private void HandleReservationFailure(IngredientReservation.ReservationResult result)
         {
             string logReason;

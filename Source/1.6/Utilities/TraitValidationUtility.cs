@@ -6,19 +6,15 @@ using Verse;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// Validates trait combinations and provides filtered trait lists for the
-    /// weapon customization dialog. Operates purely on defs — no initialization needed.
-    /// </summary>
+    // Validates trait combinations and provides filtered trait lists for the
+    // weapon customization dialog. Operates purely on defs — no initialization needed.
     public static class TraitValidationUtility
     {
-        /// <summary>
-        /// Maximum trait count, derived from the bladelink comp's own generation
-        /// range (vanilla <c>IntRange(1, 2)</c> → cap 2) rather than hardcoded, so a
-        /// mod that widens the range is honoured. The range is a private static
-        /// field on <see cref="CompBladelinkWeapon"/>, so it's read via reflection
-        /// once; falls back to 2 if the field can't be resolved.
-        /// </summary>
+        // Maximum trait count, derived from the bladelink comp's own generation
+        // range (vanilla IntRange(1, 2) → cap 2) rather than hardcoded, so a
+        // mod that widens the range is honoured. The range is a private static
+        // field on CompBladelinkWeapon, so it's read via reflection
+        // once; falls back to 2 if the field can't be resolved.
         public static readonly int MaxTraits = DeriveMaxTraits();
 
         private static int DeriveMaxTraits()
@@ -32,14 +28,12 @@ namespace PersonaWeaponsUnbound
             return 2;
         }
 
-        /// <summary>
-        /// Returns all persona (bladelink) weapon traits — the only ones a persona
-        /// weapon can carry. This is the full list shown in the UI; individual
-        /// traits may still be disabled based on the current desired selection.
-        /// The <paramref name="personaDef"/> is accepted for symmetry with the
-        /// call sites but not consulted: bladelink is a single category shared by
-        /// every persona weapon.
-        /// </summary>
+        // Returns all persona (bladelink) weapon traits — the only ones a persona
+        // weapon can carry. This is the full list shown in the UI; individual
+        // traits may still be disabled based on the current desired selection.
+        // personaDef is accepted for symmetry with the call sites but not
+        // consulted: bladelink is a single category shared by every persona
+        // weapon.
         public static List<WeaponTraitDef> GetCompatibleTraits(ThingDef personaDef)
         {
             var result = new List<WeaponTraitDef>();
@@ -54,10 +48,8 @@ namespace PersonaWeaponsUnbound
             return result;
         }
 
-        /// <summary>
-        /// Returns null if the candidate trait can be added to the desired trait set,
-        /// or a human-readable rejection reason if it cannot.
-        /// </summary>
+        // Returns null if the candidate trait can be added to the desired trait set,
+        // or a human-readable rejection reason if it cannot.
         public static string GetRejectionReason(
             List<WeaponTraitDef> desiredTraits, WeaponTraitDef candidate)
         {
@@ -80,11 +72,9 @@ namespace PersonaWeaponsUnbound
             return null;
         }
 
-        /// <summary>
-        /// Whether the given trait can be removed from the desired set without
-        /// leaving an invalid configuration. Returns false if removal would leave
-        /// a single trait that has canGenerateAlone=false.
-        /// </summary>
+        // Whether the given trait can be removed from the desired set without
+        // leaving an invalid configuration. Returns false if removal would leave
+        // a single trait that has canGenerateAlone=false.
         public static bool CanRemoveTrait(
             List<WeaponTraitDef> desiredTraits, WeaponTraitDef toRemove)
         {
@@ -103,9 +93,7 @@ namespace PersonaWeaponsUnbound
             return true;
         }
 
-        /// <summary>
-        /// Returns the reason a trait cannot be removed, or null if removal is allowed.
-        /// </summary>
+        // Returns the reason a trait cannot be removed, or null if removal is allowed.
         public static string GetRemovalRejectionReason(
             List<WeaponTraitDef> desiredTraits, WeaponTraitDef toRemove)
         {
@@ -121,10 +109,8 @@ namespace PersonaWeaponsUnbound
             return null;
         }
 
-        /// <summary>
-        /// Whether two traits overlap — same def or shared exclusion tags.
-        /// Mirrors the vanilla WeaponTraitDef.Overlaps() logic.
-        /// </summary>
+        // Whether two traits overlap — same def or shared exclusion tags.
+        // Mirrors the vanilla WeaponTraitDef.Overlaps() logic.
         public static bool TraitsOverlap(WeaponTraitDef a, WeaponTraitDef b)
         {
             if (a == b)

@@ -329,41 +329,39 @@ namespace PersonaWeaponsUnbound
             previewRT = BuildVariantPreview(topLevel, weapon.overrideGraphicIndex ?? 0, PreviewRTSize);
         }
 
-        /// <summary>
-        /// Resolves the weapon's top-level (collection-level) graphic for a
-        /// <em>prospective</em> customization state — the desired def and trait
-        /// set — by building a Thing in that state and asking it, rather than
-        /// predicting the appearance by hand.
-        ///
-        /// <para>We let the actual object describe itself: <c>Thing.Graphic</c>
-        /// resolves through <c>GraphicData.GraphicColoredFor</c> using the thing's
-        /// own <c>DrawColor</c>/<c>DrawColorTwo</c>, so the weapon's own Thing/Comp
-        /// graphic overrides run against the prospective trait list. That keeps the
-        /// preview decoupled from <em>how</em> a given weapon (vanilla or a
-        /// downstream mod) maps state to appearance — any override reachable through
-        /// the thing's graphic comes through for free, with no knowledge of its
-        /// mechanism here. (The one ceiling: an override that lives purely in a
-        /// draw-time patch and never changes the thing's graphic can't be
-        /// reconstructed by anything short of invoking that draw path.)</para>
-        ///
-        /// <para>Only the trait list needs setting: color two is derived from the
-        /// trait list (+ stuff) by the weapon's own <c>DrawColorTwo</c>. Bonding/
-        /// hediff wiring doesn't affect appearance, so the heavier AddTrait side
-        /// effects are skipped — the trait list is replaced directly.</para>
-        ///
-        /// <para>Building a Thing mutates <em>global</em> sim state, which the old
-        /// graphic-only path never touched: <c>Thing.PostMake</c> pulls a
-        /// <c>UniqueIDsManager</c> id and <c>CompBladelinkWeapon.PostPostMake</c> rolls
-        /// random traits/name off the global <c>Rand</c>. Two guards keep that
-        /// from leaking (a multiplayer desync risk, since rebuilds run during GUI
-        /// layout, off the synchronized tick): the make is wrapped in
-        /// <c>Rand.Push/PopState</c> so the throwaway rolls don't perturb the shared
-        /// Rand stream, and the Thing is cached on <see cref="previewThing"/> and
-        /// re-made only when the result def changes — so the id draw fires per
-        /// def, not per rebuild. Re-stamping traits below touches no global
-        /// state. Never spawned, the cached thing holds no global references and is
-        /// dropped with the dialog — no Destroy() needed.</para>
-        /// </summary>
+        // Resolves the weapon's top-level (collection-level) graphic for a
+        // prospective customization state — the desired def and trait set —
+        // by building a Thing in that state and asking it, rather than
+        // predicting the appearance by hand.
+        //
+        // We let the actual object describe itself: Thing.Graphic resolves
+        // through GraphicData.GraphicColoredFor using the thing's own
+        // DrawColor/DrawColorTwo, so the weapon's own Thing/Comp graphic
+        // overrides run against the prospective trait list. That keeps the
+        // preview decoupled from how a given weapon (vanilla or a downstream
+        // mod) maps state to appearance — any override reachable through the
+        // thing's graphic comes through for free, with no knowledge of its
+        // mechanism here. (The one ceiling: an override that lives purely in
+        // a draw-time patch and never changes the thing's graphic can't be
+        // reconstructed by anything short of invoking that draw path.)
+        //
+        // Only the trait list needs setting: color two is derived from the
+        // trait list (+ stuff) by the weapon's own DrawColorTwo. Bonding/
+        // hediff wiring doesn't affect appearance, so the heavier AddTrait
+        // side effects are skipped — the trait list is replaced directly.
+        //
+        // Building a Thing mutates global sim state, which the old
+        // graphic-only path never touched: Thing.PostMake pulls a
+        // UniqueIDsManager id and CompBladelinkWeapon.PostPostMake rolls
+        // random traits/name off the global Rand. Two guards keep that from
+        // leaking (a multiplayer desync risk, since rebuilds run during GUI
+        // layout, off the synchronized tick): the make is wrapped in
+        // Rand.Push/PopState so the throwaway rolls don't perturb the shared
+        // Rand stream, and the Thing is cached on previewThing and re-made
+        // only when the result def changes — so the id draw fires per def,
+        // not per rebuild. Re-stamping traits below touches no global state.
+        // Never spawned, the cached thing holds no global references and is
+        // dropped with the dialog — no Destroy() needed.
         private Graphic BuildPreviewGraphic(ThingDef resultDef)
         {
             if (resultDef?.graphicData == null)
@@ -455,13 +453,10 @@ namespace PersonaWeaponsUnbound
             return graphic;
         }
 
-        /// <summary>
-        /// Ordered equality for the two preview caches' texPaths snapshots
-        /// (and the reused previewThing's stamp check). Unlike
-        /// <see cref="SameTraits"/>, a null/null pair matches — no VPWE/VEF,
-        /// or nothing rolled yet, is a stable "unchanged" state that must not
-        /// force a rebuild every frame.
-        /// </summary>
+        // Ordered equality for the two preview caches' texPaths snapshots
+        // (and the reused previewThing's stamp check). Unlike SameTraits, a
+        // null/null pair matches — no VPWE/VEF, or nothing rolled yet, is a
+        // stable "unchanged" state that must not force a rebuild every frame.
         private static bool SameTexPaths(List<string> cached, List<string> current)
         {
             if (cached == null && current == null)
@@ -478,12 +473,10 @@ namespace PersonaWeaponsUnbound
             return true;
         }
 
-        /// <summary>
-        /// Blits one texture variant of a prebuilt, already-colored top-level
-        /// graphic into a fresh RenderTexture. <paramref name="textureIndex"/> only
-        /// matters for modded weapons whose graphic is still a Graphic_Random —
-        /// persona weapons render via Graphic_Single, with no variant concept.
-        /// </summary>
+        // Blits one texture variant of a prebuilt, already-colored top-level
+        // graphic into a fresh RenderTexture. textureIndex only matters for
+        // modded weapons whose graphic is still a Graphic_Random — persona
+        // weapons render via Graphic_Single, with no variant concept.
         private RenderTexture BuildVariantPreview(Graphic topLevel, int textureIndex, int rtSize)
         {
             if (topLevel == null)
@@ -522,12 +515,10 @@ namespace PersonaWeaponsUnbound
             return rt;
         }
 
-        /// <summary>
-        /// Ordered equality for the two preview caches' trait snapshots. Order
-        /// matters — color resolution is order-sensitive (e.g. "last forced color
-        /// wins" / "first body-color trait wins"). A null cached snapshot (first
-        /// build) never matches, forcing the initial rebuild.
-        /// </summary>
+        // Ordered equality for the two preview caches' trait snapshots. Order
+        // matters — color resolution is order-sensitive (e.g. "last forced color
+        // wins" / "first body-color trait wins"). A null cached snapshot (first
+        // build) never matches, forcing the initial rebuild.
         private static bool SameTraits(List<WeaponTraitDef> cached, List<WeaponTraitDef> current)
         {
             if (cached == null)

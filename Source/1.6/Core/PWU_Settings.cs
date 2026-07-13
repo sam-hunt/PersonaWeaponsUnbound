@@ -1,5 +1,5 @@
-using RimWorld;
 using PersonaWeaponsUnbound.HaulPlanning;
+using RimWorld;
 using Verse;
 
 namespace PersonaWeaponsUnbound

@@ -5,10 +5,8 @@ using Verse.AI;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// Entry point 3: right-click a weapon on the ground to customize it.
-    /// Auto-selects the best workbench via <see cref="WorkbenchUtility.FindBestWorkbench"/>.
-    /// </summary>
+    // Entry point 3: right-click a weapon on the ground to customize it.
+    // Auto-selects the best workbench via WorkbenchUtility.FindBestWorkbench.
     public class FloatMenuOptionProvider_CustomizeGroundWeapon : FloatMenuOptionProvider
     {
         protected override bool Drafted => true;
@@ -43,19 +41,17 @@ namespace PersonaWeaponsUnbound
             return BuildOptionFor(clickedThing, pawn);
         }
 
-        /// <summary>
-        /// Core option-building logic, factored out of <see cref="BuildOption"/>
-        /// so the VPWE/VEF float-menu-suppression patch
-        /// (<c>VEF_CompGraphicCustomization_CompFloatMenuOptions_Patch</c>) can ask
-        /// "would PWU show its own ground-customize option for this weapon/pawn,
-        /// and would it be enabled?" without needing a <see cref="FloatMenuContext"/>
-        /// — the only thing that type contributed here was
-        /// <c>FirstSelectedPawn</c>, so the pawn is taken directly. Returns null
-        /// when the option would be hidden entirely; a non-null result may still
-        /// be <see cref="FloatMenuOption.Disabled"/> (action == null) when it's
-        /// shown-but-blocked (no path, no research, etc.) — callers that only
-        /// care about a genuinely usable option must check both.
-        /// </summary>
+        // Core option-building logic, factored out of BuildOption
+        // so the VPWE/VEF float-menu-suppression patch
+        // (VEF_CompGraphicCustomization_CompFloatMenuOptions_Patch) can ask
+        // "would PWU show its own ground-customize option for this weapon/pawn,
+        // and would it be enabled?" without needing a FloatMenuContext
+        // — the only thing that type contributed here was
+        // FirstSelectedPawn, so the pawn is taken directly. Returns null
+        // when the option would be hidden entirely; a non-null result may still
+        // be FloatMenuOption.Disabled (action == null) when it's
+        // shown-but-blocked (no path, no research, etc.) — callers that only
+        // care about a genuinely usable option must check both.
         internal static FloatMenuOption BuildOptionFor(Thing weapon, Pawn pawn)
         {
             if (PWU_Mod.Settings == null || !PWU_Mod.Settings.enableGroundCustomization)

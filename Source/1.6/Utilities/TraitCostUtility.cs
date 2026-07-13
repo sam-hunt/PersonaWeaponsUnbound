@@ -5,29 +5,25 @@ using Verse;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// Prices persona-weapon trait changes (fork spec §6). Costs no longer depend
-    /// on which trait is changing — only on whether the change crosses the 0↔1
-    /// trait-count boundary (base↔persona def conversion) and, for non-boundary
-    /// changes, the weapon's quality:
-    ///   - First trait added to a base weapon: 1 AI persona core, no components.
-    ///   - Last trait removed from a persona weapon: refunds 1 AI persona core.
-    ///   - Every other addition or removal: N advanced components (both
-    ///     directions cost — never refund).
-    /// When <see cref="PWU_Settings.firstTraitCostsPersonaCore"/> is disabled, the
-    /// two boundary cases above lose their persona-core special-casing and are
-    /// priced exactly like any other change: N advanced components in both
-    /// directions, never refunded.
-    /// </summary>
+    // Prices persona-weapon trait changes (fork spec §6). Costs no longer depend
+    // on which trait is changing — only on whether the change crosses the 0↔1
+    // trait-count boundary (base↔persona def conversion) and, for non-boundary
+    // changes, the weapon's quality:
+    //   - First trait added to a base weapon: 1 AI persona core, no components.
+    //   - Last trait removed from a persona weapon: refunds 1 AI persona core.
+    //   - Every other addition or removal: N advanced components (both
+    //     directions cost — never refund).
+    // When PWU_Settings.firstTraitCostsPersonaCore is disabled, the
+    // two boundary cases above lose their persona-core special-casing and are
+    // priced exactly like any other change: N advanced components in both
+    // directions, never refunded.
     public static class TraitCostUtility
     {
-        /// <summary>
-        /// The resource cost of one trait change on <paramref name="weapon"/>.
-        /// Boundary additions cost a persona core; boundary removals cost nothing
-        /// (the refund side is reported separately by <see cref="GetChangeRefund"/>);
-        /// every other change costs advanced components scaled by the weapon's
-        /// current quality.
-        /// </summary>
+        // The resource cost of one trait change on weapon.
+        // Boundary additions cost a persona core; boundary removals cost nothing
+        // (the refund side is reported separately by GetChangeRefund);
+        // every other change costs advanced components scaled by the weapon's
+        // current quality.
         public static List<ThingDefCountClass> GetChangeCost(
             Thing weapon, bool crossesConversionBoundary, bool isRemoval)
         {
@@ -54,15 +50,13 @@ namespace PersonaWeaponsUnbound
             };
         }
 
-        /// <summary>
-        /// The resource refund for one trait change. The only refund in the
-        /// persona cost model is the whole AI persona core, paid when a removal
-        /// crosses the 0↔1 boundary (the weapon's last trait comes off and it
-        /// reverts to its base def). Every other change — including boundary
-        /// additions — refunds nothing. When
-        /// <see cref="PWU_Settings.firstTraitCostsPersonaCore"/> is disabled the
-        /// core is never installed, so this refund never applies either.
-        /// </summary>
+        // The resource refund for one trait change. The only refund in the
+        // persona cost model is the whole AI persona core, paid when a removal
+        // crosses the 0↔1 boundary (the weapon's last trait comes off and it
+        // reverts to its base def). Every other change — including boundary
+        // additions — refunds nothing. When
+        // PWU_Settings.firstTraitCostsPersonaCore is disabled the
+        // core is never installed, so this refund never applies either.
         public static List<ThingDefCountClass> GetChangeRefund(
             bool crossesConversionBoundary, bool isRemoval)
         {
@@ -77,15 +71,13 @@ namespace PersonaWeaponsUnbound
             return new List<ThingDefCountClass>();
         }
 
-        /// <summary>
-        /// The advanced-component count for a non-boundary trait change: a flat
-        /// base cost plus a per-level surcharge for every quality tier above the
-        /// given threshold. Takes the three cost knobs as explicit parameters
-        /// (rather than reading <see cref="PWU_Mod.Settings"/> directly) so the
-        /// settings-page live cost table can recompute this every frame from
-        /// the current slider values — including unsaved ones — without
-        /// duplicating the formula.
-        /// </summary>
+        // The advanced-component count for a non-boundary trait change: a flat
+        // base cost plus a per-level surcharge for every quality tier above the
+        // given threshold. Takes the three cost knobs as explicit parameters
+        // (rather than reading PWU_Mod.Settings directly) so the
+        // settings-page live cost table can recompute this every frame from
+        // the current slider values — including unsaved ones — without
+        // duplicating the formula.
         public static int ComponentCostForQuality(
             QualityCategory quality,
             int baseComponentCost,
@@ -96,23 +88,19 @@ namespace PersonaWeaponsUnbound
             return baseComponentCost + Mathf.RoundToInt(levelsAboveThreshold * surchargePerLevel);
         }
 
-        /// <summary>
-        /// The weapon's quality, or Normal if it has no <see cref="CompQuality"/>.
-        /// </summary>
+        // The weapon's quality, or Normal if it has no CompQuality.
         private static QualityCategory GetQuality(Thing weapon)
         {
             CompQuality qualityComp = weapon?.TryGetComp<CompQuality>();
             return qualityComp?.Quality ?? QualityCategory.Normal;
         }
 
-        /// <summary>
-        /// Returns true if the trait is "negative" (undesirable): either its
-        /// MarketValue stat factor is below 1, or its flat marketValueOffset is
-        /// negative (e.g. vanilla's ThoughtWailing at -1000). Purely a UI signal
-        /// (row tint, hide-negative filter) — under the persona cost model it has
-        /// no effect on cost or refund (both directions cost the same regardless
-        /// of trait polarity).
-        /// </summary>
+        // Returns true if the trait is "negative" (undesirable): either its
+        // MarketValue stat factor is below 1, or its flat marketValueOffset is
+        // negative (e.g. vanilla's ThoughtWailing at -1000). Purely a UI signal
+        // (row tint, hide-negative filter) — under the persona cost model it has
+        // no effect on cost or refund (both directions cost the same regardless
+        // of trait polarity).
         public static bool IsNegativeTrait(WeaponTraitDef trait)
         {
             if (trait.statFactors != null)

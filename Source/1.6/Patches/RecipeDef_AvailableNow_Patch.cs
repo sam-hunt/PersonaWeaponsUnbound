@@ -3,20 +3,18 @@ using Verse;
 
 namespace PersonaWeaponsUnbound.Patches
 {
-    /// <summary>
-    /// Gates the three PWU weapon-crafting recipes (fork spec §10) behind their
-    /// individual settings toggles by postfixing the <c>AvailableNow</c> property
-    /// getter. No def surgery, so it works mid-save with no restart.
-    ///
-    /// <c>AvailableNow</c>'s only callers are UI/event-scoped — the bills-tab
-    /// clipboard check, add-bill menus, quest generation — never the work scan
-    /// or tick code, so there is no perf concern patching a property getter here.
-    ///
-    /// Accepted behavior: because the work scan never consults <c>AvailableNow</c>,
-    /// toggling a recipe off hides it from the add-bill menu but does not suspend
-    /// bills that already exist for it — they keep producing. The toggle means
-    /// "stop offering this", not "ban it retroactively".
-    /// </summary>
+    // Gates the three PWU weapon-crafting recipes (fork spec §10) behind their
+    // individual settings toggles by postfixing the AvailableNow property
+    // getter. No def surgery, so it works mid-save with no restart.
+    //
+    // AvailableNow's only callers are UI/event-scoped — the bills-tab
+    // clipboard check, add-bill menus, quest generation — never the work scan
+    // or tick code, so there is no perf concern patching a property getter here.
+    //
+    // Accepted behavior: because the work scan never consults AvailableNow,
+    // toggling a recipe off hides it from the add-bill menu but does not suspend
+    // bills that already exist for it — they keep producing. The toggle means
+    // "stop offering this", not "ban it retroactively".
     [HarmonyPatch(typeof(RecipeDef), nameof(RecipeDef.AvailableNow), MethodType.Getter)]
     public static class RecipeDef_AvailableNow_Patch
     {

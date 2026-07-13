@@ -6,11 +6,9 @@ using Verse;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// Caches base↔persona weapon pair mappings at startup and provides
-    /// runtime lookups for weapon pair resolution. A persona weapon is any
-    /// ThingDef carrying Royalty's <see cref="CompBladelinkWeapon"/>.
-    /// </summary>
+    // Caches base↔persona weapon pair mappings at startup and provides
+    // runtime lookups for weapon pair resolution. A persona weapon is any
+    // ThingDef carrying Royalty's CompBladelinkWeapon.
     public static class WeaponRegistry
     {
         // Persona defNames follow the vanilla '{BaseDefName}Bladelink' convention
@@ -65,13 +63,11 @@ namespace PersonaWeaponsUnbound
             }),
         };
 
-        /// <summary>
-        /// Builds the base↔persona weapon pair cache. Must be called during
-        /// StaticConstructorOnStartup (after all defs are loaded). A non-null
-        /// <paramref name="report"/> absorbs any fatal exception so the rest
-        /// of the mod can still initialize; passing null preserves the
-        /// throwing contract for direct callers.
-        /// </summary>
+        // Builds the base↔persona weapon pair cache. Must be called during
+        // StaticConstructorOnStartup (after all defs are loaded). A non-null
+        // report absorbs any fatal exception so the rest
+        // of the mod can still initialize; passing null preserves the
+        // throwing contract for direct callers.
         public static void Initialize(InitDiagnostics report = null)
         {
             try
@@ -170,12 +166,10 @@ namespace PersonaWeaponsUnbound
                 baseToPersona[baseDef] = def;
         }
 
-        /// <summary>
-        /// Whether the persona def's name is exactly '{BaseDefName}Bladelink' for the
-        /// given base (compared case-insensitively so the ZeusHammer pair still counts)
-        /// — the strongest pairing signal, used to break ties when several persona defs
-        /// resolve to the same base weapon.
-        /// </summary>
+        // Whether the persona def's name is exactly '{BaseDefName}Bladelink' for the
+        // given base (compared case-insensitively so the ZeusHammer pair still counts)
+        // — the strongest pairing signal, used to break ties when several persona defs
+        // resolve to the same base weapon.
         private static bool IsExactNamingMatch(ThingDef personaDef, ThingDef baseDef)
         {
             if (!personaDef.defName.EndsWith(PersonaSuffix, StringComparison.OrdinalIgnoreCase))
@@ -185,15 +179,13 @@ namespace PersonaWeaponsUnbound
             return string.Equals(stripped, baseDef.defName, StringComparison.OrdinalIgnoreCase);
         }
 
-        /// <summary>
-        /// Applies the <see cref="CuratedPairings"/> table after the automatic scan.
-        /// For each entry whose base weapon is present, walks its candidate persona
-        /// defNames in priority order: every present candidate that carries the
-        /// bladelink comp is reverse-mapped to the base (rescuing any the automatic
-        /// scan left orphaned), and the first present candidate is pinned as the base's
-        /// persona form — overriding the automatic base→persona winner, since curated
-        /// priority is authoritative for known multi-variant conflicts.
-        /// </summary>
+        // Applies the CuratedPairings table after the automatic scan.
+        // For each entry whose base weapon is present, walks its candidate persona
+        // defNames in priority order: every present candidate that carries the
+        // bladelink comp is reverse-mapped to the base (rescuing any the automatic
+        // scan left orphaned), and the first present candidate is pinned as the base's
+        // persona form — overriding the automatic base→persona winner, since curated
+        // priority is authoritative for known multi-variant conflicts.
         private static void ResolveCuratedPairings()
         {
             foreach ((string baseDefName, string[] personaDefNames) in CuratedPairings)
@@ -231,15 +223,13 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Detects the base weapon for a persona weapon def, trying each signal from
-        /// most to least authoritative:
-        ///   1. descriptionHyperlinks — an explicit author-declared link (opt-in).
-        ///   2. Naming convention — defName is '{BaseDefName}Bladelink'.
-        ///   3. Reused art — the persona's texPath matches exactly one base weapon and
-        ///      the two share a weaponTag (see <see cref="FindBaseByReusedArt"/>).
-        /// Returns null if none resolve (the def becomes a customizable orphan).
-        /// </summary>
+        // Detects the base weapon for a persona weapon def, trying each signal from
+        // most to least authoritative:
+        //   1. descriptionHyperlinks — an explicit author-declared link (opt-in).
+        //   2. Naming convention — defName is '{BaseDefName}Bladelink'.
+        //   3. Reused art — the persona's texPath matches exactly one base weapon and
+        //      the two share a weaponTag (see FindBaseByReusedArt).
+        // Returns null if none resolve (the def becomes a customizable orphan).
         private static ThingDef FindBaseWeapon(ThingDef personaDef)
         {
             // 1. descriptionHyperlinks — works for modded weapons that may not follow naming conventions.
@@ -267,16 +257,14 @@ namespace PersonaWeaponsUnbound
             return FindBaseByReusedArt(personaDef);
         }
 
-        /// <summary>
-        /// Fallback pairing for persona defs whose name defeats the naming convention
-        /// (mod prefixes/infixes) but which reuse their base weapon's texture. Matches
-        /// only when the persona's texPath belongs to exactly one non-persona weapon
-        /// (cardinality one — an ambiguous texture is rejected) AND that weapon shares
-        /// at least one weaponTag with the persona. Requiring both signals keeps a
-        /// coincidental texture reuse from mis-pairing unrelated weapons, and leaves
-        /// deliberately base-less persona weapons (bespoke art, e.g. warcasket weapons)
-        /// as orphans.
-        /// </summary>
+        // Fallback pairing for persona defs whose name defeats the naming convention
+        // (mod prefixes/infixes) but which reuse their base weapon's texture. Matches
+        // only when the persona's texPath belongs to exactly one non-persona weapon
+        // (cardinality one — an ambiguous texture is rejected) AND that weapon shares
+        // at least one weaponTag with the persona. Requiring both signals keeps a
+        // coincidental texture reuse from mis-pairing unrelated weapons, and leaves
+        // deliberately base-less persona weapons (bespoke art, e.g. warcasket weapons)
+        // as orphans.
         private static ThingDef FindBaseByReusedArt(ThingDef personaDef)
         {
             string texPath = personaDef.graphicData?.texPath;
@@ -290,11 +278,9 @@ namespace PersonaWeaponsUnbound
             return SharesWeaponTag(personaDef, candidate) ? candidate : null;
         }
 
-        /// <summary>
-        /// Whether two weapon defs list at least one weaponTag in common. Persona-only
-        /// tags inherited from the bladelink base (e.g. 'Bladelink') never appear on a
-        /// non-persona base, so only genuine weapon-family tags can produce a match.
-        /// </summary>
+        // Whether two weapon defs list at least one weaponTag in common. Persona-only
+        // tags inherited from the bladelink base (e.g. 'Bladelink') never appear on a
+        // non-persona base, so only genuine weapon-family tags can produce a match.
         private static bool SharesWeaponTag(ThingDef a, ThingDef b)
         {
             if (a.weaponTags == null || b.weaponTags == null)
@@ -307,14 +293,12 @@ namespace PersonaWeaponsUnbound
             return false;
         }
 
-        /// <summary>
-        /// Logs one warning per base weapon that several persona defs resolved to
-        /// (a mod conflict the player owns). Only one variant wins the base→persona
-        /// mapping (see <see cref="RegisterPersonaWeaponDef"/>), so the rest can't be
-        /// produced by customizing the base weapon. Each variant is reported with its
-        /// source mod so players and modders know which defs to reconcile. Grouped
-        /// after the scan, like the orphan warnings.
-        /// </summary>
+        // Logs one warning per base weapon that several persona defs resolved to
+        // (a mod conflict the player owns). Only one variant wins the base→persona
+        // mapping (see RegisterPersonaWeaponDef), so the rest can't be
+        // produced by customizing the base weapon. Each variant is reported with its
+        // source mod so players and modders know which defs to reconcile. Grouped
+        // after the scan, like the orphan warnings.
         private static void WarnOnPairConflicts()
         {
             Dictionary<ThingDef, List<ThingDef>> variantsByBase = new Dictionary<ThingDef, List<ThingDef>>();
@@ -342,49 +326,37 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Returns the persona variant for a base weapon def, or null if none exists.
-        /// </summary>
+        // Returns the persona variant for a base weapon def, or null if none exists.
         public static ThingDef GetPersonaVariant(ThingDef baseDef)
         {
             return baseToPersona.TryGetValue(baseDef, out ThingDef persona) ? persona : null;
         }
 
-        /// <summary>
-        /// All registered persona-variant ThingDefs (one per base↔persona pair).
-        /// Used by the startup diagnostic to bucket pairs by source mod.
-        /// </summary>
+        // All registered persona-variant ThingDefs (one per base↔persona pair).
+        // Used by the startup diagnostic to bucket pairs by source mod.
         public static IEnumerable<ThingDef> AllPersonaDefs => personaToBase.Keys;
 
-        /// <summary>
-        /// Persona-comp ThingDefs that loaded with no detectable base weapon
-        /// (no descriptionHyperlinks pointing at a non-persona weapon and no
-        /// matching '{BaseDefName}Bladelink' naming). Still customizable, but
-        /// cannot revert to base. Used by the startup diagnostic.
-        /// </summary>
+        // Persona-comp ThingDefs that loaded with no detectable base weapon
+        // (no descriptionHyperlinks pointing at a non-persona weapon and no
+        // matching '{BaseDefName}Bladelink' naming). Still customizable, but
+        // cannot revert to base. Used by the startup diagnostic.
         public static IEnumerable<ThingDef> OrphanPersonaDefs =>
             orphanPersonaDefs ?? (IEnumerable<ThingDef>)System.Array.Empty<ThingDef>();
 
-        /// <summary>
-        /// Returns the base weapon for a persona weapon def, or null if not found.
-        /// </summary>
+        // Returns the base weapon for a persona weapon def, or null if not found.
         public static ThingDef GetBaseVariant(ThingDef personaDef)
         {
             return personaToBase.TryGetValue(personaDef, out ThingDef baseDef) ? baseDef : null;
         }
 
-        /// <summary>
-        /// Whether the def is a persona weapon (has CompBladelinkWeapon).
-        /// </summary>
+        // Whether the def is a persona weapon (has CompBladelinkWeapon).
         public static bool IsPersonaWeapon(ThingDef def)
         {
             return def.HasComp(typeof(CompBladelinkWeapon));
         }
 
-        /// <summary>
-        /// Resolves the base and persona ThingDefs for a weapon, regardless of
-        /// whether the weapon is currently in its base or persona form.
-        /// </summary>
+        // Resolves the base and persona ThingDefs for a weapon, regardless of
+        // whether the weapon is currently in its base or persona form.
         public static void ResolveWeaponDefs(Thing weapon, out ThingDef baseDef, out ThingDef personaDef)
         {
             if (IsPersonaWeapon(weapon.def))

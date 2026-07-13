@@ -6,22 +6,18 @@ using Verse.AI;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// Fabrication-bench classification (vanilla FabricationBench plus any VEF
-    /// equivalent) and runtime workbench search for weapon customization.
-    /// </summary>
+    // Fabrication-bench classification (vanilla FabricationBench plus any VEF
+    // equivalent) and runtime workbench search for weapon customization.
     public static class WorkbenchUtility
     {
         private static HashSet<ThingDef> fabricationDefs;
         private static string fabricationLabel;
 
-        /// <summary>
-        /// Initializes the fabrication-bench set. Must be called during
-        /// StaticConstructorOnStartup (after all defs are loaded). A non-null
-        /// <paramref name="report"/> absorbs any fatal exception so the rest of
-        /// the mod can still initialize; passing null preserves the throwing
-        /// contract for direct callers.
-        /// </summary>
+        // Initializes the fabrication-bench set. Must be called during
+        // StaticConstructorOnStartup (after all defs are loaded). A non-null
+        // report absorbs any fatal exception so the rest of the mod can still
+        // initialize; passing null preserves the throwing contract for direct
+        // callers.
         public static void Initialize(InitDiagnostics report = null)
         {
             try
@@ -37,10 +33,8 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Result of searching for a valid workbench to customize a weapon at.
-        /// Either contains a workbench or the highest-priority rejection reason.
-        /// </summary>
+        // Result of searching for a valid workbench to customize a weapon at.
+        // Either contains a workbench or the highest-priority rejection reason.
         public struct WorkbenchSearchResult
         {
             public Building_WorkTable Workbench;
@@ -48,11 +42,9 @@ namespace PersonaWeaponsUnbound
             public bool Found => Workbench != null;
         }
 
-        /// <summary>
-        /// Finds the closest valid colonist workbench for customizing the specified weapon.
-        /// Pawn-specific overload: checks reachability via the pawn's pathfinder and
-        /// forbidden status relative to the pawn.
-        /// </summary>
+        // Finds the closest valid colonist workbench for customizing the specified weapon.
+        // Pawn-specific overload: checks reachability via the pawn's pathfinder and
+        // forbidden status relative to the pawn.
         public static WorkbenchSearchResult FindBestWorkbench(
             Pawn pawn, ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             IntVec3 distanceOrigin)
@@ -68,12 +60,10 @@ namespace PersonaWeaponsUnbound
                 });
         }
 
-        /// <summary>
-        /// Finds the closest valid colonist workbench for customizing the specified weapon.
-        /// Pawn-independent overload: checks generic reachability from a map position and
-        /// forbidden status relative to the player faction. Used for gizmo enabled/disabled
-        /// state where no specific pawn is known yet.
-        /// </summary>
+        // Finds the closest valid colonist workbench for customizing the specified weapon.
+        // Pawn-independent overload: checks generic reachability from a map position and
+        // forbidden status relative to the player faction. Used for gizmo enabled/disabled
+        // state where no specific pawn is known yet.
         public static WorkbenchSearchResult FindBestWorkbench(
             Map map, ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             IntVec3 distanceOrigin)
@@ -91,14 +81,12 @@ namespace PersonaWeaponsUnbound
                 });
         }
 
-        /// <summary>
-        /// Common core for workbench search. Iterates colonist workbenches, applies the
-        /// fabrication-set and operational checks, then delegates reachability/forbidden
-        /// checks to the caller-provided predicate. Returns the closest valid workbench or
-        /// the highest-priority rejection reason. <paramref name="baseDef"/>/
-        /// <paramref name="personaDef"/>/<paramref name="weaponTechLevel"/> are accepted for
-        /// call-site stability but unused now that there is a single bench tier (§8).
-        /// </summary>
+        // Common core for workbench search. Iterates colonist workbenches, applies the
+        // fabrication-set and operational checks, then delegates reachability/forbidden
+        // checks to the caller-provided predicate. Returns the closest valid workbench or
+        // the highest-priority rejection reason. baseDef/personaDef/weaponTechLevel are
+        // accepted for call-site stability but unused now that there is a single bench
+        // tier (§8).
         private static WorkbenchSearchResult FindBestWorkbenchCore(
             Map map, ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             IntVec3 distanceOrigin, Pawn pawn,
@@ -186,22 +174,18 @@ namespace PersonaWeaponsUnbound
             return result;
         }
 
-        /// <summary>
-        /// Whether the workbench is a fabrication bench (or a VEF-recognized
-        /// equivalent), making it eligible to show the customization float menu option.
-        /// </summary>
+        // Whether the workbench is a fabrication bench (or a VEF-recognized
+        // equivalent), making it eligible to show the customization float menu option.
         public static bool IsCustomizationWorkbench(Building_WorkTable workbench)
         {
             return fabricationDefs.Contains(workbench.def);
         }
 
-        /// <summary>
-        /// Whether the given workbench supports customizing weapons at all. With the
-        /// single fabrication-bench tier (§8) this is just set membership; <paramref
-        /// name="baseDef"/>/<paramref name="personaDef"/>/<paramref name="weaponTechLevel"/>
-        /// are accepted for call-site stability only. Returns AcceptanceReport naming the
-        /// fabrication bench when the workbench doesn't qualify.
-        /// </summary>
+        // Whether the given workbench supports customizing weapons at all. With the
+        // single fabrication-bench tier (§8) this is just set membership; baseDef/
+        // personaDef/weaponTechLevel are accepted for call-site stability only.
+        // Returns AcceptanceReport naming the fabrication bench when the workbench
+        // doesn't qualify.
         public static AcceptanceReport CanCustomizeAtWorkbench(
             ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             Building_WorkTable workbench)
@@ -211,10 +195,8 @@ namespace PersonaWeaponsUnbound
             return "PWU_RequiresWorkbench".Translate(fabricationLabel);
         }
 
-        /// <summary>
-        /// Whether the workbench is operational (powered and/or fueled as required).
-        /// Returns AcceptanceReport with a rejection reason if not operational.
-        /// </summary>
+        // Whether the workbench is operational (powered and/or fueled as required).
+        // Returns AcceptanceReport with a rejection reason if not operational.
         public static AcceptanceReport GetWorkbenchOperationalReport(Building_WorkTable workbench)
         {
             CompPowerTrader power = workbench.TryGetComp<CompPowerTrader>();
@@ -228,9 +210,7 @@ namespace PersonaWeaponsUnbound
             return true;
         }
 
-        /// <summary>
-        /// Resolves an array of defNames into a set of ThingDefs, silently skipping any that don't exist.
-        /// </summary>
+        // Resolves an array of defNames into a set of ThingDefs, silently skipping any that don't exist.
         private static HashSet<ThingDef> ResolveDefSet(params string[] defNames)
         {
             var set = new HashSet<ThingDef>();
@@ -243,10 +223,8 @@ namespace PersonaWeaponsUnbound
             return set;
         }
 
-        /// <summary>
-        /// Resolves a display label for the fabrication-bench set. With a single
-        /// vanilla anchor this is just its label.
-        /// </summary>
+        // Resolves a display label for the fabrication-bench set. With a single
+        // vanilla anchor this is just its label.
         private static string ResolveWorkbenchLabel(HashSet<ThingDef> defs)
         {
             foreach (ThingDef def in defs)
@@ -254,16 +232,14 @@ namespace PersonaWeaponsUnbound
             return "?";
         }
 
-        /// <summary>
-        /// Expands the fabrication set with benches that inherit recipes from a
-        /// vanilla fabrication bench via VEF's RecipeInheritanceExtension — directly,
-        /// or transitively through another bench this pass has already classified
-        /// (e.g. a bench that inherits from VFE's compact fabrication bench, which
-        /// itself inherits from FabricationBench). Repeats until a pass adds nothing,
-        /// so classification doesn't depend on DefDatabase iteration order. No-op when
-        /// VEF is not loaded or its integration surface has drifted (the integration
-        /// class logs the drift warning once at static-ctor time).
-        /// </summary>
+        // Expands the fabrication set with benches that inherit recipes from a
+        // vanilla fabrication bench via VEF's RecipeInheritanceExtension — directly,
+        // or transitively through another bench this pass has already classified
+        // (e.g. a bench that inherits from VFE's compact fabrication bench, which
+        // itself inherits from FabricationBench). Repeats until a pass adds nothing,
+        // so classification doesn't depend on DefDatabase iteration order. No-op when
+        // VEF is not loaded or its integration surface has drifted (the integration
+        // class logs the drift warning once at static-ctor time).
         private static void ExpandFromVEF()
         {
             if (!VEFRecipeInheritanceIntegration.Available)
@@ -289,11 +265,9 @@ namespace PersonaWeaponsUnbound
             } while (addedThisPass);
         }
 
-        /// <summary>
-        /// Classifies a single def as a fabrication-bench equivalent if it carries a
-        /// VEF RecipeInheritanceExtension reaching an already-classified bench.
-        /// Returns true if the def was newly added.
-        /// </summary>
+        // Classifies a single def as a fabrication-bench equivalent if it carries a
+        // VEF RecipeInheritanceExtension reaching an already-classified bench.
+        // Returns true if the def was newly added.
         private static bool ClassifyVEFInheritedDef(ThingDef def)
         {
             if (def.modExtensions == null || fabricationDefs.Contains(def))

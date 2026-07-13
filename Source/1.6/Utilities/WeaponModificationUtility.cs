@@ -5,19 +5,17 @@ using Verse;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// Mutates a weapon Thing in place: adds/removes persona (bladelink) traits,
-    /// sets cosmetic properties (name), and spawns refunded resources.
-    /// Def conversion (base↔persona) lives in <see cref="WeaponDefConversion"/>;
-    /// ingredient gathering and reservation for a customization job lives in
-    /// <see cref="HaulPlanning.IngredientReservation"/>.
-    ///
-    /// <para><see cref="CompBladelinkWeapon.TraitsListForReading"/> is the live
-    /// private trait list — mutated directly, no reflection. But nothing re-fires
-    /// the per-trait <c>Worker.Notify_*</c> hooks or (un)applies hediffs on a raw
-    /// list mutation, so every add/remove here manually reproduces the bonding
-    /// side effects vanilla would fire at bond/equip time (fork spec §5).</para>
-    /// </summary>
+    // Mutates a weapon Thing in place: adds/removes persona (bladelink) traits,
+    // sets cosmetic properties (name), and spawns refunded resources.
+    // Def conversion (base↔persona) lives in WeaponDefConversion; ingredient
+    // gathering and reservation for a customization job lives in
+    // HaulPlanning.IngredientReservation.
+    //
+    // CompBladelinkWeapon.TraitsListForReading is the live private trait list —
+    // mutated directly, no reflection. But nothing re-fires the per-trait
+    // Worker.Notify_* hooks or (un)applies hediffs on a raw list mutation, so
+    // every add/remove here manually reproduces the bonding side effects
+    // vanilla would fire at bond/equip time (fork spec §5).
     public static class WeaponModificationUtility
     {
         // CompGeneratedNames.name — the persona weapon's display name. Private, no
@@ -34,13 +32,11 @@ namespace PersonaWeaponsUnbound
         internal static readonly FieldInfo LastKillTickField = typeof(CompBladelinkWeapon)
             .GetField("lastKillTick", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        /// <summary>
-        /// Verifies that every cached FieldInfo resolved. Should be called during
-        /// StaticConstructorOnStartup so a RimWorld API rename surfaces as a startup
-        /// error rather than a silent no-op on every later SetName/AddTrait. Pure
-        /// diagnostic — no state is built here; the FieldInfos are resolved at
-        /// class-load time by the field initializers above.
-        /// </summary>
+        // Verifies that every cached FieldInfo resolved. Should be called during
+        // StaticConstructorOnStartup so a RimWorld API rename surfaces as a startup
+        // error rather than a silent no-op on every later SetName/AddTrait. Pure
+        // diagnostic — no state is built here; the FieldInfos are resolved at
+        // class-load time by the field initializers above.
         public static void VerifyReflection()
         {
             if (CompNameField == null)
@@ -52,10 +48,8 @@ namespace PersonaWeaponsUnbound
                     + "RimWorld API may have changed.");
         }
 
-        /// <summary>
-        /// Adds a trait to the live list and reproduces vanilla's bond-time side
-        /// effects that a raw list mutation would skip (fork spec §5, D8, D9).
-        /// </summary>
+        // Adds a trait to the live list and reproduces vanilla's bond-time side
+        // effects that a raw list mutation would skip (fork spec §5, D8, D9).
         public static void AddTrait(Thing weapon, WeaponTraitDef trait)
         {
             CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
@@ -93,14 +87,12 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Removes a trait from the live list, firing vanilla's unbond/equip-lost
-        /// teardown BEFORE removal so its hediffs and lingering memories aren't
-        /// orphaned on the pawn (fork spec §5, D10). Vanilla's own teardown paths
-        /// iterate the current trait list, so a trait removed while its hediff is
-        /// applied would strand that hediff (NoPain / SpeedBoost / HungerMaker /
-        /// NeuralHeatRecoveryGain) permanently.
-        /// </summary>
+        // Removes a trait from the live list, firing vanilla's unbond/equip-lost
+        // teardown BEFORE removal so its hediffs and lingering memories aren't
+        // orphaned on the pawn (fork spec §5, D10). Vanilla's own teardown paths
+        // iterate the current trait list, so a trait removed while its hediff is
+        // applied would strand that hediff (NoPain / SpeedBoost / HungerMaker /
+        // NeuralHeatRecoveryGain) permanently.
         public static void RemoveTrait(Thing weapon, WeaponTraitDef trait)
         {
             CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
@@ -131,13 +123,11 @@ namespace PersonaWeaponsUnbound
             comp.TraitsListForReading.Remove(trait);
         }
 
-        /// <summary>
-        /// Purges the coded pawn's weapon-referencing memory thoughts created by a
-        /// trait being removed. Covers <c>killThought</c> memories
-        /// (OnKill_ThoughtGood/Bad) and the Jealous trait's JealousRage memory. Only
-        /// removes memories whose scribed weapon reference is this very weapon, so
-        /// bonds to other persona weapons are untouched.
-        /// </summary>
+        // Purges the coded pawn's weapon-referencing memory thoughts created by a
+        // trait being removed. Covers killThought memories (OnKill_ThoughtGood/Bad)
+        // and the Jealous trait's JealousRage memory. Only removes memories whose
+        // scribed weapon reference is this very weapon, so bonds to other persona
+        // weapons are untouched.
         private static void PurgeTraitMemories(Thing weapon, WeaponTraitDef trait, Pawn codedPawn)
         {
             MemoryThoughtHandler memories = codedPawn?.needs?.mood?.thoughts?.memories;
@@ -157,15 +147,13 @@ namespace PersonaWeaponsUnbound
                     m => (m as Thought_WeaponTrait)?.weapon == twc);
         }
 
-        /// <summary>
-        /// Scrubs the random state left behind by <c>CompBladelinkWeapon.PostPostMake</c>
-        /// (auto-rolled 1–2 traits) and <c>CompGeneratedNames.Initialize</c> (rolled
-        /// name) on a freshly minted persona weapon, so the customization pipeline
-        /// starts from a clean slate. Called by <see cref="WeaponDefConversion"/>
-        /// right after <c>ThingMaker.MakeThing</c> on a persona-weapon def.
-        ///
-        /// No-op on non-persona target defs (no CompBladelinkWeapon).
-        /// </summary>
+        // Scrubs the random state left behind by CompBladelinkWeapon.PostPostMake
+        // (auto-rolled 1-2 traits) and CompGeneratedNames.Initialize (rolled
+        // name) on a freshly minted persona weapon, so the customization pipeline
+        // starts from a clean slate. Called by WeaponDefConversion right after
+        // ThingMaker.MakeThing on a persona-weapon def.
+        //
+        // No-op on non-persona target defs (no CompBladelinkWeapon).
         internal static void ClearAutoGeneratedPersonaState(Thing weapon)
         {
             CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
@@ -179,11 +167,9 @@ namespace PersonaWeaponsUnbound
                 CompNameField.SetValue(names, null);
         }
 
-        /// <summary>
-        /// Sets the persona weapon's display name by writing the private, Scribed
-        /// <c>CompGeneratedNames.name</c> field via cached reflection (persists in
-        /// saves). No-op if the weapon has no CompGeneratedNames.
-        /// </summary>
+        // Sets the persona weapon's display name by writing the private, Scribed
+        // CompGeneratedNames.name field via cached reflection (persists in
+        // saves). No-op if the weapon has no CompGeneratedNames.
         public static void SetName(Thing weapon, string name)
         {
             CompGeneratedNames comp = weapon.TryGetComp<CompGeneratedNames>();
@@ -191,10 +177,8 @@ namespace PersonaWeaponsUnbound
                 CompNameField.SetValue(comp, name);
         }
 
-        /// <summary>
-        /// Spawns resources near a position (e.g. the workbench).
-        /// Used to refund resources when removing traits.
-        /// </summary>
+        // Spawns resources near a position (e.g. the workbench).
+        // Used to refund resources when removing traits.
         public static void SpawnResourcesNear(
             Map map, IntVec3 center, List<ThingDefCountClass> resources)
         {

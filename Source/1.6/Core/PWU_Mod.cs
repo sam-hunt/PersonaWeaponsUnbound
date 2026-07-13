@@ -1,6 +1,6 @@
+using PersonaWeaponsUnbound.HaulPlanning;
 using RimWorld;
 using UnityEngine;
-using PersonaWeaponsUnbound.HaulPlanning;
 using Verse;
 
 namespace PersonaWeaponsUnbound
@@ -272,11 +272,9 @@ namespace PersonaWeaponsUnbound
             }
         }
 
-        /// <summary>
-        /// Renders one row of the haul-planner radio group. Selecting an option
-        /// flips Settings.haulPlannerKind to that value. The label is passed
-        /// in fully composed (including any "(default)" / "(vanilla)" suffix).
-        /// </summary>
+        // Renders one row of the haul-planner radio group. Selecting an option
+        // flips Settings.haulPlannerKind to that value. The label is passed
+        // in fully composed (including any "(default)" / "(vanilla)" suffix).
         private static void DrawHaulPlannerOption(
             Listing_Standard listing,
             HaulPlannerKind kind,
@@ -291,13 +289,11 @@ namespace PersonaWeaponsUnbound
             listing.Gap(8f);
         }
 
-        /// <summary>
-        /// Renders the live per-quality component-cost table below the three
-        /// cost sliders: one row per <see cref="QualityCategory"/> (Awful through
-        /// Legendary), recomputed every frame from the current (possibly unsaved)
-        /// slider values via <see cref="TraitCostUtility.ComponentCostForQuality"/>
-        /// so it never drifts out of sync with the sliders above it.
-        /// </summary>
+        // Renders the live per-quality component-cost table below the three
+        // cost sliders: one row per QualityCategory (Awful through
+        // Legendary), recomputed every frame from the current (possibly unsaved)
+        // slider values via TraitCostUtility.ComponentCostForQuality
+        // so it never drifts out of sync with the sliders above it.
         private static void DrawCostTable(Listing_Standard listing)
         {
             const float rowHeight = 24f;

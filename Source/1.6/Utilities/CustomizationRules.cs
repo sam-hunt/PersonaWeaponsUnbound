@@ -3,18 +3,14 @@ using Verse;
 
 namespace PersonaWeaponsUnbound
 {
-    /// <summary>
-    /// Stateless game-rule predicates for determining whether weapons are
-    /// customizable and what research is required.
-    /// </summary>
+    // Stateless game-rule predicates for determining whether weapons are
+    // customizable and what research is required.
     public static class CustomizationRules
     {
-        /// <summary>
-        /// Whether this weapon has a customization path and the player has unlocked
-        /// the required customization research. Returns AcceptanceReport with a
-        /// rejection reason if not customizable. Returns false with no reason when
-        /// the option should be hidden entirely.
-        /// </summary>
+        // Whether this weapon has a customization path and the player has unlocked
+        // the required customization research. Returns AcceptanceReport with a
+        // rejection reason if not customizable. Returns false with no reason when
+        // the option should be hidden entirely.
         public static AcceptanceReport IsCustomizable(Thing weapon)
         {
             ThingDef def = weapon.def;
@@ -58,11 +54,9 @@ namespace PersonaWeaponsUnbound
             return true;
         }
 
-        /// <summary>
-        /// Rejection report for paths that are normally hidden (silent <c>false</c>).
-        /// In dev mode, surfaces the reason so the option/gizmo renders as visible-but-disabled,
-        /// letting modders diagnose why a weapon isn't customizable without exporting logs.
-        /// </summary>
+        // Rejection report for paths that are normally hidden (silent false).
+        // In dev mode, surfaces the reason so the option/gizmo renders as visible-but-disabled,
+        // letting modders diagnose why a weapon isn't customizable without exporting logs.
         private static AcceptanceReport HiddenUnlessDev(string devReason)
         {
             if (!Prefs.DevMode)
