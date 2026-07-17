@@ -1,5 +1,5 @@
 [h1]About[/h1]
-Empire traders and quests never give you the persona you want. Now you can close the gap: at the fabrication bench, with research gates, component costs, and balance settings that keep it feeling earned.
+Empire traders and quests never give you the persona you want. Now you can close the gap: at the fabrication bench, with techprint gating, component costs, and balance settings that keep it feeling earned.
 
 [hr][/hr]
 [h2]Trait Customization[/h2]
@@ -35,8 +35,8 @@ Bladelink traits are facets of the persona's personality, not bolt-on parts. Cha
 [h2]Research & Crafting[/h2]
 A single ultratech research project, Bladelink Customization, gates everything below - it requires Advanced Fabrication and (by default) one Empire-sourced techprint.
 [list]
-[*]No workbench tiers to worry about - persona weapons are all ultratech, so customization is static to the fabrication bench (or a VEF-recognized equivalent)
-[*]Craftable base monosword, plasmasword, and zeushammer recipes at the fabrication bench, each individually toggleable - craft the base weapon, then install a persona core for a fully in-colony bespoke persona weapon
+[*]Persona weapons are ultratech; customization requires a fabrication bench (or a VEF-recognized equivalent)
+[*]Craftable base monosword, plasmasword, and zeushammer recipes, each individually toggleable - craft the base weapon, then install a persona core for a fully in-colony bespoke persona weapon
 [*]Techprint requirement is a live-applied slider (0-3); setting it to 0 removes the requirement entirely, no restart needed
 [/list]
 
@@ -49,13 +49,13 @@ A single ultratech research project, Bladelink Customization, gates everything b
 [hr][/hr]
 [h1]Mod Compatibility[/h1]
 [list]
-[*]Requires the Royalty DLC
+[*]Requires Royalty DLC
 [*]Safe to add to existing saves
 [*]Safe to remove from saves (safe-to-ignore red errors only)
-[*]Coexists cleanly with Unique Weapons Unbound (this mod's sibling for Odyssey unique weapons) - disjoint identifiers and complementary trait filters, so both can run together
-[*]Automatically compatible with mods that add new persona weapons or bladelink traits. No hard-coded def references
+[*]Coexists cleanly with Unique Weapons Unbound (this mod's sibling for Odyssey Unique Weapons) - disjoint identifiers and complementary trait filters, so both can run together
+[*]Automatically compatible with most mods that add new persona weapons or bladelink traits e.g. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2863308112]More Persona Traits[/url]. No hard-coded def references
 [*]Modded workbenches that inherit fabrication bench recipes (VEF's RecipeInheritanceExtension, e.g. VFE's compact fabrication bench) are detected automatically
-[*]Works with CE, PUAH, Ideology, Simple Sidearms
+[*]Works with CE, PUAH, Ideology, integrates with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2826922787]Vanilla Persona Weapons Expanded[/url]
 [/list]
 
 [hr][/hr]
@@ -84,4 +84,4 @@ A: Adding the free-wielding trait or reverting a bonded persona weapon to its ba
 
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url] - Source code, bug reports, and feature requests
-[url=https://github.com/sam-hunt/UniqueWeaponsUnbound]Unique Weapons Unbound[/url] - the sibling mod for Odyssey's unique weapons
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url] - the sibling mod for Odyssey's unique weapons
