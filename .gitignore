@@ -1,5 +1,6 @@
-# Claude Code
-.claude
+# Claude Code (skills are shared with contributors; local settings/hooks stay private)
+.claude/*
+!.claude/skills/
 
 # Working orchestration brief — never committed (see Docs/Specs/PERSONA_FORK.md for the durable spec)
 Docs/HANDOFF.md
