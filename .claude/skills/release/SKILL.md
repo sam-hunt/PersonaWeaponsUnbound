@@ -7,7 +7,7 @@ argument-hint: "[major|minor|patch]"
 
 # Release
 
-Prepare and publish a new release for Unique Weapons Unbound.
+Prepare and publish a new release for Persona Weapons Unbound.
 
 The user may pass a bump type as `$ARGUMENTS` (one of `major`, `minor`, or `patch`). If omitted, ask which bump type they want.
 
@@ -54,8 +54,8 @@ Show the diff and **ask the user to confirm** the changes look correct.
 
 Run:
 ```bash
-dotnet clean UniqueWeaponsUnbound.sln
-dotnet build UniqueWeaponsUnbound.sln -c Release
+dotnet clean PersonaWeaponsUnbound.sln
+dotnet build PersonaWeaponsUnbound.sln -c Release
 ```
 
 Report the build result. If the build fails, stop and help the user fix it. **Ask the user to confirm** before proceeding to commit.
