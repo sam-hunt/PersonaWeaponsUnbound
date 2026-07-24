@@ -157,17 +157,22 @@
   <PWU_MinimumQuality>Minimum weapon quality: {0}</PWU_MinimumQuality>
   <PWU_MinimumQualityDesc>Restrict customization to weapons of at least this quality. Awful imposes no restriction. Weapons below the minimum will still show the customization option, but it will be disabled with an explanation.</PWU_MinimumQualityDesc>
   <PWU_RequireCustomizationResearch>Require customization research</PWU_RequireCustomizationResearch>
-  <PWU_RequireCustomizationResearchDesc>Require the completion of the Bladelink Customization research project before customizing weapons. When disabled, the project is hidden from the research tree.</PWU_RequireCustomizationResearchDesc>
+  <!-- {0} = bladelink customization (research label) -->
+  <PWU_RequireCustomizationResearchDesc>Require the completion of the {0} research project before customizing weapons. When disabled, the project is hidden from the research tree.</PWU_RequireCustomizationResearchDesc>
   <PWU_TechprintCount>Techprints required: {0}</PWU_TechprintCount>
-  <PWU_TechprintCountDesc>Number of Bladelink Customization techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed.</PWU_TechprintCountDesc>
+  <!-- {0} = bladelink customization (research label) -->
+  <PWU_TechprintCountDesc>Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed.</PWU_TechprintCountDesc>
 
   <!-- Settings: Crafting recipes -->
   <PWU_EnableMonoswordRecipe>Enable monosword crafting recipe</PWU_EnableMonoswordRecipe>
-  <PWU_EnableMonoswordRecipeDesc>Show the "make monosword" bill at the fabrication bench (requires Bladelink Customization research). Disabling this only hides it from the add-bill menu; bills already queued keep producing.</PWU_EnableMonoswordRecipeDesc>
+  <!-- {0} = make monosword (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <PWU_EnableMonoswordRecipeDesc>Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing.</PWU_EnableMonoswordRecipeDesc>
   <PWU_EnablePlasmaswordRecipe>Enable plasmasword crafting recipe</PWU_EnablePlasmaswordRecipe>
-  <PWU_EnablePlasmaswordRecipeDesc>Show the "make plasmasword" bill at the fabrication bench (requires Bladelink Customization research). Disabling this only hides it from the add-bill menu; bills already queued keep producing.</PWU_EnablePlasmaswordRecipeDesc>
+  <!-- {0} = make plasmasword (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <PWU_EnablePlasmaswordRecipeDesc>Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing.</PWU_EnablePlasmaswordRecipeDesc>
   <PWU_EnableZeushammerRecipe>Enable zeushammer crafting recipe</PWU_EnableZeushammerRecipe>
-  <PWU_EnableZeushammerRecipeDesc>Show the "make zeushammer" bill at the fabrication bench (requires Bladelink Customization research). Disabling this only hides it from the add-bill menu; bills already queued keep producing.</PWU_EnableZeushammerRecipeDesc>
+  <!-- {0} = make zeushammer (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <PWU_EnableZeushammerRecipeDesc>Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing.</PWU_EnableZeushammerRecipeDesc>
 
   <!-- Settings: Miscellaneous -->
   <PWU_AllowDefConversion>Allow weapon def conversion</PWU_AllowDefConversion>

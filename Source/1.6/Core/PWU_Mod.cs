@@ -156,14 +156,16 @@ namespace PersonaWeaponsUnbound
             listing.CheckboxLabeled(
                 "PWU_RequireCustomizationResearch".Translate(),
                 ref Settings.requireCustomizationResearch,
-                "PWU_RequireCustomizationResearchDesc".Translate());
+                "PWU_RequireCustomizationResearchDesc".Translate(
+                    PWU_ResearchDefOf.PWU_BladelinkCustomization.label));
 
             listing.Gap();
 
             string techprintLabel = "PWU_TechprintCount".Translate(Settings.techprintCount);
             if (Settings.techprintCount == 1)
                 techprintLabel += "PWU_DefaultSuffix".Translate();
-            listing.Label(techprintLabel, tooltip: "PWU_TechprintCountDesc".Translate());
+            listing.Label(techprintLabel, tooltip: "PWU_TechprintCountDesc".Translate(
+                PWU_ResearchDefOf.PWU_BladelinkCustomization.label));
             Settings.techprintCount = Mathf.RoundToInt(listing.Slider(Settings.techprintCount, 0f, 3f));
 
             listing.Gap(24.0f);
@@ -176,21 +178,30 @@ namespace PersonaWeaponsUnbound
             listing.CheckboxLabeled(
                 "PWU_EnableMonoswordRecipe".Translate(),
                 ref Settings.enableMonoswordRecipe,
-                "PWU_EnableMonoswordRecipeDesc".Translate());
+                "PWU_EnableMonoswordRecipeDesc".Translate(
+                    PWU_RecipeDefOf.PWU_Make_MonoSword.label,
+                    PWU_ThingDefOf.FabricationBench.label,
+                    PWU_ResearchDefOf.PWU_BladelinkCustomization.label));
 
             listing.Gap();
 
             listing.CheckboxLabeled(
                 "PWU_EnablePlasmaswordRecipe".Translate(),
                 ref Settings.enablePlasmaswordRecipe,
-                "PWU_EnablePlasmaswordRecipeDesc".Translate());
+                "PWU_EnablePlasmaswordRecipeDesc".Translate(
+                    PWU_RecipeDefOf.PWU_Make_PlasmaSword.label,
+                    PWU_ThingDefOf.FabricationBench.label,
+                    PWU_ResearchDefOf.PWU_BladelinkCustomization.label));
 
             listing.Gap();
 
             listing.CheckboxLabeled(
                 "PWU_EnableZeushammerRecipe".Translate(),
                 ref Settings.enableZeushammerRecipe,
-                "PWU_EnableZeushammerRecipeDesc".Translate());
+                "PWU_EnableZeushammerRecipeDesc".Translate(
+                    PWU_RecipeDefOf.PWU_Make_Zeushammer.label,
+                    PWU_ThingDefOf.FabricationBench.label,
+                    PWU_ResearchDefOf.PWU_BladelinkCustomization.label));
 
             listing.Gap(24.0f);
 
