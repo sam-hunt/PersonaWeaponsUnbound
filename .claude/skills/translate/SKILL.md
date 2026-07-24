@@ -90,7 +90,24 @@ applies to every language: weapon **trait** and pawn-personality **trait**
 are different words in many official localizations. Never assume the
 pawn-trait term applies to weapon traits — always check how the vanilla
 `WeaponTraits` stat/label is localized in the target language's tar and use
-that word, not the personality-trait word.
+that word, not the personality-trait word. (RU: свойство, never черта;
+JP: 特性, shared with pawn traits — it varies per language.)
+
+### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
+
+- Japanese vanilla style: ASCII punctuation (`,` `.`, never `、` `。`),
+  です/ます descriptions, continuous-form job strings (〜している, no period),
+  「」 around quoted labels.
+- Wrap injected `{0}` def labels in the language's quote marks (JP 「{0}」,
+  RU «{0}») — injected labels never inflect, and quoting sidesteps case and
+  agreement problems.
+- Coined vanilla terms (ideoligion) may be a portmanteau in one language
+  (RU идеолигия) and a plain word in another (JP 思想) — always check, never
+  extrapolate between languages. Relevant here for `PWU_RelicNameTooltip`.
+- When an English string is reworded, refresh every language's EN comments in
+  the same commit — the checker reports mismatches as STALE either way.
+- The fuller per-language glossaries live in UniqueWeaponsUnbound's translate
+  skill; consult them when the same vanilla domain terms come up.
 
 ## Workflows
 
