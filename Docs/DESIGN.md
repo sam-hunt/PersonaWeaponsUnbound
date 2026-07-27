@@ -111,7 +111,7 @@ Blocker ordering (hidden → disabled-with-reason → enabled) is preserved, min
 
 Same styling-station-inspired dialog as UWU:
 
-- **Weapon preview** — live, tint-faithful (never-spawned preview Thing).
+- **Weapon preview** — live, tint-faithful (never-spawned preview Thing). Two vanilla "i" info-card buttons — one beside the dialog title for the weapon as it stands, one beside the preview for the weapon as staged — let the player compare full before/after stats without leaving the dialog.
 - **Traits tab** — only-bladelink traits, search, discovery-progression filtering, per-trait cost display.
 - **Memory tab** — a one-time wipe of the persona's bond or kill tracker (three-way radio: no wipe / wipe bonding / wipe kill tracker), costed in advanced components. (The texture tab is gone: persona weapons have no texture variants.)
 - **Naming** — auto-generate via the bladelink namer or type your own.

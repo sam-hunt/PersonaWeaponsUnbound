@@ -53,6 +53,29 @@ namespace PersonaWeaponsUnbound
                 iconSize);
             DrawPreviewIcon(iconRect);
 
+            // Vanilla "i" stats button — opens the info card for the prospective
+            // weapon, so the player reads the final trait roster and stats rather
+            // than summing modifiers by hand. Most of the thing's identity state is
+            // stamped when it's (re)built (see BuildPreviewGraphic); name and bond
+            // are stamped here instead because neither triggers a rebuild — a name
+            // edit doesn't affect appearance, and the bond turns partly on the
+            // memory-op radio, which isn't in the rebuild key.
+            //
+            // Placement: right edge flush with the pane itself, bottom flush with
+            // the right pane's tab headers — both panes share contentRect.y, and
+            // the tabs DrawControlsPanel hangs above its menu section bottom out at
+            // rect.y + 8f + TabBarHeight.
+            if (previewThing != null)
+            {
+                WeaponModificationUtility.SetName(previewThing, desiredName);
+                WeaponModificationUtility.SetBiocodeDisplayState(
+                    previewThing, PreviewKeepsBond, weapon.TryGetComp<CompBladelinkWeapon>()?.CodedPawnLabel);
+                Widgets.InfoCardButton(
+                    rect.xMax - InfoCardButtonSize,
+                    rect.y + 8f + TabBarHeight - InfoCardButtonSize,
+                    previewThing);
+            }
+
             curY = iconRect.yMax + 8f;
 
             // Name input field
@@ -345,10 +368,16 @@ namespace PersonaWeaponsUnbound
         // a draw-time patch and never changes the thing's graphic can't be
         // reconstructed by anything short of invoking that draw path.)
         //
-        // Only the trait list needs setting: color two is derived from the
-        // trait list (+ stuff) by the weapon's own DrawColorTwo. Bonding/
-        // hediff wiring doesn't affect appearance, so the heavier AddTrait
-        // side effects are skipped — the trait list is replaced directly.
+        // For appearance, only the trait list needs setting: color two is
+        // derived from the trait list (+ stuff) by the weapon's own
+        // DrawColorTwo. Bonding/hediff wiring doesn't affect appearance, so
+        // the heavier AddTrait side effects are skipped — the trait list is
+        // replaced directly. Beyond appearance, the thing also backs the
+        // preview's info card, so when it is (re)made the original weapon's
+        // identity state (quality, hitpoints, art, relic status) is stamped on
+        // via WeaponDefConversion's copy helpers — copy semantics, not the
+        // conversion pipeline's ownership transfers, so the live weapon's
+        // state is never disturbed.
         //
         // Building a Thing mutates global sim state, which the old
         // graphic-only path never touched: Thing.PostMake pulls a
@@ -360,8 +389,15 @@ namespace PersonaWeaponsUnbound
         // Rand stream, and the Thing is cached on previewThing and re-made
         // only when the result def changes — so the id draw fires per def,
         // not per rebuild. Re-stamping traits below touches no global state.
-        // Never spawned, the cached thing holds no global references and is
-        // dropped with the dialog — no Destroy() needed.
+        // The cached thing is never spawned, never scribed, and never
+        // destroyed — simply dropped with the dialog. That lifecycle is also
+        // what makes the identity stamp's shared references (art TaleReference,
+        // relic precept) safe: the destroy and save paths, the only places a
+        // shared reference could tear down or fork state the real weapon still
+        // owns, never run. Destroy() must NOT be added here — it would fire
+        // CompArt.PostDestroy against the live weapon's tale,
+        // Precept_Relic.Notify_ThingLost against its precept, and
+        // CompBladelinkWeapon.PostDestroy's UnCode against its bond.
         private Graphic BuildPreviewGraphic(ThingDef resultDef)
         {
             if (resultDef?.graphicData == null)
@@ -394,6 +430,35 @@ namespace PersonaWeaponsUnbound
                 // logic below re-stamps it rather than assuming the previous
                 // (now-replaced) previewThing's stamp still applies.
                 previewThingStampedTexPaths = null;
+
+                // Mirror ConvertWeaponDef's identity handling so the info card
+                // opened from the preview reads as the customized weapon will:
+                // scrub PostPostMake's rolled traits and the rolled persona
+                // name, then stamp the original's quality (null art source — no
+                // InitializeArt roll), hitpoint percentage, art, and relic
+                // status. These are the copy-semantics halves of the conversion
+                // transfers — the original keeps ownership of the shared
+                // references (art TaleReference, relic precept), which the
+                // preview thing's lifecycle makes safe (see method remarks).
+                // Biocode is deliberately absent: it isn't part of conversion at
+                // all (fork spec §4), and the preview's display-only bond stamp
+                // depends on staged state that changes without a remake, so it
+                // lives in DrawWeaponPreview instead. None of this touches
+                // global state, so no Rand guard is needed. Once per make:
+                // everything stamped here is immutable while the dialog is open.
+                WeaponModificationUtility.ClearAutoGeneratedPersonaState(previewThing);
+                WeaponDefConversion.CopyQuality(weapon, previewThing);
+                WeaponDefConversion.CopyHitPointsPercent(weapon, previewThing);
+                WeaponDefConversion.CopyArt(weapon, previewThing);
+                WeaponDefConversion.CopyRelicStatus(weapon, previewThing);
+
+                // Same harmless preservation ConvertWeaponDef does for modded
+                // weapons that still vary by index — it also fixes the info
+                // card's icon, which resolves through the thing
+                // (Widgets.ThingIcon → ExtractInnerGraphicFor →
+                // Graphic_Random.SubGraphicFor) and without an override falls
+                // back to hashing the throwaway thingIDNumber.
+                previewThing.overrideGraphicIndex = weapon.overrideGraphicIndex;
             }
 
             CompBladelinkWeapon comp = previewThing.TryGetComp<CompBladelinkWeapon>();

@@ -32,6 +32,18 @@ namespace PersonaWeaponsUnbound
         internal static readonly FieldInfo LastKillTickField = typeof(CompBladelinkWeapon)
             .GetField("lastKillTick", BindingFlags.NonPublic | BindingFlags.Instance);
 
+        // CompBiocodable.biocoded / codedPawnLabel — protected, no setters short of
+        // CodeFor(pawn), which fires the whole bond pipeline (letter, pawn
+        // equipment back-pointer, per-trait Notify_Bonded hediffs). The
+        // customization preview needs the *appearance* of a bond, not a bond, so
+        // it writes the two display-bearing fields directly. See
+        // SetBiocodeDisplayState.
+        internal static readonly FieldInfo BiocodedField = typeof(CompBiocodable)
+            .GetField("biocoded", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        internal static readonly FieldInfo CodedPawnLabelField = typeof(CompBiocodable)
+            .GetField("codedPawnLabel", BindingFlags.NonPublic | BindingFlags.Instance);
+
         // Verifies that every cached FieldInfo resolved. Should be called during
         // StaticConstructorOnStartup so a RimWorld API rename surfaces as a startup
         // error rather than a silent no-op on every later SetName/AddTrait. Pure
@@ -45,6 +57,11 @@ namespace PersonaWeaponsUnbound
             if (LastKillTickField == null)
                 Log.Error("[Persona Weapons Unbound] CompBladelinkWeapon.lastKillTick field not found via reflection; "
                     + "adding a kill-thirst trait to a long-bonded weapon may fire an instant mood penalty. "
+                    + "RimWorld API may have changed.");
+            if (BiocodedField == null || CodedPawnLabelField == null)
+                Log.Error("[Persona Weapons Unbound] CompBiocodable private fields "
+                    + "(biocoded/codedPawnLabel) could not be resolved via reflection; the customization "
+                    + "dialog's preview info card will show a bonded weapon as unbonded. "
                     + "RimWorld API may have changed.");
         }
 
@@ -175,6 +192,31 @@ namespace PersonaWeaponsUnbound
             CompGeneratedNames comp = weapon.TryGetComp<CompGeneratedNames>();
             if (comp != null && CompNameField != null)
                 CompNameField.SetValue(comp, name);
+        }
+
+        // Stamps the DISPLAY side of a biocode bond onto a weapon: the biocoded
+        // flag and the coded-pawn label, which together drive everything the
+        // vanilla info card renders (CompBiocodable.TransformLabel's "Biocoded"
+        // title prefix and its "Biocoded" stat row, which reads the label).
+        //
+        // Deliberately never writes codedPawn. That field is the one with teeth —
+        // CompBladelinkWeapon.UnCode clears codedPawn.equipment.bondedWeapon and
+        // fires per-trait Notify_Unbonded on the live pawn — and nothing on the
+        // info card reads it. Leaving it null keeps the stamp inert no matter
+        // what later runs against the stamped thing.
+        //
+        // Intended for the customization dialog's throwaway preview Thing, NOT
+        // for a real weapon: a real bond must go through CompBiocodable.CodeFor
+        // so the pawn's back-pointer and the traits' bonded hediffs come with it.
+        // No-op if the weapon lacks CompBiocodable or the fields didn't resolve.
+        internal static void SetBiocodeDisplayState(Thing weapon, bool biocoded, string codedPawnLabel)
+        {
+            CompBiocodable comp = weapon.TryGetComp<CompBiocodable>();
+            if (comp == null || BiocodedField == null || CodedPawnLabelField == null)
+                return;
+
+            BiocodedField.SetValue(comp, biocoded);
+            CodedPawnLabelField.SetValue(comp, biocoded ? codedPawnLabel : null);
         }
 
         // Spawns resources near a position (e.g. the workbench).

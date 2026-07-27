@@ -138,6 +138,10 @@ namespace PersonaWeaponsUnbound
         private const float TabBarHeight = 32f;
         private const float ControlLabelWidth = 60f;
 
+        // Vanilla Widgets.InfoCardButton edge length (hardcoded 24f in Widgets;
+        // no public constant to reference).
+        private const float InfoCardButtonSize = 24f;
+
         public override Vector2 InitialSize => new Vector2(950f, 750f);
 
         public Dialog_WeaponCustomization(
@@ -254,6 +258,31 @@ namespace PersonaWeaponsUnbound
             {
                 CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
                 return comp != null && comp.Biocoded && comp.CodedPawn != null;
+            }
+        }
+
+        // True when the customization as currently staged leaves the weapon's
+        // bond intact — the fidelity gate for the preview info card's biocode
+        // stamp (see DrawWeaponPreview). Reads the comp's Biocoded flag rather
+        // than WeaponIsBonded so a label-only bond (coded pawn discarded across
+        // a save/load) still counts: the card renders the label, not the pawn.
+        //
+        // Four ways the staged state severs it:
+        //  - a def conversion: the persona core is added or stripped at the
+        //    boundary, and the bond goes with it (WeaponDefConversion remarks);
+        //  - a neverBond ("freewielder") trait staged, which UnCodes (D8);
+        //  - the bond memory wipe (§4);
+        //  - it was never bonded to begin with.
+        private bool PreviewKeepsBond
+        {
+            get
+            {
+                CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
+                return comp != null
+                    && comp.Biocoded
+                    && ResultingDef == weapon.def
+                    && !desiredTraits.Any(t => t.neverBond)
+                    && desiredMemoryOp != MemoryOpKind.WipeBonding;
             }
         }
 
@@ -693,6 +722,21 @@ namespace PersonaWeaponsUnbound
             Rect titleRect = new Rect(inRect.x, inRect.y, inRect.width, TitleHeight);
             string titleLabel = "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap);
             Widgets.Label(titleRect, titleLabel);
+
+            // "i" button for the ORIGINAL weapon, right after the title text —
+            // the preview pane's button (DrawWeaponPreview) covers the
+            // prospective weapon, so together the player can compare before and
+            // after stats without closing the dialog to reach the vanilla card.
+            // Measured while Medium is still active so the width matches the
+            // label just drawn; centered on the text's cap height. Clamped to
+            // the window edge — persona names run long and carry bond/quality
+            // decorations, which can outgrow the title row.
+            Vector2 titleSize = Text.CalcSize(titleLabel);
+            Widgets.InfoCardButton(
+                Mathf.Min(titleRect.x + titleSize.x + 8f,
+                    titleRect.xMax - InfoCardButtonSize),
+                titleRect.y + (titleSize.y - InfoCardButtonSize) / 2f,
+                weapon);
             Text.Font = GameFont.Small;
 
             // Content area between title and footer
