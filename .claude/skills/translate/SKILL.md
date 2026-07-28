@@ -127,6 +127,12 @@ uses «черта»; this is deliberate, flagged for native review in the
 `Stat_Thing_PersonaWeaponTrait_Label` is 特性・特徴, while Odyssey's
 `Stat_ThingUniqueWeaponTrait_Label` is plain 特性 — use 特性・特徴 here.
 
+The check is mandatory but its answer is not always "they differ": zh-Hans
+agrees across both DLCs (特性), German agrees across both DLCs *and* with the
+pawn-trait word (Merkmale), and Korean diverges *within* Royalty rather than
+between DLCs (개성 vs 무기 특성). Run the lookup every time; record what came
+back in that language's glossary either way.
+
 ### Glossary — Japanese (machine-assisted ja landed 2026-07-28; no native review yet)
 
 Rows below the divider were grounded during PWU's own 2026-07-28 ja generation;
@@ -434,21 +440,168 @@ table:
   reuse that vanilla string verbatim for the same button, so it is the
   cross-language default rather than a ko quirk.
 
+### Glossary — German (machine-assisted de landed 2026-07-28; no native review yet)
+
+All rows below were grounded during PWU's own 2026-07-28 de generation — German
+had no preseed from a sibling mod. RimWorld's language folder is `German` (tar:
+`German (Deutsch).tar`).
+
+**German needs no coinage for either of the two terms ja and zh had to invent.**
+Royalty de calls the weapon class **Personawaffe** (`WeaponsMeleeBladelink.label`
+= Personawaffen, and `BladelinkAlreadyBondedDialog` says "sich immer nur mit
+einer Personawaffe verbinden"), and Core de renders "customize" as **anpassen**
+(`CustomizeIdeoligion` = Ideologie anpassen). So both halves of this mod's
+central phrase are vanilla vocabulary. Note the label prefix is hyphenated
+(Persona-Monoschwert) while the class noun is a solid compound (Personawaffe).
+
+**German is also the one language so far with NO trait divergence.** Royalty's
+`Stat_Thing_PersonaWeaponTrait_Label`, Odyssey's
+`Stat_ThingUniqueWeaponTrait_Label`, *and* Core's pawn-trait `<Traits>` are all
+**Merkmale**. The skill's usual warning (never assume the pawn-trait word applies
+to weapon traits) is satisfied here by coincidence, not by exemption — the check
+still has to be run, it just comes back the same three times. Do not import the
+Russian черта/свойство or Korean 무기 특성/개성 caution into German prose; a
+disambiguating "Waffenmerkmal" is only needed if surrounding context is absent
+(vanilla itself ships `StatsReport_WeaponTraits` = Waffenmerkmale for that case).
+
+Style rules from the vanilla de data (mandatory):
+
+- **ASCII single quotes** around cited def labels and UI labels — vanilla writes
+  `Forschungsprojekt '{0}'` and `'{WEAPON_labelShort}'`. Counted in Core+Royalty
+  Keyed: 140 single-quoted placeholders, **zero** German `„…"`. Never use `„ "`,
+  `» «`, or curly quotes. ASCII `"` appears ~10 times, so single quotes are the
+  house style even where English uses double. Pawn names are not quoted.
+- **En dash `–`, never em dash `—`** (20 vs 0 in Core Keyed + Royalty). English
+  source uses `—`, so every dash must be converted. The `<!-- EN: -->` comments
+  keep the English `—` verbatim — only translated values change.
+- Ellipsis is ASCII `...` (74 in Core Keyed, `…` zero).
+- Descriptions/tooltips end with `.`; labels, buttons and float-menu reasons take
+  none. Settings prose addresses the player with informal **du** and imperatives
+  (Aktiviere dies, Deaktiviere es) — vanilla de is consistently du, never Sie.
+- `RecipeDef.label` is `X herstellen` with **no article** (Core
+  `Make_ComponentSpacer` = Hightech-Bauteil herstellen); `jobString` is
+  third-person `Stellt X her.` **with** a period; `JobDef.reportString` is
+  likewise third-person lowercase with a period (`passt Waffe an.` — cf. Core
+  `ApplyTechprint` = wendet TargetB an.). Note de job strings differ from ja/ko
+  here: they take terminal periods.
+- Research labels are lowercase noun phrases (Hightech-Fabrikation, mehrläufige
+  Waffen, lange Klingen) or **verb-final phrases** (`ShipComputerCore` =
+  Maschinenpersona überreden, `Brewing` = Bier brauen).
+
+**The German landmine is grammatical gender, and it bites harder than Korean
+josa.** Every `Translate()` call site in this mod passes a plain `string`, not a
+`NamedArgument`, so vanilla's `{lookup: {0}; decline; 3}` and
+`{1_gender ? einen : eine : ein}` machinery **cannot resolve** — an injected def
+label is invariant text with no gender or case attached. Phrase around it:
+
+- `PWU_RequiresWorkbench` ("requires a {0}") drops the article: `erfordert {0}`.
+  There is no safe way to write "einen/eine/ein {0}".
+- `PWU_RequiresMinimumQuality` becomes `erfordert Qualität {0} oder besser`,
+  putting the noun *before* the injected label, because German quality labels are
+  adjectives that would have to inflect (vanilla's own
+  `NormalQualityOrBetter` = "normale Qualität oder besser" is pre-inflected and
+  cannot be templated).
+- Bail/error messages use `Anpassung von '{0}' unterbrochen: …` — the `von`
+  +quoted-label frame is case-proof and is the German counterpart of the
+  cross-language "quote the injected label" rule.
+- The one place an inflected article IS used is `am {1}` in the four
+  `PWU_Enable*RecipeDesc` strings. That is deliberate and safe: `{1}` is
+  hard-bound to `PWU_ThingDefOf.FabricationBench.label` in `PWU_Mod.cs`, which
+  de renders **Fabrikationstisch** (masculine), so the dative contraction is
+  always correct. Do not "generalize" it, and do not copy the pattern to a
+  placeholder whose def isn't pinned.
+- Fixed German nouns inflect normally (eine meisterliche Waffe) — only *injected*
+  values need the workaround.
+
+| English | Use | Never | Why |
+|---|---|---|---|
+| persona weapon / bladelink weapon | Personawaffe (label prefix Persona-) | Klingenverbindung, Bladelink-Waffe | Royalty `WeaponsMeleeBladelink.label`, `MeleeWeapon_*Bladelink.label` |
+| persona (the onboard mind) | die Persona | Persönlichkeit, KI | Royalty bladelink descs, `LetterBladelinkWeaponBonded` |
+| customize / customization | anpassen / Anpassung | anwenden, individualisieren, konfigurieren | Core `CustomizeIdeoligion` = Ideologie anpassen |
+| trait (weapon and pawn alike) | Merkmal / Merkmale | Eigenschaft, Attribut | Royalty `Stat_Thing_PersonaWeaponTrait_Label`, `BladelinkEquipWarningTraits`, Core `<Traits>` — all three agree |
+| bond (noun / verb) | Bindung / binden, gebunden | Verbindung, Bund | Royalty `BladelinkAlreadyBonded*`, `LetterBladelinkWeaponBonded` |
+| wielder / bearer | Träger | Anwender, Nutzer | Royalty weapon-trait descs |
+| persona core / AI persona core | Personakern | Persona-Kern, KI-Kern | Core `AIPersonaCore.label` |
+| techprint | Techplan / Techpläne | Techdruck, Blaupause | Core `TechprintLabel` = Techplan ({PROJECT_label}) |
+| fabrication bench | Fabrikationstisch | Fertigungstisch, Werkbank alone | Core `FabricationBench.label` |
+| advanced components | Hightech-Bauteile | fortschrittliche Komponenten | Core `ComponentSpacer.label`; plain components are Bauteile |
+| monosword / plasmasword / zeushammer | Monoschwert / Plasmaschwert / Zeushammer | | Royalty weapon labels (persona forms prefix Persona-) |
+| longsword / mace / knife / spear | Langschwert / Streitkolben / Messer / Speer | | Core labels |
+| mechanite | Mechaniten | Mechanite | Royalty monosword desc |
+| plasteel / uranium / gold | Plastahl / Uran / Gold | Plastahl→*Plasteel* | Core labels — Plastahl is translated, unlike ja/ko |
+| quality (noun) / tiers | Qualität / übel·schlecht·normal·gut·exzellent·meisterlich·legendär | | Core `Quality`, `QualityCategory_*` (tiers are lowercase adjectives) |
+| ultratech (tech level) | Ultra | Ultratech, Hochtechnologie | Core `TechLevel_Ultra`; "tech level" itself is Techstufe |
+| Crafting (the skill) | Handwerk | Herstellung, Basteln | Core `Crafting.label` |
+| bill / recipe (both) | Auftrag (add-bill menu: Auftrag hinzufügen) | Rezept, Rechnung | Core `TabBills`, `AddBill`, and every `Stat_Recipe_*_Desc` says Auftrag — de collapses bill and recipe into one word |
+| ingredients / hauling | Zutaten / Transport | Bestandteile, Schleppen | Core `Ingredients`, `WorkTagHauling` |
+| colonist / research project | Kolonist / Forschungsprojekt | | Core `Colonist`, `NeedResearchBenchDesc` |
+| appearance | Erscheinung | Aussehen, Erscheinungsbild | Core `Appearance` |
+| Cancel / Reset / Confirm / Randomize | Abbrechen / Zurücksetzen / Bestätigen / Zufällig | Zufällig machen | Core buttons |
+| Reset to defaults | Auf Standard zurücksetzen | Standardwerte wiederherstellen | Core `ResetBinding`; `Default` = Standard |
+| None | Nichts | Keine, Kein | Core `None` |
+| Empire (faction) | zerrüttetes Imperium | Imperium alone | Royalty `Empire.label` |
+| freewielder (trait label) | frei schwingend | Freiträger, frei führbar | Royalty `NeverBond.label` — quote it as `'frei schwingend'`; de weapon-trait labels are all lowercase adjectives/participles |
+| relic | Reliquie | Relikt | Ideology `Relic`, `RelicOf` (reliquary = Reliquienschrein) |
+| ideoligion / reform | Ideologie / Ideologie reformieren | Ideoligion, Weltanschauung | Ideology `IdeoligionOf`, `ReformIdeoligion` — de uses the plain word, no portmanteau |
+| stopping power / burst count / burst speed | Mannstoppwirkung / Schüsse pro Feuerstoß / Feuerrate | Durchschlagskraft | Core `StoppingPower`, `BurstShotCount`, `BurstShotFireRate` |
+| armor penetration / damage / accuracy | Rüstungsdurchdringung / Schaden / Genauigkeit | Panzerdurchdringung, Treffsicherheit | Core `ArmorPenetration`, `Damage`, `Accuracy` |
+| cut / stab (DamageDef) | Schnitt / Stich | Schnittwunde, Stichwunde (those are hediffs) | Core DamageDefs |
+| EMP stun | Betäubt durch EMP | | Core `StunnedByEMP` |
+| gizmo button | Befehlsknopf | Gizmo | no vanilla de `Gizmo*` key exists; Befehlsknopf is the descriptive form |
+| hostiles / quest | Feinde / Quest | Gegner (that's `Enemies`) | Core `Hostiles`, `Quest` |
+| bladelink customization (this mod's research) | Personawaffen anpassen | | composed from two grounded terms — see the note below |
+
+Three German-specific notes.
+
+**`PWU_BladelinkCustomization.label` is composed, not coined.** Personawaffen +
+anpassen are both vanilla de, and the verb-final shape mirrors
+`ShipComputerCore.label` = "Maschinenpersona überreden" — the one vanilla
+research project that is also about reprogramming a persona, and therefore the
+closest available style anchor. It is longer than the median de research label,
+so a native reviewer may prefer a nominal "Personawaffen-Anpassung"; flagged in
+the 2026-07-28 commit, do not silently flip it either way. Because the label is a
+verb phrase, every string that injects it quotes it (`Forschung '{0}'`) — that
+quoting is load-bearing for readability, not decoration.
+
+**Landmine — the persona-core recipe's research prerequisite.** `PWU_UI.xml`'s
+translator comment calls it "machine persuasion (vanilla research label)". The
+def is `ShipComputerCore`, and de renders it **Maschinenpersona überreden** —
+close enough to the English hint to be seductive, but still not a literal match
+("Maschinenpersona", not "Maschine"). ja gives AIコンピュータコア and zh
+飞船电脑核心, nothing like the English, so the hint is only *approximately*
+reliable in de. Resolve the defName through the tar every time. (No def named
+`MachinePersuasion` exists, so grepping the hint text finds nothing.)
+
+**Kill tracker vs kill memory.** English uses "kill tracker" as the toggle label
+and "kill memory" in prose; de collapses both to **Tötungsgedächtnis** so the
+Memory tab reads consistently against `PWU_TabMemory` = Gedächtnis. The haul
+planner modes are mod-coined with no vanilla anchor: **Sequenziell / Sammelgang /
+Gründlich**.
+
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
 - Japanese vanilla style: ASCII punctuation (`,` `.`, never `、` `。`),
   です/ます descriptions, continuous-form job strings (〜している, no period),
   「」 around quoted labels.
 - Wrap injected `{0}` def labels in the language's quote marks (JP 「{0}」,
-  RU «{0}», zh-Hans “{0}”, ko '{0}') — injected labels never inflect, and
-  quoting sidesteps case and agreement problems. Korean is the one language
+  RU «{0}», zh-Hans “{0}”, ko '{0}', de '{0}') — injected labels never inflect,
+  and quoting sidesteps case and agreement problems. Korean is the one language
   where quoting also interacts with grammar and still works:
   `LanguageWorker_Korean` looks *through* a preceding `'`/`"` to find the
-  syllable that decides the josa, so `'{0}'(와)과` resolves correctly.
+  syllable that decides the josa, so `'{0}'(와)과` resolves correctly. Note the
+  de quote mark is the **ASCII** single quote, not `„…"` — vanilla de never
+  uses German typographic quotes in Keyed data.
+- Gendered/case-inflecting languages need more than quoting: an injected label
+  carries no gender, so any article or adjective agreeing with it must be
+  removed rather than guessed. Every `Translate()` call in this mod passes a
+  plain `string`, so vanilla's `{lookup: …; decline; N}` and
+  `{N_gender ? … : … : …}` resolvers are unavailable — see the German glossary's
+  landmine note for the concrete rewrites (drop the article; or move the head
+  noun in front of the placeholder).
 - Coined vanilla terms (ideoligion) may be a portmanteau in one language
-  (RU идеолигия) and a plain word in another (JP 思想, zh-Hans 文化) — always
-  check, never extrapolate between languages. Relevant here for
-  `PWU_RelicNameTooltip` (zh-Hans relic = 圣物).
+  (RU идеолигия) and a plain word in another (JP 思想, zh-Hans 文化,
+  de Ideologie) — always check, never extrapolate between languages. Relevant
+  here for `PWU_RelicNameTooltip` (zh-Hans relic = 圣物, de = Reliquie).
 - Mod-coined terms recur in def labels AND in Keyed settings prose that
   restates them. When generation is chunked across files or subagents,
   reconcile those terms across the whole language before committing (UMW's
