@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Float menu / Gizmo -->
+  <!-- EN: Customize persona: {0} -->
+  <PWU_CustomizeWeapon>자아 개조: '{0}'</PWU_CustomizeWeapon>
+  <!-- EN: requires {0} -->
+  <PWU_RequiresResearch>'{0}' 필요</PWU_RequiresResearch>
+  <!-- EN: requires a {0} -->
+  <PWU_RequiresWorkbench>'{0}' 필요</PWU_RequiresWorkbench>
+  <!-- EN: no suitable workbench -->
+  <PWU_NoSuitableWorkbench>적합한 작업대 없음</PWU_NoSuitableWorkbench>
+  <!-- EN: requires {0} quality or better -->
+  <PWU_RequiresMinimumQuality>{0} 품질 이상 필요</PWU_RequiresMinimumQuality>
+  <!-- EN: Customize persona -->
+  <PWU_CustomizeGizmoLabel>자아 개조</PWU_CustomizeGizmoLabel>
+  <!-- EN: Select a colonist to customize this weapon at a nearby workbench. -->
+  <PWU_CustomizeGizmoDesc>정착민을 선택하여 근처 작업대에서 이 무기를 개조합니다.</PWU_CustomizeGizmoDesc>
+
+  <!-- Dev-mode diagnostic reasons (surfaced when Prefs.DevMode is on, otherwise hidden) -->
+  <!-- EN: no persona variant -->
+  <PWU_DevNoPersonaVariant>결속 형태 없음</PWU_DevNoPersonaVariant>
+  <!-- EN: base variant upgrades disabled -->
+  <PWU_DevDefConversionDisabled>기본 형태 업그레이드 비활성화됨</PWU_DevDefConversionDisabled>
+
+  <!-- Dialog: Buttons -->
+  <!-- EN: Cancel -->
+  <PWU_Cancel>취소</PWU_Cancel>
+  <!-- EN: Reset -->
+  <PWU_Reset>초기화</PWU_Reset>
+  <!-- EN: Confirm -->
+  <PWU_Confirm>확인</PWU_Confirm>
+  <!-- EN: Randomize -->
+  <PWU_Randomize>섞기</PWU_Randomize>
+  <!-- EN: Reset to defaults -->
+  <PWU_ResetToDefaults>기본값 복원</PWU_ResetToDefaults>
+
+  <!-- Dialog: Tabs -->
+  <!-- EN: Traits -->
+  <PWU_TabTraits>무기 특성</PWU_TabTraits>
+  <!-- EN: Memory -->
+  <PWU_TabMemory>기억</PWU_TabMemory>
+  <!-- EN: Texture -->
+  <PWU_TabTexture>외형</PWU_TabTexture>
+
+  <!-- Dialog: Controls -->
+  <!-- EN: This weapon is an ideology relic. Its name can only be changed when forming or reforming an ideoligion. -->
+  <PWU_RelicNameTooltip>이 무기는 사상의 유물입니다. 이름은 사상을 생성하거나 개혁할 때만 변경할 수 있습니다.</PWU_RelicNameTooltip>
+  <!-- EN: Select at least one trait first -->
+  <PWU_SelectTraitFirst>먼저 특성을 하나 이상 선택하세요</PWU_SelectTraitFirst>
+  <!-- EN: Auto-regenerate name when traits change -->
+  <PWU_AutoRegenName>특성이 바뀌면 이름 자동 재생성</PWU_AutoRegenName>
+  <!-- EN: Hide negative traits -->
+  <PWU_HideNegativeTraits>부정적 특성 숨기기</PWU_HideNegativeTraits>
+
+  <!-- Dialog: Cost display -->
+  <!-- EN: Net refund:  -->
+  <PWU_NetRefund>순 환급: </PWU_NetRefund>
+  <!-- EN: None -->
+  <PWU_RefundNone>없음</PWU_RefundNone>
+  <!-- EN: Net cost:  -->
+  <PWU_NetCost>순 비용: </PWU_NetCost>
+  <!-- EN: Free -->
+  <PWU_CostFree>무료</PWU_CostFree>
+  <!-- EN: Missing resources -->
+  <PWU_MissingResources>자원 부족</PWU_MissingResources>
+  <!-- EN: Required materials are insufficient, forbidden, reserved by another pawn, or unreachable from this pawn's position. -->
+  <PWU_NotEnoughMaterials>필요한 재료가 부족하거나, 금지되었거나, 다른 사람이 예약했거나, 이 사람의 위치에서 도달할 수 없습니다.</PWU_NotEnoughMaterials>
+  <!-- EN: Could not customize {0}: no viable haul plan. -->
+  <PWU_CouldNotStartPlanInfeasible>{0}(을)를 개조할 수 없습니다: 가능한 운반 계획이 없습니다.</PWU_CouldNotStartPlanInfeasible>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2}. -->
+  <PWU_CouldNotStartReservationConflict>{0}(을)를 개조할 수 없습니다: {1} x{2} 예약에 실패했습니다.</PWU_CouldNotStartReservationConflict>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2} (held by {3}). -->
+  <PWU_CouldNotStartReservationConflictHeldBy>{0}(을)를 개조할 수 없습니다: {1} x{2} 예약에 실패했습니다({3}(이)가 소지 중).</PWU_CouldNotStartReservationConflictHeldBy>
+  <!-- EN: Could not customize {0}: internal error. See log. -->
+  <PWU_CouldNotStartInternalError>{0}(을)를 개조할 수 없습니다: 내부 오류. 로그를 확인하세요.</PWU_CouldNotStartInternalError>
+
+  <!-- Trait tooltips -->
+  <!-- EN: Effects: -->
+  <PWU_Effects>효과:</PWU_Effects>
+  <!-- EN: Damage type -->
+  <PWU_DamageType>피해 유형</PWU_DamageType>
+  <!-- EN: Extra damage -->
+  <PWU_ExtraDamage>추가 피해량</PWU_ExtraDamage>
+  <!-- EN: Burst speed -->
+  <PWU_BurstSpeed>발사속도</PWU_BurstSpeed>
+  <!-- EN: Burst count -->
+  <PWU_BurstCount>연발 횟수</PWU_BurstCount>
+  <!-- EN: Stopping power -->
+  <PWU_StoppingPower>저지력</PWU_StoppingPower>
+  <!-- EN: Ignores accuracy penalties -->
+  <PWU_IgnoresAccuracyPenalties>정확도 감소 무시</PWU_IgnoresAccuracyPenalties>
+
+  <!-- Trait validation -->
+  <!-- EN: Already applied -->
+  <PWU_AlreadyApplied>이미 적용됨</PWU_AlreadyApplied>
+  <!-- EN: Maximum traits reached -->
+  <PWU_MaxTraitsReached>특성 최대 개수 도달</PWU_MaxTraitsReached>
+  <!-- EN: Conflicts with {0} -->
+  <PWU_ConflictsWith>'{0}'(와)과 충돌</PWU_ConflictsWith>
+  <!-- EN: Cannot be the only trait -->
+  <PWU_CannotBeOnlyTrait>단독 특성이 될 수 없음</PWU_CannotBeOnlyTrait>
+  <!-- EN: {0} cannot be the only trait -->
+  <PWU_TraitCannotBeOnlyTrait>'{0}'(은)는 단독 특성이 될 수 없습니다</PWU_TraitCannotBeOnlyTrait>
+  <!-- EN: Must disarm from hostile -->
+  <PWU_OnlyOnHostiles>적에게서 무장 해제해야 함</PWU_OnlyOnHostiles>
+  <!-- EN: Warning: this is the only weapon in your pool with this trait. Removing it will remove the trait from the pool of traits you can apply to other weapons. -->
+  <PWU_LastTraitSourceWarning>경고: 이 특성을 지닌 무기는 보유 중인 것 가운데 이것뿐입니다. 제거하면 다른 무기에 적용할 수 있는 특성 목록에서도 이 특성이 사라집니다.</PWU_LastTraitSourceWarning>
+  <!-- EN: Adding this trait makes the weapon free-wielding, severing its bond with {0}. -->
+  <PWU_NeverBondSeversBond>이 특성을 추가하면 무기가 자유 의지를 갖게 되어 {0}(와)과의 결속이 끊어집니다.</PWU_NeverBondSeversBond>
+  <!-- EN: Reverting this weapon to its base form will sever its bond with {0}. Continue? -->
+  <PWU_BondSeveredWarning>이 무기를 기본 형태로 되돌리면 {0}(와)과의 결속이 끊어집니다. 계속하시겠습니까?</PWU_BondSeveredWarning>
+  <!-- EN: No traits match your search. -->
+  <PWU_NoTraitsMatchSearch>검색과 일치하는 특성이 없습니다.</PWU_NoTraitsMatchSearch>
+  <!-- EN: No traits available yet.\n\nEncounter persona weapons via Empire traders, quests, relics, or hostiles\nto unlock their traits for customization. -->
+  <PWU_NoTraitsDiscovered>아직 사용할 수 있는 특성이 없습니다.\n\n와해된 제국의 상인, 임무, 유물, 적을 통해 결속 무기를 만나면\n그 특성이 개조용으로 해금됩니다.</PWU_NoTraitsDiscovered>
+  <!-- EN: All available traits for this weapon are negative. Disable "Hide negative traits" below to view them. -->
+  <PWU_NoTraitsAfterHideNegative>이 무기에 사용할 수 있는 특성이 모두 부정적입니다. 확인하려면 아래의 '부정적 특성 숨기기'를 해제하세요.</PWU_NoTraitsAfterHideNegative>
+  <!-- EN: No traits are compatible with this weapon. -->
+  <PWU_NoTraitsAvailable>이 무기와 호환되는 특성이 없습니다.</PWU_NoTraitsAvailable>
+
+  <!-- Dialog: Memory tab -->
+  <!-- EN: The weapon must host a persona before its memory can be wiped. -->
+  <PWU_MemoryRequiresPersona>기억을 삭제하려면 무기에 자아가 있어야 합니다.</PWU_MemoryRequiresPersona>
+  <!-- EN: No change -->
+  <PWU_MemoryNoWipe>변경 없음</PWU_MemoryNoWipe>
+  <!-- EN: Wipe bonding -->
+  <PWU_MemoryWipeBonding>결속 삭제</PWU_MemoryWipeBonding>
+  <!-- EN: Erase the persona's bond, and its kill memory with it. The weapon returns to bonding with the next pawn to equip it. -->
+  <PWU_MemoryWipeBondingDesc>자아의 결속과 그에 딸린 처치 기억을 지웁니다. 무기는 다음에 장착하는 사람과 다시 결속합니다.</PWU_MemoryWipeBondingDesc>
+  <!-- EN: Wipe kill tracker -->
+  <PWU_MemoryWipeKillTracker>처치 기록 삭제</PWU_MemoryWipeKillTracker>
+  <!-- EN: Erase the persona's memory of its kills. The bond is untouched. -->
+  <PWU_MemoryWipeKillTrackerDesc>자아가 지닌 처치 기억을 지웁니다. 결속은 그대로 유지됩니다.</PWU_MemoryWipeKillTrackerDesc>
+  <!-- EN: Last kill: {0} days ago -->
+  <PWU_MemoryLastKill>마지막 처치: {0}일 전</PWU_MemoryLastKill>
+  <!-- EN: Not bonded -->
+  <PWU_MemoryNotBonded>결속되지 않음</PWU_MemoryNotBonded>
+  <!-- EN: No kills remembered -->
+  <PWU_MemoryNoKillMemory>기억하는 처치 없음</PWU_MemoryNoKillMemory>
+  <!-- EN: The freewielder trait already severs the bond -->
+  <PWU_MemoryBondSeveredByTrait>'자유 의지' 특성이 이미 결속을 끊습니다</PWU_MemoryBondSeveredByTrait>
+  <!-- EN: Severing the bond wipes kill memory too -->
+  <PWU_MemoryKillWipedByTrait>결속을 끊으면 처치 기억도 함께 지워집니다</PWU_MemoryKillWipedByTrait>
+  <!-- EN: memory wipe -->
+  <PWU_MemoryWipeLabel>기억 삭제</PWU_MemoryWipeLabel>
+
+  <!-- Dialog: Texture tab (unified appearance customization over VEF's texture composition) -->
+  <!-- EN: This weapon has no texture customization options. -->
+  <PWU_NoTextureOptions>이 무기에는 외형 개조 항목이 없습니다.</PWU_NoTextureOptions>
+  <!-- EN: Rolling appearance... -->
+  <PWU_TextureRollingPlaceholder>외형 추첨 중...</PWU_TextureRollingPlaceholder>
+  <!-- EN: Reset appearance -->
+  <PWU_ResetTexture>외형 초기화</PWU_ResetTexture>
+
+  <!-- Fallbacks -->
+  <!-- EN: weapon -->
+  <PWU_WeaponFallback>무기</PWU_WeaponFallback>
+
+  <!-- Jobs -->
+  <!-- EN: Customizing {0} -->
+  <PWU_CustomizingWeapon>{0} 개조 중</PWU_CustomizingWeapon>
+  <!-- EN: Adding {0} to {1} -->
+  <PWU_AddingTrait>{1}에 {0} 추가 중</PWU_AddingTrait>
+  <!-- EN: Removing {0} from {1} -->
+  <PWU_RemovingTrait>{1}에서 {0} 제거 중</PWU_RemovingTrait>
+  <!-- EN: Renaming {0} -->
+  <PWU_RenamingWeapon>{0} 이름 변경 중</PWU_RenamingWeapon>
+  <!-- EN: Wiping memory of {0} -->
+  <PWU_WipingMemory>{0}의 기억 삭제 중</PWU_WipingMemory>
+  <!-- EN: Updating appearance of {0} -->
+  <PWU_RestylingWeapon>{0}의 외형 변경 중</PWU_RestylingWeapon>
+  <!-- EN: Placing {0} on {1} -->
+  <PWU_PlacingWeapon>{1}에 {0} 놓는 중</PWU_PlacingWeapon>
+  <!-- EN: Gathering materials for {0} -->
+  <PWU_GatheringMaterials>{0}에 쓸 재료 모으는 중</PWU_GatheringMaterials>
+  <!-- EN: Admiring work -->
+  <PWU_AdmiringWork>작업물 감상 중</PWU_AdmiringWork>
+  <!-- EN: {0} customization interrupted: ingredients lost before {1} could be applied. -->
+  <PWU_IngredientShortfall>{0} 개조가 중단되었습니다: {1}(을)를 적용하기 전에 재료를 잃었습니다.</PWU_IngredientShortfall>
+  <!-- EN: {0} customization interrupted: workbench is no longer available. -->
+  <PWU_BailWorkbenchUnavailable>{0} 개조가 중단되었습니다: 작업대를 더 이상 사용할 수 없습니다.</PWU_BailWorkbenchUnavailable>
+  <!-- EN: {0} customization interrupted: workbench became unreachable. -->
+  <PWU_BailWorkbenchUnreachable>{0} 개조가 중단되었습니다: 작업대에 도달할 수 없게 되었습니다.</PWU_BailWorkbenchUnreachable>
+  <!-- EN: {0} customization interrupted: workbench has no power or fuel. -->
+  <PWU_BailWorkbenchInactive>{0} 개조가 중단되었습니다: 작업대에 전력이나 연료가 없습니다.</PWU_BailWorkbenchInactive>
+  <!-- EN: {0} customization interrupted: weapon was lost. -->
+  <PWU_BailWeaponLost>{0} 개조가 중단되었습니다: 무기를 잃었습니다.</PWU_BailWeaponLost>
+  <!-- EN: {0} customization interrupted: weapon is no longer accessible. -->
+  <PWU_BailWeaponInaccessible>{0} 개조가 중단되었습니다: 무기에 더 이상 접근할 수 없습니다.</PWU_BailWeaponInaccessible>
+  <!-- EN: {0} customization interrupted: an ingredient was lost while hauling. -->
+  <PWU_BailIngredientLost>{0} 개조가 중단되었습니다: 운반 중에 재료를 잃었습니다.</PWU_BailIngredientLost>
+  <!-- EN: {0} customization interrupted: a required ingredient became unreachable. -->
+  <PWU_BailIngredientUnreachable>{0} 개조가 중단되었습니다: 필요한 재료에 도달할 수 없게 되었습니다.</PWU_BailIngredientUnreachable>
+  <!-- EN: {0} customization interrupted: no room near the workbench to place an ingredient. -->
+  <PWU_BailIngredientPlacementFailed>{0} 개조가 중단되었습니다: 작업대 근처에 재료를 놓을 공간이 없습니다.</PWU_BailIngredientPlacementFailed>
+  <!-- EN: {0} customization interrupted: could not pick up the weapon. -->
+  <PWU_BailCarryStartFailed>{0} 개조가 중단되었습니다: 무기를 집을 수 없었습니다.</PWU_BailCarryStartFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while adding {1}. -->
+  <PWU_BailOpAddTraitFailed>{0} 개조가 중단되었습니다: {1}(을)를 추가하는 중 오류가 발생했습니다.</PWU_BailOpAddTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while removing {1}. -->
+  <PWU_BailOpRemoveTraitFailed>{0} 개조가 중단되었습니다: {1}(을)를 제거하는 중 오류가 발생했습니다.</PWU_BailOpRemoveTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while renaming the weapon. -->
+  <PWU_BailOpRenameFailed>{0} 개조가 중단되었습니다: 무기의 이름을 변경하는 중 오류가 발생했습니다.</PWU_BailOpRenameFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while wiping the persona's memory. -->
+  <PWU_BailOpMemoryFailed>{0} 개조가 중단되었습니다: 자아의 기억을 지우는 중 오류가 발생했습니다.</PWU_BailOpMemoryFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while updating its appearance. -->
+  <PWU_BailOpRestyleFailed>{0} 개조가 중단되었습니다: 외형을 변경하는 중 오류가 발생했습니다.</PWU_BailOpRestyleFailed>
+  <!-- EN: {0} customization failed unexpectedly. -->
+  <PWU_BailUnexpected>{0} 개조가 예기치 않게 실패했습니다.</PWU_BailUnexpected>
+  <!-- EN: {0} customization interrupted: the customization dialog could not be opened. See log. -->
+  <PWU_BailDialogOpenFailed>{0} 개조가 중단되었습니다: 개조 창을 열 수 없었습니다. 로그를 확인하세요.</PWU_BailDialogOpenFailed>
+  <!-- EN: {0} customization dialog errored and was closed. See log. -->
+  <PWU_DialogErrored>{0} 개조 창에 오류가 발생하여 닫혔습니다. 로그를 확인하세요.</PWU_DialogErrored>
+
+  <!-- Settings: Section headers -->
+  <!-- EN: Persona Weapons Unbound -->
+  <PWU_SettingsCategory>Persona Weapons Unbound</PWU_SettingsCategory>
+  <!-- EN: Progression -->
+  <PWU_SettingsProgression>진행</PWU_SettingsProgression>
+  <!-- EN: Trait costs -->
+  <PWU_SettingsTraitCosts>특성 비용</PWU_SettingsTraitCosts>
+  <!-- EN: Memory costs -->
+  <PWU_SettingsMemoryCosts>기억 비용</PWU_SettingsMemoryCosts>
+  <!-- EN: Prerequisites -->
+  <PWU_SettingsPrerequisites>전제 조건</PWU_SettingsPrerequisites>
+  <!-- EN: Crafting recipes -->
+  <PWU_SettingsCraftingRecipes>제작 레시피</PWU_SettingsCraftingRecipes>
+  <!-- EN: Ingredient hauling -->
+  <PWU_SettingsHaulPlanner>재료 운반</PWU_SettingsHaulPlanner>
+  <!-- EN: Miscellaneous -->
+  <PWU_SettingsMiscellaneous>기타</PWU_SettingsMiscellaneous>
+  <!-- EN: VEF texture customization -->
+  <PWU_SettingsVpweIntegration>VEF 외형 개조</PWU_SettingsVpweIntegration>
+
+  <!-- Settings: Reusable label suffixes (each includes a leading space) -->
+  <!-- EN:  (default) -->
+  <PWU_DefaultSuffix> (기본값)</PWU_DefaultSuffix>
+  <!-- EN:  (recommended) -->
+  <PWU_RecommendedSuffix> (권장)</PWU_RecommendedSuffix>
+  <!-- EN:  (vanilla) -->
+  <PWU_VanillaSuffix> (바닐라)</PWU_VanillaSuffix>
+  <!-- EN:  (experimental) -->
+  <PWU_ExperimentalSuffix> (실험적)</PWU_ExperimentalSuffix>
+
+  <!-- Settings: Persona costs -->
+  <!-- EN: First trait costs an AI persona core -->
+  <PWU_FirstTraitCostsPersonaCore>첫 특성에 인공자아 핵 소모</PWU_FirstTraitCostsPersonaCore>
+  <!-- EN: When enabled (default), adding the first trait to a base weapon installs an AI persona core, which is refunded when the last trait is removed and the weapon reverts to base. When disabled, the first trait added and the last trait removed are priced like any other change: advanced components (scaled by weapon quality per the table below), which are never refunded. -->
+  <PWU_FirstTraitCostsPersonaCoreDesc>활성화하면(기본값) 기본 무기에 첫 특성을 추가할 때 인공자아 핵을 설치하며, 마지막 특성을 제거하여 무기가 기본 형태로 되돌아갈 때 이를 환급합니다. 비활성화하면 첫 특성 추가와 마지막 특성 제거도 다른 변경과 같은 방식으로 값이 매겨집니다. 즉 고급 부품(아래 표에 따라 무기 품질에 비례)을 소모하며, 이는 환급되지 않습니다.</PWU_FirstTraitCostsPersonaCoreDesc>
+  <!-- EN: Base component cost per trait change: {0} -->
+  <PWU_TraitChangeBaseComponentCost>특성 변경당 기본 부품 비용: {0}</PWU_TraitChangeBaseComponentCost>
+  <!-- EN: Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost, neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting. -->
+  <PWU_TraitChangeBaseComponentCostDesc>기본 형태와 결속 형태의 경계를 넘지 않는 모든 특성 변경에 소모되는 고급 부품입니다(추가와 제거 모두 비용이 들고, 어느 쪽도 환급되지 않습니다). 무기의 품질과 무관하게 소모됩니다. 첫 특성에 인공자아 핵을 설치하거나 마지막 특성에서 환급하는 것은 이 설정의 영향을 받지 않습니다.</PWU_TraitChangeBaseComponentCostDesc>
+  <!-- EN: Quality surcharge threshold: {0} -->
+  <PWU_TraitChangeQualitySurchargeThreshold>품질 추가 비용 기준: {0}</PWU_TraitChangeQualitySurchargeThreshold>
+  <!-- EN: The weapon quality tier at which the per-level component surcharge below starts applying. Trait changes on weapons at or below this quality cost only the base component amount. -->
+  <PWU_TraitChangeQualitySurchargeThresholdDesc>아래의 등급당 부품 추가 비용이 적용되기 시작하는 무기 품질 등급입니다. 이 품질 이하인 무기의 특성 변경에는 기본 부품 수량만 소모됩니다.</PWU_TraitChangeQualitySurchargeThresholdDesc>
+  <!-- EN: Quality surcharge per level: {0} -->
+  <PWU_TraitChangeQualitySurchargePerLevel>등급당 품질 추가 비용: {0}</PWU_TraitChangeQualitySurchargePerLevel>
+  <!-- EN: Extra advanced components charged per quality tier above the surcharge threshold. For example, at the default threshold (Normal) and per-level value (1), a Masterwork weapon costs 3 more components per trait change than the base amount. -->
+  <PWU_TraitChangeQualitySurchargePerLevelDesc>추가 비용 기준을 넘는 품질 등급마다 추가로 소모되는 고급 부품입니다. 예를 들어 기본 기준(평범)과 기본 등급당 값(1)에서는 걸작 무기가 특성 변경당 기본 수량보다 부품 3개를 더 소모합니다.</PWU_TraitChangeQualitySurchargePerLevelDesc>
+  <!-- EN: Advanced components required per trait change, by weapon quality: -->
+  <PWU_CostTableHeader>무기 품질별 특성 변경당 필요한 고급 부품:</PWU_CostTableHeader>
+  <!-- EN: - -->
+  <PWU_CostTableNotApplicable>-</PWU_CostTableNotApplicable>
+  <!-- EN: Weapons of this quality can't be customized: the minimum weapon quality prerequisite is set to {0}. -->
+  <PWU_CostTableNotApplicableDesc>이 품질의 무기는 개조할 수 없습니다: 최소 무기 품질 전제 조건이 '{0}'(으)로 설정되어 있습니다.</PWU_CostTableNotApplicableDesc>
+
+  <!-- Settings: Memory costs -->
+  <!-- EN: Bond wipe component cost: {0} -->
+  <PWU_WipeBondingComponentCost>결속 삭제 부품 비용: {0}</PWU_WipeBondingComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip. -->
+  <PWU_WipeBondingComponentCostDesc>결속 무기의 결속을 지워 다음 장착 시 다시 결속되도록 만드는 데 소모되는 고급 부품입니다.</PWU_WipeBondingComponentCostDesc>
+  <!-- EN: Kill tracker wipe component cost: {0} -->
+  <PWU_WipeKillTrackerComponentCost>처치 기록 삭제 부품 비용: {0}</PWU_WipeKillTrackerComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's kill memory. -->
+  <PWU_WipeKillTrackerComponentCostDesc>결속 무기의 처치 기억을 지우는 데 소모되는 고급 부품입니다.</PWU_WipeKillTrackerComponentCostDesc>
+
+  <!-- Settings: Prerequisites -->
+  <!-- EN: Minimum weapon quality: {0} -->
+  <PWU_MinimumQuality>최소 무기 품질: {0}</PWU_MinimumQuality>
+  <!-- EN: Restrict customization to weapons of at least this quality. Awful imposes no restriction. Weapons below the minimum will still show the customization option, but it will be disabled with an explanation. -->
+  <PWU_MinimumQualityDesc>이 품질 이상의 무기만 개조할 수 있도록 제한합니다. '끔찍'은 아무 제한도 두지 않습니다. 최소 품질에 미치지 못하는 무기에도 개조 항목이 표시되지만, 설명과 함께 비활성화됩니다.</PWU_MinimumQualityDesc>
+  <!-- EN: Require customization research -->
+  <PWU_RequireCustomizationResearch>개조 연구 요구</PWU_RequireCustomizationResearch>
+  <!-- EN: Require the completion of the {0} research project before customizing weapons. When disabled, the project is hidden from the research tree. -->
+  <PWU_RequireCustomizationResearchDesc>무기를 개조하기 전에 '{0}' 연구 프로젝트를 완료하도록 요구합니다. 비활성화하면 이 프로젝트는 연구 트리에서 숨겨집니다.</PWU_RequireCustomizationResearchDesc>
+  <!-- EN: Techprints required: {0} -->
+  <PWU_TechprintCount>필요한 기술청사진: {0}</PWU_TechprintCount>
+  <!-- EN: Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed. -->
+  <PWU_TechprintCountDesc>연구 점수 비용에 더해 '{0}' 연구를 완료하는 데 필요한 기술청사진의 수입니다. 0으로 설정하면 기술청사진 요구가 완전히 사라지고, 상인도 이 청사진을 취급하지 않습니다. 즉시 적용되며 재시작이 필요하지 않습니다.</PWU_TechprintCountDesc>
+
+  <!-- Settings: Crafting recipes -->
+  <!-- EN: Enable monosword crafting recipe -->
+  <PWU_EnableMonoswordRecipe>단분자검 제작 레시피 활성화</PWU_EnableMonoswordRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableMonoswordRecipeDesc>'{1}'에 '{0}' 계획서를 표시합니다('{2}' 연구 필요). 비활성화해도 계획서 추가 메뉴에서만 숨겨지며, 이미 등록된 계획서는 계속 생산합니다.</PWU_EnableMonoswordRecipeDesc>
+  <!-- EN: Enable plasmasword crafting recipe -->
+  <PWU_EnablePlasmaswordRecipe>플라즈마검 제작 레시피 활성화</PWU_EnablePlasmaswordRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePlasmaswordRecipeDesc>'{1}'에 '{0}' 계획서를 표시합니다('{2}' 연구 필요). 비활성화해도 계획서 추가 메뉴에서만 숨겨지며, 이미 등록된 계획서는 계속 생산합니다.</PWU_EnablePlasmaswordRecipeDesc>
+  <!-- EN: Enable zeushammer crafting recipe -->
+  <PWU_EnableZeushammerRecipe>제우스망치 제작 레시피 활성화</PWU_EnableZeushammerRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableZeushammerRecipeDesc>'{1}'에 '{0}' 계획서를 표시합니다('{2}' 연구 필요). 비활성화해도 계획서 추가 메뉴에서만 숨겨지며, 이미 등록된 계획서는 계속 생산합니다.</PWU_EnableZeushammerRecipeDesc>
+  <!-- EN: Enable persona core crafting recipe -->
+  <PWU_EnablePersonaCoreRecipe>인공자아 핵 제작 레시피 활성화</PWU_EnablePersonaCoreRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path — craft a base weapon, craft a core, install it through customization. Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePersonaCoreRecipeDesc>'{1}'에 '{0}' 계획서를 표시합니다('{2}' 연구 필요). 기본적으로 꺼져 있습니다. 바닐라에서 인공자아 핵은 발견하거나 거래로만 얻을 수 있으며, 이를 제작하면 결속 무기가 희귀한 물건이 아니라 반복 생산할 수 있는 물건이 됩니다. 정착지 안에서 완전히 자급하는 경로를 원한다면 켜세요. 기본 무기를 만들고, 핵을 만들고, 개조를 통해 설치하면 됩니다. 비활성화해도 계획서 추가 메뉴에서만 숨겨지며, 이미 등록된 계획서는 계속 생산합니다.</PWU_EnablePersonaCoreRecipeDesc>
+  <!-- EN: Persona core component cost: {0} -->
+  <PWU_PersonaCoreRecipeComponentCost>인공자아 핵 부품 비용: {0}</PWU_PersonaCoreRecipeComponentCost>
+  <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->
+  <PWU_PersonaCoreRecipeComponentCostDesc>인공자아 핵 하나를 제작하는 데 필요한 고급 부품입니다. 즉시 적용되며 재시작이 필요하지 않습니다. 이미 등록된 계획서의 비용도 함께 조정됩니다.</PWU_PersonaCoreRecipeComponentCostDesc>
+  <!-- EN: Persona core crafting skill required: {0} -->
+  <PWU_PersonaCoreRecipeMinSkill>인공자아 핵 제작 요구 기술: {0}</PWU_PersonaCoreRecipeMinSkill>
+  <!-- EN: Minimum Crafting skill a colonist needs to work the persona core bill. Setting this to 0 removes the skill requirement entirely. Takes effect immediately, no restart needed. -->
+  <PWU_PersonaCoreRecipeMinSkillDesc>정착민이 인공자아 핵 계획서를 작업하는 데 필요한 최소 제작 기술입니다. 0으로 설정하면 기술 요구가 완전히 사라집니다. 즉시 적용되며 재시작이 필요하지 않습니다.</PWU_PersonaCoreRecipeMinSkillDesc>
+
+  <!-- Settings: Miscellaneous -->
+  <!-- EN: Allow weapon def conversion -->
+  <PWU_AllowDefConversion>무기 형태 변환 허용</PWU_AllowDefConversion>
+  <!-- EN: Allow weapons to convert between base and persona defs during customization. When disabled, only already-persona weapons can be customized, and removing all traits keeps the weapon as a zero-trait persona weapon instead of reverting to its base weapon. -->
+  <PWU_AllowDefConversionDesc>개조 중에 무기가 기본 형태와 결속 형태 사이를 변환할 수 있도록 허용합니다. 비활성화하면 이미 결속 무기인 것만 개조할 수 있고, 특성을 모두 제거해도 기본 무기로 되돌아가지 않고 특성이 없는 결속 무기로 남습니다.</PWU_AllowDefConversionDesc>
+  <!-- EN: Enforce trait count limit -->
+  <PWU_EnforceMaxTraitLimit>특성 개수 제한 적용</PWU_EnforceMaxTraitLimit>
+  <!-- EN: Vanilla persona weapons generate with no more than two traits. Enable this to enforce the same limit during customization. Disable to allow any number of traits (other rules such as exclusion restrictions still apply). -->
+  <PWU_EnforceMaxTraitLimitDesc>바닐라 결속 무기는 특성이 최대 두 개까지만 생성됩니다. 개조 중에도 같은 제한을 적용하려면 활성화하세요. 비활성화하면 특성 개수에 제한이 없어집니다(배타 제한 등 다른 규칙은 그대로 적용됩니다).</PWU_EnforceMaxTraitLimitDesc>
+  <!-- EN: Enforce sole-trait restrictions -->
+  <PWU_EnforceSoleTrait>단독 특성 제한 적용</PWU_EnforceSoleTrait>
+  <!-- EN: Some traits cannot be the only trait on a weapon during vanilla generation. Enable this to enforce the same restriction during customization. -->
+  <PWU_EnforceSoleTraitDesc>바닐라 생성 과정에서 일부 특성은 무기의 단독 특성이 될 수 없습니다. 개조 중에도 같은 제한을 적용하려면 활성화하세요.</PWU_EnforceSoleTraitDesc>
+  <!-- EN: Restrict available traits to discovered weapons -->
+  <PWU_RestrictTraitsToDiscovered>사용 가능한 특성을 발견한 무기로 제한</PWU_RestrictTraitsToDiscovered>
+  <!-- EN: A lightweight progression system: when enabled, the customization dialog only offers traits found on persona weapons the colony has seen: unfogged and unsealed on a loaded map, or carried in a player-faction caravan. Weapons carried by hostiles count too, but their traits stay disabled until the weapon is captured. No persistent state is added to saves; toggling this off restores the full trait list immediately. -->
+  <PWU_RestrictTraitsToDiscoveredDesc>가벼운 진행 시스템입니다. 활성화하면 개조 창은 정착지가 본 결속 무기의 특성만 제공합니다. 불러온 지역에서 안개가 걷히고 봉인이 풀린 무기, 또는 플레이어 세력의 상단이 지니고 있는 무기가 이에 해당합니다. 적이 들고 있는 무기도 포함되지만, 그 특성은 무기를 확보할 때까지 비활성화된 상태로 남습니다. 저장 파일에 별도의 상태가 추가되지 않으며, 이 설정을 끄면 전체 특성 목록이 즉시 복원됩니다.</PWU_RestrictTraitsToDiscoveredDesc>
+  <!-- EN: Enable ground weapon right-click menu -->
+  <PWU_EnableGroundCustomization>바닥 무기 우클릭 메뉴 활성화</PWU_EnableGroundCustomization>
+  <!-- EN: Show "Customize" options when right-clicking weapons on the ground. Disable this to reduce float menu clutter, especially with storage mods that stack items in the same cell. Weapons can still be customized by selecting them and using the gizmo button. -->
+  <PWU_EnableGroundCustomizationDesc>바닥에 있는 무기를 우클릭할 때 '개조' 항목을 표시합니다. 특히 같은 칸에 물품을 쌓아 두는 보관 모드를 쓸 때 메뉴가 지저분해지는 것을 줄이려면 비활성화하세요. 비활성화해도 무기를 선택한 뒤 명령 버튼으로 개조할 수 있습니다.</PWU_EnableGroundCustomizationDesc>
+
+  <!-- Settings: VEF texture-composition integration (only shown when the extended VEF reflection surface resolved) -->
+  <!-- EN: Integrate VEF texture customization -->
+  <PWU_IntegrateVpweCustomization>VEF 외형 개조 통합</PWU_IntegrateVpweCustomization>
+  <!-- EN: Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition — the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched. -->
+  <PWU_IntegrateVpweCustomizationDesc>Vanilla Expanded Framework의 외형 합성 기능을 기반으로 만들어진 결속 무기의 합성된 외형(손잡이, 칼날 등)을 편집할 수 있도록 PWU의 개조 창에 외형 탭을 추가합니다. Vanilla Persona Weapons Expanded의 무기들, Vanilla Races Expanded - Archons의 아르코블레이드, 그리고 같은 시스템을 사용하는 그 밖의 모든 무기가 대상입니다. 또한 PWU의 개조 항목을 사용할 수 있는 곳에서는 VEF 자체의 별도 '개조' 바닥 메뉴 항목을 숨겨, 서로 경쟁하는 두 개의 메뉴 대신 결속 무기를 편집할 단일한 창을 제공합니다. 기본적으로 활성화되어 있습니다. VEF의 별도 작업 방식을 그대로 두려면 비활성화하세요.</PWU_IntegrateVpweCustomizationDesc>
+
+  <!-- Settings: Haul planner -->
+  <!-- EN: Sequential -->
+  <PWU_HaulPlannerSequential>순차</PWU_HaulPlannerSequential>
+  <!-- EN: Vanilla behavior. Pawns carry up to one ingredient stack at a time, always grabbing the nearest first. Simple and predictable, but means lots of short trips for resource-heavy customizations. -->
+  <PWU_HaulPlannerSequentialDesc>바닐라 방식입니다. 사람이 한 번에 재료 더미 하나까지만 운반하며, 항상 가장 가까운 것을 먼저 집습니다. 단순하고 예측하기 쉽지만, 자원이 많이 드는 개조에서는 짧은 왕복이 많아집니다.</PWU_HaulPlannerSequentialDesc>
+  <!-- EN: Sweep -->
+  <PWU_HaulPlannerSweep>일괄</PWU_HaulPlannerSweep>
+  <!-- EN: Pawns plan ahead and use spare inventory space to carry more at once, while also routing more efficiently between pickups. Far fewer trips than Sequential, with negligible planning overhead. -->
+  <PWU_HaulPlannerSweepDesc>사람이 미리 계획을 세우고 남는 소지 공간을 활용해 한 번에 더 많이 운반하며, 수거 지점 사이를 더 효율적으로 이동합니다. 순차 방식보다 왕복이 훨씬 적고, 계획에 드는 부담은 무시할 수 있는 수준입니다.</PWU_HaulPlannerSweepDesc>
+  <!-- EN: Thorough -->
+  <PWU_HaulPlannerThorough>정밀</PWU_HaulPlannerThorough>
+  <!-- EN: Like Sweep, but also weighs which stacks to draw from when the map has multiple candidates, rather than always taking the closest. Slower to plan, but usually finds the shortest runs when ingredients are scattered or carrying capacity is tight. Falls back to Sweep for hauls too complex to fully analyze. -->
+  <PWU_HaulPlannerThoroughDesc>일괄 방식과 같지만, 지역에 후보가 여러 개 있을 때 항상 가장 가까운 것을 집는 대신 어느 더미에서 가져올지도 함께 저울질합니다. 계획은 더 느리지만, 재료가 흩어져 있거나 운반 용량이 빡빡할 때 보통 가장 짧은 경로를 찾아냅니다. 완전히 분석하기에 너무 복잡한 운반은 일괄 방식으로 대체합니다.</PWU_HaulPlannerThoroughDesc>
+
+</LanguageData>

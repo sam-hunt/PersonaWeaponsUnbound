@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: bladelink customization -->
+  <PWU_BladelinkCustomization.label>결속 무기 개조</PWU_BladelinkCustomization.label>
+  <!-- EN: Reprogram the AI personas bonded to bladelink weapons. Install a persona core to awaken a weapon's persona and unlock its traits for editing, then rewire those traits at a fabrication bench using advanced components. -->
+  <PWU_BladelinkCustomization.description>결속 무기에 깃든 인공 자아를 다시 프로그래밍합니다. 인공자아 핵을 설치하면 무기의 자아가 깨어나 그 특성을 편집할 수 있게 되며, 이후 조립 작업대에서 고급 부품을 사용하여 그 특성을 다시 구성할 수 있습니다.</PWU_BladelinkCustomization.description>
+
+</LanguageData>

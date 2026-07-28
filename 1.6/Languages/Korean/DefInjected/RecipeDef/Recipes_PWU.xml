@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Monosword -->
+  <!-- EN: make monosword -->
+  <PWU_Make_MonoSword.label>단분자검 만들기</PWU_Make_MonoSword.label>
+  <!-- EN: Craft a monosword: a crystal-metallic longsword infused with mechanites that maintain a mono-molecular cutting edge. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_MonoSword.description>단분자검을 만듭니다. 단분자 칼날을 유지하는 나노머신이 주입된 결정질 장검입니다. 이후 조립 작업대에서 결속 형태로 변환하면 결속 무기로서의 특성이 깨어납니다.</PWU_Make_MonoSword.description>
+  <!-- EN: Making monosword. -->
+  <PWU_Make_MonoSword.jobString>단분자검 만드는 중</PWU_Make_MonoSword.jobString>
+
+  <!-- Plasmasword -->
+  <!-- EN: make plasmasword -->
+  <PWU_Make_PlasmaSword.label>플라즈마검 만들기</PWU_Make_PlasmaSword.label>
+  <!-- EN: Craft a plasmasword: a metal-cored sword wrapped in a plasma sheath that slices and burns. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_PlasmaSword.description>플라즈마검을 만듭니다. 금속 검신을 플라즈마 외피가 감싸, 목표를 베는 동시에 태웁니다. 이후 조립 작업대에서 결속 형태로 변환하면 결속 무기로서의 특성이 깨어납니다.</PWU_Make_PlasmaSword.description>
+  <!-- EN: Making plasmasword. -->
+  <PWU_Make_PlasmaSword.jobString>플라즈마검 만드는 중</PWU_Make_PlasmaSword.jobString>
+
+  <!-- Zeushammer -->
+  <!-- EN: make zeushammer -->
+  <PWU_Make_Zeushammer.label>제우스망치 만들기</PWU_Make_Zeushammer.label>
+  <!-- EN: Craft a zeushammer: a warhammer with an embedded EMP capacitor that blasts targets with an EMP burst on impact. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_Zeushammer.description>제우스망치를 만듭니다. EMP 발생장치가 내장된 전투망치로, 타격할 때마다 EMP 폭발로 목표를 덮칩니다. 이후 조립 작업대에서 결속 형태로 변환하면 결속 무기로서의 특성이 깨어납니다.</PWU_Make_Zeushammer.description>
+  <!-- EN: Making zeushammer. -->
+  <PWU_Make_Zeushammer.jobString>제우스망치 만드는 중</PWU_Make_Zeushammer.jobString>
+
+  <!-- AI persona core -->
+  <!-- EN: make persona core -->
+  <PWU_Make_AIPersonaCore.label>인공자아 핵 만들기</PWU_Make_AIPersonaCore.label>
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
+  <PWU_Make_AIPersonaCore.description>인공자아 핵을 조립합니다. 인간의 정점에 맞먹는 기계 자아를 담은 고도로 발달된 컴퓨터 핵입니다. 분리된 상태에서는 작동하지 않지만, 우주선이나 결속 무기의 손잡이처럼 적절한 보조 구조물에 설치되면 막강한 힘을 지닌 두뇌가 됩니다.</PWU_Make_AIPersonaCore.description>
+  <!-- EN: Making persona core. -->
+  <PWU_Make_AIPersonaCore.jobString>인공자아 핵 만드는 중</PWU_Make_AIPersonaCore.jobString>
+
+</LanguageData>
