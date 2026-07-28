@@ -93,9 +93,17 @@ One lesson carries over from Unique Weapons Unbound's Russian review and
 applies to every language: weapon **trait** and pawn-personality **trait**
 are different words in many official localizations. Never assume the
 pawn-trait term applies to weapon traits — always check how the vanilla
-`WeaponTraits` stat/label is localized in the target language's tar and use
-that word, not the personality-trait word. (RU: свойство, never черта;
-JP: 特性, shared with pawn traits — it varies per language.)
+weapon-trait stat/label is localized in the target language's tar and use
+that word, not the personality-trait word. And check the RIGHT stat: the
+DLC domains diverge. For THIS mod the authority is Royalty's
+`Stat_Thing_PersonaWeaponTrait_Label` (persona weapon traits), NOT
+Odyssey's `WeaponTraits` (unique weapons, UWU's domain) — in Russian the
+two disagree (Royalty: черты, per `BladelinkEquipWarningTraits` and the
+Royalty DLC description; Odyssey: свойства, which is where UWU's
+"свойство, never черта" glossary row comes from). PWU's Russian therefore
+uses «черта»; this is deliberate, flagged for native review in the
+2026-07 generation commit. (JP: 特性, shared with pawn traits — it varies
+per language.)
 
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
