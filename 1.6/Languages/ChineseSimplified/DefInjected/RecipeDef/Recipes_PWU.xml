@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Monosword -->
+  <!-- EN: make monosword -->
+  <PWU_Make_MonoSword.label>制作单分子剑</PWU_Make_MonoSword.label>
+  <!-- EN: Craft a monosword: a crystal-metallic longsword infused with mechanites that maintain a mono-molecular cutting edge. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_MonoSword.description>制作一把单分子剑：一把单分子晶金长剑，它的单分子刃部依靠自身附带的纳米机械进行维护。之后可在精密装配台上为它装入智能人格，以唤醒它的人格特性。</PWU_Make_MonoSword.description>
+  <!-- EN: Making monosword. -->
+  <PWU_Make_MonoSword.jobString>正在制作单分子剑。</PWU_Make_MonoSword.jobString>
+
+  <!-- Plasmasword -->
+  <!-- EN: make plasmasword -->
+  <PWU_Make_PlasmaSword.label>制作等离子剑</PWU_Make_PlasmaSword.label>
+  <!-- EN: Craft a plasmasword: a metal-cored sword wrapped in a plasma sheath that slices and burns. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_PlasmaSword.description>制作一把等离子剑：一把金属剑身被等离子体包裹的利剑，攻击目标时既能切割，也会将其灼伤或点燃。之后可在精密装配台上为它装入智能人格，以唤醒它的人格特性。</PWU_Make_PlasmaSword.description>
+  <!-- EN: Making plasmasword. -->
+  <PWU_Make_PlasmaSword.jobString>正在制作等离子剑。</PWU_Make_PlasmaSword.jobString>
+
+  <!-- Zeushammer -->
+  <!-- EN: make zeushammer -->
+  <PWU_Make_Zeushammer.label>制作宙斯锤</PWU_Make_Zeushammer.label>
+  <!-- EN: Craft a zeushammer: a warhammer with an embedded EMP capacitor that blasts targets with an EMP burst on impact. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_Zeushammer.description>制作一把宙斯锤：一把内置EMP电容的战锤，击中目标时除物理伤害外还附带一次EMP冲击。之后可在精密装配台上为它装入智能人格，以唤醒它的人格特性。</PWU_Make_Zeushammer.description>
+  <!-- EN: Making zeushammer. -->
+  <PWU_Make_Zeushammer.jobString>正在制作宙斯锤。</PWU_Make_Zeushammer.jobString>
+
+  <!-- AI persona core -->
+  <!-- EN: make persona core -->
+  <PWU_Make_AIPersonaCore.label>制作人格核心</PWU_Make_AIPersonaCore.label>
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
+  <PWU_Make_AIPersonaCore.description>组装一个人格核心：一个极先进的计算机核心，装载有相当于人类巅峰水平的智能人格。它在未连接时处于休眠状态，但一旦装入合适的承载结构——一艘飞船，或是一把人格武器的剑柄——它便会成为拥有惊人能力的主脑。</PWU_Make_AIPersonaCore.description>
+  <!-- EN: Making persona core. -->
+  <PWU_Make_AIPersonaCore.jobString>正在制作人格核心。</PWU_Make_AIPersonaCore.jobString>
+
+</LanguageData>

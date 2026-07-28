@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: bladelink customization -->
+  <PWU_BladelinkCustomization.label>智能人格定制</PWU_BladelinkCustomization.label>
+  <!-- EN: Reprogram the AI personas bonded to bladelink weapons. Install a persona core to awaken a weapon's persona and unlock its traits for editing, then rewire those traits at a fabrication bench using advanced components. -->
+  <PWU_BladelinkCustomization.description>重新编写与人格武器绑定的智能人格。安装一个人格核心即可唤醒武器的人格，并解锁其特性以供修改，随后在精密装配台上用高级零部件重新布置这些特性。</PWU_BladelinkCustomization.description>
+
+</LanguageData>

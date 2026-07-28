@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Float menu / Gizmo -->
+  <!-- EN: Customize persona: {0} -->
+  <PWU_CustomizeWeapon>定制人格：{0}</PWU_CustomizeWeapon>
+  <!-- EN: requires {0} -->
+  <PWU_RequiresResearch>需要“{0}”</PWU_RequiresResearch>
+  <!-- EN: requires a {0} -->
+  <PWU_RequiresWorkbench>需要“{0}”</PWU_RequiresWorkbench>
+  <!-- EN: no suitable workbench -->
+  <PWU_NoSuitableWorkbench>没有合适的工作台</PWU_NoSuitableWorkbench>
+  <!-- EN: requires {0} quality or better -->
+  <PWU_RequiresMinimumQuality>需要{0}及以上品质</PWU_RequiresMinimumQuality>
+  <!-- EN: Customize persona -->
+  <PWU_CustomizeGizmoLabel>定制人格</PWU_CustomizeGizmoLabel>
+  <!-- EN: Select a colonist to customize this weapon at a nearby workbench. -->
+  <PWU_CustomizeGizmoDesc>选择一名殖民者，在附近的工作台上定制这件武器。</PWU_CustomizeGizmoDesc>
+
+  <!-- Dev-mode diagnostic reasons (surfaced when Prefs.DevMode is on, otherwise hidden) -->
+  <!-- EN: no persona variant -->
+  <PWU_DevNoPersonaVariant>没有对应的人格形态</PWU_DevNoPersonaVariant>
+  <!-- EN: base variant upgrades disabled -->
+  <PWU_DevDefConversionDisabled>基础形态升级已禁用</PWU_DevDefConversionDisabled>
+
+  <!-- Dialog: Buttons -->
+  <!-- EN: Cancel -->
+  <PWU_Cancel>取消</PWU_Cancel>
+  <!-- EN: Reset -->
+  <PWU_Reset>重设</PWU_Reset>
+  <!-- EN: Confirm -->
+  <PWU_Confirm>确定</PWU_Confirm>
+  <!-- EN: Randomize -->
+  <PWU_Randomize>随机</PWU_Randomize>
+  <!-- EN: Reset to defaults -->
+  <PWU_ResetToDefaults>重置为默认值</PWU_ResetToDefaults>
+
+  <!-- Dialog: Tabs -->
+  <!-- EN: Traits -->
+  <PWU_TabTraits>特性</PWU_TabTraits>
+  <!-- EN: Memory -->
+  <PWU_TabMemory>记忆</PWU_TabMemory>
+  <!-- EN: Texture -->
+  <PWU_TabTexture>外观</PWU_TabTexture>
+
+  <!-- Dialog: Controls -->
+  <!-- EN: This weapon is an ideology relic. Its name can only be changed when forming or reforming an ideoligion. -->
+  <PWU_RelicNameTooltip>这件武器是文化形态的圣物。只有在创建或改革文化形态时才能修改它的名称。</PWU_RelicNameTooltip>
+  <!-- EN: Select at least one trait first -->
+  <PWU_SelectTraitFirst>请先选择至少一项特性</PWU_SelectTraitFirst>
+  <!-- EN: Auto-regenerate name when traits change -->
+  <PWU_AutoRegenName>特性变更时自动重新生成名称</PWU_AutoRegenName>
+  <!-- EN: Hide negative traits -->
+  <PWU_HideNegativeTraits>隐藏负面特性</PWU_HideNegativeTraits>
+
+  <!-- Dialog: Cost display -->
+  <!-- EN: Net refund:  -->
+  <PWU_NetRefund>净返还：</PWU_NetRefund>
+  <!-- EN: None -->
+  <PWU_RefundNone>无</PWU_RefundNone>
+  <!-- EN: Net cost:  -->
+  <PWU_NetCost>净成本：</PWU_NetCost>
+  <!-- EN: Free -->
+  <PWU_CostFree>免费</PWU_CostFree>
+  <!-- EN: Missing resources -->
+  <PWU_MissingResources>缺少资源</PWU_MissingResources>
+  <!-- EN: Required materials are insufficient, forbidden, reserved by another pawn, or unreachable from this pawn's position. -->
+  <PWU_NotEnoughMaterials>所需材料不足、已被禁用、已被其他角色预留，或从该角色所在位置无法到达。</PWU_NotEnoughMaterials>
+  <!-- EN: Could not customize {0}: no viable haul plan. -->
+  <PWU_CouldNotStartPlanInfeasible>无法定制“{0}”：没有可行的搬运方案。</PWU_CouldNotStartPlanInfeasible>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2}. -->
+  <PWU_CouldNotStartReservationConflict>无法定制“{0}”：未能预留{1} x{2}。</PWU_CouldNotStartReservationConflict>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2} (held by {3}). -->
+  <PWU_CouldNotStartReservationConflictHeldBy>无法定制“{0}”：未能预留{1} x{2}（由{3}持有）。</PWU_CouldNotStartReservationConflictHeldBy>
+  <!-- EN: Could not customize {0}: internal error. See log. -->
+  <PWU_CouldNotStartInternalError>无法定制“{0}”：内部错误。详见日志。</PWU_CouldNotStartInternalError>
+
+  <!-- Trait tooltips -->
+  <!-- EN: Effects: -->
+  <PWU_Effects>效果：</PWU_Effects>
+  <!-- EN: Damage type -->
+  <PWU_DamageType>伤害类型</PWU_DamageType>
+  <!-- EN: Extra damage -->
+  <PWU_ExtraDamage>额外伤害</PWU_ExtraDamage>
+  <!-- EN: Burst speed -->
+  <PWU_BurstSpeed>射速</PWU_BurstSpeed>
+  <!-- EN: Burst count -->
+  <PWU_BurstCount>连射次数</PWU_BurstCount>
+  <!-- EN: Stopping power -->
+  <PWU_StoppingPower>抑止能力</PWU_StoppingPower>
+  <!-- EN: Ignores accuracy penalties -->
+  <PWU_IgnoresAccuracyPenalties>忽略精度惩罚</PWU_IgnoresAccuracyPenalties>
+
+  <!-- Trait validation -->
+  <!-- EN: Already applied -->
+  <PWU_AlreadyApplied>已应用</PWU_AlreadyApplied>
+  <!-- EN: Maximum traits reached -->
+  <PWU_MaxTraitsReached>已达特性数量上限</PWU_MaxTraitsReached>
+  <!-- EN: Conflicts with {0} -->
+  <PWU_ConflictsWith>与“{0}”冲突</PWU_ConflictsWith>
+  <!-- EN: Cannot be the only trait -->
+  <PWU_CannotBeOnlyTrait>不能作为唯一特性</PWU_CannotBeOnlyTrait>
+  <!-- EN: {0} cannot be the only trait -->
+  <PWU_TraitCannotBeOnlyTrait>“{0}”不能作为唯一特性</PWU_TraitCannotBeOnlyTrait>
+  <!-- EN: Must disarm from hostile -->
+  <PWU_OnlyOnHostiles>须从敌人手中缴获</PWU_OnlyOnHostiles>
+  <!-- EN: Warning: this is the only weapon in your pool with this trait. Removing it will remove the trait from the pool of traits you can apply to other weapons. -->
+  <PWU_LastTraitSourceWarning>警告：这是你的武器中唯一带有该特性的一件。移除后，该特性将从你可应用于其他武器的特性池中消失。</PWU_LastTraitSourceWarning>
+  <!-- EN: Adding this trait makes the weapon free-wielding, severing its bond with {0}. -->
+  <PWU_NeverBondSeversBond>添加该特性后，武器将不再与任何人绑定，从而解除它与{0}的绑定。</PWU_NeverBondSeversBond>
+  <!-- EN: Reverting this weapon to its base form will sever its bond with {0}. Continue? -->
+  <PWU_BondSeveredWarning>将这件武器还原为基础形态会解除它与{0}的绑定。是否继续？</PWU_BondSeveredWarning>
+  <!-- EN: No traits match your search. -->
+  <PWU_NoTraitsMatchSearch>没有符合搜索条件的特性。</PWU_NoTraitsMatchSearch>
+  <!-- EN: No traits available yet.\n\nEncounter persona weapons via Empire traders, quests, relics, or hostiles\nto unlock their traits for customization. -->
+  <PWU_NoTraitsDiscovered>暂无可用特性。\n\n通过破碎帝国商人、任务、圣物或敌人接触人格武器，\n即可解锁它们的特性以供定制。</PWU_NoTraitsDiscovered>
+  <!-- EN: All available traits for this weapon are negative. Disable "Hide negative traits" below to view them. -->
+  <PWU_NoTraitsAfterHideNegative>这件武器可用的特性全部为负面特性。请在下方取消勾选“隐藏负面特性”以查看它们。</PWU_NoTraitsAfterHideNegative>
+  <!-- EN: No traits are compatible with this weapon. -->
+  <PWU_NoTraitsAvailable>没有与这件武器兼容的特性。</PWU_NoTraitsAvailable>
+
+  <!-- Dialog: Memory tab -->
+  <!-- EN: The weapon must host a persona before its memory can be wiped. -->
+  <PWU_MemoryRequiresPersona>武器必须先装有智能人格，才能清除它的记忆。</PWU_MemoryRequiresPersona>
+  <!-- EN: No change -->
+  <PWU_MemoryNoWipe>不作改动</PWU_MemoryNoWipe>
+  <!-- EN: Wipe bonding -->
+  <PWU_MemoryWipeBonding>清除绑定</PWU_MemoryWipeBonding>
+  <!-- EN: Erase the persona's bond, and its kill memory with it. The weapon returns to bonding with the next pawn to equip it. -->
+  <PWU_MemoryWipeBondingDesc>抹除智能人格的绑定，连同它的击杀记忆一并清除。此后武器会重新与下一个装备它的角色绑定。</PWU_MemoryWipeBondingDesc>
+  <!-- EN: Wipe kill tracker -->
+  <PWU_MemoryWipeKillTracker>清除击杀记录</PWU_MemoryWipeKillTracker>
+  <!-- EN: Erase the persona's memory of its kills. The bond is untouched. -->
+  <PWU_MemoryWipeKillTrackerDesc>抹除智能人格对自身击杀的记忆。绑定不受影响。</PWU_MemoryWipeKillTrackerDesc>
+  <!-- EN: Last kill: {0} days ago -->
+  <PWU_MemoryLastKill>最近一次击杀：{0}天前</PWU_MemoryLastKill>
+  <!-- EN: Not bonded -->
+  <PWU_MemoryNotBonded>未绑定</PWU_MemoryNotBonded>
+  <!-- EN: No kills remembered -->
+  <PWU_MemoryNoKillMemory>没有击杀记忆</PWU_MemoryNoKillMemory>
+  <!-- EN: The freewielder trait already severs the bond -->
+  <PWU_MemoryBondSeveredByTrait>“自由”特性已经解除了绑定</PWU_MemoryBondSeveredByTrait>
+  <!-- EN: Severing the bond wipes kill memory too -->
+  <PWU_MemoryKillWipedByTrait>解除绑定会同时清除击杀记忆</PWU_MemoryKillWipedByTrait>
+  <!-- EN: memory wipe -->
+  <PWU_MemoryWipeLabel>记忆清除</PWU_MemoryWipeLabel>
+
+  <!-- Dialog: Texture tab (unified appearance customization over VEF's texture composition) -->
+  <!-- EN: This weapon has no texture customization options. -->
+  <PWU_NoTextureOptions>这件武器没有可定制的外观选项。</PWU_NoTextureOptions>
+  <!-- EN: Rolling appearance... -->
+  <PWU_TextureRollingPlaceholder>正在随机外观……</PWU_TextureRollingPlaceholder>
+  <!-- EN: Reset appearance -->
+  <PWU_ResetTexture>重置外观</PWU_ResetTexture>
+
+  <!-- Fallbacks -->
+  <!-- EN: weapon -->
+  <PWU_WeaponFallback>武器</PWU_WeaponFallback>
+
+  <!-- Jobs -->
+  <!-- EN: Customizing {0} -->
+  <PWU_CustomizingWeapon>正在定制{0}。</PWU_CustomizingWeapon>
+  <!-- EN: Adding {0} to {1} -->
+  <PWU_AddingTrait>正在为{1}添加{0}。</PWU_AddingTrait>
+  <!-- EN: Removing {0} from {1} -->
+  <PWU_RemovingTrait>正在从{1}移除{0}。</PWU_RemovingTrait>
+  <!-- EN: Renaming {0} -->
+  <PWU_RenamingWeapon>正在重命名{0}。</PWU_RenamingWeapon>
+  <!-- EN: Wiping memory of {0} -->
+  <PWU_WipingMemory>正在清除{0}的记忆。</PWU_WipingMemory>
+  <!-- EN: Updating appearance of {0} -->
+  <PWU_RestylingWeapon>正在更新{0}的外观。</PWU_RestylingWeapon>
+  <!-- EN: Placing {0} on {1} -->
+  <PWU_PlacingWeapon>正在将{0}放到{1}上。</PWU_PlacingWeapon>
+  <!-- EN: Gathering materials for {0} -->
+  <PWU_GatheringMaterials>正在为{0}收集材料。</PWU_GatheringMaterials>
+  <!-- EN: Admiring work -->
+  <PWU_AdmiringWork>正在欣赏作品。</PWU_AdmiringWork>
+  <!-- EN: {0} customization interrupted: ingredients lost before {1} could be applied. -->
+  <PWU_IngredientShortfall>“{0}”的定制中断：材料在应用“{1}”之前丢失。</PWU_IngredientShortfall>
+  <!-- EN: {0} customization interrupted: workbench is no longer available. -->
+  <PWU_BailWorkbenchUnavailable>“{0}”的定制中断：工作台已不可用。</PWU_BailWorkbenchUnavailable>
+  <!-- EN: {0} customization interrupted: workbench became unreachable. -->
+  <PWU_BailWorkbenchUnreachable>“{0}”的定制中断：工作台已无法到达。</PWU_BailWorkbenchUnreachable>
+  <!-- EN: {0} customization interrupted: workbench has no power or fuel. -->
+  <PWU_BailWorkbenchInactive>“{0}”的定制中断：工作台没有电力或燃料。</PWU_BailWorkbenchInactive>
+  <!-- EN: {0} customization interrupted: weapon was lost. -->
+  <PWU_BailWeaponLost>“{0}”的定制中断：武器已丢失。</PWU_BailWeaponLost>
+  <!-- EN: {0} customization interrupted: weapon is no longer accessible. -->
+  <PWU_BailWeaponInaccessible>“{0}”的定制中断：武器已无法取用。</PWU_BailWeaponInaccessible>
+  <!-- EN: {0} customization interrupted: an ingredient was lost while hauling. -->
+  <PWU_BailIngredientLost>“{0}”的定制中断：搬运过程中有材料丢失。</PWU_BailIngredientLost>
+  <!-- EN: {0} customization interrupted: a required ingredient became unreachable. -->
+  <PWU_BailIngredientUnreachable>“{0}”的定制中断：所需材料已无法到达。</PWU_BailIngredientUnreachable>
+  <!-- EN: {0} customization interrupted: no room near the workbench to place an ingredient. -->
+  <PWU_BailIngredientPlacementFailed>“{0}”的定制中断：工作台附近没有空间放置材料。</PWU_BailIngredientPlacementFailed>
+  <!-- EN: {0} customization interrupted: could not pick up the weapon. -->
+  <PWU_BailCarryStartFailed>“{0}”的定制中断：无法拾取武器。</PWU_BailCarryStartFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while adding {1}. -->
+  <PWU_BailOpAddTraitFailed>“{0}”的定制中断：添加“{1}”时发生错误。</PWU_BailOpAddTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while removing {1}. -->
+  <PWU_BailOpRemoveTraitFailed>“{0}”的定制中断：移除“{1}”时发生错误。</PWU_BailOpRemoveTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while renaming the weapon. -->
+  <PWU_BailOpRenameFailed>“{0}”的定制中断：重命名武器时发生错误。</PWU_BailOpRenameFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while wiping the persona's memory. -->
+  <PWU_BailOpMemoryFailed>“{0}”的定制中断：清除智能人格的记忆时发生错误。</PWU_BailOpMemoryFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while updating its appearance. -->
+  <PWU_BailOpRestyleFailed>“{0}”的定制中断：更新外观时发生错误。</PWU_BailOpRestyleFailed>
+  <!-- EN: {0} customization failed unexpectedly. -->
+  <PWU_BailUnexpected>“{0}”的定制意外失败。</PWU_BailUnexpected>
+  <!-- EN: {0} customization interrupted: the customization dialog could not be opened. See log. -->
+  <PWU_BailDialogOpenFailed>“{0}”的定制中断：无法打开定制界面。详见日志。</PWU_BailDialogOpenFailed>
+  <!-- EN: {0} customization dialog errored and was closed. See log. -->
+  <PWU_DialogErrored>“{0}”的定制界面发生错误并已关闭。详见日志。</PWU_DialogErrored>
+
+  <!-- Settings: Section headers -->
+  <!-- EN: Persona Weapons Unbound -->
+  <PWU_SettingsCategory>Persona Weapons Unbound</PWU_SettingsCategory>
+  <!-- EN: Progression -->
+  <PWU_SettingsProgression>游戏进程</PWU_SettingsProgression>
+  <!-- EN: Trait costs -->
+  <PWU_SettingsTraitCosts>特性成本</PWU_SettingsTraitCosts>
+  <!-- EN: Memory costs -->
+  <PWU_SettingsMemoryCosts>记忆清除成本</PWU_SettingsMemoryCosts>
+  <!-- EN: Prerequisites -->
+  <PWU_SettingsPrerequisites>前置条件</PWU_SettingsPrerequisites>
+  <!-- EN: Crafting recipes -->
+  <PWU_SettingsCraftingRecipes>制作配方</PWU_SettingsCraftingRecipes>
+  <!-- EN: Ingredient hauling -->
+  <PWU_SettingsHaulPlanner>材料搬运</PWU_SettingsHaulPlanner>
+  <!-- EN: Miscellaneous -->
+  <PWU_SettingsMiscellaneous>杂项</PWU_SettingsMiscellaneous>
+  <!-- EN: VEF texture customization -->
+  <PWU_SettingsVpweIntegration>VEF贴图定制</PWU_SettingsVpweIntegration>
+
+  <!-- Settings: Reusable label suffixes (each includes a leading space) -->
+  <!-- EN:  (default) -->
+  <PWU_DefaultSuffix>（默认）</PWU_DefaultSuffix>
+  <!-- EN:  (recommended) -->
+  <PWU_RecommendedSuffix>（推荐）</PWU_RecommendedSuffix>
+  <!-- EN:  (vanilla) -->
+  <PWU_VanillaSuffix>（原版）</PWU_VanillaSuffix>
+  <!-- EN:  (experimental) -->
+  <PWU_ExperimentalSuffix>（实验性）</PWU_ExperimentalSuffix>
+
+  <!-- Settings: Persona costs -->
+  <!-- EN: First trait costs an AI persona core -->
+  <PWU_FirstTraitCostsPersonaCore>第一项特性消耗一个人格核心</PWU_FirstTraitCostsPersonaCore>
+  <!-- EN: When enabled (default), adding the first trait to a base weapon installs an AI persona core, which is refunded when the last trait is removed and the weapon reverts to base. When disabled, the first trait added and the last trait removed are priced like any other change: advanced components (scaled by weapon quality per the table below), which are never refunded. -->
+  <PWU_FirstTraitCostsPersonaCoreDesc>启用时（默认），为基础武器添加第一项特性会装入一个人格核心；当最后一项特性被移除、武器还原为基础形态时，该核心会被返还。禁用时，添加第一项特性和移除最后一项特性的定价与其他改动相同：消耗高级零部件（按下表随武器品质递增），且永不返还。</PWU_FirstTraitCostsPersonaCoreDesc>
+  <!-- EN: Base component cost per trait change: {0} -->
+  <PWU_TraitChangeBaseComponentCost>每次特性改动的基础零部件成本：{0}</PWU_TraitChangeBaseComponentCost>
+  <!-- EN: Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost, neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting. -->
+  <PWU_TraitChangeBaseComponentCostDesc>每次未跨越基础形态与人格形态边界的特性改动所消耗的高级零部件（添加与移除均需消耗，且均不返还）。无论武器品质如何都按此数量收取。首项特性装入人格核心、末项特性返还人格核心均不受此设置影响。</PWU_TraitChangeBaseComponentCostDesc>
+  <!-- EN: Quality surcharge threshold: {0} -->
+  <PWU_TraitChangeQualitySurchargeThreshold>品质附加费起始档位：{0}</PWU_TraitChangeQualitySurchargeThreshold>
+  <!-- EN: The weapon quality tier at which the per-level component surcharge below starts applying. Trait changes on weapons at or below this quality cost only the base component amount. -->
+  <PWU_TraitChangeQualitySurchargeThresholdDesc>下方的每档零部件附加费从该武器品质档位起开始生效。品质等于或低于此档位的武器进行特性改动时，只消耗基础零部件数量。</PWU_TraitChangeQualitySurchargeThresholdDesc>
+  <!-- EN: Quality surcharge per level: {0} -->
+  <PWU_TraitChangeQualitySurchargePerLevel>每档品质附加费：{0}</PWU_TraitChangeQualitySurchargePerLevel>
+  <!-- EN: Extra advanced components charged per quality tier above the surcharge threshold. For example, at the default threshold (Normal) and per-level value (1), a Masterwork weapon costs 3 more components per trait change than the base amount. -->
+  <PWU_TraitChangeQualitySurchargePerLevelDesc>武器品质每高出附加费起始档位一档，额外消耗的高级零部件数量。例如，在默认起始档位（一般）和默认每档数值（1）下，大师级武器每次特性改动比基础数量多消耗3个零部件。</PWU_TraitChangeQualitySurchargePerLevelDesc>
+  <!-- EN: Advanced components required per trait change, by weapon quality: -->
+  <PWU_CostTableHeader>按武器品质划分的每次特性改动所需高级零部件：</PWU_CostTableHeader>
+  <!-- EN: - -->
+  <PWU_CostTableNotApplicable>-</PWU_CostTableNotApplicable>
+  <!-- EN: Weapons of this quality can't be customized: the minimum weapon quality prerequisite is set to {0}. -->
+  <PWU_CostTableNotApplicableDesc>该品质的武器无法定制：最低武器品质前置条件已设为“{0}”。</PWU_CostTableNotApplicableDesc>
+
+  <!-- Settings: Memory costs -->
+  <!-- EN: Bond wipe component cost: {0} -->
+  <PWU_WipeBondingComponentCost>清除绑定的零部件成本：{0}</PWU_WipeBondingComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip. -->
+  <PWU_WipeBondingComponentCostDesc>清除人格武器的绑定、使其恢复为下次装备时重新绑定所消耗的高级零部件。</PWU_WipeBondingComponentCostDesc>
+  <!-- EN: Kill tracker wipe component cost: {0} -->
+  <PWU_WipeKillTrackerComponentCost>清除击杀记录的零部件成本：{0}</PWU_WipeKillTrackerComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's kill memory. -->
+  <PWU_WipeKillTrackerComponentCostDesc>清除人格武器击杀记忆所消耗的高级零部件。</PWU_WipeKillTrackerComponentCostDesc>
+
+  <!-- Settings: Prerequisites -->
+  <!-- EN: Minimum weapon quality: {0} -->
+  <PWU_MinimumQuality>最低武器品质：{0}</PWU_MinimumQuality>
+  <!-- EN: Restrict customization to weapons of at least this quality. Awful imposes no restriction. Weapons below the minimum will still show the customization option, but it will be disabled with an explanation. -->
+  <PWU_MinimumQualityDesc>将定制限制为至少达到该品质的武器。设为“极差”则不作任何限制。低于该品质的武器仍会显示定制选项，但该选项会被禁用并给出说明。</PWU_MinimumQualityDesc>
+  <!-- EN: Require customization research -->
+  <PWU_RequireCustomizationResearch>需要定制研究</PWU_RequireCustomizationResearch>
+  <!-- EN: Require the completion of the {0} research project before customizing weapons. When disabled, the project is hidden from the research tree. -->
+  <PWU_RequireCustomizationResearchDesc>要求先完成“{0}”研究项目才能定制武器。禁用时，该项目会从研究树中隐藏。</PWU_RequireCustomizationResearchDesc>
+  <!-- EN: Techprints required: {0} -->
+  <PWU_TechprintCount>所需科研蓝图数量：{0}</PWU_TechprintCount>
+  <!-- EN: Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed. -->
+  <PWU_TechprintCountDesc>在研究点数消耗之外，完成该研究还需要的“{0}”科研蓝图数量。设为0将完全移除科研蓝图要求，并使商人不再进货该蓝图。设置立即生效，无需重启。</PWU_TechprintCountDesc>
+
+  <!-- Settings: Crafting recipes -->
+  <!-- EN: Enable monosword crafting recipe -->
+  <PWU_EnableMonoswordRecipe>启用单分子剑制作配方</PWU_EnableMonoswordRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableMonoswordRecipeDesc>在“{1}”上显示“{0}”清单（需要“{2}”研究）。禁用此项只会将它从添加清单菜单中隐藏；已排入队列的清单仍会继续生产。</PWU_EnableMonoswordRecipeDesc>
+  <!-- EN: Enable plasmasword crafting recipe -->
+  <PWU_EnablePlasmaswordRecipe>启用等离子剑制作配方</PWU_EnablePlasmaswordRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePlasmaswordRecipeDesc>在“{1}”上显示“{0}”清单（需要“{2}”研究）。禁用此项只会将它从添加清单菜单中隐藏；已排入队列的清单仍会继续生产。</PWU_EnablePlasmaswordRecipeDesc>
+  <!-- EN: Enable zeushammer crafting recipe -->
+  <PWU_EnableZeushammerRecipe>启用宙斯锤制作配方</PWU_EnableZeushammerRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableZeushammerRecipeDesc>在“{1}”上显示“{0}”清单（需要“{2}”研究）。禁用此项只会将它从添加清单菜单中隐藏；已排入队列的清单仍会继续生产。</PWU_EnableZeushammerRecipeDesc>
+  <!-- EN: Enable persona core crafting recipe -->
+  <PWU_EnablePersonaCoreRecipe>启用人格核心制作配方</PWU_EnablePersonaCoreRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path — craft a base weapon, craft a core, install it through customization. Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePersonaCoreRecipeDesc>在“{1}”上显示“{0}”清单（需要“{2}”研究）。默认关闭：在原版中人格核心只能靠寻找或交易获得，而能够制作它们会让人格武器从稀有变为可批量获取。若你想要一条完全自给自足的殖民地路线，可以开启此项——制作基础武器，制作核心，再通过定制把核心装入武器。禁用此项只会将它从添加清单菜单中隐藏；已排入队列的清单仍会继续生产。</PWU_EnablePersonaCoreRecipeDesc>
+  <!-- EN: Persona core component cost: {0} -->
+  <PWU_PersonaCoreRecipeComponentCost>人格核心的零部件成本：{0}</PWU_PersonaCoreRecipeComponentCost>
+  <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->
+  <PWU_PersonaCoreRecipeComponentCostDesc>制作一个人格核心所需的高级零部件。设置立即生效，无需重启；已排入队列的清单也会重新计价。</PWU_PersonaCoreRecipeComponentCostDesc>
+  <!-- EN: Persona core crafting skill required: {0} -->
+  <PWU_PersonaCoreRecipeMinSkill>制作人格核心所需手工等级：{0}</PWU_PersonaCoreRecipeMinSkill>
+  <!-- EN: Minimum Crafting skill a colonist needs to work the persona core bill. Setting this to 0 removes the skill requirement entirely. Takes effect immediately, no restart needed. -->
+  <PWU_PersonaCoreRecipeMinSkillDesc>殖民者要执行人格核心清单所需的最低手工技能等级。设为0将完全移除技能要求。设置立即生效，无需重启。</PWU_PersonaCoreRecipeMinSkillDesc>
+
+  <!-- Settings: Miscellaneous -->
+  <!-- EN: Allow weapon def conversion -->
+  <PWU_AllowDefConversion>允许武器形态转换</PWU_AllowDefConversion>
+  <!-- EN: Allow weapons to convert between base and persona defs during customization. When disabled, only already-persona weapons can be customized, and removing all traits keeps the weapon as a zero-trait persona weapon instead of reverting to its base weapon. -->
+  <PWU_AllowDefConversionDesc>允许武器在定制过程中于基础形态与人格形态之间转换。禁用时，只有已经是人格武器的武器才能被定制，且移除全部特性后武器会保持为没有特性的人格武器，而不会还原成对应的基础武器。</PWU_AllowDefConversionDesc>
+  <!-- EN: Enforce trait count limit -->
+  <PWU_EnforceMaxTraitLimit>强制执行特性数量上限</PWU_EnforceMaxTraitLimit>
+  <!-- EN: Vanilla persona weapons generate with no more than two traits. Enable this to enforce the same limit during customization. Disable to allow any number of traits (other rules such as exclusion restrictions still apply). -->
+  <PWU_EnforceMaxTraitLimitDesc>原版生成的人格武器最多带有两项特性。启用此项可在定制时沿用相同的上限。禁用则允许任意数量的特性（互斥限制等其他规则仍然生效）。</PWU_EnforceMaxTraitLimitDesc>
+  <!-- EN: Enforce sole-trait restrictions -->
+  <PWU_EnforceSoleTrait>强制执行唯一特性限制</PWU_EnforceSoleTrait>
+  <!-- EN: Some traits cannot be the only trait on a weapon during vanilla generation. Enable this to enforce the same restriction during customization. -->
+  <PWU_EnforceSoleTraitDesc>在原版生成过程中，某些特性不能作为武器上的唯一特性。启用此项可在定制时沿用相同的限制。</PWU_EnforceSoleTraitDesc>
+  <!-- EN: Restrict available traits to discovered weapons -->
+  <PWU_RestrictTraitsToDiscovered>仅提供已发现武器上的特性</PWU_RestrictTraitsToDiscovered>
+  <!-- EN: A lightweight progression system: when enabled, the customization dialog only offers traits found on persona weapons the colony has seen: unfogged and unsealed on a loaded map, or carried in a player-faction caravan. Weapons carried by hostiles count too, but their traits stay disabled until the weapon is captured. No persistent state is added to saves; toggling this off restores the full trait list immediately. -->
+  <PWU_RestrictTraitsToDiscoveredDesc>一套轻量的进程系统：启用时，定制界面只提供殖民地已经见过的人格武器上的特性，即已加载地图上处于已探明、未封闭区域的武器，或玩家派系商队携带的武器。敌人携带的武器同样计入，但在缴获之前它们的特性仍保持禁用。此功能不会向存档写入任何持久数据；关闭后会立即恢复完整的特性列表。</PWU_RestrictTraitsToDiscoveredDesc>
+  <!-- EN: Enable ground weapon right-click menu -->
+  <PWU_EnableGroundCustomization>启用地面武器右键菜单</PWU_EnableGroundCustomization>
+  <!-- EN: Show "Customize" options when right-clicking weapons on the ground. Disable this to reduce float menu clutter, especially with storage mods that stack items in the same cell. Weapons can still be customized by selecting them and using the gizmo button. -->
+  <PWU_EnableGroundCustomizationDesc>右键点击地面上的武器时显示“定制”选项。禁用此项可减少浮动菜单的杂乱，在使用会把物品堆叠到同一格的存储类mod时尤为有用。武器仍然可以通过选中它并使用界面按钮来定制。</PWU_EnableGroundCustomizationDesc>
+
+  <!-- Settings: VEF texture-composition integration (only shown when the extended VEF reflection surface resolved) -->
+  <!-- EN: Integrate VEF texture customization -->
+  <PWU_IntegrateVpweCustomization>整合VEF贴图定制</PWU_IntegrateVpweCustomization>
+  <!-- EN: Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition — the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched. -->
+  <PWU_IntegrateVpweCustomizationDesc>在PWU的定制界面中添加一个“外观”页签，用于编辑基于Vanilla Expanded Framework贴图组合系统的人格武器的组合外观（剑柄、剑刃等部件）——包括Vanilla Persona Weapons Expanded中的武器、Vanilla Races Expanded - Archons中的执政官之刃，以及任何使用同一系统的武器。此外，在PWU自身的定制选项可用之处，还会隐藏VEF单独提供的地面浮动菜单“定制”选项，让你在一个统一的位置编辑人格武器，而不是面对两个互相竞争的菜单项。默认启用；禁用此项可保持VEF原有的独立流程不受影响。</PWU_IntegrateVpweCustomizationDesc>
+
+  <!-- Settings: Haul planner -->
+  <!-- EN: Sequential -->
+  <PWU_HaulPlannerSequential>顺序搬运</PWU_HaulPlannerSequential>
+  <!-- EN: Vanilla behavior. Pawns carry up to one ingredient stack at a time, always grabbing the nearest first. Simple and predictable, but means lots of short trips for resource-heavy customizations. -->
+  <PWU_HaulPlannerSequentialDesc>原版行为。角色每次最多搬运一堆材料，且总是先取最近的一堆。简单且可预测，但在材料需求量大的定制中会产生大量短途往返。</PWU_HaulPlannerSequentialDesc>
+  <!-- EN: Sweep -->
+  <PWU_HaulPlannerSweep>清扫搬运</PWU_HaulPlannerSweep>
+  <!-- EN: Pawns plan ahead and use spare inventory space to carry more at once, while also routing more efficiently between pickups. Far fewer trips than Sequential, with negligible planning overhead. -->
+  <PWU_HaulPlannerSweepDesc>角色会提前规划，利用剩余的物品栏空间一次搬运更多材料，同时在各个取货点之间选择更高效的路线。往返次数远少于顺序搬运，而规划开销可以忽略不计。</PWU_HaulPlannerSweepDesc>
+  <!-- EN: Thorough -->
+  <PWU_HaulPlannerThorough>彻底搬运</PWU_HaulPlannerThorough>
+  <!-- EN: Like Sweep, but also weighs which stacks to draw from when the map has multiple candidates, rather than always taking the closest. Slower to plan, but usually finds the shortest runs when ingredients are scattered or carrying capacity is tight. Falls back to Sweep for hauls too complex to fully analyze. -->
+  <PWU_HaulPlannerThoroughDesc>与清扫搬运类似，但在地图上存在多个候选堆时，还会权衡该从哪些堆中取用，而不是一律取最近的。规划较慢，但在材料分散或搬运容量紧张时通常能找出最短的路线。对于过于复杂、无法完整分析的搬运，会回退到清扫搬运。</PWU_HaulPlannerThoroughDesc>
+
+</LanguageData>
