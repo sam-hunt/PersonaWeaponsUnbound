@@ -95,7 +95,7 @@ fabrication bench, bladelink customization (research), quality tiers, tech
 levels. All of these have official vanilla/Royalty translations in the
 language tars — use them rather than inventing a rendering.
 
-### Glossary — (none yet)
+### Glossary — native-review lessons (none yet)
 
 No native review has landed for this mod yet. Add a table here (English / Use
 / Never / Why, one row per term) as soon as a native-speaker review corrects a
@@ -118,17 +118,60 @@ uses «черта»; this is deliberate, flagged for native review in the
 2026-07 generation commit. (JP: 特性, shared with pawn traits — it varies
 per language.)
 
+### Glossary — Simplified Chinese (preseeded from UniqueMeleeWeapons' generation, 2026-07; no zh translation in this repo yet)
+
+UMW's 2026-07 zh-Hans run grounded the shared terms against the vanilla zh
+data; the persona-domain rows below were grounded from the Royalty zh tar at
+the same time. RimWorld's language folder is `ChineseSimplified` (tar:
+`ChineseSimplified (简体中文).tar`) — the mod folder must match it exactly.
+
+Style rules from the vanilla zh data (mandatory):
+
+- Full-width punctuation in prose (，。、；：（）……); descriptions end with 。;
+  labels and buttons carry no trailing period. Placeholders, digits and units
+  stay ASCII. Vanilla labels use full-width parens: 科研蓝图（{PROJECT_label}）.
+- Quote cited names in prose with full-width curly quotes — vanilla writes
+  任务“{0}”. Terse stat and job-report templates take no quotes.
+- Vanilla zh files can contain untranslated English values — vanilla
+  incompleteness is not style guidance. Some vanilla zh files carry a BOM;
+  ours never do.
+
+| English | Use | Never | Why |
+|---|---|---|---|
+| persona weapon (labels) | Δ' prefix: Δ'单分子剑 | 人格单分子剑 | Royalty `MeleeWeapon_MonoSwordBladelink.label`=Δ'单分子剑 — vanilla zh marks persona weapons with Δ' and never translates "persona" inside a label |
+| persona (the onboard mind, prose) | 智能人格 / 武器的人格 | | Royalty bladelink weapon descriptions |
+| persona weapon trait (stat) | 特性 (desc prose: 人格特性) | 属性 | Royalty `Stat_Thing_PersonaWeaponTrait_Label`=特性 — unlike Russian, zh agrees with Odyssey's unique-weapon term; the черта/свойство divergence has no zh counterpart |
+| persona core | 人格核心 | | Core `AIPersonaCore` |
+| techprint | 科研蓝图 | 技术图纸 | Royalty `TechprintLabel`=科研蓝图（{PROJECT_label}） |
+| monosword / plasmasword / zeushammer | 单分子剑 / 等离子剑 / 宙斯锤 | | Royalty weapon labels |
+| ultratech (attributive) | 极致科技 | 超科技 | `TechLevel_Ultra`=极致时代; `BodyPartsUltra`=极致科技 |
+| wielder | 使用者 | | Royalty `SpeedBoost` desc |
+| plasteel | 玻璃钢 | 塑钢 | Core `Plasteel` — counterintuitive, always check |
+| quality tiers | 极差/较差/一般/良好/极佳/大师级/传奇级 | | Core `QualityCategory_*` |
+
+Two persona-specific notes: Royalty zh ships the persona-weapon name grammar
+(`DefInjected/RulePackDef/MeleeBladelink.xml`, syllable-composition rules) —
+the style reference for any zh naming-grammar work here. And the
+bladelink-customization research was NOT found in the Royalty zh data during
+this preseed — ground it directly at translation time or flag it for native
+review.
+
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
 - Japanese vanilla style: ASCII punctuation (`,` `.`, never `、` `。`),
   です/ます descriptions, continuous-form job strings (〜している, no period),
   「」 around quoted labels.
 - Wrap injected `{0}` def labels in the language's quote marks (JP 「{0}」,
-  RU «{0}») — injected labels never inflect, and quoting sidesteps case and
-  agreement problems.
+  RU «{0}», zh-Hans “{0}”) — injected labels never inflect, and quoting
+  sidesteps case and agreement problems.
 - Coined vanilla terms (ideoligion) may be a portmanteau in one language
-  (RU идеолигия) and a plain word in another (JP 思想) — always check, never
-  extrapolate between languages. Relevant here for `PWU_RelicNameTooltip`.
+  (RU идеолигия) and a plain word in another (JP 思想, zh-Hans 文化) — always
+  check, never extrapolate between languages. Relevant here for
+  `PWU_RelicNameTooltip` (zh-Hans relic = 圣物).
+- Mod-coined terms recur in def labels AND in Keyed settings prose that
+  restates them. When generation is chunked across files or subagents,
+  reconcile those terms across the whole language before committing (UMW's
+  zh-Hans run needed an alignment pass for its ability/hediff/trait names).
 - When an English string is reworded, refresh every language's EN comments in
   the same commit — the checker reports mismatches as STALE either way.
 - The fuller per-language glossaries live in UniqueWeaponsUnbound's translate
@@ -140,8 +183,8 @@ per language.)
 
 1. Run the checker; confirm English itself is clean.
 2. Enumerate English Keyed keys and DefInjected-translatable def fields
-   (mirror the English file structure — there is no other language to mirror
-   yet).
+   (mirror the structure of an existing language if one exists — Russian,
+   as of 2026-07).
 3. Extract the vanilla tar for the target language into the scratchpad;
    build a term list for the grounded terms above.
 4. Translate via subagent(s) carrying: the glossary, the vanilla term list,
