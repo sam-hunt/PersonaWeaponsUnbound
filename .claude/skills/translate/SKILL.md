@@ -471,6 +471,22 @@ Style rules from the vanilla de data (mandatory):
   Keyed: 140 single-quoted placeholders, **zero** German `„…"`. Never use `„ "`,
   `» «`, or curly quotes. ASCII `"` appears ~10 times, so single quotes are the
   house style even where English uses double. Pawn names are not quoted.
+- **Hazard from that choice:** `LanguageWorker_German.PostProcessed` runs a regex
+  over every finished string that rewrites a trailing `'s` (English genitive) to
+  `s` — or to a bare `'` after s/ß/z/x/ce. So a closing ASCII single quote
+  immediately followed by a lowercase `s` at a word boundary gets silently
+  mangled. Never write `'{0}'s`; keep a space or a non-`s` character after a
+  closing quote. Nothing in this mod's de file trips it, and the checker cannot
+  see it — it is a runtime rewrite.
+- `LanguageWorker_German.PostProcessThingLabelForRelic` truncates a weapon label
+  to its bare weapon noun when the weapon becomes a relic, matching `EndsWith`
+  against a hardcoded 26-noun list (Horn, Lanze, Pulser, Werfer, Axt, Flinte,
+  Bogen, Revolver, Gewehr, Stoßzahn, Stab, Hammer, Schwert, Pistole, Dolch,
+  Büchse, Kanone, Granaten, Granate, Keule, Säbel, Messer, Rapier, Klinge, Sense,
+  Speer); on no match it falls back to the substring after the last space or
+  hyphen. Royalty's own labels land safely (Persona-Monoschwert → Monoschwert →
+  *Schwert*; Zeushammer → *Hammer*), but note **Waffe is not on the list** — a
+  de label ending in a noun outside those 26 produces a poor relic name.
 - **En dash `–`, never em dash `—`** (20 vs 0 in Core Keyed + Royalty). English
   source uses `—`, so every dash must be converted. The `<!-- EN: -->` comments
   keep the English `—` verbatim — only translated values change.
@@ -488,11 +504,35 @@ Style rules from the vanilla de data (mandatory):
   Waffen, lange Klingen) or **verb-final phrases** (`ShipComputerCore` =
   Maschinenpersona überreden, `Brewing` = Bier brauen).
 
-**The German landmine is grammatical gender, and it bites harder than Korean
-josa.** Every `Translate()` call site in this mod passes a plain `string`, not a
-`NamedArgument`, so vanilla's `{lookup: {0}; decline; 3}` and
-`{1_gender ? einen : eine : ein}` machinery **cannot resolve** — an injected def
-label is invariant text with no gender or case attached. Phrase around it:
+**The German landmine is grammatical CASE, not gender** (decompile-verified —
+`Verse.GrammarResolverSimple`, `Verse.LanguageWorker_German`,
+`Verse.LanguageWordInfo`). The two are worth separating, because the obvious
+guess is wrong in both directions:
+
+- `"key".Translate(args)` routes through `TaggedString.Formatted` →
+  **`GrammarResolverSimple`**, not the full rulepack `GrammarResolver`. A plain
+  `string` arg becomes a `NamedArgument` with a null label and lands in that
+  class's `obj is string` branch.
+- That branch **does** support, on a plain string:
+  `{0_gender ? masc : fem : neut}`, `{0_definite}`, `{0_indefinite}`,
+  `{0_plural}`, `{0_pronoun}`, `{0_possessive}`, `{0_objective}`. Gender comes
+  from `LoadedLanguage.ResolveGender` → `LanguageWordInfo`, i.e. it is looked up
+  **from the word itself**, so no arg metadata is required. German ships those
+  tables: `WordInfo/Gender/{Male,Female,Neuter,Other}.txt`, one lowercase noun
+  per line (~2450 entries in Core). So gender IS available here.
+- **`lookup` is not a function in `GrammarResolverSimple` at all.** So
+  `{lookup: {0}; decline; N}` — the only mechanism that yields *case* forms,
+  from the 2457-row `WordInfo/decline.txt` — silently fails on this path; it is
+  reachable only from the rulepack/letter resolver. And
+  `LanguageWorker_German.WithDefiniteArticle`/`WithIndefiniteArticle` return
+  **nominative only** (der/die/das, ein/eine). Case is therefore unfixable.
+- `ResolveGender`'s `defaultGender` is **Male**, so any noun absent from the
+  Gender lists — every mod-coined label — silently resolves masculine.
+
+Net rule: a **nominative** slot holding a **vanilla** noun may legitimately use
+`{0_definite}` / `{0_gender ? … : … : …}`. Anything oblique, or any mod-coined
+noun, must be restructured so no article or adjective has to agree. That is why
+this mod phrases around it everywhere:
 
 - `PWU_RequiresWorkbench` ("requires a {0}") drops the article: `erfordert {0}`.
   There is no safe way to write "einen/eine/ein {0}".
@@ -591,13 +631,21 @@ Gründlich**.
   syllable that decides the josa, so `'{0}'(와)과` resolves correctly. Note the
   de quote mark is the **ASCII** single quote, not `„…"` — vanilla de never
   uses German typographic quotes in Keyed data.
-- Gendered/case-inflecting languages need more than quoting: an injected label
-  carries no gender, so any article or adjective agreeing with it must be
-  removed rather than guessed. Every `Translate()` call in this mod passes a
-  plain `string`, so vanilla's `{lookup: …; decline; N}` and
-  `{N_gender ? … : … : …}` resolvers are unavailable — see the German glossary's
-  landmine note for the concrete rewrites (drop the article; or move the head
-  noun in front of the placeholder).
+- **Know which resolver your strings actually reach.** `"key".Translate(args)`
+  goes to `GrammarResolverSimple`, *not* the full rulepack `GrammarResolver`, so
+  the two are not interchangeable in what they support. On a plain `string` arg
+  `GrammarResolverSimple` gives you `{N_gender ? … : … : …}`, `{N_definite}`,
+  `{N_indefinite}`, `{N_plural}` and the pronoun family — gender is looked up
+  from the word itself via `LanguageWordInfo`, so no arg metadata is needed. It
+  does **not** implement `lookup` at all, so `{lookup: {0}; decline; N}` and
+  every case form it would produce are unavailable. For inflecting languages
+  that means gender is usually solvable and **case is not**: restructure so no
+  article or adjective has to agree (drop the article, or move the head noun in
+  front of the placeholder). See the German glossary for worked rewrites.
+- **A gender lookup that misses defaults to masculine** (`ResolveGender`'s
+  `defaultGender`), and mod-coined nouns are never in the vanilla Gender tables —
+  so `{N_gender ? …}` on a mod's own label is a silent coin-flip, not a fix.
+  Reserve it for vanilla nouns in nominative slots.
 - Coined vanilla terms (ideoligion) may be a portmanteau in one language
   (RU идеолигия) and a plain word in another (JP 思想, zh-Hans 文化,
   de Ideologie) — always check, never extrapolate between languages. Relevant
