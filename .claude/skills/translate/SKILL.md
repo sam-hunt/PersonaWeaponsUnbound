@@ -30,6 +30,14 @@ the source of truth; every other language derives from it.
 - English Keyed source: `1.6/Languages/English/Keyed/PWU_UI.xml`
 - Target layout: `1.6/Languages/<Language>/Keyed/*.xml` and
   `1.6/Languages/<Language>/DefInjected/<DefTypeFolder>/*.xml`
+- **`<Language>` is the vanilla tar name with the native-name suffix stripped**
+  (decompile-verified, `Verse.LoadedLanguage`): the ctor derives
+  `legacyFolderName` by cutting `folderName` at the first `(` and trimming, and
+  `AllDirectories` probes each mod for `Languages/<folderName>` first, then
+  `Languages/<legacyFolderName>`. So `Korean (한국어).tar` → the mod folder is
+  `Korean`, `ChineseSimplified (简体中文).tar` → `ChineseSimplified`, and so on.
+  Either spelling loads; this repo uses the short one throughout. Anything else
+  is silently ignored — no error, just an untranslated mod.
 - `<DefTypeFolder>` must be the def's resolvable type name: bare for vanilla
   types (`JobDef`, `RecipeDef`, `ResearchProjectDef`) — this mod currently
   defines no custom def classes of its own, so its DefInjected targets are all
@@ -281,14 +289,131 @@ renders it **飞船电脑核心** — nothing like the English. Never translate 
 `{2}` hint literally; resolve the defName through the tar. (No def named
 `MachinePersuasion` exists, so grepping the hint text finds nothing.)
 
+### Glossary — Korean (machine-assisted ko landed 2026-07-28; no native review yet)
+
+All rows below were grounded during PWU's own 2026-07-28 ko generation — Korean
+had no preseed from a sibling mod. RimWorld's language folder is `Korean` (tar:
+`Korean (한국어).tar`).
+
+**Korean is the one language so far where vanilla *does* render "bladelink".**
+Royalty ko marks persona weapons with the prefix **결속** ("bond") —
+`MeleeWeapon_MonoSwordBladelink.label` = 결속 단분자검 — and calls the class
+결속 무기 in prose. Do NOT coin here the way ja and zh had to; 결속 무기 is
+vanilla's own term. (One stray 영혼무기 "soul weapon" appears in
+`BladelinkAlreadyBondedDialog`; it is an outlier, not the term.)
+
+Style rules from the vanilla ko data (mandatory):
+
+- ASCII punctuation: `.` and `,` — never `。` or `、`. Descriptions/tooltips end
+  with `.` in polite 합니다/입니다 form; labels and buttons take no period.
+- Quote cited def labels and cross-referenced UI labels with ASCII single
+  quotes — vanilla writes 연구 프로젝트 '{PROJECT_label}'. No 「」, no curly
+  quotes. Pawn names are not quoted.
+- `RecipeDef.label` is `〜 만들기`, `jobString` is `〜 만드는 중`, and
+  `JobDef.reportString` is likewise `〜 중` — all three with no period
+  (Core `Make_ComponentSpacer`, `Make_Wort`, `BuildSnowman`).
+- Research labels are terse noun phrases (기계 설득, 심층 굴착, 정교한 강선).
+
+**Josa (particle) resolution — Korean-specific, load-bearing.** Verse ships
+`LanguageWorker_Korean`, whose `PostProcessed` runs `ReplaceJosa` over the
+finished string. Write the ambiguous particle as a paren pair and the worker
+picks the right form from the preceding syllable's batchim. Supported tokens,
+exactly: `(이)가` `(와)과` `(을)를` `(은)는` `(아)야` `(이)어` `(으)로` `(이)`.
+Anything else is left as literal text — so never invent a pair like `(과)와`
+(wrong order) or `(에)에서`. Verified in the decompiled worker:
+
+- `FindLastChar` explicitly skips a preceding `'` or `"`, so
+  `'{0}'(와)과 충돌` resolves off the label's last syllable, not the quote.
+  Quoting an injected label and then attaching a josa is safe.
+- It also walks back past a trailing `(...)` parenthetical to the char before it.
+- **`AlphabetEndPattern` is `b c k l m n p q t` only — no digits.** A josa
+  placed directly after a number therefore *always* resolves to the
+  no-batchim form, which is wrong for 1/3/6/7/8/0. Phrase around it instead:
+  PWU's `PWU_CouldNotStartReservationConflict` says `{1} x{2} 예약에
+  실패했습니다` rather than `x{2}(을)를 예약하지 못했습니다`.
+- A particle after a *fixed* Korean noun should be written literally
+  (`기본 기준(평범)과`), not as a paren pair — there is nothing to resolve.
+
+| English | Use | Never | Why |
+|---|---|---|---|
+| bladelink / persona weapon | 결속 무기 (label prefix 결속) | 블레이드링크, 페르소나 무기 | Royalty `MeleeWeapon_*Bladelink.label`, `BladelinkEquipWarning*` |
+| persona (the onboard mind) | 자아 (무기의 자아) | 인격, 페르소나 | Royalty bladelink descs, `NoPain`/`SpeedBoost` descs |
+| AI persona core | 인공자아 핵 | 인공지능 코어, 페르소나 핵 | Core `AIPersonaCore.label` |
+| trait (persona weapon) | 무기 특성 standalone; 특성 once context is the weapon | 개성 as a countable item | see the divergence note below |
+| monosword / plasmasword / zeushammer | 단분자검 / 플라즈마검 / 제우스망치 | 모노소드 | Royalty weapon labels — ko translates, does not transliterate |
+| longsword / mace | 장검 / 철퇴 | | Core labels |
+| mechanite | 나노머신 | 메카나이트 | ko has no "mechanite"; Royalty's monosword desc says 나노 기술, Biotech glands say 나노머신 |
+| techprint | 기술청사진 | 기술 도면 | Core `TechprintLabel` |
+| fabrication bench | 조립 작업대 | 제작 작업대, 정밀 작업대 | Core `FabricationBench.label` |
+| advanced components | 고급 부품 | 고급 부품류, 첨단 부품 | Core `ComponentSpacer.label`; plain components are 부품 |
+| plasteel / uranium / gold | 플라스틸 / 우라늄 / 금 | | Core labels |
+| quality (noun) / tiers | 품질 / 끔찍·빈약·평범·상급·완벽·걸작·전설적 | | Core `Quality`, `QualityCategory_*` |
+| "{0} quality or better" | `{0} 품질 이상` | | Core `NormalQualityOrBetter`=평범 품질 이상 |
+| ultratech (tech level) | 미래 | 초과학, 울트라텍 | Core `TechLevel_Ultra` |
+| Crafting (the skill) | 제작 | 수공예, 공예 | Core `Crafting.label` |
+| bill (work bill) | 계획서 (add-bill menu: 계획서 추가) | 작업 지시, 청구서 | Core `TabBills`, `AddBill` |
+| colonist | 정착민 | 식민지 주민 | Core `Colonist` |
+| research project | 연구 프로젝트 | | Core `NeedResearchBenchDesc` |
+| Cancel / Reset / Confirm / Randomize | 취소 / 초기화 / 확인 / 섞기 | 무작위 | Core `Cancel`, `Reset`, `Confirm`, `Randomize` |
+| Reset to defaults | 기본값 복원 | | Core `RestoreToDefaultSettings` |
+| Empire (faction) | 와해된 제국 | 제국 alone | Royalty `Empire.label` |
+| freewielder (trait label) | 자유 의지 | 자유 소유자 | Royalty `NeverBond.label` — quote it as '자유 의지' 특성 |
+| relic | 유물 | 성물 | Ideology `Relic`, `RelicOf` (the reliquary is 유물함) |
+| ideoligion / reform | 사상 / 사상 개혁 | 이념 | Ideology `IdeoligionOf`, `ReformIdeoligion` |
+| stopping power / burst count / burst speed | 저지력 / 연발 횟수 / 발사속도 | | Core `StoppingPower`, `BurstShotCount`, `BurstShotFireRate` |
+| armor penetration / damage | 관통력 / 피해량 | 방어 관통 | Core `ArmorPenetration`, `Damage` |
+| None / EMP stun | 없음 / EMP에 기절함 | | Core `None`, `StunnedByEMP` |
+| customize / customization | 개조 | 커스터마이즈, 맞춤 설정, 사용자 정의 | **Coined** — see the note below |
+| bladelink customization (this mod's research) | 결속 무기 개조 | | **Coined** from 결속 무기 + 개조 |
+
+Three Korean-specific notes.
+
+**The trait divergence is *inside* Royalty ko, not between DLCs.** Royalty's
+`Stat_Thing_PersonaWeaponTrait_Label` is **개성** ("individuality"), but
+Royalty's own `BladelinkEquipWarningTraits` — the heading shown when a player is
+told what traits a bladelink weapon has — is **무기 특성**, which is also
+Odyssey's `Stat_ThingUniqueWeaponTrait_Label`. So the skill's usual rule ("use
+Royalty's word, not Odyssey's") cannot decide this one: Royalty ships both. PWU
+uses 무기 특성 / 특성 because (a) it is a Royalty word for exactly this list,
+(b) 개성 appears only as the info-card *stat row name* and never as a countable
+item, and 개성 reads badly across the 20+ strings that count, conflict, hide and
+cap traits. Note ko does NOT get the Russian черта/свойство split for free: pawn
+personality traits are `<Traits>특성</Traits>` too, so 무기 특성 is the
+disambiguating form when there is no surrounding weapon context (PWU's Traits
+tab uses it for that reason). A native reviewer may prefer aligning the tab with
+the info card's 개성 — flagged in the 2026-07-28 commit; do not silently flip it
+either way.
+
+**"Customize" has essentially no vanilla ko anchor.** The only `Customize*` key
+in Core/Royalty/Ideology/Odyssey ko is `CustomizeIdeoligion` = 사상 생성
+("ideoligion creation"), a paraphrase that does not generalize; 사용자 지정
+appears twice as generic software boilerplate. PWU therefore coins **개조**
+("remodel/modification"), which is real RimWorld ko vocabulary
+(`MedicalOperationsMechanoidsShort` = 개조) and natural for weapons. It was
+chosen to stay single-valued across all 158 keys, where the word recurs
+constantly and must compose: 자아 개조 (gizmo), 개조 창 (dialog),
+개조가 중단되었습니다 (bail messages), 결속 무기 개조 (research), 개조용으로
+해금 (discovery). Flagged for native review.
+
+**Landmine that does NOT bite in Korean.** `PWU_UI.xml`'s translator comment
+calls the persona-core recipe's research prerequisite "machine persuasion
+(vanilla research label)"; the def is `ShipComputerCore`, which ja renders
+AIコンピュータコア and zh 飞船电脑核心 — nothing like the English. Korean is the
+exception: `ShipComputerCore.label` = **기계 설득**, a literal match for
+"machine persuasion". Still resolve the defName through the tar rather than
+trusting the hint — the coincidence is language-specific, not a general licence.
+
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
 - Japanese vanilla style: ASCII punctuation (`,` `.`, never `、` `。`),
   です/ます descriptions, continuous-form job strings (〜している, no period),
   「」 around quoted labels.
 - Wrap injected `{0}` def labels in the language's quote marks (JP 「{0}」,
-  RU «{0}», zh-Hans “{0}”) — injected labels never inflect, and quoting
-  sidesteps case and agreement problems.
+  RU «{0}», zh-Hans “{0}”, ko '{0}') — injected labels never inflect, and
+  quoting sidesteps case and agreement problems. Korean is the one language
+  where quoting also interacts with grammar and still works:
+  `LanguageWorker_Korean` looks *through* a preceding `'`/`"` to find the
+  syllable that decides the josa, so `'{0}'(와)과` resolves correctly.
 - Coined vanilla terms (ideoligion) may be a portmanteau in one language
   (RU идеолигия) and a plain word in another (JP 思想, zh-Hans 文化) — always
   check, never extrapolate between languages. Relevant here for
