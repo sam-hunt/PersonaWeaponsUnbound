@@ -115,8 +115,106 @@ two disagree (Royalty: черты, per `BladelinkEquipWarningTraits` and the
 Royalty DLC description; Odyssey: свойства, which is where UWU's
 "свойство, never черта" glossary row comes from). PWU's Russian therefore
 uses «черта»; this is deliberate, flagged for native review in the
-2026-07 generation commit. (JP: 特性, shared with pawn traits — it varies
-per language.)
+2026-07 generation commit. Japanese diverges the same way: Royalty's
+`Stat_Thing_PersonaWeaponTrait_Label` is 特性・特徴, while Odyssey's
+`Stat_ThingUniqueWeaponTrait_Label` is plain 特性 — use 特性・特徴 here.
+
+### Glossary — Japanese (machine-assisted ja landed 2026-07-28; no native review yet)
+
+Rows below the divider were grounded during PWU's own 2026-07-28 ja generation;
+rows above it were preseeded from UniqueMeleeWeapons' 2026-07 run and the
+Royalty JP tar. RimWorld's language folder is `Japanese` (tar:
+`Japanese (日本語).tar`) — the mod folder must match it exactly.
+
+Style rules discovered from the vanilla JP data (mandatory):
+
+- Vanilla JP uses ASCII punctuation: `,` and `.` — never `、` or `。`.
+- Descriptions/tooltips: polite です/ます form ending `.`; labels/buttons no
+  period. Thought (`ThoughtDef` stage) descriptions are plain first-person.
+- Quote injected def labels and cross-referenced UI labels with 「」. Suffixes
+  and parentheticals take no leading space and use ASCII parens.
+- `traitAdjectives` are **attributive** forms ending in の / な / い / a verb
+  (Royalty and Odyssey ship 探知の, 正確な, 灼熱の). The JP namer concatenates
+  with no space, so a bare noun reads broken.
+- Name grammar: no spaces around [symbols]; "The X of Y" → `[Y]の[X]`; vanilla
+  keeps `[RECIPIENT_possessive]` (unlike zh, which drops it).
+- Battle-log entries end in plain past tense and JP `[skillAdv]` values are
+  adverbials (巧みに, ゆっくりと), so `[skillAdvMaybe]` slots before the verb.
+- `deathMessage` keeps vanilla's space after the pawn token: `{0}は 斬られて…`.
+- DLC names stay in Latin script (Royalty, Odyssey), as does MOD.
+- Ellipsis is ASCII `...` (vanilla Keyed uses it near-exclusively; `…` is rare).
+- `RecipeDef.label` is `〜を作る` and `jobString` is `〜を作成中`;
+  `JobDef.reportString` is continuous `〜している`. All three take no period
+  (Core `Make_ComponentSpacer`, `Make_Wort`, `LayEgg`).
+- Vanilla writes `: ` (ASCII colon + space) before an injected value —
+  `テックプリントが適用された: {PROJECT_label}`. Use that, not a full-width `：`.
+- Pawn names are never quoted; def labels and cross-referenced UI labels are
+  (「」). Quality labels take 「」 in prose but not in the vanilla compound
+  `{0}以上の品質`.
+
+| English | Use | Never | Why |
+|---|---|---|---|
+| trait (persona weapon) | 特性・特徴 | 特性 alone | Royalty `Stat_Thing_PersonaWeaponTrait_Label`, `BladelinkEquipWarningTraits`; plain 特性 is Odyssey's *unique*-weapon word |
+| persona weapon / persona / bond | ペルソナ武器 / ペルソナ (人格 in the bond letter) / 絆, 絆を結ぶ | | Royalty `WeaponsMeleeBladelink`, `BladelinkEquipWarning*`, `LetterBladelinkWeaponBonded` |
+| monosword / plasmasword / zeushammer | モノソード / プラズマソード / ゼウスハンマー (persona forms prefix ペルソナ) | | Royalty weapon labels |
+| longsword / spear / mace / knife / gladius / axe / warhammer | ロングソード / スピア / メイス / ナイフ / グラディウス / 戦斧 / ウォーハンマー | 長剣, 槍 | Core/Royalty labels are mostly katakana |
+| ultratech | 最先端の技術力 (noun) / 最先端技術級 (attributive) | ウルトラテック | vanilla `TechLevel_Ultra` |
+| plasteel / jade / wood (stuff adjectives) | プラスチール製 / ヒスイ製 / 木製 | 塑鋼, 翡翠 | Core `stuffProps.stuffAdjective` — note the `〜製` shape, so `[stuff_adjective]の[noun]` composes cleanly |
+| mechanite / mechanoid | メカナイト / メカノイド | | Royalty, Odyssey descs |
+| wielder / bearer | 使用者 / 持ち主 | | Odyssey `EMPPulser` desc |
+| stun / EMP / stagger | スタン / EMP / よろめき | | `StunnedByEMP`, `StaggerDurationFactor` |
+| armor penetration / bleed rate / move speed | アーマー貫通力 / 出血量 / 移動速度 | | Core Keyed + StatDefs |
+| cut / stab (DamageDef) | 斬る / 刺す | 切創, 刺し傷 (those are the *hediff* labels) | Core DamageDefs vs HediffDefs differ |
+| humanlike / ability / quest / cooldown / cells | 人型 / 能力 / クエスト / クールダウン / セル | | Core Keyed |
+| quality tiers | 壊れかけ/低品質/標準品/良品/秀品/名品/幻の一品 | | Core `QualityCategory_*` |
+| Cancel / Reset / Reset to defaults | キャンセル / リセット / デフォルトに戻す | | vanilla Keyed buttons |
+| Traders will pay more/less for it. | 貿易商は高値で/低い価格でこれを買い取ります. | | Odyssey `GoldInlay`/`Ugly` descs — reuse verbatim |
+| — grounded in PWU's own 2026-07-28 run below — | | | |
+| persona core / AI persona core | AI人格コア | ペルソナコア | Core `AIPersonaCore.label` — vanilla JP renders "persona core" with 人格, not ペルソナ, in *this* noun |
+| techprint | テックプリント | 技術図面 | Core `TechprintLabel` |
+| fabrication bench | コンポーネント工作台 | 製造台, 精密工作機械 (that's the `Machining` research) | Core `FabricationBench.label` |
+| advanced components | 先進コンポーネント | 高度部品 | Core `ComponentSpacer.label`; plain components are コンポーネント |
+| Crafting (the skill) | 工芸 | 製作, クラフト | Core `Crafting.label` |
+| bill (work bill) | 加工 (add-bill menu: 新しい加工) | 請求, ビル | Core `TabBills`=加工, `AddBill`=新しい加工 |
+| recipe | レシピ | | Core `Stat_Recipe_*`, `RecipeRequiresSkills` |
+| Empire (faction) | 落日の帝国 | 帝国 alone | Royalty `Empire.label` |
+| ideoligion / reform | 思想 / 思想を改変 | イデオロギー | Ideology `IdeoligionOf`, `ReformIdeoligion` |
+| relic | レリック | 聖遺物 (that's the *reliquary*, 聖遺物箱) | Ideology `RelicOf`, `RelicTip` |
+| freewielder (trait label) | 自由支配者 | 自由 | Royalty `NeverBond.label` — quote it as 「自由支配者」 when naming it |
+| stopping power / burst count / burst speed | 威力 / バースト時の弾数 / 連射速度 | 抑止力 | Core `StoppingPower`, `BurstShotCount`, `BurstShotFireRate` |
+| "{0} quality or better" | `{0}以上の品質` | | Core `NormalQualityOrBetter`=普通以上の品質 |
+| Confirm / Randomize | 了承 / ランダム | 確定 | Core `Confirm`, `Randomize` |
+| colonist / research project / appearance | 入植者 / 研究プロジェクト / 外観 | | Core `Colonist`, `NeedResearchBenchDesc`, `Appearance` |
+| plasteel / uranium | プラスチール / ウラン | | Core `Plasteel.label`, `Uranium.label` |
+| gizmo button | コマンドボタン | ギズモ | Core `Command*Desc` calls them コマンド |
+| bladelink customization (this mod's research) | ペルソナ武器のカスタマイズ | | **Coined** — see the note below |
+
+Two persona-specific notes.
+
+**"Bladelink" has no standalone ja rendering anywhere in vanilla.** Vanilla ja
+prefixes the persona weapons with ペルソナ (ペルソナモノソード) and calls the
+mind ペルソナ / 武器に宿るペルソナ in prose, while the `MeleeWeapon_*Bladelink`
+ThingDef descriptions switch to 搭載されたAI and 生体認証 — the term itself is
+always sidestepped. So `PWU_BladelinkCustomization.label` is a coinage:
+ペルソナ武器のカスタマイズ, chosen to keep カスタマイズ single-valued across all
+158 keys (the word recurs constantly: "customization interrupted",
+"customization dialog", "customization research"). It is longer than vanilla's
+typical research label, and Royalty *does* transliterate the parallel
+construction — `Gunlink.label` is ガンリンク — so a native reviewer may well
+prefer a terser ブレードリンク改変 or ペルソナ武器改変. Flagged for native review
+in the 2026-07-28 commit; do not silently "correct" it either way. Note 改変 is
+vanilla's own verb for altering a persona core (`ShipComputerCore`'s
+`generalRules` ship `subject->AI人格コア改変`) and for `ReformIdeoligion`, so it
+is the grounded alternative if the reviewer wants brevity.
+
+**Landmine — the persona-core recipe's research prerequisite.** `PWU_UI.xml`'s
+translator comment calls it "machine persuasion (vanilla research label)", and
+that is the correct *English* label, but the def is `ShipComputerCore` and ja
+renders it **AIコンピュータコア** — nothing like the English. It reaches the
+player through `{2}` at runtime, so nothing is translated there, but never
+resolve that hint literally when phrasing around it; look the defName up in the
+tar. (No def named `MachinePersuasion` exists, so grepping the hint text finds
+nothing.)
 
 ### Glossary — Simplified Chinese (machine-assisted zh landed 2026-07-28; no native review yet)
 
