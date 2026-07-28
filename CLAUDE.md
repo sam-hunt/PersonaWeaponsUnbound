@@ -8,8 +8,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repo is a fork of **Unique Weapons Unbound** (UWU, Odyssey unique weapons), carrying its git history. Design: `Docs/DESIGN.md`. Conversion spec: `Docs/Specs/PERSONA_FORK.md`. Bladelink internals research: `Docs/Research/BLADELINK_WEAPONS.md`.
 
-**Key Technologies:** C# (.NET Framework 4.7.2), Harmony library, RimWorld modding API, XML definitions
-
 ## Build Commands
 
 ```bash
@@ -37,8 +35,6 @@ A gitignored Stop hook (`.claude/hooks/sync-mod.sh`) rebuilds + redeploys after 
 
 **WSL Setup:** Requires `RIMWORLD_PATH` env var in `~/.bashrc` pointing to the Windows RimWorld install (e.g., `/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld`).
 
-**Releases:** Push a tag matching `v*.*.*` to trigger the release workflow (`.github/workflows/release.yml`).
-
 ### Tests
 
 xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run with `./Scripts/test-windows.sh` — WSL can't host the net472 runner, so it shells out to the Windows `dotnet` CLI. CI builds but doesn't run it.
@@ -48,22 +44,6 @@ xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run with `./
 ### Entry Point
 
 `Source/1.6/Core/ModInitializer.cs` - Static constructor with `[StaticConstructorOnStartup]` auto-patches via Harmony attribute discovery. Harmony ID: `shunter.personaweaponsunbound` (must never collide with the UWU sibling mod's Harmony ID — the two mods are designed to coexist).
-
-### Mod Structure
-
-```
-About/About.xml     # Mod metadata, dependencies, load order
-LoadFolders.xml     # Tells RimWorld to load root (/) and 1.6/
-
-Source/1.6/
-├── Core/           # ModInitializer (Harmony bootstrap)
-├── Properties/     # AssemblyInfo
-
-1.6/
-├── Assemblies/     # Build output (DLL) — gitignored
-├── Defs/           # XML definitions (ThingDefs, etc.)
-├── Patches/        # XML patches (XPath-based)
-```
 
 ### Key Patterns
 
@@ -86,31 +66,3 @@ Source/1.6/
    - **Linux (Steam):** `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
 3. **Logging:** Use `Log.Message("[Persona Weapons Unbound] ...")` for mod-specific logs
 4. **Inspect RimWorld API:** `monodis "/mnt/c/.../RimWorldWin64_Data/Managed/Assembly-CSharp.dll"`
-
-## Harmony Patch Examples
-
-**Postfix Pattern:**
-
-```csharp
-[HarmonyPatch(typeof(TargetClass), nameof(TargetClass.MethodName))]
-public static class TargetClass_MethodName_Postfix
-{
-    [HarmonyPostfix]
-    public static void Postfix(TargetClass __instance, ref ReturnType __result)
-    {
-        // __instance: object method was called on
-        // __result: return value (modifiable with ref)
-    }
-}
-```
-
-**Prefix Pattern (for skipping original):**
-
-```csharp
-[HarmonyPrefix]
-public static bool Prefix(ref ReturnType __result)
-{
-    __result = newValue;
-    return false; // Skip original method
-}
-```
