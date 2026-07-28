@@ -130,8 +130,12 @@ uses «черта»; this is deliberate, flagged for native review in the
 The check is mandatory but its answer is not always "they differ": zh-Hans
 agrees across both DLCs (特性), German agrees across both DLCs *and* with the
 pawn-trait word (Merkmale), and Korean diverges *within* Royalty rather than
-between DLCs (개성 vs 무기 특성). Run the lookup every time; record what came
-back in that language's glossary either way.
+between DLCs (개성 vs 무기 특성). Spanish is the cleanest divergence of all —
+Royalty says **características** in *both* `Stat_Thing_PersonaWeaponTrait_Label`
+and `BladelinkEquipWarningTraits`, while Odyssey's
+`Stat_ThingUniqueWeaponTrait_Label` *and* Core's pawn `<Traits>` both say
+**rasgos**. Run the lookup every time; record what came back in that language's
+glossary either way.
 
 ### Glossary — Japanese (machine-assisted ja landed 2026-07-28; no native review yet)
 
@@ -618,13 +622,191 @@ Memory tab reads consistently against `PWU_TabMemory` = Gedächtnis. The haul
 planner modes are mod-coined with no vanilla anchor: **Sequenziell / Sammelgang /
 Gründlich**.
 
+### Glossary — Spanish (machine-assisted es landed 2026-07-29; no native review yet)
+
+All rows below were grounded during PWU's own 2026-07-29 es generation — Spanish
+had no preseed from a sibling mod. RimWorld ships **two** Spanish variants:
+`Spanish (Español(Castellano)).tar` → folder `Spanish`, and
+`SpanishLatin (Español(Latinoamérica)).tar` → folder `SpanishLatin`. This mod
+targets Castellano, so the folder is `Spanish`. SpanishLatin is a *separate*
+language with its own tar — never assume a term carries across; re-ground if
+that variant is ever added.
+
+**"Persona" is a false friend and vanilla es never uses it for the weapon mind.**
+Spanish *persona* means "person", so "arma persona" reads as "person weapon".
+Vanilla es systematically renders the onboard persona as **la IA** and the weapon
+class as **arma vinculada** ("bonded weapon"):
+`MeleeWeapon_MonoSwordBladelink.label` = mono-espada **vinculada**,
+`WeaponsMeleeBladelink.label` = armas de filo vinculadas,
+`BladelinkEquipWarning` = "la **IA** del arma", the bladelink ThingDef
+descriptions = "una **IA** incorporada" / "el arma inteligente", and
+`AIPersonaCore.label` = **núcleo de IA** (not "núcleo de persona"). PWU follows
+this throughout: the gizmo is "Personalizar IA", not "Personalizar persona". This
+is the single most important es rule — a literal "persona" anywhere in a value is
+a bug. (It legitimately appears in EN comments, which quote the English verbatim.)
+
+**Spanish needs no coinage for the two terms ja and zh had to invent.** Both
+halves of this mod's central phrase are vanilla es: `CustomizeIdeoligion` =
+"**Personalizar** ideoligión" gives customize = personalizar / personalización,
+and *vinculada* covers bladelink. So `PWU_BladelinkCustomization.label` is
+composed, not coined: **personalización de armas vinculadas**. Length is in line
+with vanilla es research labels (televisión de pantalla plana, sarcófagos de
+criptosueño, escáner de largo alcance). A native reviewer might prefer a terser
+"personalización de armas con IA"; flagged in the 2026-07-29 commit — do not
+silently flip it either way.
+
+Style rules from the vanilla es data (mandatory):
+
+- **ASCII double quotes** `"{0}"` around cited def labels and UI labels. Counted
+  in Core+Royalty Keyed: 40 `"{`, **zero** `«` and **zero** `“`. Never use
+  `«…»` or curly quotes — es vanilla ships neither. ASCII single quotes appear
+  11 times; double is the house style. Pawn names are not quoted.
+- **Inverted `¿` and `¡` are required** (51 and 50 in Core Keyed). `¿Continuar?`
+  is vanilla's own exact phrasing (`ChangedTextureCompressionRestart`), which is
+  what `PWU_BondSeveredWarning` reuses.
+- **No em dash AND no en dash** — 0 `—` and 0 `–` in Core Keyed, 3 and 2 across
+  the whole Core+Royalty corpus, i.e. effectively unused. English source uses
+  `—`, so every dash must be *restructured away*, not swapped for `–` the way
+  German does. PWU converts them to a colon (`PWU_IntegrateVpweCustomizationDesc`)
+  and to parentheses (`PWU_Make_AIPersonaCore.description`).
+- Ellipsis is ASCII `...` (75 in Core Keyed, `…` zero).
+- Descriptions/tooltips end with `.`; labels, buttons and float-menu reasons take
+  none. Settings prose uses informal **tú** imperatives (Actívalo, Desactívalo,
+  Ponlo a 0) — vanilla es is consistently tú, never usted.
+- `RecipeDef.label` is lowercase infinitive with **no article** (Core
+  `Make_Gun_AssaultRifle` = "fabricar fusil de asalto"); `description` is
+  third-person present **with** article and period ("Fabrica un fusil de
+  asalto."); `jobString` is a capitalized gerund **with** period ("Fabricando
+  fusil de asalto."). `JobDef.reportString` is a lowercase gerund with period
+  ("aplicando tecnoplanos", "poniendo huevo."). Like German — and unlike ja/ko —
+  es job strings take terminal periods.
+- Research labels are lowercase noun phrases (fabricación avanzada, biónica,
+  metabolismo artificial).
+
+**The Spanish landmine is GENDER agreement** (decompile-verified —
+`Verse.LanguageWorker_Spanish`, `Verse.LanguageWordInfo`,
+`Verse.GrammarResolverSimple`). Unlike German, gender resolution genuinely works
+on the `.Translate()` path — and unlike German, that still doesn't save you here:
+
+- `LanguageWorker_Spanish` overrides only `WithIndefiniteArticle` (un/una/unos/
+  unas), `WithDefiniteArticle` (el/la/los/las), `OrdinalNumber` and `Pluralize`.
+  There is **no `PostProcessed` override**, so es has no German-style silent
+  string rewrite to trip over.
+- Vanilla es *does* use the resolver freely: 20 `{0_gender ? o : a}`, 18
+  `{0_indefinite}`, 9 `{0_definite}` in Core+Royalty Keyed. Gender tables are
+  well populated (Female 2771 / Male 1771 / Neuter 163 lines).
+- **But the specific nouns PWU injects are absent from those tables.** Checked:
+  `arma`, `calidad`, `característica`, `investigación`, `núcleo`, `tecnoplano`,
+  `reliquia`, and every weapon label (`mono-espada`, `espada de plasma`,
+  `martillo de Zeus`) all return no match. `ResolveGender`'s `defaultGender` is
+  **Male**, so each would silently resolve masculine — wrong for `calidad`,
+  `característica` and `investigación`. Only `mesa de ensamblaje` is present
+  (Female).
+- `WithDefiniteArticle` is plain `"el "`/`"la "` concatenation: it produces **no
+  contractions**, so `de {0_definite}` renders "de el ..." instead of "del", and
+  `a {0_definite}` gives "a el" instead of "al". It also doesn't handle the
+  "el agua" class (feminine nouns taking *el*).
+
+Net rule: same as German — restructure so no article or adjective has to agree
+with an injected value. Worked rewrites in this mod:
+
+- `PWU_RequiresWorkbench` ("requires a {0}") drops the article: `requiere {0}`.
+  Necessary, not stylistic: `{0}` comes from `ResolveWorkbenchLabel`, which
+  returns an arbitrary member of a VEF-expandable bench set, so the noun is
+  genuinely unknown at write time.
+- `PWU_RequiresMinimumQuality` quotes the label: `requiere calidad "{0}" o
+  mejor`. Quality labels are **adjectives**, and vanilla es is itself
+  gender-inconsistent about them (`QualityCategory_Good` = bueno *masculine*,
+  `QualityCategory_Legendary` = legendaria *feminine*), so no unquoted form
+  agrees with feminine *calidad* for all seven tiers. Vanilla's own
+  `NormalQualityOrBetter` = "calidad normal o mejor" is pre-inflected and cannot
+  be templated. Quoting turns the mismatch into a cited value. Same treatment in
+  `PWU_CostTableNotApplicableDesc` (`fijado en "{0}"`).
+- Bail/error messages use `Personalización de {0} interrumpida: …` — `de` + no
+  article is case- and gender-proof, the es counterpart of German's `von`-frame.
+- After a **colon** no quotes are needed (`Personalizar IA: {0}`,
+  `Calidad mínima del arma: {0}`) — matches vanilla's
+  `LetterTechprintAppliedLabel` = "Tecnoplano aplicado: {PROJECT_label}".
+- The one place an inflected article IS used is `en la {1}` in the four
+  `PWU_Enable*RecipeDesc` strings. Deliberate and safe: `{1}` is hard-bound to
+  `PWU_ThingDefOf.FabricationBench.label` in `PWU_Mod.cs`, which es renders
+  **mesa de ensamblaje** (feminine, and the one injected noun actually present in
+  the Female table). Do not generalize it to an unpinned placeholder. This is the
+  exact analogue of German's `am {1}`.
+- Fixed Spanish nouns inflect normally (una espada larga, un arma de obra
+  maestra) — only *injected* values need the workaround.
+
+| English | Use | Never | Why |
+|---|---|---|---|
+| persona (the onboard mind) | la IA | la persona, el personaje | `BladelinkEquipWarning` = "la IA del arma"; *persona* means "person" in Spanish |
+| persona weapon / bladelink weapon | arma vinculada (label suffix vinculada; category: armas de filo vinculadas) | arma persona, arma de enlace | Royalty `MeleeWeapon_*Bladelink.label`, Core `WeaponsMeleeBladelink.label` |
+| trait (persona weapon) | característica | rasgo | Royalty `Stat_Thing_PersonaWeaponTrait_Label` **and** `BladelinkEquipWarningTraits`; *rasgo* is Odyssey's unique-weapon word AND Core's pawn-trait word |
+| customize / customization | personalizar / personalización | adaptar, configurar, modificar | Core `CustomizeIdeoligion` = "Personalizar ideoligión" |
+| bond (noun / verb) | vínculo / vincularse, vinculada | enlace, unión | Core `BladelinkAlreadyBonded*`, `LetterBladelinkWeaponBonded` |
+| AI persona core | núcleo de IA | núcleo de persona, núcleo de personalidad | Core `AIPersonaCore.label` |
+| wielder / bearer | portador | usuario, empuñador | Royalty WeaponTraitDef descs, consistently |
+| techprint | tecnoplano | plano técnico, anteproyecto | Core `TechprintLabel` = "tecnoplano ({PROJECT_label})" |
+| fabrication bench | mesa de ensamblaje | mesa de fabricación (that's the *blueprint* label), banco de trabajo | Core `FabricationBench.label` — note the Blueprint/Frame defs disagree with the ThingDef; the ThingDef label is what PWU injects |
+| workbench (generic) | mesa de trabajo | puesto de trabajo, banco | Core bench `description`s, ~6 uses |
+| advanced components | componentes avanzados | componentes de alta tecnología | Core `ComponentSpacer.label`; plain components are componentes |
+| monosword / plasmasword / zeushammer | mono-espada / espada de plasma / martillo de Zeus | monoespada, plasmaespada, zeusmartillo | Royalty weapon labels — es translates and hyphenates mono-espada |
+| longsword / handle / edge / point | espada larga / empuñadura / filo / punta | mandoble | Core + Royalty `tools.*.label` |
+| mechanite | mecanita(s) | nanomáquina, mecanito | Core `FibrousMechanites`, Royalty monosword desc. Vanilla es is gender-inconsistent here ("las mecanitas" but also "mecanitas fibrosos"); PWU uses feminine, matching the dominant Royalty desc |
+| plasteel / uranium / gold | plastiacero / uranio / oro | plasacero, plastilita | Core labels — **plastiacero**, counterintuitive, always check |
+| quality (noun) / tiers | calidad / horrible·mediocre·normal·bueno·excelente·obra maestra·legendaria | | Core `Quality`, `QualityCategory_*` — tiers are lowercase and **gender-inconsistent** (see the landmine above) |
+| "{0} quality or better" | `calidad "{0}" o mejor` | `calidad {0} o mejor` | quoting is required; `NormalQualityOrBetter` = "calidad normal o mejor" is pre-inflected feminine |
+| ultratech (tech level) | ultra | ultratecnología, supertecnología | Core `TechLevel_Ultra` |
+| Crafting (the skill) | Fabricación | artesanía, manufactura | Core `Crafting.label` |
+| bill (work bill) | proyecto (add-bill menu: Añadir proyecto) | pedido, factura, encargo | Core `TabBills` = Proyectos, `AddBill` = Añadir proyecto. **Collides with "research project" (proyecto de investigación)** — keep the qualifier whenever both could be meant |
+| recipe | receta | | Core `Stat_Recipe_*` |
+| pawn | personaje | peón, muñeco | Core `Stat_Recipe_WorkSpeedStat_Desc` = "característica del personaje" |
+| colonist / research project | colono / proyecto de investigación | colonizador | Core `Colonist`, `NeedResearchBenchDesc` |
+| Cancel / Reset / Confirm / Randomize | Cancelar / Restablecer / Confirmar / Aleatorizar | Reiniciar, Al azar | Core buttons |
+| Reset to defaults | Restablecer valores por defecto | Valores predeterminados | Core `RestoreToDefaultSettings` = Restablecer, `Default` = Por defecto |
+| None / Warning / Appearance | Ninguno / Advertencia / Apariencia | Nada, Aviso, Aspecto | Core `None`, `Warning`, `Appearance` |
+| Empire (faction) | imperio destrozado | imperio alone | Royalty `Empire.label` |
+| Empire traders | comerciantes imperiales | comerciantes del imperio | Royalty `Orbital_Empire.label` = comerciante imperial |
+| freewielder (trait label) | liberal | libre, sin vínculo | Royalty `NeverBond.label` — quote it as `"liberal"` when naming it |
+| relic / reliquary | reliquia / relicario | reliquiario, vestigio | Ideology `Relic`, `RelicOf`, `Reliquary.label` |
+| ideoligion / reform | ideoligión / reformar ideoligión | ideología | Ideology `IdeoligionOf`, `ReformIdeoligion` — es keeps the portmanteau, like Russian and unlike ja/zh/de |
+| stopping power / burst count / burst speed | Potencia de parada / Tiros por ráfaga / Cadencia de tiro | Poder de parada | Core `StoppingPower`, `BurstShotCount`, `BurstShotFireRate` |
+| armor penetration / damage / accuracy | Penetración de blindaje / Daño / Precisión | Penetración de armadura | Core `ArmorPenetration`, `Damage`, `Accuracy` |
+| EMP / EMP stun | PEM / Aturdido por PEM | EMP | Core `StunnedByEMP`, Royalty zeushammer desc — es localizes the acronym |
+| quest / hostiles | misión / hostiles | búsqueda | Ideology `RelicTip`, Core `Hostiles` |
+| unreachable / no power | inalcanzable / sin energía | inaccesible (reserve for "not accessible") | Core `CannotReach`, `NoPower` |
+| hauling / stack | transporte / montón | acarreo, pila | Core `WorkTagHauling` |
+| rename | renombrar | cambiar el nombre | Core `Rename` |
+| "{0} days ago" | `hace {0} días` | | Core `AwokeDaysAgo` = "Despertó hace {0} días" |
+| gizmo button | botón de comando | gizmo, artilugio | no vanilla es `Gizmo*` key exists; `Command*Desc` establishes "comando" |
+
+Two further Spanish notes.
+
+**Landmine — the persona-core recipe's research prerequisite.** `PWU_UI.xml`'s
+translator comment calls it "machine persuasion (vanilla research label)". The
+def is `ShipComputerCore`, and es renders it **persuasión de IA** — "AI
+persuasion", not "machine persuasion". Close enough to the English hint to be
+seductive, still not a literal match, and the noun is *IA* rather than *máquina*,
+which matters because es reuses IA for the weapon persona. It reaches the player
+through `{2}` at runtime so nothing is translated there, but resolve the defName
+through the tar every time rather than trusting the hint. (No def named
+`MachinePersuasion` exists, so grepping the hint text finds nothing.)
+
+**Kill tracker vs kill memory, and the haul planner.** English's "kill tracker"
+(toggle label) and "kill memory" (prose) split into **registro de muertes** and
+**memoria de muertes** respectively — es keeps the distinction rather than
+collapsing it the way German does, because both read naturally against
+`PWU_TabMemory` = Memoria. Haul planner modes are mod-coined with no vanilla
+anchor: **Secuencial / Barrido / Exhaustivo**.
+
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
 - Japanese vanilla style: ASCII punctuation (`,` `.`, never `、` `。`),
   です/ます descriptions, continuous-form job strings (〜している, no period),
   「」 around quoted labels.
 - Wrap injected `{0}` def labels in the language's quote marks (JP 「{0}」,
-  RU «{0}», zh-Hans “{0}”, ko '{0}', de '{0}') — injected labels never inflect,
+  RU «{0}», zh-Hans “{0}”, ko '{0}', de '{0}', es "{0}") — note de and es both
+  use ASCII quotes but *different* ones (single vs double), and neither uses its
+  own typographic pair (`„…"` / `«…»`) in Keyed data — injected labels never inflect,
   and quoting sidesteps case and agreement problems. Korean is the one language
   where quoting also interacts with grammar and still works:
   `LanguageWorker_Korean` looks *through* a preceding `'`/`"` to find the
