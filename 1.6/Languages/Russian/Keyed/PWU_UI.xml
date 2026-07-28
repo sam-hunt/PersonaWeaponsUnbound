@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Float menu / Gizmo -->
+  <!-- EN: Customize persona: {0} -->
+  <PWU_CustomizeWeapon>Настроить личность: {0}</PWU_CustomizeWeapon>
+  <!-- EN: requires {0} -->
+  <PWU_RequiresResearch>требуется {0}</PWU_RequiresResearch>
+  <!-- EN: requires a {0} -->
+  <PWU_RequiresWorkbench>требуется {0}</PWU_RequiresWorkbench>
+  <!-- EN: no suitable workbench -->
+  <PWU_NoSuitableWorkbench>нет подходящего верстака</PWU_NoSuitableWorkbench>
+  <!-- EN: requires {0} quality or better -->
+  <PWU_RequiresMinimumQuality>требуется качество {0} или выше</PWU_RequiresMinimumQuality>
+  <!-- EN: Customize persona -->
+  <PWU_CustomizeGizmoLabel>Настроить личность</PWU_CustomizeGizmoLabel>
+  <!-- EN: Select a colonist to customize this weapon at a nearby workbench. -->
+  <PWU_CustomizeGizmoDesc>Выберите поселенца, чтобы настроить это оружие на ближайшем верстаке.</PWU_CustomizeGizmoDesc>
+
+  <!-- Dev-mode diagnostic reasons (surfaced when Prefs.DevMode is on, otherwise hidden) -->
+  <!-- EN: no persona variant -->
+  <PWU_DevNoPersonaVariant>нет варианта с личностью</PWU_DevNoPersonaVariant>
+  <!-- EN: base variant upgrades disabled -->
+  <PWU_DevDefConversionDisabled>преобразование базового варианта отключено</PWU_DevDefConversionDisabled>
+
+  <!-- Dialog: Buttons -->
+  <!-- EN: Cancel -->
+  <PWU_Cancel>Отменить</PWU_Cancel>
+  <!-- EN: Reset -->
+  <PWU_Reset>Сбросить</PWU_Reset>
+  <!-- EN: Confirm -->
+  <PWU_Confirm>Подтвердить</PWU_Confirm>
+  <!-- EN: Randomize -->
+  <PWU_Randomize>Случайно</PWU_Randomize>
+  <!-- EN: Reset to defaults -->
+  <PWU_ResetToDefaults>Сбросить на значения по умолчанию</PWU_ResetToDefaults>
+
+  <!-- Dialog: Tabs -->
+  <!-- EN: Traits -->
+  <PWU_TabTraits>Черты</PWU_TabTraits>
+  <!-- EN: Memory -->
+  <PWU_TabMemory>Память</PWU_TabMemory>
+  <!-- EN: Texture -->
+  <PWU_TabTexture>Текстура</PWU_TabTexture>
+
+  <!-- Dialog: Controls -->
+  <!-- EN: This weapon is an ideology relic. Its name can only be changed when forming or reforming an ideoligion. -->
+  <PWU_RelicNameTooltip>Это оружие — реликвия идеолигии. Её название можно изменить только при создании или реформировании идеолигии.</PWU_RelicNameTooltip>
+  <!-- EN: Select at least one trait first -->
+  <PWU_SelectTraitFirst>Сначала выберите хотя бы одну черту</PWU_SelectTraitFirst>
+  <!-- EN: Auto-regenerate name when traits change -->
+  <PWU_AutoRegenName>Автоматически обновлять название при изменении черт</PWU_AutoRegenName>
+  <!-- EN: Hide negative traits -->
+  <PWU_HideNegativeTraits>Скрывать негативные черты</PWU_HideNegativeTraits>
+
+  <!-- Dialog: Cost display -->
+  <!-- EN: Net refund:  -->
+  <PWU_NetRefund>Чистый возврат: </PWU_NetRefund>
+  <!-- EN: None -->
+  <PWU_RefundNone>Нет</PWU_RefundNone>
+  <!-- EN: Net cost:  -->
+  <PWU_NetCost>Чистая стоимость: </PWU_NetCost>
+  <!-- EN: Free -->
+  <PWU_CostFree>Бесплатно</PWU_CostFree>
+  <!-- EN: Missing resources -->
+  <PWU_MissingResources>Недостающие ресурсы</PWU_MissingResources>
+  <!-- EN: Required materials are insufficient, forbidden, reserved by another pawn, or unreachable from this pawn's position. -->
+  <PWU_NotEnoughMaterials>Необходимых материалов недостаточно, они запрещены, зарезервированы другим поселенцем или недоступны с текущей позиции поселенца.</PWU_NotEnoughMaterials>
+  <!-- EN: Could not customize {0}: no viable haul plan. -->
+  <PWU_CouldNotStartPlanInfeasible>Не удалось настроить {0}: нет возможного плана переноски.</PWU_CouldNotStartPlanInfeasible>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2}. -->
+  <PWU_CouldNotStartReservationConflict>Не удалось настроить {0}: не удалось зарезервировать {1} x{2}.</PWU_CouldNotStartReservationConflict>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2} (held by {3}). -->
+  <PWU_CouldNotStartReservationConflictHeldBy>Не удалось настроить {0}: не удалось зарезервировать {1} x{2} (занято {3}).</PWU_CouldNotStartReservationConflictHeldBy>
+  <!-- EN: Could not customize {0}: internal error. See log. -->
+  <PWU_CouldNotStartInternalError>Не удалось настроить {0}: внутренняя ошибка. См. лог.</PWU_CouldNotStartInternalError>
+
+  <!-- Trait tooltips -->
+  <!-- EN: Effects: -->
+  <PWU_Effects>Эффекты:</PWU_Effects>
+  <!-- EN: Damage type -->
+  <PWU_DamageType>Тип урона</PWU_DamageType>
+  <!-- EN: Extra damage -->
+  <PWU_ExtraDamage>Дополнительный урон</PWU_ExtraDamage>
+  <!-- EN: Burst speed -->
+  <PWU_BurstSpeed>Скорость очереди</PWU_BurstSpeed>
+  <!-- EN: Burst count -->
+  <PWU_BurstCount>Количество выстрелов в очереди</PWU_BurstCount>
+  <!-- EN: Stopping power -->
+  <PWU_StoppingPower>Останавливающая сила</PWU_StoppingPower>
+  <!-- EN: Ignores accuracy penalties -->
+  <PWU_IgnoresAccuracyPenalties>Игнорирует штрафы точности</PWU_IgnoresAccuracyPenalties>
+
+  <!-- Trait validation -->
+  <!-- EN: Already applied -->
+  <PWU_AlreadyApplied>Уже применена</PWU_AlreadyApplied>
+  <!-- EN: Maximum traits reached -->
+  <PWU_MaxTraitsReached>Достигнут лимит черт</PWU_MaxTraitsReached>
+  <!-- EN: Conflicts with {0} -->
+  <PWU_ConflictsWith>Конфликтует с {0}</PWU_ConflictsWith>
+  <!-- EN: Cannot be the only trait -->
+  <PWU_CannotBeOnlyTrait>Не может быть единственной чертой</PWU_CannotBeOnlyTrait>
+  <!-- EN: {0} cannot be the only trait -->
+  <PWU_TraitCannotBeOnlyTrait>{0} не может быть единственной чертой</PWU_TraitCannotBeOnlyTrait>
+  <!-- EN: Must disarm from hostile -->
+  <PWU_OnlyOnHostiles>Должна быть отобрана у враждебного</PWU_OnlyOnHostiles>
+  <!-- EN: Warning: this is the only weapon in your pool with this trait. Removing it will remove the trait from the pool of traits you can apply to other weapons. -->
+  <PWU_LastTraitSourceWarning>Предупреждение: это единственное оружие в вашем пуле с данной чертой. Её удаление уберёт эту черту из списка доступных для применения к другому оружию.</PWU_LastTraitSourceWarning>
+  <!-- EN: Adding this trait makes the weapon free-wielding, severing its bond with {0}. -->
+  <PWU_NeverBondSeversBond>Добавление этой черты освобождает оружие от привязанности, разрывая его связь с {0}.</PWU_NeverBondSeversBond>
+  <!-- EN: Reverting this weapon to its base form will sever its bond with {0}. Continue? -->
+  <PWU_BondSeveredWarning>Возврат этого оружия к базовой форме разорвёт его связь с {0}. Продолжить?</PWU_BondSeveredWarning>
+  <!-- EN: No traits match your search. -->
+  <PWU_NoTraitsMatchSearch>Ни одна черта не соответствует вашему запросу.</PWU_NoTraitsMatchSearch>
+  <!-- EN: No traits available yet.\n\nEncounter persona weapons via Empire traders, quests, relics, or hostiles\nto unlock their traits for customization. -->
+  <PWU_NoTraitsDiscovered>Пока нет доступных черт.\n\nВстречайте оружие с личностью у торговцев Империи, в заданиях, среди реликвий или у врагов,\nчтобы открыть его черты для настройки.</PWU_NoTraitsDiscovered>
+  <!-- EN: All available traits for this weapon are negative. Disable "Hide negative traits" below to view them. -->
+  <PWU_NoTraitsAfterHideNegative>Все доступные для этого оружия черты являются негативными. Отключите «Скрывать негативные черты» ниже, чтобы их увидеть.</PWU_NoTraitsAfterHideNegative>
+  <!-- EN: No traits are compatible with this weapon. -->
+  <PWU_NoTraitsAvailable>Ни одна черта не совместима с этим оружием.</PWU_NoTraitsAvailable>
+
+  <!-- Dialog: Memory tab -->
+  <!-- EN: The weapon must host a persona before its memory can be wiped. -->
+  <PWU_MemoryRequiresPersona>В оружии должна быть личность, прежде чем его память можно будет стереть.</PWU_MemoryRequiresPersona>
+  <!-- EN: No change -->
+  <PWU_MemoryNoWipe>Без изменений</PWU_MemoryNoWipe>
+  <!-- EN: Wipe bonding -->
+  <PWU_MemoryWipeBonding>Стереть связь</PWU_MemoryWipeBonding>
+  <!-- EN: Erase the persona's bond, and its kill memory with it. The weapon returns to bonding with the next pawn to equip it. -->
+  <PWU_MemoryWipeBondingDesc>Стереть связь личности, а вместе с ней и память об убийствах. Оружие снова сформирует связь со следующим, кто его экипирует.</PWU_MemoryWipeBondingDesc>
+  <!-- EN: Wipe kill tracker -->
+  <PWU_MemoryWipeKillTracker>Стереть счётчик убийств</PWU_MemoryWipeKillTracker>
+  <!-- EN: Erase the persona's memory of its kills. The bond is untouched. -->
+  <PWU_MemoryWipeKillTrackerDesc>Стереть память личности о совершённых убийствах. Связь останется нетронутой.</PWU_MemoryWipeKillTrackerDesc>
+  <!-- EN: Last kill: {0} days ago -->
+  <PWU_MemoryLastKill>Последнее убийство: {0} дн. назад</PWU_MemoryLastKill>
+  <!-- EN: Not bonded -->
+  <PWU_MemoryNotBonded>Связь не сформирована</PWU_MemoryNotBonded>
+  <!-- EN: No kills remembered -->
+  <PWU_MemoryNoKillMemory>Убийств не записано</PWU_MemoryNoKillMemory>
+  <!-- EN: The freewielder trait already severs the bond -->
+  <PWU_MemoryBondSeveredByTrait>Черта «свободолюбие» уже разрывает связь</PWU_MemoryBondSeveredByTrait>
+  <!-- EN: Severing the bond wipes kill memory too -->
+  <PWU_MemoryKillWipedByTrait>Разрыв связи стирает и память об убийствах</PWU_MemoryKillWipedByTrait>
+  <!-- EN: memory wipe -->
+  <PWU_MemoryWipeLabel>стирание памяти</PWU_MemoryWipeLabel>
+
+  <!-- Dialog: Texture tab (unified appearance customization over VEF's texture composition) -->
+  <!-- EN: This weapon has no texture customization options. -->
+  <PWU_NoTextureOptions>У этого оружия нет параметров настройки текстуры.</PWU_NoTextureOptions>
+  <!-- EN: Rolling appearance... -->
+  <PWU_TextureRollingPlaceholder>Подбор внешнего вида...</PWU_TextureRollingPlaceholder>
+  <!-- EN: Reset appearance -->
+  <PWU_ResetTexture>Сбросить внешний вид</PWU_ResetTexture>
+
+  <!-- Fallbacks -->
+  <!-- EN: weapon -->
+  <PWU_WeaponFallback>оружие</PWU_WeaponFallback>
+
+  <!-- Jobs -->
+  <!-- EN: Customizing {0} -->
+  <PWU_CustomizingWeapon>Настройка {0}</PWU_CustomizingWeapon>
+  <!-- EN: Adding {0} to {1} -->
+  <PWU_AddingTrait>Добавление {0} к {1}</PWU_AddingTrait>
+  <!-- EN: Removing {0} from {1} -->
+  <PWU_RemovingTrait>Удаление {0} из {1}</PWU_RemovingTrait>
+  <!-- EN: Renaming {0} -->
+  <PWU_RenamingWeapon>Переименование {0}</PWU_RenamingWeapon>
+  <!-- EN: Wiping memory of {0} -->
+  <PWU_WipingMemory>Стирание памяти {0}</PWU_WipingMemory>
+  <!-- EN: Updating appearance of {0} -->
+  <PWU_RestylingWeapon>Обновление внешнего вида {0}</PWU_RestylingWeapon>
+  <!-- EN: Placing {0} on {1} -->
+  <PWU_PlacingWeapon>Размещение {0} на {1}</PWU_PlacingWeapon>
+  <!-- EN: Gathering materials for {0} -->
+  <PWU_GatheringMaterials>Сбор материалов для {0}</PWU_GatheringMaterials>
+  <!-- EN: Admiring work -->
+  <PWU_AdmiringWork>Любование работой</PWU_AdmiringWork>
+  <!-- EN: {0} customization interrupted: ingredients lost before {1} could be applied. -->
+  <PWU_IngredientShortfall>Настройка {0} прервана: ингредиенты потеряны до того, как можно было применить {1}.</PWU_IngredientShortfall>
+  <!-- EN: {0} customization interrupted: workbench is no longer available. -->
+  <PWU_BailWorkbenchUnavailable>Настройка {0} прервана: верстак больше недоступен.</PWU_BailWorkbenchUnavailable>
+  <!-- EN: {0} customization interrupted: workbench became unreachable. -->
+  <PWU_BailWorkbenchUnreachable>Настройка {0} прервана: верстак стал недосягаем.</PWU_BailWorkbenchUnreachable>
+  <!-- EN: {0} customization interrupted: workbench has no power or fuel. -->
+  <PWU_BailWorkbenchInactive>Настройка {0} прервана: верстак обесточен или у него нет топлива.</PWU_BailWorkbenchInactive>
+  <!-- EN: {0} customization interrupted: weapon was lost. -->
+  <PWU_BailWeaponLost>Настройка {0} прервана: оружие утеряно.</PWU_BailWeaponLost>
+  <!-- EN: {0} customization interrupted: weapon is no longer accessible. -->
+  <PWU_BailWeaponInaccessible>Настройка {0} прервана: оружие больше недоступно.</PWU_BailWeaponInaccessible>
+  <!-- EN: {0} customization interrupted: an ingredient was lost while hauling. -->
+  <PWU_BailIngredientLost>Настройка {0} прервана: ингредиент потерян при переноске.</PWU_BailIngredientLost>
+  <!-- EN: {0} customization interrupted: a required ingredient became unreachable. -->
+  <PWU_BailIngredientUnreachable>Настройка {0} прервана: необходимый ингредиент стал недосягаем.</PWU_BailIngredientUnreachable>
+  <!-- EN: {0} customization interrupted: no room near the workbench to place an ingredient. -->
+  <PWU_BailIngredientPlacementFailed>Настройка {0} прервана: рядом с верстаком нет места для размещения ингредиента.</PWU_BailIngredientPlacementFailed>
+  <!-- EN: {0} customization interrupted: could not pick up the weapon. -->
+  <PWU_BailCarryStartFailed>Настройка {0} прервана: не удалось поднять оружие.</PWU_BailCarryStartFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while adding {1}. -->
+  <PWU_BailOpAddTraitFailed>Настройка {0} прервана: произошла ошибка при добавлении {1}.</PWU_BailOpAddTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while removing {1}. -->
+  <PWU_BailOpRemoveTraitFailed>Настройка {0} прервана: произошла ошибка при удалении {1}.</PWU_BailOpRemoveTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while renaming the weapon. -->
+  <PWU_BailOpRenameFailed>Настройка {0} прервана: произошла ошибка при переименовании оружия.</PWU_BailOpRenameFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while wiping the persona's memory. -->
+  <PWU_BailOpMemoryFailed>Настройка {0} прервана: произошла ошибка при стирании памяти личности.</PWU_BailOpMemoryFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while updating its appearance. -->
+  <PWU_BailOpRestyleFailed>Настройка {0} прервана: произошла ошибка при обновлении внешнего вида.</PWU_BailOpRestyleFailed>
+  <!-- EN: {0} customization failed unexpectedly. -->
+  <PWU_BailUnexpected>Настройка {0} неожиданно прервалась.</PWU_BailUnexpected>
+  <!-- EN: {0} customization interrupted: the customization dialog could not be opened. See log. -->
+  <PWU_BailDialogOpenFailed>Настройка {0} прервана: не удалось открыть диалог настройки. См. лог.</PWU_BailDialogOpenFailed>
+  <!-- EN: {0} customization dialog errored and was closed. See log. -->
+  <PWU_DialogErrored>В диалоге настройки {0} произошла ошибка, окно закрыто. См. лог.</PWU_DialogErrored>
+
+  <!-- Settings: Section headers -->
+  <!-- EN: Persona Weapons Unbound -->
+  <PWU_SettingsCategory>Persona Weapons Unbound</PWU_SettingsCategory>
+  <!-- EN: Progression -->
+  <PWU_SettingsProgression>Прогрессия</PWU_SettingsProgression>
+  <!-- EN: Trait costs -->
+  <PWU_SettingsTraitCosts>Стоимость черт</PWU_SettingsTraitCosts>
+  <!-- EN: Memory costs -->
+  <PWU_SettingsMemoryCosts>Стоимость стирания памяти</PWU_SettingsMemoryCosts>
+  <!-- EN: Prerequisites -->
+  <PWU_SettingsPrerequisites>Требования</PWU_SettingsPrerequisites>
+  <!-- EN: Crafting recipes -->
+  <PWU_SettingsCraftingRecipes>Рецепты крафта</PWU_SettingsCraftingRecipes>
+  <!-- EN: Ingredient hauling -->
+  <PWU_SettingsHaulPlanner>Переноска ингредиентов</PWU_SettingsHaulPlanner>
+  <!-- EN: Miscellaneous -->
+  <PWU_SettingsMiscellaneous>Разное</PWU_SettingsMiscellaneous>
+  <!-- EN: VEF texture customization -->
+  <PWU_SettingsVpweIntegration>Настройка текстур VEF</PWU_SettingsVpweIntegration>
+
+  <!-- Settings: Reusable label suffixes (each includes a leading space) -->
+  <!-- EN:  (default) -->
+  <PWU_DefaultSuffix> (по умолчанию)</PWU_DefaultSuffix>
+  <!-- EN:  (recommended) -->
+  <PWU_RecommendedSuffix> (рекомендуется)</PWU_RecommendedSuffix>
+  <!-- EN:  (vanilla) -->
+  <PWU_VanillaSuffix> (ванильный)</PWU_VanillaSuffix>
+  <!-- EN:  (experimental) -->
+  <PWU_ExperimentalSuffix> (экспериментально)</PWU_ExperimentalSuffix>
+
+  <!-- Settings: Persona costs -->
+  <!-- EN: First trait costs an AI persona core -->
+  <PWU_FirstTraitCostsPersonaCore>Первая черта требует ядро ИИ</PWU_FirstTraitCostsPersonaCore>
+  <!-- EN: When enabled (default), adding the first trait to a base weapon installs an AI persona core, which is refunded when the last trait is removed and the weapon reverts to base. When disabled, the first trait added and the last trait removed are priced like any other change: advanced components (scaled by weapon quality per the table below), which are never refunded. -->
+  <PWU_FirstTraitCostsPersonaCoreDesc>При включении (по умолчанию) добавление первой черты к базовому оружию устанавливает ядро ИИ, которое возвращается, когда удаляется последняя черта и оружие возвращается к базовой форме. При отключении добавление первой черты и удаление последней оплачиваются как любое другое изменение: продвинутыми компонентами (с учётом качества оружия по таблице ниже), которые никогда не возвращаются.</PWU_FirstTraitCostsPersonaCoreDesc>
+  <!-- EN: Base component cost per trait change: {0} -->
+  <PWU_TraitChangeBaseComponentCost>Базовая стоимость в компонентах за изменение черты: {0}</PWU_TraitChangeBaseComponentCost>
+  <!-- EN: Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost, neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting. -->
+  <PWU_TraitChangeBaseComponentCostDesc>Продвинутые компоненты, взимаемые за каждое изменение черты, не пересекающее границу между базовым оружием и оружием с личностью (платны и добавления, и удаления; возврата нет). Взимаются независимо от качества оружия. Установка ядра ИИ при добавлении первой черты и его возврат при удалении последней не зависят от этой настройки.</PWU_TraitChangeBaseComponentCostDesc>
+  <!-- EN: Quality surcharge threshold: {0} -->
+  <PWU_TraitChangeQualitySurchargeThreshold>Порог надбавки за качество: {0}</PWU_TraitChangeQualitySurchargeThreshold>
+  <!-- EN: The weapon quality tier at which the per-level component surcharge below starts applying. Trait changes on weapons at or below this quality cost only the base component amount. -->
+  <PWU_TraitChangeQualitySurchargeThresholdDesc>Уровень качества оружия, выше которого начинает действовать указанная ниже надбавка за каждый уровень. Изменения черт на оружии этого качества или ниже стоят только базовое количество компонентов.</PWU_TraitChangeQualitySurchargeThresholdDesc>
+  <!-- EN: Quality surcharge per level: {0} -->
+  <PWU_TraitChangeQualitySurchargePerLevel>Надбавка за каждый уровень качества: {0}</PWU_TraitChangeQualitySurchargePerLevel>
+  <!-- EN: Extra advanced components charged per quality tier above the surcharge threshold. For example, at the default threshold (Normal) and per-level value (1), a Masterwork weapon costs 3 more components per trait change than the base amount. -->
+  <PWU_TraitChangeQualitySurchargePerLevelDesc>Дополнительные продвинутые компоненты, взимаемые за каждый уровень качества выше порога надбавки. Например, при пороге по умолчанию («нормально») и надбавке 1 за уровень оружие качества «шедевр» обходится на 3 компонента дороже базовой стоимости за каждое изменение черты.</PWU_TraitChangeQualitySurchargePerLevelDesc>
+  <!-- EN: Advanced components required per trait change, by weapon quality: -->
+  <PWU_CostTableHeader>Продвинутых компонентов за изменение черты, по качеству оружия:</PWU_CostTableHeader>
+  <!-- EN: - -->
+  <PWU_CostTableNotApplicable>-</PWU_CostTableNotApplicable>
+  <!-- {0} = minimum weapon quality setting (quality label) -->
+  <!-- EN: Weapons of this quality can't be customized: the minimum weapon quality prerequisite is set to {0}. -->
+  <PWU_CostTableNotApplicableDesc>Оружие этого качества нельзя настраивать: минимальное качество оружия установлено на «{0}».</PWU_CostTableNotApplicableDesc>
+
+  <!-- Settings: Memory costs -->
+  <!-- EN: Bond wipe component cost: {0} -->
+  <PWU_WipeBondingComponentCost>Стоимость стирания связи в компонентах: {0}</PWU_WipeBondingComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip. -->
+  <PWU_WipeBondingComponentCostDesc>Продвинутые компоненты, взимаемые за стирание связи оружия с личностью; после этого оружие снова сформирует связь со следующим, кто его экипирует.</PWU_WipeBondingComponentCostDesc>
+  <!-- EN: Kill tracker wipe component cost: {0} -->
+  <PWU_WipeKillTrackerComponentCost>Стоимость стирания счётчика убийств в компонентах: {0}</PWU_WipeKillTrackerComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's kill memory. -->
+  <PWU_WipeKillTrackerComponentCostDesc>Продвинутые компоненты, взимаемые за стирание памяти об убийствах у оружия с личностью.</PWU_WipeKillTrackerComponentCostDesc>
+
+  <!-- Settings: Prerequisites -->
+  <!-- EN: Minimum weapon quality: {0} -->
+  <PWU_MinimumQuality>Минимальное качество оружия: {0}</PWU_MinimumQuality>
+  <!-- EN: Restrict customization to weapons of at least this quality. Awful imposes no restriction. Weapons below the minimum will still show the customization option, but it will be disabled with an explanation. -->
+  <PWU_MinimumQualityDesc>Ограничивает настройку оружием как минимум этого качества. Значение «ужасно» не налагает ограничений. Оружие ниже минимального качества всё равно будет показывать опцию настройки, но она будет отключена с пояснением.</PWU_MinimumQualityDesc>
+  <!-- EN: Require customization research -->
+  <PWU_RequireCustomizationResearch>Требовать исследования настройки</PWU_RequireCustomizationResearch>
+  <!-- {0} = bladelink customization (research label) -->
+  <!-- EN: Require the completion of the {0} research project before customizing weapons. When disabled, the project is hidden from the research tree. -->
+  <PWU_RequireCustomizationResearchDesc>Требовать завершения исследования «{0}» перед настройкой оружия. При отключении проект скрывается из дерева исследований.</PWU_RequireCustomizationResearchDesc>
+  <!-- EN: Techprints required: {0} -->
+  <PWU_TechprintCount>Требуемые чертежи: {0}</PWU_TechprintCount>
+  <!-- {0} = bladelink customization (research label) -->
+  <!-- EN: Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed. -->
+  <PWU_TechprintCountDesc>Количество чертежей «{0}», необходимых для завершения исследования, в дополнение к его стоимости в очках исследования. Значение 0 полностью убирает требование чертежей, и торговцы перестают продавать чертёж. Вступает в силу немедленно, перезапуск не требуется.</PWU_TechprintCountDesc>
+
+  <!-- Settings: Crafting recipes -->
+  <!-- EN: Enable monosword crafting recipe -->
+  <PWU_EnableMonoswordRecipe>Включить рецепт крафта мономеча</PWU_EnableMonoswordRecipe>
+  <!-- {0} = make monosword (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableMonoswordRecipeDesc>Показывать задание «{0}» у верстака «{1}» (требуется исследование «{2}»). Отключение лишь скрывает его из меню «Добавить задание»; уже добавленные задания продолжают выполняться.</PWU_EnableMonoswordRecipeDesc>
+  <!-- EN: Enable plasmasword crafting recipe -->
+  <PWU_EnablePlasmaswordRecipe>Включить рецепт крафта плазменного меча</PWU_EnablePlasmaswordRecipe>
+  <!-- {0} = make plasmasword (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePlasmaswordRecipeDesc>Показывать задание «{0}» у верстака «{1}» (требуется исследование «{2}»). Отключение лишь скрывает его из меню «Добавить задание»; уже добавленные задания продолжают выполняться.</PWU_EnablePlasmaswordRecipeDesc>
+  <!-- EN: Enable zeushammer crafting recipe -->
+  <PWU_EnableZeushammerRecipe>Включить рецепт крафта электромолота</PWU_EnableZeushammerRecipe>
+  <!-- {0} = make zeushammer (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableZeushammerRecipeDesc>Показывать задание «{0}» у верстака «{1}» (требуется исследование «{2}»). Отключение лишь скрывает его из меню «Добавить задание»; уже добавленные задания продолжают выполняться.</PWU_EnableZeushammerRecipeDesc>
+  <!-- EN: Enable persona core crafting recipe -->
+  <PWU_EnablePersonaCoreRecipe>Включить рецепт крафта ядра ИИ</PWU_EnablePersonaCoreRecipe>
+  <!-- {0} = make persona core (recipe label), {1} = fabrication bench (vanilla bench label), {2} = machine persuasion (vanilla research label) -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path — craft a base weapon, craft a core, install it through customization. Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePersonaCoreRecipeDesc>Показывать задание «{0}» у верстака «{1}» (требуется исследование «{2}»). По умолчанию выключено: в ванильной игре ядро ИИ можно только найти или выменять, а возможность крафта делает оружие с личностью воспроизводимым, а не редким. Включите для полностью самодостаточного пути внутри колонии: скрафтить базовое оружие, скрафтить ядро, установить его через настройку. Отключение лишь скрывает задание из меню «Добавить задание»; уже добавленные задания продолжают выполняться.</PWU_EnablePersonaCoreRecipeDesc>
+  <!-- EN: Persona core component cost: {0} -->
+  <PWU_PersonaCoreRecipeComponentCost>Стоимость ядра ИИ в компонентах: {0}</PWU_PersonaCoreRecipeComponentCost>
+  <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->
+  <PWU_PersonaCoreRecipeComponentCostDesc>Продвинутые компоненты, необходимые для крафта одного ядра ИИ. Вступает в силу немедленно, перезапуск не требуется; стоимость уже добавленных заданий тоже пересчитывается.</PWU_PersonaCoreRecipeComponentCostDesc>
+  <!-- EN: Persona core crafting skill required: {0} -->
+  <PWU_PersonaCoreRecipeMinSkill>Требуемый навык ремесла для крафта ядра ИИ: {0}</PWU_PersonaCoreRecipeMinSkill>
+  <!-- EN: Minimum Crafting skill a colonist needs to work the persona core bill. Setting this to 0 removes the skill requirement entirely. Takes effect immediately, no restart needed. -->
+  <PWU_PersonaCoreRecipeMinSkillDesc>Минимальный навык «Ремесло», необходимый поселенцу для работы над заданием крафта ядра ИИ. Значение 0 полностью убирает требование навыка. Вступает в силу немедленно, перезапуск не требуется.</PWU_PersonaCoreRecipeMinSkillDesc>
+
+  <!-- Settings: Miscellaneous -->
+  <!-- EN: Allow weapon def conversion -->
+  <PWU_AllowDefConversion>Разрешить преобразование определения оружия</PWU_AllowDefConversion>
+  <!-- EN: Allow weapons to convert between base and persona defs during customization. When disabled, only already-persona weapons can be customized, and removing all traits keeps the weapon as a zero-trait persona weapon instead of reverting to its base weapon. -->
+  <PWU_AllowDefConversionDesc>Разрешить оружию преобразовываться между базовым определением и определением с личностью во время настройки. При отключении настраивать можно только оружие, уже обладающее личностью, а после удаления всех черт оружие останется оружием с личностью без единой черты вместо возврата к базовому оружию.</PWU_AllowDefConversionDesc>
+  <!-- EN: Enforce trait count limit -->
+  <PWU_EnforceMaxTraitLimit>Ограничивать количество черт</PWU_EnforceMaxTraitLimit>
+  <!-- EN: Vanilla persona weapons generate with no more than two traits. Enable this to enforce the same limit during customization. Disable to allow any number of traits (other rules such as exclusion restrictions still apply). -->
+  <PWU_EnforceMaxTraitLimitDesc>В ванильной версии оружие с личностью генерируется не более чем с двумя чертами. Включите эту опцию, чтобы соблюдать то же ограничение при настройке. Отключите, чтобы разрешить любое количество черт (другие правила, такие как ограничения несовместимости, всё ещё действуют).</PWU_EnforceMaxTraitLimitDesc>
+  <!-- EN: Enforce sole-trait restrictions -->
+  <PWU_EnforceSoleTrait>Ограничивать единственную черту</PWU_EnforceSoleTrait>
+  <!-- EN: Some traits cannot be the only trait on a weapon during vanilla generation. Enable this to enforce the same restriction during customization. -->
+  <PWU_EnforceSoleTraitDesc>Некоторые черты не могут быть единственными на оружии при ванильной генерации. Включите эту опцию, чтобы соблюдать то же ограничение при настройке.</PWU_EnforceSoleTraitDesc>
+  <!-- EN: Restrict available traits to discovered weapons -->
+  <PWU_RestrictTraitsToDiscovered>Ограничить доступные черты обнаруженным оружием</PWU_RestrictTraitsToDiscovered>
+  <!-- EN: A lightweight progression system: when enabled, the customization dialog only offers traits found on persona weapons the colony has seen: unfogged and unsealed on a loaded map, or carried in a player-faction caravan. Weapons carried by hostiles count too, but their traits stay disabled until the weapon is captured. No persistent state is added to saves; toggling this off restores the full trait list immediately. -->
+  <PWU_RestrictTraitsToDiscoveredDesc>Облегчённая система прогрессии: при включении диалог настройки предлагает только те черты, которые встречались на оружии с личностью, замеченном колонией: не скрытом туманом и не запечатанном на загруженной карте либо находящемся в караване игровой фракции. Оружие в руках врагов тоже учитывается, но его черты остаются недоступными, пока оружие не будет захвачено. В сохранения не добавляется никакого постоянного состояния; отключение этой опции немедленно восстанавливает полный список черт.</PWU_RestrictTraitsToDiscoveredDesc>
+  <!-- EN: Enable ground weapon right-click menu -->
+  <PWU_EnableGroundCustomization>Включить контекстное меню для оружия на земле</PWU_EnableGroundCustomization>
+  <!-- EN: Show "Customize" options when right-clicking weapons on the ground. Disable this to reduce float menu clutter, especially with storage mods that stack items in the same cell. Weapons can still be customized by selecting them and using the gizmo button. -->
+  <PWU_EnableGroundCustomizationDesc>Показывать опцию «Настроить» при нажатии правой кнопкой мыши на оружие, лежащее на земле. Отключите, чтобы уменьшить засорённость контекстного меню, особенно при использовании модов на хранение, которые складывают предметы в одной ячейке. Оружие всё ещё можно настраивать, выбрав его и используя кнопку-действие.</PWU_EnableGroundCustomizationDesc>
+
+  <!-- Settings: VEF texture-composition integration (only shown when the extended VEF reflection surface resolved) -->
+  <!-- EN: Integrate VEF texture customization -->
+  <PWU_IntegrateVpweCustomization>Интегрировать настройку текстур VEF</PWU_IntegrateVpweCustomization>
+  <!-- EN: Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition — the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched. -->
+  <PWU_IntegrateVpweCustomizationDesc>Добавляет вкладку «Текстура» в диалог настройки PWU для редактирования составного внешнего вида (рукоять, клинок и другие части) любого оружия с личностью, построенного на композиции текстур Vanilla Expanded Framework — оружия из Vanilla Persona Weapons Expanded, клинка Archoblade из Vanilla Races Expanded - Archons и всего прочего, использующего ту же систему. Также скрывает собственную опцию VEF «Настроить» в контекстном меню оружия на земле там, где доступна опция настройки PWU, давая вам единое место для редактирования оружия с личностью вместо двух конкурирующих пунктов меню. Включено по умолчанию; отключите, чтобы оставить отдельный процесс VEF нетронутым.</PWU_IntegrateVpweCustomizationDesc>
+
+  <!-- Settings: Haul planner -->
+  <!-- EN: Sequential -->
+  <PWU_HaulPlannerSequential>Последовательный</PWU_HaulPlannerSequential>
+  <!-- EN: Vanilla behavior. Pawns carry up to one ingredient stack at a time, always grabbing the nearest first. Simple and predictable, but means lots of short trips for resource-heavy customizations. -->
+  <PWU_HaulPlannerSequentialDesc>Поведение ванильной игры. Поселенец переносит по одной стопке ингредиентов за раз, всегда беря ближайшую. Просто и предсказуемо, но приводит к множеству коротких походов для ресурсоёмких настроек.</PWU_HaulPlannerSequentialDesc>
+  <!-- EN: Sweep -->
+  <PWU_HaulPlannerSweep>Проходной</PWU_HaulPlannerSweep>
+  <!-- EN: Pawns plan ahead and use spare inventory space to carry more at once, while also routing more efficiently between pickups. Far fewer trips than Sequential, with negligible planning overhead. -->
+  <PWU_HaulPlannerSweepDesc>Поселенец планирует действия и использует свободное место в инвентаре, чтобы нести больше за раз, а также прокладывает более эффективные маршруты между точками забора. Значительно меньше походов, чем при последовательном режиме, с незначительными накладными расходами на планирование.</PWU_HaulPlannerSweepDesc>
+  <!-- EN: Thorough -->
+  <PWU_HaulPlannerThorough>Тщательный</PWU_HaulPlannerThorough>
+  <!-- EN: Like Sweep, but also weighs which stacks to draw from when the map has multiple candidates, rather than always taking the closest. Slower to plan, but usually finds the shortest runs when ingredients are scattered or carrying capacity is tight. Falls back to Sweep for hauls too complex to fully analyze. -->
+  <PWU_HaulPlannerThoroughDesc>Работает как «Проходной», но также учитывает, из каких стопок брать материалы, если на карте есть несколько вариантов, а не всегда берёт ближайшую. Медленнее в планировании, но обычно находит самые короткие маршруты, когда ингредиенты разбросаны или грузоподъёмность ограничена. Переключается на «Проходной» для переносок, которые слишком сложны для полного анализа.</PWU_HaulPlannerThoroughDesc>
+
+</LanguageData>
