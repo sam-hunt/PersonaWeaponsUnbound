@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Float menu / Gizmo -->
+  <!-- EN: Customize persona: {0} -->
+  <PWU_CustomizeWeapon>Personalizar persona: {0}</PWU_CustomizeWeapon>
+  <!-- EN: requires {0} -->
+  <PWU_RequiresResearch>requer {0}</PWU_RequiresResearch>
+  <!-- EN: requires a {0} -->
+  <PWU_RequiresWorkbench>requer {0}</PWU_RequiresWorkbench>
+  <!-- EN: no suitable workbench -->
+  <PWU_NoSuitableWorkbench>nenhuma bancada adequada</PWU_NoSuitableWorkbench>
+  <!-- EN: requires {0} quality or better -->
+  <PWU_RequiresMinimumQuality>requer qualidade "{0}" ou melhor</PWU_RequiresMinimumQuality>
+  <!-- EN: Customize persona -->
+  <PWU_CustomizeGizmoLabel>Personalizar persona</PWU_CustomizeGizmoLabel>
+  <!-- EN: Select a colonist to customize this weapon at a nearby workbench. -->
+  <PWU_CustomizeGizmoDesc>Selecione um colono para personalizar esta arma em uma bancada próxima.</PWU_CustomizeGizmoDesc>
+
+  <!-- Dev-mode diagnostic reasons (surfaced when Prefs.DevMode is on, otherwise hidden) -->
+  <!-- EN: no persona variant -->
+  <PWU_DevNoPersonaVariant>nenhuma variante persona</PWU_DevNoPersonaVariant>
+  <!-- EN: base variant upgrades disabled -->
+  <PWU_DevDefConversionDisabled>melhorias da variante base desativadas</PWU_DevDefConversionDisabled>
+
+  <!-- Dialog: Buttons -->
+  <!-- EN: Cancel -->
+  <PWU_Cancel>Cancelar</PWU_Cancel>
+  <!-- EN: Reset -->
+  <PWU_Reset>Redefinir</PWU_Reset>
+  <!-- EN: Confirm -->
+  <PWU_Confirm>Aceitar</PWU_Confirm>
+  <!-- EN: Randomize -->
+  <PWU_Randomize>Aleatorizar</PWU_Randomize>
+  <!-- EN: Reset to defaults -->
+  <PWU_ResetToDefaults>Restaurar padrões</PWU_ResetToDefaults>
+
+  <!-- Dialog: Tabs -->
+  <!-- EN: Traits -->
+  <PWU_TabTraits>Traços</PWU_TabTraits>
+  <!-- EN: Memory -->
+  <PWU_TabMemory>Memória</PWU_TabMemory>
+  <!-- EN: Texture -->
+  <PWU_TabTexture>Textura</PWU_TabTexture>
+
+  <!-- Dialog: Controls -->
+  <!-- EN: This weapon is an ideology relic. Its name can only be changed when forming or reforming an ideoligion. -->
+  <PWU_RelicNameTooltip>Esta arma é uma relíquia de ideologia. Seu nome só pode ser alterado ao formar ou reformar uma ideologia.</PWU_RelicNameTooltip>
+  <!-- EN: Select at least one trait first -->
+  <PWU_SelectTraitFirst>Selecione ao menos um traço primeiro</PWU_SelectTraitFirst>
+  <!-- EN: Auto-regenerate name when traits change -->
+  <PWU_AutoRegenName>Regenerar o nome automaticamente quando os traços mudarem</PWU_AutoRegenName>
+  <!-- EN: Hide negative traits -->
+  <PWU_HideNegativeTraits>Ocultar traços negativos</PWU_HideNegativeTraits>
+
+  <!-- Dialog: Cost display -->
+  <!-- EN: Net refund: -->
+  <PWU_NetRefund>Reembolso líquido: </PWU_NetRefund>
+  <!-- EN: None -->
+  <PWU_RefundNone>Nenhum</PWU_RefundNone>
+  <!-- EN: Net cost: -->
+  <PWU_NetCost>Custo líquido: </PWU_NetCost>
+  <!-- EN: Free -->
+  <PWU_CostFree>Grátis</PWU_CostFree>
+  <!-- EN: Missing resources -->
+  <PWU_MissingResources>Faltam recursos</PWU_MissingResources>
+  <!-- EN: Required materials are insufficient, forbidden, reserved by another pawn, or unreachable from this pawn's position. -->
+  <PWU_NotEnoughMaterials>Os materiais necessários são insuficientes, estão proibidos, reservados por outra pessoa ou inalcançáveis a partir da posição deste personagem.</PWU_NotEnoughMaterials>
+  <!-- EN: Could not customize {0}: no viable haul plan. -->
+  <PWU_CouldNotStartPlanInfeasible>Não foi possível personalizar {0}: nenhum plano de transporte viável.</PWU_CouldNotStartPlanInfeasible>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2}. -->
+  <PWU_CouldNotStartReservationConflict>Não foi possível personalizar {0}: falha ao reservar {1} x{2}.</PWU_CouldNotStartReservationConflict>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2} (held by {3}). -->
+  <PWU_CouldNotStartReservationConflictHeldBy>Não foi possível personalizar {0}: falha ao reservar {1} x{2} (em posse de {3}).</PWU_CouldNotStartReservationConflictHeldBy>
+  <!-- EN: Could not customize {0}: internal error. See log. -->
+  <PWU_CouldNotStartInternalError>Não foi possível personalizar {0}: erro interno. Consulte o log.</PWU_CouldNotStartInternalError>
+
+  <!-- Trait tooltips -->
+  <!-- EN: Effects: -->
+  <PWU_Effects>Efeitos:</PWU_Effects>
+  <!-- EN: Damage type -->
+  <PWU_DamageType>Tipo de dano</PWU_DamageType>
+  <!-- EN: Extra damage -->
+  <PWU_ExtraDamage>Dano extra</PWU_ExtraDamage>
+  <!-- EN: Burst speed -->
+  <PWU_BurstSpeed>Taxa de disparo</PWU_BurstSpeed>
+  <!-- EN: Burst count -->
+  <PWU_BurstCount>Contagem de tiros por disparo</PWU_BurstCount>
+  <!-- EN: Stopping power -->
+  <PWU_StoppingPower>Poder de parada</PWU_StoppingPower>
+  <!-- EN: Ignores accuracy penalties -->
+  <PWU_IgnoresAccuracyPenalties>Ignora penalidades de precisão</PWU_IgnoresAccuracyPenalties>
+
+  <!-- Trait validation -->
+  <!-- EN: Already applied -->
+  <PWU_AlreadyApplied>Já está na arma</PWU_AlreadyApplied>
+  <!-- EN: Maximum traits reached -->
+  <PWU_MaxTraitsReached>Número máximo de traços alcançado</PWU_MaxTraitsReached>
+  <!-- EN: Conflicts with {0} -->
+  <PWU_ConflictsWith>Conflita com {0}</PWU_ConflictsWith>
+  <!-- EN: Cannot be the only trait -->
+  <PWU_CannotBeOnlyTrait>Não pode ser o único traço</PWU_CannotBeOnlyTrait>
+  <!-- EN: {0} cannot be the only trait -->
+  <PWU_TraitCannotBeOnlyTrait>{0} não pode ser o único traço</PWU_TraitCannotBeOnlyTrait>
+  <!-- EN: Must disarm from hostile -->
+  <PWU_OnlyOnHostiles>Somente ao desarmar um hostil</PWU_OnlyOnHostiles>
+  <!-- EN: Warning: this is the only weapon in your pool with this trait. Removing it will remove the trait from the pool of traits you can apply to other weapons. -->
+  <PWU_LastTraitSourceWarning>Aviso: esta é a única arma do seu conjunto com este traço. Removê-lo também o retirará do conjunto de traços que você pode aplicar a outras armas.</PWU_LastTraitSourceWarning>
+  <!-- EN: Adding this trait makes the weapon free-wielding, severing its bond with {0}. -->
+  <PWU_NeverBondSeversBond>Adicionar este traço torna a arma de vínculo livre, rompendo seu vínculo com {0}.</PWU_NeverBondSeversBond>
+  <!-- EN: Reverting this weapon to its base form will sever its bond with {0}. Continue? -->
+  <PWU_BondSeveredWarning>Reverter esta arma à sua forma base romperá seu vínculo com {0}. Continuar?</PWU_BondSeveredWarning>
+  <!-- EN: No traits match your search. -->
+  <PWU_NoTraitsMatchSearch>Nenhum traço corresponde à sua busca.</PWU_NoTraitsMatchSearch>
+  <!-- EN: No traits available yet.\n\nEncounter persona weapons via Empire traders, quests, relics, or hostiles\nto unlock their traits for customization. -->
+  <PWU_NoTraitsDiscovered>Nenhum traço disponível ainda.\n\nEncontre armas persona com comerciantes imperiais, missões, relíquias ou hostis\npara desbloquear seus traços para personalização.</PWU_NoTraitsDiscovered>
+  <!-- EN: All available traits for this weapon are negative. Disable "Hide negative traits" below to view them. -->
+  <PWU_NoTraitsAfterHideNegative>Todos os traços disponíveis para esta arma são negativos. Desative "Ocultar traços negativos" abaixo para vê-los.</PWU_NoTraitsAfterHideNegative>
+  <!-- EN: No traits are compatible with this weapon. -->
+  <PWU_NoTraitsAvailable>Nenhum traço é compatível com esta arma.</PWU_NoTraitsAvailable>
+
+  <!-- Dialog: Memory tab -->
+  <!-- EN: The weapon must host a persona before its memory can be wiped. -->
+  <PWU_MemoryRequiresPersona>A arma precisa hospedar uma persona antes que sua memória possa ser apagada.</PWU_MemoryRequiresPersona>
+  <!-- EN: No change -->
+  <PWU_MemoryNoWipe>Sem alteração</PWU_MemoryNoWipe>
+  <!-- EN: Wipe bonding -->
+  <PWU_MemoryWipeBonding>Apagar vínculo</PWU_MemoryWipeBonding>
+  <!-- EN: Erase the persona's bond, and its kill memory with it. The weapon returns to bonding with the next pawn to equip it. -->
+  <PWU_MemoryWipeBondingDesc>Apaga o vínculo da persona e, com ele, sua memória de mortes. A arma volta a criar vínculo com o próximo personagem que a equipar.</PWU_MemoryWipeBondingDesc>
+  <!-- EN: Wipe kill tracker -->
+  <PWU_MemoryWipeKillTracker>Apagar registro de mortes</PWU_MemoryWipeKillTracker>
+  <!-- EN: Erase the persona's memory of its kills. The bond is untouched. -->
+  <PWU_MemoryWipeKillTrackerDesc>Apaga a memória de mortes da persona. O vínculo não é afetado.</PWU_MemoryWipeKillTrackerDesc>
+  <!-- EN: Last kill: {0} days ago -->
+  <PWU_MemoryLastKill>Última morte: há {0} dias</PWU_MemoryLastKill>
+  <!-- EN: Not bonded -->
+  <PWU_MemoryNotBonded>Sem vínculo</PWU_MemoryNotBonded>
+  <!-- EN: No kills remembered -->
+  <PWU_MemoryNoKillMemory>Nenhuma morte lembrada</PWU_MemoryNoKillMemory>
+  <!-- EN: The freewielder trait already severs the bond -->
+  <PWU_MemoryBondSeveredByTrait>O traço de vínculo livre já rompe o vínculo</PWU_MemoryBondSeveredByTrait>
+  <!-- EN: Severing the bond wipes kill memory too -->
+  <PWU_MemoryKillWipedByTrait>Romper o vínculo também apaga a memória de mortes</PWU_MemoryKillWipedByTrait>
+  <!-- EN: memory wipe -->
+  <PWU_MemoryWipeLabel>apagamento de memória</PWU_MemoryWipeLabel>
+
+  <!-- Dialog: Texture tab (unified appearance customization over VEF's texture composition) -->
+  <!-- EN: This weapon has no texture customization options. -->
+  <PWU_NoTextureOptions>Esta arma não tem opções de personalização de textura.</PWU_NoTextureOptions>
+  <!-- EN: Rolling appearance... -->
+  <PWU_TextureRollingPlaceholder>Sorteando aparência...</PWU_TextureRollingPlaceholder>
+  <!-- EN: Reset appearance -->
+  <PWU_ResetTexture>Redefinir aparência</PWU_ResetTexture>
+
+  <!-- Fallbacks -->
+  <!-- EN: weapon -->
+  <PWU_WeaponFallback>arma</PWU_WeaponFallback>
+
+  <!-- Jobs -->
+  <!-- EN: Customizing {0} -->
+  <PWU_CustomizingWeapon>Personalizando {0}</PWU_CustomizingWeapon>
+  <!-- EN: Adding {0} to {1} -->
+  <PWU_AddingTrait>Adicionando {0} a {1}</PWU_AddingTrait>
+  <!-- EN: Removing {0} from {1} -->
+  <PWU_RemovingTrait>Removendo {0} de {1}</PWU_RemovingTrait>
+  <!-- EN: Renaming {0} -->
+  <PWU_RenamingWeapon>Renomeando {0}</PWU_RenamingWeapon>
+  <!-- EN: Wiping memory of {0} -->
+  <PWU_WipingMemory>Apagando a memória de {0}</PWU_WipingMemory>
+  <!-- EN: Updating appearance of {0} -->
+  <PWU_RestylingWeapon>Atualizando a aparência de {0}</PWU_RestylingWeapon>
+  <!-- EN: Placing {0} on {1} -->
+  <PWU_PlacingWeapon>Colocando {0} em {1}</PWU_PlacingWeapon>
+  <!-- EN: Gathering materials for {0} -->
+  <PWU_GatheringMaterials>Reunindo materiais para {0}</PWU_GatheringMaterials>
+  <!-- EN: Admiring work -->
+  <PWU_AdmiringWork>Admirando o trabalho</PWU_AdmiringWork>
+  <!-- EN: {0} customization interrupted: ingredients lost before {1} could be applied. -->
+  <PWU_IngredientShortfall>Personalização de {0} interrompida: ingredientes perdidos antes de aplicar {1}.</PWU_IngredientShortfall>
+  <!-- EN: {0} customization interrupted: workbench is no longer available. -->
+  <PWU_BailWorkbenchUnavailable>Personalização de {0} interrompida: a bancada não está mais disponível.</PWU_BailWorkbenchUnavailable>
+  <!-- EN: {0} customization interrupted: workbench became unreachable. -->
+  <PWU_BailWorkbenchUnreachable>Personalização de {0} interrompida: a bancada ficou inalcançável.</PWU_BailWorkbenchUnreachable>
+  <!-- EN: {0} customization interrupted: workbench has no power or fuel. -->
+  <PWU_BailWorkbenchInactive>Personalização de {0} interrompida: a bancada está sem energia ou sem combustível.</PWU_BailWorkbenchInactive>
+  <!-- EN: {0} customization interrupted: weapon was lost. -->
+  <PWU_BailWeaponLost>Personalização de {0} interrompida: a arma foi perdida.</PWU_BailWeaponLost>
+  <!-- EN: {0} customization interrupted: weapon is no longer accessible. -->
+  <PWU_BailWeaponInaccessible>Personalização de {0} interrompida: a arma não está mais acessível.</PWU_BailWeaponInaccessible>
+  <!-- EN: {0} customization interrupted: an ingredient was lost while hauling. -->
+  <PWU_BailIngredientLost>Personalização de {0} interrompida: um ingrediente foi perdido durante o transporte.</PWU_BailIngredientLost>
+  <!-- EN: {0} customization interrupted: a required ingredient became unreachable. -->
+  <PWU_BailIngredientUnreachable>Personalização de {0} interrompida: um ingrediente necessário ficou inalcançável.</PWU_BailIngredientUnreachable>
+  <!-- EN: {0} customization interrupted: no room near the workbench to place an ingredient. -->
+  <PWU_BailIngredientPlacementFailed>Personalização de {0} interrompida: não há espaço perto da bancada para colocar um ingrediente.</PWU_BailIngredientPlacementFailed>
+  <!-- EN: {0} customization interrupted: could not pick up the weapon. -->
+  <PWU_BailCarryStartFailed>Personalização de {0} interrompida: não foi possível pegar a arma.</PWU_BailCarryStartFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while adding {1}. -->
+  <PWU_BailOpAddTraitFailed>Personalização de {0} interrompida: ocorreu um erro ao adicionar {1}.</PWU_BailOpAddTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while removing {1}. -->
+  <PWU_BailOpRemoveTraitFailed>Personalização de {0} interrompida: ocorreu um erro ao remover {1}.</PWU_BailOpRemoveTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while renaming the weapon. -->
+  <PWU_BailOpRenameFailed>Personalização de {0} interrompida: ocorreu um erro ao renomear a arma.</PWU_BailOpRenameFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while wiping the persona's memory. -->
+  <PWU_BailOpMemoryFailed>Personalização de {0} interrompida: ocorreu um erro ao apagar a memória da persona.</PWU_BailOpMemoryFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while updating its appearance. -->
+  <PWU_BailOpRestyleFailed>Personalização de {0} interrompida: ocorreu um erro ao atualizar sua aparência.</PWU_BailOpRestyleFailed>
+  <!-- EN: {0} customization failed unexpectedly. -->
+  <PWU_BailUnexpected>Personalização de {0} falhou inesperadamente.</PWU_BailUnexpected>
+  <!-- EN: {0} customization interrupted: the customization dialog could not be opened. See log. -->
+  <PWU_BailDialogOpenFailed>Personalização de {0} interrompida: não foi possível abrir a janela de personalização. Consulte o log.</PWU_BailDialogOpenFailed>
+  <!-- EN: {0} customization dialog errored and was closed. See log. -->
+  <PWU_DialogErrored>A janela de personalização de {0} apresentou um erro e foi fechada. Consulte o log.</PWU_DialogErrored>
+
+  <!-- Settings: Section headers -->
+  <!-- EN: Persona Weapons Unbound -->
+  <PWU_SettingsCategory>Persona Weapons Unbound</PWU_SettingsCategory>
+  <!-- EN: Progression -->
+  <PWU_SettingsProgression>Progressão</PWU_SettingsProgression>
+  <!-- EN: Trait costs -->
+  <PWU_SettingsTraitCosts>Custos de traços</PWU_SettingsTraitCosts>
+  <!-- EN: Memory costs -->
+  <PWU_SettingsMemoryCosts>Custos de memória</PWU_SettingsMemoryCosts>
+  <!-- EN: Prerequisites -->
+  <PWU_SettingsPrerequisites>Pré-requisitos</PWU_SettingsPrerequisites>
+  <!-- EN: Crafting recipes -->
+  <PWU_SettingsCraftingRecipes>Receitas de fabricação</PWU_SettingsCraftingRecipes>
+  <!-- EN: Ingredient hauling -->
+  <PWU_SettingsHaulPlanner>Transporte de ingredientes</PWU_SettingsHaulPlanner>
+  <!-- EN: Miscellaneous -->
+  <PWU_SettingsMiscellaneous>Diversos</PWU_SettingsMiscellaneous>
+  <!-- EN: VEF texture customization -->
+  <PWU_SettingsVpweIntegration>Personalização de textura do VEF</PWU_SettingsVpweIntegration>
+
+  <!-- Settings: Reusable label suffixes (each includes a leading space) -->
+  <!-- EN: (default) -->
+  <PWU_DefaultSuffix> (padrão)</PWU_DefaultSuffix>
+  <!-- EN: (recommended) -->
+  <PWU_RecommendedSuffix> (recomendado)</PWU_RecommendedSuffix>
+  <!-- EN: (vanilla) -->
+  <PWU_VanillaSuffix> (original)</PWU_VanillaSuffix>
+  <!-- EN: (experimental) -->
+  <PWU_ExperimentalSuffix> (experimental)</PWU_ExperimentalSuffix>
+
+  <!-- Settings: Persona costs -->
+  <!-- EN: First trait costs an AI persona core -->
+  <PWU_FirstTraitCostsPersonaCore>O primeiro traço custa um núcleo de personalidade IA</PWU_FirstTraitCostsPersonaCore>
+  <!-- EN: When enabled (default), adding the first trait to a base weapon installs an AI persona core, which is refunded when the last trait is removed and the weapon reverts to base. When disabled, the first trait added and the last trait removed are priced like any other change: advanced components (scaled by weapon quality per the table below), which are never refunded. -->
+  <PWU_FirstTraitCostsPersonaCoreDesc>Quando ativado (padrão), adicionar o primeiro traço a uma arma base instala um núcleo de personalidade IA, que é reembolsado quando o último traço é removido e a arma volta à forma base. Quando desativado, o primeiro traço adicionado e o último traço removido são cobrados como qualquer outra alteração: componentes avançados (ajustados pela qualidade da arma conforme a tabela abaixo), que nunca são reembolsados.</PWU_FirstTraitCostsPersonaCoreDesc>
+  <!-- EN: Base component cost per trait change: {0} -->
+  <PWU_TraitChangeBaseComponentCost>Custo base de componentes por alteração de traço: {0}</PWU_TraitChangeBaseComponentCost>
+  <!-- EN: Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost, neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting. -->
+  <PWU_TraitChangeBaseComponentCostDesc>Componentes avançados cobrados por toda alteração de traço que não cruza a fronteira entre base e persona (tanto adições quanto remoções custam, e nenhuma reembolsa). Cobrados independentemente da qualidade da arma. Instalar um núcleo de personalidade IA no primeiro traço, ou reembolsá-lo no último, não é afetado por esta opção.</PWU_TraitChangeBaseComponentCostDesc>
+  <!-- EN: Quality surcharge threshold: {0} -->
+  <PWU_TraitChangeQualitySurchargeThreshold>Limite para a sobretaxa de qualidade: {0}</PWU_TraitChangeQualitySurchargeThreshold>
+  <!-- EN: The weapon quality tier at which the per-level component surcharge below starts applying. Trait changes on weapons at or below this quality cost only the base component amount. -->
+  <PWU_TraitChangeQualitySurchargeThresholdDesc>O nível de qualidade da arma a partir do qual a sobretaxa de componentes por nível abaixo passa a ser aplicada. Alterações de traço em armas nesta qualidade ou abaixo dela custam apenas a quantidade base de componentes.</PWU_TraitChangeQualitySurchargeThresholdDesc>
+  <!-- EN: Quality surcharge per level: {0} -->
+  <PWU_TraitChangeQualitySurchargePerLevel>Sobretaxa de qualidade por nível: {0}</PWU_TraitChangeQualitySurchargePerLevel>
+  <!-- EN: Extra advanced components charged per quality tier above the surcharge threshold. For example, at the default threshold (Normal) and per-level value (1), a Masterwork weapon costs 3 more components per trait change than the base amount. -->
+  <PWU_TraitChangeQualitySurchargePerLevelDesc>Componentes avançados extras cobrados por nível de qualidade acima do limite da sobretaxa. Por exemplo, com o limite padrão (normal) e o valor por nível padrão (1), uma arma de qualidade obra-prima custa 3 componentes a mais por alteração de traço do que a quantidade base.</PWU_TraitChangeQualitySurchargePerLevelDesc>
+  <!-- EN: Advanced components required per trait change, by weapon quality: -->
+  <PWU_CostTableHeader>Componentes avançados necessários por alteração de traço, conforme a qualidade da arma:</PWU_CostTableHeader>
+  <!-- EN: - -->
+  <PWU_CostTableNotApplicable>-</PWU_CostTableNotApplicable>
+  <!-- {0} = minimum weapon quality setting (quality label) -->
+  <!-- EN: Weapons of this quality can't be customized: the minimum weapon quality prerequisite is set to {0}. -->
+  <PWU_CostTableNotApplicableDesc>Armas desta qualidade não podem ser personalizadas: o pré-requisito de qualidade mínima da arma está definido como "{0}".</PWU_CostTableNotApplicableDesc>
+
+  <!-- Settings: Memory costs -->
+  <!-- EN: Bond wipe component cost: {0} -->
+  <PWU_WipeBondingComponentCost>Custo em componentes para apagar o vínculo: {0}</PWU_WipeBondingComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip. -->
+  <PWU_WipeBondingComponentCostDesc>Componentes avançados cobrados para apagar o vínculo de uma arma persona, fazendo-a voltar a criar vínculo no próximo uso.</PWU_WipeBondingComponentCostDesc>
+  <!-- EN: Kill tracker wipe component cost: {0} -->
+  <PWU_WipeKillTrackerComponentCost>Custo em componentes para apagar o registro de mortes: {0}</PWU_WipeKillTrackerComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's kill memory. -->
+  <PWU_WipeKillTrackerComponentCostDesc>Componentes avançados cobrados para apagar a memória de mortes de uma arma persona.</PWU_WipeKillTrackerComponentCostDesc>
+
+  <!-- Settings: Prerequisites -->
+  <!-- EN: Minimum weapon quality: {0} -->
+  <PWU_MinimumQuality>Qualidade mínima da arma: {0}</PWU_MinimumQuality>
+  <!-- EN: Restrict customization to weapons of at least this quality. Awful imposes no restriction. Weapons below the minimum will still show the customization option, but it will be disabled with an explanation. -->
+  <PWU_MinimumQualityDesc>Restringe a personalização a armas de pelo menos esta qualidade. A qualidade horrível não impõe restrição alguma. Armas abaixo do mínimo ainda mostrarão a opção de personalização, mas ela ficará desativada com uma explicação.</PWU_MinimumQualityDesc>
+  <!-- EN: Require customization research -->
+  <PWU_RequireCustomizationResearch>Exigir a pesquisa de personalização</PWU_RequireCustomizationResearch>
+  <!-- {0} = bladelink customization (research label) -->
+  <!-- EN: Require the completion of the {0} research project before customizing weapons. When disabled, the project is hidden from the research tree. -->
+  <PWU_RequireCustomizationResearchDesc>Exige a conclusão do projeto de pesquisa '{0}' antes de personalizar armas. Quando desativado, o projeto fica oculto na árvore de pesquisa.</PWU_RequireCustomizationResearchDesc>
+  <!-- EN: Techprints required: {0} -->
+  <PWU_TechprintCount>Projetos técnicos necessários: {0}</PWU_TechprintCount>
+  <!-- {0} = bladelink customization (research label) -->
+  <!-- EN: Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed. -->
+  <PWU_TechprintCountDesc>Número de projetos técnicos de '{0}' necessários para concluir a pesquisa, além do seu custo em pontos de pesquisa. Definir isto como 0 remove completamente a exigência de projetos técnicos e faz os comerciantes pararem de estocá-los. Aplica-se imediatamente, sem precisar reiniciar.</PWU_TechprintCountDesc>
+
+  <!-- Settings: Crafting recipes -->
+  <!-- EN: Enable monosword crafting recipe -->
+  <PWU_EnableMonoswordRecipe>Ativar a receita de fabricação da espada monomolecular</PWU_EnableMonoswordRecipe>
+  <!-- {0} = make monosword (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableMonoswordRecipeDesc>Mostra a tarefa "{0}" na {1} (requer a pesquisa '{2}'). Desativar isto apenas a oculta do menu de adicionar tarefa. Tarefas já na fila continuam produzindo.</PWU_EnableMonoswordRecipeDesc>
+  <!-- EN: Enable plasmasword crafting recipe -->
+  <PWU_EnablePlasmaswordRecipe>Ativar a receita de fabricação da espada de plasma</PWU_EnablePlasmaswordRecipe>
+  <!-- {0} = make plasmasword (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePlasmaswordRecipeDesc>Mostra a tarefa "{0}" na {1} (requer a pesquisa '{2}'). Desativar isto apenas a oculta do menu de adicionar tarefa. Tarefas já na fila continuam produzindo.</PWU_EnablePlasmaswordRecipeDesc>
+  <!-- EN: Enable zeushammer crafting recipe -->
+  <PWU_EnableZeushammerRecipe>Ativar a receita de fabricação do martelo de zeus</PWU_EnableZeushammerRecipe>
+  <!-- {0} = make zeushammer (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableZeushammerRecipeDesc>Mostra a tarefa "{0}" na {1} (requer a pesquisa '{2}'). Desativar isto apenas a oculta do menu de adicionar tarefa. Tarefas já na fila continuam produzindo.</PWU_EnableZeushammerRecipeDesc>
+  <!-- EN: Enable persona core crafting recipe -->
+  <PWU_EnablePersonaCoreRecipe>Ativar a receita de fabricação do núcleo de personalidade IA</PWU_EnablePersonaCoreRecipe>
+  <!-- {0} = make persona core (recipe label), {1} = fabrication bench (vanilla bench label), {2} = machine persuasion (vanilla research label) -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path — craft a base weapon, craft a core, install it through customization. Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePersonaCoreRecipeDesc>Mostra a tarefa "{0}" na {1} (requer a pesquisa '{2}'). Desativado por padrão: no jogo original um núcleo de personalidade IA só pode ser encontrado ou obtido em negociações, e poder fabricá-los torna as armas persona repetíveis em vez de raras. Ative isto para ter um caminho totalmente autossuficiente dentro da colônia: fabrique uma arma base, fabrique um núcleo e instale-o por meio da personalização. Desativar isto apenas a oculta do menu de adicionar tarefa. Tarefas já na fila continuam produzindo.</PWU_EnablePersonaCoreRecipeDesc>
+  <!-- EN: Persona core component cost: {0} -->
+  <PWU_PersonaCoreRecipeComponentCost>Custo em componentes do núcleo de personalidade IA: {0}</PWU_PersonaCoreRecipeComponentCost>
+  <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->
+  <PWU_PersonaCoreRecipeComponentCostDesc>Componentes avançados necessários para fabricar um núcleo de personalidade IA. Aplica-se imediatamente, sem precisar reiniciar. As tarefas já na fila também são recalculadas.</PWU_PersonaCoreRecipeComponentCostDesc>
+  <!-- EN: Persona core crafting skill required: {0} -->
+  <PWU_PersonaCoreRecipeMinSkill>Habilidade de fabricação exigida para o núcleo de personalidade IA: {0}</PWU_PersonaCoreRecipeMinSkill>
+  <!-- EN: Minimum Crafting skill a colonist needs to work the persona core bill. Setting this to 0 removes the skill requirement entirely. Takes effect immediately, no restart needed. -->
+  <PWU_PersonaCoreRecipeMinSkillDesc>Nível mínimo da habilidade Fabricação que um colono precisa ter para trabalhar na tarefa do núcleo de personalidade IA. Definir isto como 0 remove completamente a exigência de habilidade. Aplica-se imediatamente, sem precisar reiniciar.</PWU_PersonaCoreRecipeMinSkillDesc>
+
+  <!-- Settings: Miscellaneous -->
+  <!-- EN: Allow weapon def conversion -->
+  <PWU_AllowDefConversion>Permitir a conversão de def da arma</PWU_AllowDefConversion>
+  <!-- EN: Allow weapons to convert between base and persona defs during customization. When disabled, only already-persona weapons can be customized, and removing all traits keeps the weapon as a zero-trait persona weapon instead of reverting to its base weapon. -->
+  <PWU_AllowDefConversionDesc>Permite que as armas sejam convertidas entre os defs base e persona durante a personalização. Quando desativado, apenas armas que já são persona podem ser personalizadas, e remover todos os traços mantém a arma como uma arma persona sem traço algum, em vez de revertê-la à sua arma base.</PWU_AllowDefConversionDesc>
+  <!-- EN: Enforce trait count limit -->
+  <PWU_EnforceMaxTraitLimit>Aplicar o limite de quantidade de traços</PWU_EnforceMaxTraitLimit>
+  <!-- EN: Vanilla persona weapons generate with no more than two traits. Enable this to enforce the same limit during customization. Disable to allow any number of traits (other rules such as exclusion restrictions still apply). -->
+  <PWU_EnforceMaxTraitLimitDesc>As armas persona do jogo original são geradas com no máximo dois traços. Ative isto para aplicar o mesmo limite durante a personalização. Desative para permitir qualquer quantidade de traços (outras regras, como as restrições de exclusão, continuam valendo).</PWU_EnforceMaxTraitLimitDesc>
+  <!-- EN: Enforce sole-trait restrictions -->
+  <PWU_EnforceSoleTrait>Aplicar as restrições de traço único</PWU_EnforceSoleTrait>
+  <!-- EN: Some traits cannot be the only trait on a weapon during vanilla generation. Enable this to enforce the same restriction during customization. -->
+  <PWU_EnforceSoleTraitDesc>Alguns traços não podem ser o único traço de uma arma durante a geração do jogo original. Ative isto para aplicar a mesma restrição durante a personalização.</PWU_EnforceSoleTraitDesc>
+  <!-- EN: Restrict available traits to discovered weapons -->
+  <PWU_RestrictTraitsToDiscovered>Restringir os traços disponíveis às armas descobertas</PWU_RestrictTraitsToDiscovered>
+  <!-- EN: A lightweight progression system: when enabled, the customization dialog only offers traits found on persona weapons the colony has seen: unfogged and unsealed on a loaded map, or carried in a player-faction caravan. Weapons carried by hostiles count too, but their traits stay disabled until the weapon is captured. No persistent state is added to saves; toggling this off restores the full trait list immediately. -->
+  <PWU_RestrictTraitsToDiscoveredDesc>Um sistema leve de progressão: quando ativado, a janela de personalização oferece apenas os traços encontrados em armas persona que a colônia já viu, ou seja, reveladas e não seladas em um mapa carregado, ou levadas em uma caravana da facção do jogador. Armas carregadas por hostis também contam, mas seus traços permanecem desativados até que a arma seja capturada. Nenhum estado persistente é adicionado aos jogos salvos. Desativar isto restaura a lista completa de traços imediatamente.</PWU_RestrictTraitsToDiscoveredDesc>
+  <!-- EN: Enable ground weapon right-click menu -->
+  <PWU_EnableGroundCustomization>Ativar o menu de clique direito em armas no chão</PWU_EnableGroundCustomization>
+  <!-- EN: Show "Customize" options when right-clicking weapons on the ground. Disable this to reduce float menu clutter, especially with storage mods that stack items in the same cell. Weapons can still be customized by selecting them and using the gizmo button. -->
+  <PWU_EnableGroundCustomizationDesc>Mostra as opções de "Personalizar" ao clicar com o botão direito em armas no chão. Desative isto para reduzir a poluição do menu flutuante, especialmente com mods de armazenamento que empilham itens na mesma célula. As armas ainda podem ser personalizadas selecionando-as e usando o botão de comando.</PWU_EnableGroundCustomizationDesc>
+
+  <!-- Settings: VEF texture-composition integration (only shown when the extended VEF reflection surface resolved) -->
+  <!-- EN: Integrate VEF texture customization -->
+  <PWU_IntegrateVpweCustomization>Integrar a personalização de textura do VEF</PWU_IntegrateVpweCustomization>
+  <!-- EN: Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition — the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched. -->
+  <PWU_IntegrateVpweCustomizationDesc>Adiciona uma aba Textura à janela de personalização do PWU para editar a aparência composta (cabo, lâmina e partes semelhantes) de qualquer arma persona construída sobre a composição de texturas do Vanilla Expanded Framework: as armas do Vanilla Persona Weapons Expanded, a Archoblade do Vanilla Races Expanded - Archons e qualquer outra que use o mesmo sistema. Também oculta a opção "Personalizar" separada do próprio VEF no menu flutuante do chão sempre que a opção de personalização do PWU estiver disponível, dando a você um único lugar unificado para editar uma arma persona em vez de duas entradas de menu concorrentes. Ativado por padrão. Desative isto para manter o fluxo separado do VEF intacto.</PWU_IntegrateVpweCustomizationDesc>
+
+  <!-- Settings: Haul planner -->
+  <!-- EN: Sequential -->
+  <PWU_HaulPlannerSequential>Sequencial</PWU_HaulPlannerSequential>
+  <!-- EN: Vanilla behavior. Pawns carry up to one ingredient stack at a time, always grabbing the nearest first. Simple and predictable, but means lots of short trips for resource-heavy customizations. -->
+  <PWU_HaulPlannerSequentialDesc>Comportamento do jogo original. Os personagens carregam no máximo um montante de ingredientes por vez, sempre pegando o mais próximo primeiro. Simples e previsível, mas significa muitas viagens curtas em personalizações que exigem muitos recursos.</PWU_HaulPlannerSequentialDesc>
+  <!-- EN: Sweep -->
+  <PWU_HaulPlannerSweep>Varredura</PWU_HaulPlannerSweep>
+  <!-- EN: Pawns plan ahead and use spare inventory space to carry more at once, while also routing more efficiently between pickups. Far fewer trips than Sequential, with negligible planning overhead. -->
+  <PWU_HaulPlannerSweepDesc>Os personagens planejam com antecedência e usam o espaço livre do inventário para carregar mais de uma vez, além de traçar rotas mais eficientes entre as coletas. Muito menos viagens que o modo Sequencial, com um custo de planejamento desprezível.</PWU_HaulPlannerSweepDesc>
+  <!-- EN: Thorough -->
+  <PWU_HaulPlannerThorough>Minucioso</PWU_HaulPlannerThorough>
+  <!-- EN: Like Sweep, but also weighs which stacks to draw from when the map has multiple candidates, rather than always taking the closest. Slower to plan, but usually finds the shortest runs when ingredients are scattered or carrying capacity is tight. Falls back to Sweep for hauls too complex to fully analyze. -->
+  <PWU_HaulPlannerThoroughDesc>Como o modo Varredura, mas também avalia de quais montantes retirar quando o mapa tem vários candidatos, em vez de sempre pegar o mais próximo. Mais lento para planejar, porém geralmente encontra os percursos mais curtos quando os ingredientes estão espalhados ou a capacidade de carga é limitada. Recorre ao modo Varredura em transportes complexos demais para analisar por completo.</PWU_HaulPlannerThoroughDesc>
+
+</LanguageData>

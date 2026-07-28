@@ -134,8 +134,15 @@ between DLCs (개성 vs 무기 특성). Spanish is the cleanest divergence of al
 Royalty says **características** in *both* `Stat_Thing_PersonaWeaponTrait_Label`
 and `BladelinkEquipWarningTraits`, while Odyssey's
 `Stat_ThingUniqueWeaponTrait_Label` *and* Core's pawn `<Traits>` both say
-**rasgos**. Run the lookup every time; record what came back in that language's
-glossary either way.
+**rasgos**. Brazilian Portuguese is the exact **mirror image of Spanish**: Royalty
+says **traços** in both those keys and Core's pawn `<Traits>` agrees, while
+Odyssey's `Stat_ThingUniqueWeaponTrait_Label` (plus `WeaponTraits` and
+`StatsReport_WeaponTraits`) says **características** — so the same two words swap
+sides between es and pt-BR, and picking by memory rather than by lookup gets it
+backwards in one of them. French inverts the axis instead: there the *weapon* word
+is the plain **Traits** (all three DLC keys agree) and the *pawn* header is the
+special one ("Éléments marquants"). Run the lookup every time; record what came
+back in that language's glossary either way.
 
 ### Glossary — Japanese (machine-assisted ja landed 2026-07-28; no native review yet)
 
@@ -1011,20 +1018,277 @@ collapsing it like German, because both read naturally against `PWU_TabMemory` =
 Mémoire. Haul planner modes are mod-coined with no vanilla anchor: **Séquentiel /
 Balayage / Exhaustif**.
 
+### Glossary — Brazilian Portuguese (machine-assisted pt-BR landed 2026-07-29; no native review yet)
+
+All rows below were grounded during PWU's own 2026-07-29 pt-BR generation — pt-BR
+had no preseed from a sibling mod. **RimWorld ships two Portuguese variants and
+neither folder name matches the obvious guess:** `PortugueseBrazilian (Português
+Brasileiro).tar` → folder **`PortugueseBrazilian`** (NOT "BrazilianPortuguese"),
+and `Portuguese (Português).tar` → folder `Portuguese` (European, a *separate*
+language with its own tar). This mod targets pt-BR, so the folder is
+`PortugueseBrazilian`. Never assume a term carries across the two variants;
+re-ground if European Portuguese is ever added.
+
+**pt-BR is the one language so far where "persona" is vanilla vocabulary for the
+weapon.** This is the exact opposite of Spanish, where *persona* means "person"
+and is a bug. Portuguese has *pessoa* for "person", leaving *persona* free as a
+loanword, and vanilla uses it: `WeaponsMeleeBladelink.label` = **armas persona**,
+`MeleeWeapon_MonoSwordBladelink.label` = "espada monomolecular **persona**"
+(suffix, not prefix), `LetterBladelinkWeaponBondedLabel` = "**Vínculo persona**".
+So no coinage is needed for the class noun. For the onboard mind vanilla is split:
+**persona** in `BladelinkEquipWarning` ("a persona da arma") and
+`NeverBond.description` ("A persona desta arma"), but **personalidade** in the
+bladelink ThingDef descriptions and `LetterBladelinkWeaponBonded`. PWU uses
+**persona** for the mind, for three reasons: it keeps one word across all 158 keys,
+it matches "arma persona", and *personalidade* is already spoken for twice over —
+by `AIPersonaCore.label` ("núcleo de personalidade IA") and by the pawn-trait
+phrase "traço de personalidade", which would collide badly with this mod's
+constant talk of weapon traços. Flagged for native review in the 2026-07-29
+commit; do not silently flip it either way.
+
+**pt-BR is a THIRD trait pattern — the mirror image of Spanish.** Royalty's
+`Stat_Thing_PersonaWeaponTrait_Label` = **Traços** and Royalty's
+`BladelinkEquipWarningTraits` = "os seguintes **traços**", while Odyssey's
+`Stat_ThingUniqueWeaponTrait_Label`, Core's `WeaponTraits` and
+`StatsReport_WeaponTraits` all say **Características**. Core's *pawn* trait header
+`<Traits>` is also **Traços**. So in pt-BR the Royalty word coincides with the pawn
+word and Odyssey is the odd one out — whereas in Spanish, Royalty
+(características) was the odd one out against Odyssey+pawn (rasgos). Use
+**traço/traços**; *características* would be importing UWU's domain word. The
+pawn/weapon collision is harmless because the disambiguator is the trailing
+qualifier: pawn traits are "traço **de personalidade**" (Core
+`BrawlerHasRangedWeaponDesc`), so a bare "traço" in weapon context reads correctly.
+
+Style rules from the vanilla pt-BR data (mandatory):
+
+- **No em dash, no en dash, AND no `…`** — 0 `—`, 0 `–`, 0 `…` in Core Keyed.
+  Ellipsis is ASCII `...` (68). English source uses `—`, so every dash must be
+  *restructured away*, not swapped for `–` the way German does. PWU converts them
+  to a colon (`PWU_IntegrateVpweCustomizationDesc`,
+  `PWU_EnablePersonaCoreRecipeDesc`) and to parentheses
+  (`PWU_Make_AIPersonaCore.description`).
+- **Semicolons are effectively unused** — 0 `; ` in Core Keyed, 1 in Core+Royalty.
+  English uses `;` in the four `PWU_Enable*RecipeDesc` strings and in
+  `PWU_RestrictTraitsToDiscoveredDesc`; split each into two sentences, exactly as
+  French does.
+- **No guillemets, no curly quotes, no inverted `¿`/`¡`** — 0 of each. Quoting is
+  ASCII and **split by what is being cited**: single `'{0}'` for a research
+  project or quest (22 in Core+Royalty; `NeedResearchBenchDesc` = "o projeto de
+  pesquisa '{0}'", `TechprintDesc` = "o projeto de pesquisa '{PROJECT_label}'"),
+  double `"{0}"` for a stat, bill or zone name (21; `ScenPart_StatFactor` = 'O
+  status "{0}"'). PWU follows both: `'{2}'` for the research label, `"{0}"` for
+  recipe/bill labels, quality labels and its own UI labels. Pawn names are never
+  quoted.
+- **No space before `:` `?` `!`** — 16 ` : ` against 5395 `: `, i.e. incidental.
+  This is the reverse of French; do not port fr's spacing rule.
+- **Register is você**, never tu — 240 `você` and 247 `seu|sua` against **0** `tu`
+  and **0** `teu|tua` in Core Keyed. Settings prose uses você-imperatives (Ative
+  isto, Desative, Defina isto como 0). Note this is the third register pattern
+  across languages: de=du, es=tú, fr=vous, pt-BR=você.
+- Descriptions/tooltips end with `.`; labels, buttons and float-menu reasons take
+  none.
+- `RecipeDef.label` is **`fazer X`** with no article (Core `Make_ComponentSpacer` =
+  "fazer componente avançado", `Make_Wort` = "fazer mosto") — *fazer*, not
+  *fabricar*. `description` is an imperative **with** article and period ("Faça um
+  componente avançado."). `jobString` is a capitalized gerund with period ("Fazendo
+  componente avançado."). `JobDef.reportString` is a lowercase gerund with period
+  ("botando ovo.", "mantendo TargetA."). Like de/es/fr and unlike ja/ko, pt-BR job
+  strings take terminal periods.
+- Research labels are lowercase noun phrases (usinagem, lâminas longas, fabricação
+  de cerveja, substituições biônicas).
+- **Vanilla pt-BR files carry a UTF-8 BOM; ours never do.** Vanilla also contains
+  outright sloppiness — `LetterTechprintAppliedLabel` leaves "Techprint" in
+  English, and `AppearedDaysAgo` = "Apareceu há {0} dias atrás" doubles the
+  "ago". Do not treat either as style guidance; prefer the clean sibling
+  (`ActivatedDaysAgo` = "há {0} dias").
+
+**The pt-BR landmine is that gender resolution is effectively DEAD, and the
+article helpers produce no contractions** (decompile-verified —
+`Verse.LanguageWorker_Portuguese`, `Verse.LanguageWordInfo`,
+`Verse.GrammarResolverSimple`). This is the most severe of any language so far,
+and for a reason that is invisible unless you look at the data files:
+
+- `LanguageWorker_Portuguese` overrides **only** `WithIndefiniteArticle` and
+  `WithDefiniteArticle`. There is **no `PostProcessed` override**, so pt inherits
+  the base `LanguageWorker.PostProcessed`, which is just
+  `str.MergeMultipleSpaces()`. That returns the string untouched unless it
+  contains a double space, and never trims — so pt-BR has **no** German-style
+  genitive rewrite and **no** French-style elision engine to trip over, and the
+  intentional leading space in ` (padrão)` / trailing space in "Reembolso
+  líquido: " are safe.
+- **The Gender tables are 23 entries of livestock and nobility.** pt-BR ships
+  `WordInfo/Gender/Female.txt` with **14** lines (amazona, baronesa, cabra,
+  condessa, corça, duquesa, égua, galinha, ovelha, porca, …) and `Male.txt` with
+  **9** (bode íbex, carneiro, galo, garanhão, iaque, touro, veado, …). Compare
+  German ~2450 or Spanish 2771/1771. There is not a single common noun. It also
+  ships `Singular.txt` (1350), `Plural.txt` and `new_words.txt` — but
+  `LanguageWordInfo.LoadFrom` reads **only** `Male.txt`, `Female.txt` and
+  `Neuter.txt` for gender, so those larger files contribute nothing here. Every
+  noun PWU injects — arma, qualidade, traço, pesquisa, núcleo, bancada, relíquia,
+  espada, martelo, memória, projeto — misses, and `ResolveGender`'s `defaultGender`
+  is **Male**, so `{0_gender ? … : …}` and `{0_definite}` are a silent coin flip
+  on essentially everything. (Vanilla itself uses the resolver freely —
+  `BladelinkAlreadyBondedDialog` has `{PAWN_gender ? o : a }` — but that is a
+  *pawn*, whose gender comes from the pawn, not from a word lookup.)
+- **`WithDefiniteArticle` is plain `"o "`/`"a "` concatenation, so it emits no
+  contractions — and Portuguese contractions are mandatory, not optional.**
+  `de {0_definite}` yields "de o núcleo" (must be *do*), `em {0_definite}` yields
+  "em a bancada" (must be *na*), `a {0_definite}` yields "a o" (must be *ao*), and
+  a+a must be *à*. Portuguese loses six contractions this way where Spanish only
+  loses *del* and *al*, which makes pt-BR strictly worse than the es case.
+
+Net rule: same as German, Spanish and French, but with no escape hatch at all —
+restructure so no article, adjective or participle has to agree with an injected
+value, and write every contraction literally against a noun you control. Worked
+rewrites in this mod:
+
+- `PWU_RequiresWorkbench` ("requires a {0}") drops the article: **`requer {0}`**.
+  `{0}` comes from `ResolveWorkbenchLabel` over a VEF-expandable bench set, so the
+  noun is genuinely unknown. Vanilla sanctions the bare form —
+  `NeedResearchBenchDesc` = "requer que você construa {1}". Note this makes
+  `PWU_RequiresWorkbench` and `PWU_RequiresResearch` identical strings in pt-BR
+  ("requer {0}"), since English differs only by the article. That is correct, not
+  a copy-paste slip.
+- `PWU_RequiresMinimumQuality` quotes the label: **`requer qualidade "{0}" ou
+  melhor`**, head noun before the placeholder. Quality tiers are adjectives and
+  vanilla pt-BR is itself gender-inconsistent about them (`QualityCategory_Good` =
+  bom *masc*, `QualityCategory_Masterwork` = obra-prima *fem noun*,
+  `QualityCategory_Legendary` = lendário *masc*), so no unquoted form agrees with
+  feminine *qualidade* across all seven. Vanilla's own `NormalQualityOrBetter` =
+  "qualidade normal ou melhor" is pre-inflected and cannot be templated. Same
+  treatment in `PWU_CostTableNotApplicableDesc` (`definido como "{0}"`).
+- Bail/error messages use **`Personalização de {0} interrompida: …`** — `de` + no
+  article is gender-proof, and *interrompida* agrees with the fixed feminine
+  *Personalização*, never with `{0}`. Each trailing clause carries its own fixed
+  subject ("a bancada ficou inalcançável", "a arma foi perdida"). This is the pt-BR
+  counterpart of German's `von`-frame, Spanish's `de`-frame and French's quoted
+  frame.
+- After a **colon** no quotes are needed (`Personalizar persona: {0}`, `Qualidade
+  mínima da arma: {0}`) — matches vanilla `ResearchFinished` = "Pesquisa terminada:
+  {0}".
+- Job strings keep injected targets **bare** (`Adicionando {0} a {1}`, `Removendo
+  {0} de {1}`, `Colocando {0} em {1}`) rather than risking a contraction, matching
+  vanilla's own bare-target report strings ("mantendo TargetA.").
+- The one place a contracted article IS hard-coded is **`na {1}`** in the four
+  `PWU_Enable*RecipeDesc` strings. Deliberate and safe: `{1}` is bound to
+  `PWU_ThingDefOf.FabricationBench.label` in `PWU_Mod.cs`, which pt-BR renders
+  **bancada de fabricação** (feminine), so em+a → *na* is always right. Do not
+  generalize it to an unpinned placeholder. Exact analogue of German's `am {1}`,
+  Spanish's `en la {1}` and French's `à l'{1}`.
+- Fixed Portuguese nouns contract and inflect normally — `PWU_BondSeveredWarning`
+  writes `à sua forma base` (a+a on the fixed feminine *forma*). Only *injected*
+  values need the workaround.
+
+**Participle agreement on injected TRAIT labels is a real trap here, not a
+theoretical one.** Royalty pt-BR trait labels are mixed gender — `Jealous` =
+**Ciumenta** (fem), `Ugly` = **feia** (fem), `SpeedBoost` = Movimentação ágil
+(fem), against `NeverBond` = Vínculo livre (masc), `NoPain` = Indolor. So any
+participle agreeing with an injected trait is a coin flip. Three PWU strings were
+rewritten for exactly this during the 2026-07-29 run:
+
+- `PWU_IngredientShortfall` — "antes que {1} pudesse ser **aplicado**" became
+  "antes de **aplicar** {1}" (infinitive, no agreement). `{1}` here is either a
+  trait label or `PWU_MemoryWipeLabel`, so its gender is doubly unknowable.
+- `PWU_AlreadyApplied` — "Já **aplicado**" became **"Já está na arma"**. The string
+  has no placeholder, but its implicit subject is a trait of varying gender.
+- `PWU_OnlyOnHostiles` — "Precisa ser **desarmado** de um hostil" became
+  **"Somente ao desarmar um hostil"**.
+
+Prefer an infinitive, a noun phrase, or a clause with its own fixed subject over
+any participle whose subject is a trait, a weapon or a quality.
+
+| English | Use | Never | Why |
+|---|---|---|---|
+| persona weapon / bladelink weapon | arma persona (label **suffix** persona: espada monomolecular persona) | arma vinculada, arma de lâmina ligada | Core `WeaponsMeleeBladelink.label` = armas persona; Royalty `MeleeWeapon_*Bladelink.label` |
+| persona (the onboard mind) | a persona | a personalidade (reserve for the core's label), a alma | Royalty `BladelinkEquipWarning`, `NeverBond.description` — see the note above |
+| trait (persona weapon) | traço / traços | característica (that's Odyssey's *unique*-weapon word) | Royalty `Stat_Thing_PersonaWeaponTrait_Label`, `BladelinkEquipWarningTraits` |
+| trait (pawn, when disambiguation needed) | traço de personalidade | | Core `BrawlerHasRangedWeaponDesc` |
+| customize / customization | personalizar / personalização | customizar, adaptar, configurar | Ideology `CustomizeIdeoligion` = "Personalização da Ideologia" |
+| bond (noun / verb) | vínculo / criar vínculo, vincular, vinculado | laço (vanilla uses it, but mixes registers), ligação | Royalty `LetterBladelinkWeaponBondedLabel` = "Vínculo persona", `BladelinkBondedToSomeoneElse`, `NeverBond.description` |
+| AI persona core | núcleo de personalidade IA | núcleo de persona, núcleo de IA | Core `AIPersonaCore.label` — the full label is long but it is vanilla |
+| wielder / bearer | portador | usuário, manejador | Core `ShieldUserHasRangedWeapon`, Royalty bladelink descs |
+| techprint | projeto técnico | techprint (vanilla leaves it English in `LetterTechprintAppliedLabel` — a vanilla bug), planta técnica | Core `TechprintLabel` = "projeto técnico ({PROJECT_label})". **Collides with "projeto de pesquisa"** — keep the qualifier whenever both could be meant |
+| fabrication bench | bancada de fabricação | mesa de fabricação, banco de trabalho | Core `FabricationBench.label` (feminine → *na* bancada) |
+| workbench (generic) | bancada | mesa de trabalho | Core `FabricationBench.description` = "Uma bancada equipada com…" |
+| machining table / crafting spot | mesa de usinagem / ponto de fabricação | | Core labels |
+| advanced components | componentes avançados | componentes de ponta | Core `ComponentSpacer.label`; plain components are componentes |
+| monosword / plasmasword / zeushammer | espada monomolecular / espada de plasma / martelo de zeus | monoespada, espada mono | Royalty weapon labels — note zeushammer is **lowercase z** in vanilla |
+| longsword / handle / point / edge | espada longa / cabo / ponta / lâmina | | Core + Royalty `tools.*.label` |
+| mechanite | mecanitos | nanomáquinas, mecanitas | Core `Chemical_Luciferium`, `SkillNeurotrainerDescription`, `ResurrectionPsychosis`, Royalty monosword desc |
+| plasteel / uranium / gold | plastiaço / urânio / ouro | plasteel, plastaço | Core labels — **plastiaço**, counterintuitive, always check |
+| quality (noun) / tiers | qualidade / horrível·pobre·normal·bom·excelente·obra-prima·lendário | | Core `Quality`, `QualityCategory_*` — lowercase and **gender-inconsistent** (see the landmine) |
+| "{0} quality or better" | `qualidade "{0}" ou melhor` | `qualidade {0} ou melhor` | quoting is required; `NormalQualityOrBetter` = "qualidade normal ou melhor" is pre-inflected |
+| ultratech (tech level) | Ultra | ultratecnologia, supertecnologia | Core `TechLevel_Ultra`; spacer = Espacial |
+| Crafting (the skill) | Fabricação | artesanato, manufatura | Core `Crafting.label`; `Crafting.labelShort` = fabricação |
+| bill (work bill) | tarefa (add-bill menu: Adicionar Tarefa) | pedido, fatura, ordem | Core `TabBills` = Tarefas, `AddBill` = Adicionar Tarefa |
+| recipe | receita | | Core `Stat_Recipe_*` |
+| ingredients / hauling | ingredientes / transporte | acarreto | Core `Ingredients`, `WorkTagHauling` = transportar |
+| pawn / colonist | personagem / colono | peão, boneco | Core Keyed uses personagem (9×); `Colonist` = colono |
+| research / research project | pesquisa / projeto de pesquisa | | Core `Research`, `NeedResearchBenchDesc`, `ResearchFinished` = "Pesquisa terminada: {0}" |
+| Cancel / Reset / Confirm / Randomize | Cancelar / Redefinir / **Aceitar** / Aleatorizar | Confirmar, Ao acaso | Core buttons — `Confirm` is **Aceitar**, not Confirmar |
+| Reset to defaults | Restaurar padrões | Valores padrão | Core `RestoreToDefaultSettings` = "Restaurar Padrões"; `Default` = Padrão |
+| None / Warning / Appearance / Rename | Nenhum / Aviso / Aparência / Renomear | Nada, Atenção, Aspecto | Core `None`, `Warning`, `Appearance`, `Rename` |
+| Prerequisites / Cost / Unlocks | Pré-requisitos / custo / Desbloqueia | | Core `Prerequisites`, `Cost`, `Unlocks` |
+| Empire (faction) | Império Fragmentado | Império alone | Royalty `Empire.label` |
+| Empire traders | comerciantes imperiais | comerciantes do Império | Royalty `Orbital_Empire.label` = comerciante imperial |
+| freewielder (trait label) | Vínculo livre | portador livre, sem vínculo | Royalty `NeverBond.label` — note it is **capitalized** in vanilla, unlike de/fr where trait labels are lowercase |
+| relic / reliquary | relíquia / relicário | vestígio | Ideology `Relic`, `RelicOf`, `Reliquary.label` |
+| ideoligion / reform | ideologia / reformar ideologia | ideoligião | Ideology `IdeoligionOf`, `ReformIdeoligion` — pt-BR uses the plain word with **no portmanteau**, like German and unlike es/fr/ru |
+| stopping power / burst count / burst speed | Poder de parada / Contagem de tiros por disparo / Taxa de disparo | | Core `StoppingPower`, `BurstShotCount`, `BurstShotFireRate` |
+| armor penetration / damage / accuracy | Penetração de Armadura / Dano / Precisão | | Core `ArmorPenetration`, `Damage`, `Accuracy` |
+| EMP / EMP stun | PEM / Atordoado por PEM | EMP | Core `StunnedByEMP`, Royalty zeushammer desc — pt-BR localizes the acronym |
+| forbidden / reserved / unreachable / no power / no path | proibido / reservado / inalcançável / sem energia / sem caminho | inacessível (reserve for "not accessible") | Core `ForbiddenLower`, `Reserved`, `CannotReach`, `NoPower`, `NoPath` |
+| quest / hostiles / enemies | missão / hostis / inimigos | busca | Core `Quest` (vanilla value is plural "Missões"), `Hostiles`, `Enemies` |
+| "{0} days ago" | `há {0} dias` | `há {0} dias atrás` (vanilla's own `AppearedDaysAgo` doubles it — a bug) | Core `ActivatedDaysAgo` |
+| vanilla (the base game) | original / do jogo original | vanilla, baunilha | no vanilla pt-BR `Keyed` term exists; 0 occurrences of "vanilla" |
+| gizmo button | botão de comando | gizmo | no vanilla pt-BR `Gizmo*` key exists; `GameplayTips.RightClickGizmos` establishes "botões no menu de ordens" |
+| bladelink customization (this mod's research) | personalização de armas persona | | composed from two grounded terms — see the note below |
+
+Three further pt-BR notes.
+
+**`PWU_BladelinkCustomization.label` is composed, not coined.** Both halves are
+vanilla pt-BR (personalização from `CustomizeIdeoligion`, armas persona from
+`WeaponsMeleeBladelink.label`), so unlike ja/zh no invention was needed. It is
+longer than the median pt-BR research label (usinagem, lâminas longas) though in
+line with the longest (substituições biônicas, sarcófago de criptosono), so a
+native reviewer may prefer a terser "personalização de personas"; flagged in the
+2026-07-29 commit — do not silently flip it either way.
+
+**Landmine — the persona-core recipe's research prerequisite.** `PWU_UI.xml`'s
+translator comment calls it "machine persuasion (vanilla research label)". The def
+is `ShipComputerCore`, and pt-BR renders it **persuasão mecânica** — a literal
+match for the English hint. pt-BR joins Korean (기계 설득) as the exception here;
+ja gives AIコンピュータコア, zh 飞船电脑核心, fr "noyau central de l'ordinateur de
+bord" and es "persuasión de IA", none of which resemble the English. Still resolve
+the defName through the tar every time — the coincidence is language-specific, not
+a general licence. (No def named `MachinePersuasion` exists, so grepping the hint
+text finds nothing.)
+
+**Kill tracker vs kill memory, and the haul planner.** English's "kill tracker"
+(toggle label) and "kill memory" (prose) split into **registro de mortes** and
+**memória de mortes** — pt-BR keeps the distinction like Spanish and French rather
+than collapsing it like German, because both read naturally against `PWU_TabMemory`
+= Memória. Haul planner modes are mod-coined with no vanilla anchor: **Sequencial /
+Varredura / Minucioso**.
+
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
 - Japanese vanilla style: ASCII punctuation (`,` `.`, never `、` `。`),
   です/ます descriptions, continuous-form job strings (〜している, no period),
   「」 around quoted labels.
 - Wrap injected `{0}` def labels in the language's quote marks (JP 「{0}」,
-  RU «{0}», zh-Hans “{0}”, ko '{0}', de '{0}', es "{0}", fr "{0}") — note de, es
-  and fr all use ASCII quotes, but de takes single and es/fr take double, and
-  none of the three uses its own typographic pair (`„…"` / `«…»`) for a
-  placeholder in Keyed data. French is the one language with a *split* convention:
-  ASCII `"{0}"` for injected values, but guillemets with inner spaces
-  (`« Secourir »`) when naming a fixed UI element the player must click — so which
-  mark to use depends on whether the quoted thing is a runtime value or a literal
-  label. Injected labels never inflect,
+  RU «{0}», zh-Hans “{0}”, ko '{0}', de '{0}', es "{0}", fr "{0}", pt-BR both —
+  see below) — note de, es, fr and pt-BR all use ASCII quotes, but de takes single
+  and es/fr take double, and none of them uses its own typographic pair
+  (`„…"` / `«…»`) for a placeholder in Keyed data. **Two languages have a *split*
+  convention, and they split on different axes.** French splits by whether the
+  quoted thing is a runtime value or a fixed label: ASCII `"{0}"` for injected
+  values, guillemets with inner spaces (`« Secourir »`) when naming a UI element
+  the player must click. Brazilian Portuguese splits by *what kind of entity* the
+  injected value is: ASCII single `'{0}'` for a research project or quest
+  (`NeedResearchBenchDesc`), ASCII double `"{0}"` for a stat, bill or zone name
+  (`ScenPart_StatFactor`) — both are placeholders, so the fr rule does not
+  transfer. Injected labels never inflect,
   and quoting sidesteps case and agreement problems. Korean is the one language
   where quoting also interacts with grammar and still works:
   `LanguageWorker_Korean` looks *through* a preceding `'`/`"` to find the
@@ -1038,7 +1302,12 @@ Balayage / Exhaustif**.
   elision/contraction regexes (mostly a feature — `de {0}` self-repairs to
   `d'{0}` for vowel-initial values — but with three real traps: enclitic
   `-la`/`-le` before a vowel becomes `-l'`, `de le` becomes `de` instead of `du`,
-  and `à le` is consumed into `au` even when "le" is a pronoun). The cheap way to
+  and `à le` is consumed into `au` even when "le" is a pronoun). **A worker with
+  no `PostProcessed` override is also a finding worth recording** — es and pt-BR
+  both inherit the base `LanguageWorker.PostProcessed`, which is only
+  `MergeMultipleSpaces()`: it returns the string untouched unless it contains a
+  double space and never trims, so keys that intentionally carry a leading or
+  trailing space (`PWU_DefaultSuffix`, `PWU_NetRefund`) are safe. The cheap way to
   verify a whole language at once is to port `PostProcessedInt` to a throwaway
   script and diff it over every translated value: any value the worker rewrites
   is a value you did not actually write. Do this with placeholders substituted
@@ -1058,10 +1327,44 @@ Balayage / Exhaustif**.
   `defaultGender`), and mod-coined nouns are never in the vanilla Gender tables —
   so `{N_gender ? …}` on a mod's own label is a silent coin-flip, not a fix.
   Reserve it for vanilla nouns in nominative slots.
+- **Check the size of `WordInfo/Gender/*.txt` before trusting gender at all, and
+  check which files the loader actually reads.** Coverage varies enormously:
+  German ~2450 entries, Spanish 2771/1771, but **pt-BR ships 14 female + 9 male,
+  all livestock and noble titles** — not one common noun, so gender is effectively
+  dead there and every injected value silently resolves masculine.
+  `LanguageWordInfo.LoadFrom` reads only `Male.txt`, `Female.txt` and
+  `Neuter.txt`, so a language's larger `Singular.txt` / `Plural.txt` /
+  `new_words.txt` (pt-BR has 1350+ lines of them) contribute nothing to gender —
+  do not mistake their size for coverage.
+- **Check whether the article helpers emit contractions, separately from gender.**
+  `WithDefiniteArticle` is plain concatenation in several workers, so
+  `de {0_definite}` produces "de o …" rather than the required contraction. How
+  much that costs depends on the language: Spanish loses only *del* and *al*,
+  while **Portuguese loses six mandatory contractions** (de+o=do, de+a=da,
+  em+o=no, em+a=na, a+o=ao, a+a=à), making pt-BR the worst case so far. Write
+  every contraction literally against a noun you control, and never against an
+  injected one.
+- **Agreement can bite with no placeholder in sight.** A fixed participle whose
+  implicit subject is an injected-gender thing is just as broken as `{0_definite}`:
+  pt-BR's `PWU_AlreadyApplied` ("Já aplicado") had to become "Já está na arma"
+  because Royalty's trait labels are mixed gender (Ciumenta, feia vs Vínculo
+  livre). When auditing, grep for participles and adjectives near *and* about
+  placeholders, and prefer infinitives, noun phrases, or clauses with their own
+  fixed subject.
 - Coined vanilla terms (ideoligion) may be a portmanteau in one language
-  (RU идеолигия) and a plain word in another (JP 思想, zh-Hans 文化,
-  de Ideologie) — always check, never extrapolate between languages. Relevant
-  here for `PWU_RelicNameTooltip` (zh-Hans relic = 圣物, de = Reliquie).
+  (RU идеолигия, es ideoligión, fr idéoligion) and a plain word in another
+  (JP 思想, zh-Hans 文化, de Ideologie, pt-BR ideologia) — always check, never
+  extrapolate between languages. Relevant here for `PWU_RelicNameTooltip`
+  (zh-Hans relic = 圣物, de = Reliquie).
+- **A false friend in one language can be the correct vanilla term in its
+  neighbour.** Spanish *persona* means "person" and is a bug in any value; but
+  Portuguese has *pessoa* for that, leaving *persona* free, and vanilla pt-BR uses
+  it as the weapon term ("armas persona"). Two languages sharing a Latin root is
+  not evidence they share a rendering — ground each one independently.
+- **Folder names are not derivable from how the user names the language.** Ask the
+  tar, not intuition: "Brazilian Portuguese" is `PortugueseBrazilian`, and it sits
+  beside a separate `Portuguese` (European) with its own tar and its own
+  terminology. Same trap as `Spanish` vs `SpanishLatin`.
 - Mod-coined terms recur in def labels AND in Keyed settings prose that
   restates them. When generation is chunked across files or subagents,
   reconcile those terms across the whole language before committing (UMW's
