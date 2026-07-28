@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Float menu / Gizmo -->
+  <!-- EN: Customize persona: {0} -->
+  <PWU_CustomizeWeapon>ペルソナをカスタマイズ: 「{0}」</PWU_CustomizeWeapon>
+  <!-- EN: requires {0} -->
+  <PWU_RequiresResearch>「{0}」が必要</PWU_RequiresResearch>
+  <!-- EN: requires a {0} -->
+  <PWU_RequiresWorkbench>「{0}」が必要</PWU_RequiresWorkbench>
+  <!-- EN: no suitable workbench -->
+  <PWU_NoSuitableWorkbench>適切な作業台がない</PWU_NoSuitableWorkbench>
+  <!-- EN: requires {0} quality or better -->
+  <PWU_RequiresMinimumQuality>{0}以上の品質が必要</PWU_RequiresMinimumQuality>
+  <!-- EN: Customize persona -->
+  <PWU_CustomizeGizmoLabel>ペルソナをカスタマイズ</PWU_CustomizeGizmoLabel>
+  <!-- EN: Select a colonist to customize this weapon at a nearby workbench. -->
+  <PWU_CustomizeGizmoDesc>入植者を選択して,近くの作業台でこの武器をカスタマイズします.</PWU_CustomizeGizmoDesc>
+
+  <!-- Dev-mode diagnostic reasons (surfaced when Prefs.DevMode is on, otherwise hidden) -->
+  <!-- EN: no persona variant -->
+  <PWU_DevNoPersonaVariant>ペルソナ形態が存在しない</PWU_DevNoPersonaVariant>
+  <!-- EN: base variant upgrades disabled -->
+  <PWU_DevDefConversionDisabled>基本形態のアップグレードは無効</PWU_DevDefConversionDisabled>
+
+  <!-- Dialog: Buttons -->
+  <!-- EN: Cancel -->
+  <PWU_Cancel>キャンセル</PWU_Cancel>
+  <!-- EN: Reset -->
+  <PWU_Reset>リセット</PWU_Reset>
+  <!-- EN: Confirm -->
+  <PWU_Confirm>了承</PWU_Confirm>
+  <!-- EN: Randomize -->
+  <PWU_Randomize>ランダム</PWU_Randomize>
+  <!-- EN: Reset to defaults -->
+  <PWU_ResetToDefaults>デフォルトに戻す</PWU_ResetToDefaults>
+
+  <!-- Dialog: Tabs -->
+  <!-- EN: Traits -->
+  <PWU_TabTraits>特性・特徴</PWU_TabTraits>
+  <!-- EN: Memory -->
+  <PWU_TabMemory>記憶</PWU_TabMemory>
+  <!-- EN: Texture -->
+  <PWU_TabTexture>外観</PWU_TabTexture>
+
+  <!-- Dialog: Controls -->
+  <!-- EN: This weapon is an ideology relic. Its name can only be changed when forming or reforming an ideoligion. -->
+  <PWU_RelicNameTooltip>この武器は思想のレリックです.その名前は,思想の作成時または改変時にのみ変更できます.</PWU_RelicNameTooltip>
+  <!-- EN: Select at least one trait first -->
+  <PWU_SelectTraitFirst>先に特性・特徴を1つ以上選択してください</PWU_SelectTraitFirst>
+  <!-- EN: Auto-regenerate name when traits change -->
+  <PWU_AutoRegenName>特性・特徴の変更時に名前を自動で再生成</PWU_AutoRegenName>
+  <!-- EN: Hide negative traits -->
+  <PWU_HideNegativeTraits>マイナスの特性・特徴を隠す</PWU_HideNegativeTraits>
+
+  <!-- Dialog: Cost display -->
+  <!-- EN: Net refund:  -->
+  <PWU_NetRefund>返還合計: </PWU_NetRefund>
+  <!-- EN: None -->
+  <PWU_RefundNone>なし</PWU_RefundNone>
+  <!-- EN: Net cost:  -->
+  <PWU_NetCost>費用合計: </PWU_NetCost>
+  <!-- EN: Free -->
+  <PWU_CostFree>無料</PWU_CostFree>
+  <!-- EN: Missing resources -->
+  <PWU_MissingResources>資源が不足</PWU_MissingResources>
+  <!-- EN: Required materials are insufficient, forbidden, reserved by another pawn, or unreachable from this pawn's position. -->
+  <PWU_NotEnoughMaterials>必要な材料が不足している,禁止されている,他の人物に予約されている,またはこの人物の位置から到達できない状態です.</PWU_NotEnoughMaterials>
+  <!-- EN: Could not customize {0}: no viable haul plan. -->
+  <PWU_CouldNotStartPlanInfeasible>「{0}」をカスタマイズできません: 実行可能な運搬計画がありません.</PWU_CouldNotStartPlanInfeasible>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2}. -->
+  <PWU_CouldNotStartReservationConflict>「{0}」をカスタマイズできません: {1} x{2}の予約に失敗しました.</PWU_CouldNotStartReservationConflict>
+  <!-- EN: Could not customize {0}: failed to reserve {1} x{2} (held by {3}). -->
+  <PWU_CouldNotStartReservationConflictHeldBy>「{0}」をカスタマイズできません: {1} x{2}の予約に失敗しました({3}が保持しています).</PWU_CouldNotStartReservationConflictHeldBy>
+  <!-- EN: Could not customize {0}: internal error. See log. -->
+  <PWU_CouldNotStartInternalError>「{0}」をカスタマイズできません: 内部エラーです.ログを確認してください.</PWU_CouldNotStartInternalError>
+
+  <!-- Trait tooltips -->
+  <!-- EN: Effects: -->
+  <PWU_Effects>効果:</PWU_Effects>
+  <!-- EN: Damage type -->
+  <PWU_DamageType>ダメージタイプ</PWU_DamageType>
+  <!-- EN: Extra damage -->
+  <PWU_ExtraDamage>追加ダメージ</PWU_ExtraDamage>
+  <!-- EN: Burst speed -->
+  <PWU_BurstSpeed>連射速度</PWU_BurstSpeed>
+  <!-- EN: Burst count -->
+  <PWU_BurstCount>バースト時の弾数</PWU_BurstCount>
+  <!-- EN: Stopping power -->
+  <PWU_StoppingPower>威力</PWU_StoppingPower>
+  <!-- EN: Ignores accuracy penalties -->
+  <PWU_IgnoresAccuracyPenalties>命中精度のペナルティを無視</PWU_IgnoresAccuracyPenalties>
+
+  <!-- Trait validation -->
+  <!-- EN: Already applied -->
+  <PWU_AlreadyApplied>既に適用済み</PWU_AlreadyApplied>
+  <!-- EN: Maximum traits reached -->
+  <PWU_MaxTraitsReached>特性・特徴の上限に達している</PWU_MaxTraitsReached>
+  <!-- EN: Conflicts with {0} -->
+  <PWU_ConflictsWith>「{0}」と競合する</PWU_ConflictsWith>
+  <!-- EN: Cannot be the only trait -->
+  <PWU_CannotBeOnlyTrait>唯一の特性・特徴にはできない</PWU_CannotBeOnlyTrait>
+  <!-- EN: {0} cannot be the only trait -->
+  <PWU_TraitCannotBeOnlyTrait>「{0}」を唯一の特性・特徴にはできない</PWU_TraitCannotBeOnlyTrait>
+  <!-- EN: Must disarm from hostile -->
+  <PWU_OnlyOnHostiles>敵対者から奪う必要がある</PWU_OnlyOnHostiles>
+  <!-- EN: Warning: this is the only weapon in your pool with this trait. Removing it will remove the trait from the pool of traits you can apply to other weapons. -->
+  <PWU_LastTraitSourceWarning>警告: この特性・特徴を持つ武器は,あなたの手元にこれ1つだけです.取り除くと,他の武器に適用できる特性・特徴の一覧からも失われます.</PWU_LastTraitSourceWarning>
+  <!-- EN: Adding this trait makes the weapon free-wielding, severing its bond with {0}. -->
+  <PWU_NeverBondSeversBond>この特性・特徴を追加すると武器は誰でも使えるようになり,{0}との絆が断たれます.</PWU_NeverBondSeversBond>
+  <!-- EN: Reverting this weapon to its base form will sever its bond with {0}. Continue? -->
+  <PWU_BondSeveredWarning>この武器を基本形態に戻すと,{0}との絆が断たれます.続行しますか?</PWU_BondSeveredWarning>
+  <!-- EN: No traits match your search. -->
+  <PWU_NoTraitsMatchSearch>検索条件に一致する特性・特徴がありません.</PWU_NoTraitsMatchSearch>
+  <!-- EN: No traits available yet.\n\nEncounter persona weapons via Empire traders, quests, relics, or hostiles\nto unlock their traits for customization. -->
+  <PWU_NoTraitsDiscovered>利用できる特性・特徴がまだありません.\n\n落日の帝国の貿易商,クエスト,レリック,敵対者を通じてペルソナ武器に出会うと,\nその特性・特徴がカスタマイズ用に解放されます.</PWU_NoTraitsDiscovered>
+  <!-- EN: All available traits for this weapon are negative. Disable "Hide negative traits" below to view them. -->
+  <PWU_NoTraitsAfterHideNegative>この武器に利用できる特性・特徴は全てマイナスのものです.表示するには,下の「マイナスの特性・特徴を隠す」を解除してください.</PWU_NoTraitsAfterHideNegative>
+  <!-- EN: No traits are compatible with this weapon. -->
+  <PWU_NoTraitsAvailable>この武器に対応する特性・特徴がありません.</PWU_NoTraitsAvailable>
+
+  <!-- Dialog: Memory tab -->
+  <!-- EN: The weapon must host a persona before its memory can be wiped. -->
+  <PWU_MemoryRequiresPersona>記憶を消去するには,武器にペルソナが宿っている必要があります.</PWU_MemoryRequiresPersona>
+  <!-- EN: No change -->
+  <PWU_MemoryNoWipe>変更しない</PWU_MemoryNoWipe>
+  <!-- EN: Wipe bonding -->
+  <PWU_MemoryWipeBonding>絆を消去</PWU_MemoryWipeBonding>
+  <!-- EN: Erase the persona's bond, and its kill memory with it. The weapon returns to bonding with the next pawn to equip it. -->
+  <PWU_MemoryWipeBondingDesc>ペルソナの絆を,殺害の記憶ごと消去します.この武器は,次に装備した人物と再び絆を結ぶようになります.</PWU_MemoryWipeBondingDesc>
+  <!-- EN: Wipe kill tracker -->
+  <PWU_MemoryWipeKillTracker>殺害記録を消去</PWU_MemoryWipeKillTracker>
+  <!-- EN: Erase the persona's memory of its kills. The bond is untouched. -->
+  <PWU_MemoryWipeKillTrackerDesc>ペルソナが持つ殺害の記憶を消去します.絆はそのまま残ります.</PWU_MemoryWipeKillTrackerDesc>
+  <!-- EN: Last kill: {0} days ago -->
+  <PWU_MemoryLastKill>最後の殺害: {0}日前</PWU_MemoryLastKill>
+  <!-- EN: Not bonded -->
+  <PWU_MemoryNotBonded>絆なし</PWU_MemoryNotBonded>
+  <!-- EN: No kills remembered -->
+  <PWU_MemoryNoKillMemory>殺害の記憶なし</PWU_MemoryNoKillMemory>
+  <!-- EN: The freewielder trait already severs the bond -->
+  <PWU_MemoryBondSeveredByTrait>「自由支配者」の特性・特徴が既に絆を断っている</PWU_MemoryBondSeveredByTrait>
+  <!-- EN: Severing the bond wipes kill memory too -->
+  <PWU_MemoryKillWipedByTrait>絆を断つと殺害の記憶も消去される</PWU_MemoryKillWipedByTrait>
+  <!-- EN: memory wipe -->
+  <PWU_MemoryWipeLabel>記憶の消去</PWU_MemoryWipeLabel>
+
+  <!-- Dialog: Texture tab (unified appearance customization over VEF's texture composition) -->
+  <!-- EN: This weapon has no texture customization options. -->
+  <PWU_NoTextureOptions>この武器にはカスタマイズできる外観の選択肢がありません.</PWU_NoTextureOptions>
+  <!-- EN: Rolling appearance... -->
+  <PWU_TextureRollingPlaceholder>外観をランダム生成中...</PWU_TextureRollingPlaceholder>
+  <!-- EN: Reset appearance -->
+  <PWU_ResetTexture>外観をリセット</PWU_ResetTexture>
+
+  <!-- Fallbacks -->
+  <!-- EN: weapon -->
+  <PWU_WeaponFallback>武器</PWU_WeaponFallback>
+
+  <!-- Jobs -->
+  <!-- EN: Customizing {0} -->
+  <PWU_CustomizingWeapon>「{0}」をカスタマイズしている</PWU_CustomizingWeapon>
+  <!-- EN: Adding {0} to {1} -->
+  <PWU_AddingTrait>「{1}」に「{0}」を追加している</PWU_AddingTrait>
+  <!-- EN: Removing {0} from {1} -->
+  <PWU_RemovingTrait>「{1}」から「{0}」を取り除いている</PWU_RemovingTrait>
+  <!-- EN: Renaming {0} -->
+  <PWU_RenamingWeapon>「{0}」の名前を変更している</PWU_RenamingWeapon>
+  <!-- EN: Wiping memory of {0} -->
+  <PWU_WipingMemory>「{0}」の記憶を消去している</PWU_WipingMemory>
+  <!-- EN: Updating appearance of {0} -->
+  <PWU_RestylingWeapon>「{0}」の外観を更新している</PWU_RestylingWeapon>
+  <!-- EN: Placing {0} on {1} -->
+  <PWU_PlacingWeapon>「{1}」に「{0}」を置いている</PWU_PlacingWeapon>
+  <!-- EN: Gathering materials for {0} -->
+  <PWU_GatheringMaterials>「{0}」のための材料を集めている</PWU_GatheringMaterials>
+  <!-- EN: Admiring work -->
+  <PWU_AdmiringWork>出来上がりに見入っている</PWU_AdmiringWork>
+  <!-- EN: {0} customization interrupted: ingredients lost before {1} could be applied. -->
+  <PWU_IngredientShortfall>「{0}」のカスタマイズが中断されました: 「{1}」を適用する前に材料が失われました.</PWU_IngredientShortfall>
+  <!-- EN: {0} customization interrupted: workbench is no longer available. -->
+  <PWU_BailWorkbenchUnavailable>「{0}」のカスタマイズが中断されました: 作業台が使用できなくなりました.</PWU_BailWorkbenchUnavailable>
+  <!-- EN: {0} customization interrupted: workbench became unreachable. -->
+  <PWU_BailWorkbenchUnreachable>「{0}」のカスタマイズが中断されました: 作業台に到達できなくなりました.</PWU_BailWorkbenchUnreachable>
+  <!-- EN: {0} customization interrupted: workbench has no power or fuel. -->
+  <PWU_BailWorkbenchInactive>「{0}」のカスタマイズが中断されました: 作業台に電力または燃料がありません.</PWU_BailWorkbenchInactive>
+  <!-- EN: {0} customization interrupted: weapon was lost. -->
+  <PWU_BailWeaponLost>「{0}」のカスタマイズが中断されました: 武器が失われました.</PWU_BailWeaponLost>
+  <!-- EN: {0} customization interrupted: weapon is no longer accessible. -->
+  <PWU_BailWeaponInaccessible>「{0}」のカスタマイズが中断されました: 武器を取り出せなくなりました.</PWU_BailWeaponInaccessible>
+  <!-- EN: {0} customization interrupted: an ingredient was lost while hauling. -->
+  <PWU_BailIngredientLost>「{0}」のカスタマイズが中断されました: 運搬中に材料が失われました.</PWU_BailIngredientLost>
+  <!-- EN: {0} customization interrupted: a required ingredient became unreachable. -->
+  <PWU_BailIngredientUnreachable>「{0}」のカスタマイズが中断されました: 必要な材料に到達できなくなりました.</PWU_BailIngredientUnreachable>
+  <!-- EN: {0} customization interrupted: no room near the workbench to place an ingredient. -->
+  <PWU_BailIngredientPlacementFailed>「{0}」のカスタマイズが中断されました: 作業台の近くに材料を置く場所がありません.</PWU_BailIngredientPlacementFailed>
+  <!-- EN: {0} customization interrupted: could not pick up the weapon. -->
+  <PWU_BailCarryStartFailed>「{0}」のカスタマイズが中断されました: 武器を持ち上げられませんでした.</PWU_BailCarryStartFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while adding {1}. -->
+  <PWU_BailOpAddTraitFailed>「{0}」のカスタマイズが中断されました: 「{1}」の追加中にエラーが発生しました.</PWU_BailOpAddTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while removing {1}. -->
+  <PWU_BailOpRemoveTraitFailed>「{0}」のカスタマイズが中断されました: 「{1}」の除去中にエラーが発生しました.</PWU_BailOpRemoveTraitFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while renaming the weapon. -->
+  <PWU_BailOpRenameFailed>「{0}」のカスタマイズが中断されました: 武器の名前の変更中にエラーが発生しました.</PWU_BailOpRenameFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while wiping the persona's memory. -->
+  <PWU_BailOpMemoryFailed>「{0}」のカスタマイズが中断されました: ペルソナの記憶の消去中にエラーが発生しました.</PWU_BailOpMemoryFailed>
+  <!-- EN: {0} customization interrupted: an error occurred while updating its appearance. -->
+  <PWU_BailOpRestyleFailed>「{0}」のカスタマイズが中断されました: 外観の更新中にエラーが発生しました.</PWU_BailOpRestyleFailed>
+  <!-- EN: {0} customization failed unexpectedly. -->
+  <PWU_BailUnexpected>「{0}」のカスタマイズが予期せず失敗しました.</PWU_BailUnexpected>
+  <!-- EN: {0} customization interrupted: the customization dialog could not be opened. See log. -->
+  <PWU_BailDialogOpenFailed>「{0}」のカスタマイズが中断されました: カスタマイズ画面を開けませんでした.ログを確認してください.</PWU_BailDialogOpenFailed>
+  <!-- EN: {0} customization dialog errored and was closed. See log. -->
+  <PWU_DialogErrored>「{0}」のカスタマイズ画面でエラーが発生し,画面を閉じました.ログを確認してください.</PWU_DialogErrored>
+
+  <!-- Settings: Section headers -->
+  <!-- EN: Persona Weapons Unbound -->
+  <PWU_SettingsCategory>Persona Weapons Unbound</PWU_SettingsCategory>
+  <!-- EN: Progression -->
+  <PWU_SettingsProgression>ゲーム進行</PWU_SettingsProgression>
+  <!-- EN: Trait costs -->
+  <PWU_SettingsTraitCosts>特性・特徴の費用</PWU_SettingsTraitCosts>
+  <!-- EN: Memory costs -->
+  <PWU_SettingsMemoryCosts>記憶消去の費用</PWU_SettingsMemoryCosts>
+  <!-- EN: Prerequisites -->
+  <PWU_SettingsPrerequisites>前提条件</PWU_SettingsPrerequisites>
+  <!-- EN: Crafting recipes -->
+  <PWU_SettingsCraftingRecipes>製作レシピ</PWU_SettingsCraftingRecipes>
+  <!-- EN: Ingredient hauling -->
+  <PWU_SettingsHaulPlanner>材料の運搬</PWU_SettingsHaulPlanner>
+  <!-- EN: Miscellaneous -->
+  <PWU_SettingsMiscellaneous>その他</PWU_SettingsMiscellaneous>
+  <!-- EN: VEF texture customization -->
+  <PWU_SettingsVpweIntegration>VEFのテクスチャカスタマイズ</PWU_SettingsVpweIntegration>
+
+  <!-- Settings: Reusable label suffixes (each includes a leading space) -->
+  <!-- EN:  (default) -->
+  <PWU_DefaultSuffix>(デフォルト)</PWU_DefaultSuffix>
+  <!-- EN:  (recommended) -->
+  <PWU_RecommendedSuffix>(推奨)</PWU_RecommendedSuffix>
+  <!-- EN:  (vanilla) -->
+  <PWU_VanillaSuffix>(バニラ)</PWU_VanillaSuffix>
+  <!-- EN:  (experimental) -->
+  <PWU_ExperimentalSuffix>(実験的)</PWU_ExperimentalSuffix>
+
+  <!-- Settings: Persona costs -->
+  <!-- EN: First trait costs an AI persona core -->
+  <PWU_FirstTraitCostsPersonaCore>最初の特性・特徴にAI人格コアを消費</PWU_FirstTraitCostsPersonaCore>
+  <!-- EN: When enabled (default), adding the first trait to a base weapon installs an AI persona core, which is refunded when the last trait is removed and the weapon reverts to base. When disabled, the first trait added and the last trait removed are priced like any other change: advanced components (scaled by weapon quality per the table below), which are never refunded. -->
+  <PWU_FirstTraitCostsPersonaCoreDesc>有効時(デフォルト),基本形態の武器に最初の特性・特徴を追加するとAI人格コアが組み込まれ,最後の特性・特徴を取り除いて武器が基本形態に戻るときに返還されます.無効時は,最初の特性・特徴の追加と最後の特性・特徴の除去も他の変更と同じ費用になります.すなわち先進コンポーネント(下の表のとおり武器の品質に応じて増加)を消費し,これは決して返還されません.</PWU_FirstTraitCostsPersonaCoreDesc>
+  <!-- EN: Base component cost per trait change: {0} -->
+  <PWU_TraitChangeBaseComponentCost>特性・特徴の変更1回あたりの基本コンポーネント費用: {0}</PWU_TraitChangeBaseComponentCost>
+  <!-- EN: Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost, neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting. -->
+  <PWU_TraitChangeBaseComponentCostDesc>基本形態とペルソナ形態の境界を越えない特性・特徴の変更ごとに消費される先進コンポーネントです(追加でも除去でも消費し,どちらも返還されません).武器の品質にかかわらず同じ量を消費します.最初の特性・特徴でAI人格コアを組み込む処理と,最後の特性・特徴でそれを返還する処理は,この設定の影響を受けません.</PWU_TraitChangeBaseComponentCostDesc>
+  <!-- EN: Quality surcharge threshold: {0} -->
+  <PWU_TraitChangeQualitySurchargeThreshold>品質による追加費用の開始品質: {0}</PWU_TraitChangeQualitySurchargeThreshold>
+  <!-- EN: The weapon quality tier at which the per-level component surcharge below starts applying. Trait changes on weapons at or below this quality cost only the base component amount. -->
+  <PWU_TraitChangeQualitySurchargeThresholdDesc>下にある段階ごとのコンポーネント追加費用が適用され始める武器の品質です.この品質以下の武器では,特性・特徴の変更に基本のコンポーネント量しか必要ありません.</PWU_TraitChangeQualitySurchargeThresholdDesc>
+  <!-- EN: Quality surcharge per level: {0} -->
+  <PWU_TraitChangeQualitySurchargePerLevel>品質1段階あたりの追加費用: {0}</PWU_TraitChangeQualitySurchargePerLevel>
+  <!-- EN: Extra advanced components charged per quality tier above the surcharge threshold. For example, at the default threshold (Normal) and per-level value (1), a Masterwork weapon costs 3 more components per trait change than the base amount. -->
+  <PWU_TraitChangeQualitySurchargePerLevelDesc>追加費用の開始品質を1段階上回るごとに,追加で消費される先進コンポーネントです.例えば,デフォルトの開始品質(標準品)と段階あたりの値(1)では,名品の武器は特性・特徴の変更1回につき基本量より3個多くコンポーネントを消費します.</PWU_TraitChangeQualitySurchargePerLevelDesc>
+  <!-- EN: Advanced components required per trait change, by weapon quality: -->
+  <PWU_CostTableHeader>武器の品質別,特性・特徴の変更1回に必要な先進コンポーネント:</PWU_CostTableHeader>
+  <!-- EN: - -->
+  <PWU_CostTableNotApplicable>-</PWU_CostTableNotApplicable>
+  <!-- EN: Weapons of this quality can't be customized: the minimum weapon quality prerequisite is set to {0}. -->
+  <PWU_CostTableNotApplicableDesc>この品質の武器はカスタマイズできません: 武器の最低品質の前提条件が「{0}」に設定されています.</PWU_CostTableNotApplicableDesc>
+
+  <!-- Settings: Memory costs -->
+  <!-- EN: Bond wipe component cost: {0} -->
+  <PWU_WipeBondingComponentCost>絆の消去に必要なコンポーネント: {0}</PWU_WipeBondingComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's bond, returning it to bond-on-next-equip. -->
+  <PWU_WipeBondingComponentCostDesc>ペルソナ武器の絆を消去し,次に装備した人物と絆を結ぶ状態に戻すために消費される先進コンポーネントです.</PWU_WipeBondingComponentCostDesc>
+  <!-- EN: Kill tracker wipe component cost: {0} -->
+  <PWU_WipeKillTrackerComponentCost>殺害記録の消去に必要なコンポーネント: {0}</PWU_WipeKillTrackerComponentCost>
+  <!-- EN: Advanced components charged to wipe a persona weapon's kill memory. -->
+  <PWU_WipeKillTrackerComponentCostDesc>ペルソナ武器が持つ殺害の記憶を消去するために消費される先進コンポーネントです.</PWU_WipeKillTrackerComponentCostDesc>
+
+  <!-- Settings: Prerequisites -->
+  <!-- EN: Minimum weapon quality: {0} -->
+  <PWU_MinimumQuality>武器の最低品質: {0}</PWU_MinimumQuality>
+  <!-- EN: Restrict customization to weapons of at least this quality. Awful imposes no restriction. Weapons below the minimum will still show the customization option, but it will be disabled with an explanation. -->
+  <PWU_MinimumQualityDesc>カスタマイズできる武器を,この品質以上のものに制限します.「壊れかけ」では制限なしになります.最低品質を下回る武器でもカスタマイズの選択肢は表示されますが,理由が示された上で選択できなくなります.</PWU_MinimumQualityDesc>
+  <!-- EN: Require customization research -->
+  <PWU_RequireCustomizationResearch>カスタマイズの研究を必須にする</PWU_RequireCustomizationResearch>
+  <!-- EN: Require the completion of the {0} research project before customizing weapons. When disabled, the project is hidden from the research tree. -->
+  <PWU_RequireCustomizationResearchDesc>武器をカスタマイズする前に,研究プロジェクト「{0}」の完了を必須にします.無効時は,このプロジェクトは研究ツリーから隠されます.</PWU_RequireCustomizationResearchDesc>
+  <!-- EN: Techprints required: {0} -->
+  <PWU_TechprintCount>必要なテックプリント数: {0}</PWU_TechprintCount>
+  <!-- EN: Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed. -->
+  <PWU_TechprintCountDesc>研究ポイントの消費に加えて,この研究の完了に必要な「{0}」のテックプリントの枚数です.0に設定するとテックプリントの要求が完全になくなり,貿易商もこのテックプリントを扱わなくなります.設定は即座に反映され,再起動は不要です.</PWU_TechprintCountDesc>
+
+  <!-- Settings: Crafting recipes -->
+  <!-- EN: Enable monosword crafting recipe -->
+  <PWU_EnableMonoswordRecipe>モノソードの製作レシピを有効化</PWU_EnableMonoswordRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableMonoswordRecipeDesc>「{1}」に「{0}」の加工を表示します(研究「{2}」が必要).無効にしても新しい加工のメニューから隠れるだけで,既に登録された加工は生産を続けます.</PWU_EnableMonoswordRecipeDesc>
+  <!-- EN: Enable plasmasword crafting recipe -->
+  <PWU_EnablePlasmaswordRecipe>プラズマソードの製作レシピを有効化</PWU_EnablePlasmaswordRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePlasmaswordRecipeDesc>「{1}」に「{0}」の加工を表示します(研究「{2}」が必要).無効にしても新しい加工のメニューから隠れるだけで,既に登録された加工は生産を続けます.</PWU_EnablePlasmaswordRecipeDesc>
+  <!-- EN: Enable zeushammer crafting recipe -->
+  <PWU_EnableZeushammerRecipe>ゼウスハンマーの製作レシピを有効化</PWU_EnableZeushammerRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnableZeushammerRecipeDesc>「{1}」に「{0}」の加工を表示します(研究「{2}」が必要).無効にしても新しい加工のメニューから隠れるだけで,既に登録された加工は生産を続けます.</PWU_EnableZeushammerRecipeDesc>
+  <!-- EN: Enable persona core crafting recipe -->
+  <PWU_EnablePersonaCoreRecipe>AI人格コアの製作レシピを有効化</PWU_EnablePersonaCoreRecipe>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path — craft a base weapon, craft a core, install it through customization. Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <PWU_EnablePersonaCoreRecipeDesc>「{1}」に「{0}」の加工を表示します(研究「{2}」が必要).デフォルトでは無効です: バニラではAI人格コアは発見か交易でしか手に入らず,製作できるようにするとペルソナ武器は希少なものではなく,何度でも作れるものになります.コロニー内で完全に自給自足する道筋が欲しい場合に有効にしてください.基本形態の武器を製作し,コアを製作し,カスタマイズでそれを組み込む,という流れになります.無効にしても新しい加工のメニューから隠れるだけで,既に登録された加工は生産を続けます.</PWU_EnablePersonaCoreRecipeDesc>
+  <!-- EN: Persona core component cost: {0} -->
+  <PWU_PersonaCoreRecipeComponentCost>AI人格コアのコンポーネント費用: {0}</PWU_PersonaCoreRecipeComponentCost>
+  <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->
+  <PWU_PersonaCoreRecipeComponentCostDesc>AI人格コアを1つ製作するために必要な先進コンポーネントです.設定は即座に反映され,再起動は不要です.既に登録された加工の必要量も変更されます.</PWU_PersonaCoreRecipeComponentCostDesc>
+  <!-- EN: Persona core crafting skill required: {0} -->
+  <PWU_PersonaCoreRecipeMinSkill>AI人格コアの製作に必要な工芸スキル: {0}</PWU_PersonaCoreRecipeMinSkill>
+  <!-- EN: Minimum Crafting skill a colonist needs to work the persona core bill. Setting this to 0 removes the skill requirement entirely. Takes effect immediately, no restart needed. -->
+  <PWU_PersonaCoreRecipeMinSkillDesc>入植者がAI人格コアの加工を行うために必要な工芸スキルの最低値です.0に設定するとスキルの要求が完全になくなります.設定は即座に反映され,再起動は不要です.</PWU_PersonaCoreRecipeMinSkillDesc>
+
+  <!-- Settings: Miscellaneous -->
+  <!-- EN: Allow weapon def conversion -->
+  <PWU_AllowDefConversion>武器の形態変換を許可</PWU_AllowDefConversion>
+  <!-- EN: Allow weapons to convert between base and persona defs during customization. When disabled, only already-persona weapons can be customized, and removing all traits keeps the weapon as a zero-trait persona weapon instead of reverting to its base weapon. -->
+  <PWU_AllowDefConversionDesc>カスタマイズ中に,武器が基本形態とペルソナ形態の間で変換されることを許可します.無効時は既にペルソナ武器であるものだけがカスタマイズでき,特性・特徴を全て取り除いても基本形態の武器には戻らず,特性・特徴を持たないペルソナ武器のままになります.</PWU_AllowDefConversionDesc>
+  <!-- EN: Enforce trait count limit -->
+  <PWU_EnforceMaxTraitLimit>特性・特徴の数の上限を適用</PWU_EnforceMaxTraitLimit>
+  <!-- EN: Vanilla persona weapons generate with no more than two traits. Enable this to enforce the same limit during customization. Disable to allow any number of traits (other rules such as exclusion restrictions still apply). -->
+  <PWU_EnforceMaxTraitLimitDesc>バニラのペルソナ武器は,最大2つまでの特性・特徴を持って生成されます.有効にすると,カスタマイズ時にも同じ上限を適用します.無効にすると特性・特徴を何個でも付けられます(排他の制限など,他の規則は引き続き適用されます).</PWU_EnforceMaxTraitLimitDesc>
+  <!-- EN: Enforce sole-trait restrictions -->
+  <PWU_EnforceSoleTrait>唯一の特性・特徴の制限を適用</PWU_EnforceSoleTrait>
+  <!-- EN: Some traits cannot be the only trait on a weapon during vanilla generation. Enable this to enforce the same restriction during customization. -->
+  <PWU_EnforceSoleTraitDesc>バニラの生成では,一部の特性・特徴は武器の唯一の特性・特徴になれません.有効にすると,カスタマイズ時にも同じ制限を適用します.</PWU_EnforceSoleTraitDesc>
+  <!-- EN: Restrict available traits to discovered weapons -->
+  <PWU_RestrictTraitsToDiscovered>発見済みの武器の特性・特徴のみに制限</PWU_RestrictTraitsToDiscovered>
+  <!-- EN: A lightweight progression system: when enabled, the customization dialog only offers traits found on persona weapons the colony has seen: unfogged and unsealed on a loaded map, or carried in a player-faction caravan. Weapons carried by hostiles count too, but their traits stay disabled until the weapon is captured. No persistent state is added to saves; toggling this off restores the full trait list immediately. -->
+  <PWU_RestrictTraitsToDiscoveredDesc>軽量なゲーム進行システムです.有効時,カスタマイズ画面はコロニーが目にしたペルソナ武器の特性・特徴だけを提示します.対象になるのは,読み込み済みのマップ上で霧が晴れ,岩に埋まっていない武器,またはプレイヤー派閥のキャラバン隊が運んでいる武器です.敵対者が持つ武器も対象になりますが,その特性・特徴は武器を奪うまで選択できません.セーブデータに永続的なデータは追加されません.無効に戻すと,すぐに全ての特性・特徴の一覧に戻ります.</PWU_RestrictTraitsToDiscoveredDesc>
+  <!-- EN: Enable ground weapon right-click menu -->
+  <PWU_EnableGroundCustomization>地面の武器の右クリックメニューを有効化</PWU_EnableGroundCustomization>
+  <!-- EN: Show "Customize" options when right-clicking weapons on the ground. Disable this to reduce float menu clutter, especially with storage mods that stack items in the same cell. Weapons can still be customized by selecting them and using the gizmo button. -->
+  <PWU_EnableGroundCustomizationDesc>地面にある武器を右クリックしたときに「カスタマイズ」の選択肢を表示します.無効にすると右クリックメニューの煩雑さを抑えられます.同じセルにアイテムを積み重ねる収納系MODを使っている場合は特に有効です.無効にしても,武器を選択してコマンドボタンから引き続きカスタマイズできます.</PWU_EnableGroundCustomizationDesc>
+
+  <!-- Settings: VEF texture-composition integration (only shown when the extended VEF reflection surface resolved) -->
+  <!-- EN: Integrate VEF texture customization -->
+  <PWU_IntegrateVpweCustomization>VEFのテクスチャカスタマイズを統合</PWU_IntegrateVpweCustomization>
+  <!-- EN: Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition — the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched. -->
+  <PWU_IntegrateVpweCustomizationDesc>Vanilla Expanded Frameworkのテクスチャ合成を利用するペルソナ武器の合成外観(柄や刃などの部位)を編集するため,PWUのカスタマイズ画面に「外観」タブを追加します.対象はVanilla Persona Weapons Expandedの武器,Vanilla Races Expanded - Archonsのアルコブレード,および同じ仕組みを使う全ての武器です.また,PWU自身のカスタマイズの選択肢が使える場所では,VEFが独自に出す地面の右クリックメニューの「カスタマイズ」を隠し,競合する2つのメニュー項目ではなく1か所でペルソナ武器を編集できるようにします.デフォルトで有効です.VEFの独立した操作手順をそのまま残したい場合は無効にしてください.</PWU_IntegrateVpweCustomizationDesc>
+
+  <!-- Settings: Haul planner -->
+  <!-- EN: Sequential -->
+  <PWU_HaulPlannerSequential>順次運搬</PWU_HaulPlannerSequential>
+  <!-- EN: Vanilla behavior. Pawns carry up to one ingredient stack at a time, always grabbing the nearest first. Simple and predictable, but means lots of short trips for resource-heavy customizations. -->
+  <PWU_HaulPlannerSequentialDesc>バニラの挙動です.人物は一度に最大1つの材料のスタックだけを運び,常に最も近いものから取ります.単純で予測しやすい反面,材料を多く使うカスタマイズでは短い往復が何度も発生します.</PWU_HaulPlannerSequentialDesc>
+  <!-- EN: Sweep -->
+  <PWU_HaulPlannerSweep>まとめ運搬</PWU_HaulPlannerSweep>
+  <!-- EN: Pawns plan ahead and use spare inventory space to carry more at once, while also routing more efficiently between pickups. Far fewer trips than Sequential, with negligible planning overhead. -->
+  <PWU_HaulPlannerSweepDesc>人物は事前に計画を立て,持ち物の空きを使って一度に多くを運びつつ,回収地点の間をより効率よく移動します.順次運搬より往復回数がはるかに少なく,計画にかかる負荷は無視できる程度です.</PWU_HaulPlannerSweepDesc>
+  <!-- EN: Thorough -->
+  <PWU_HaulPlannerThorough>徹底運搬</PWU_HaulPlannerThorough>
+  <!-- EN: Like Sweep, but also weighs which stacks to draw from when the map has multiple candidates, rather than always taking the closest. Slower to plan, but usually finds the shortest runs when ingredients are scattered or carrying capacity is tight. Falls back to Sweep for hauls too complex to fully analyze. -->
+  <PWU_HaulPlannerThoroughDesc>まとめ運搬と同様ですが,マップに候補が複数ある場合は常に最も近いものを取るのではなく,どのスタックから取るかも検討します.計画に時間がかかりますが,材料が散らばっている場合や運搬能力に余裕がない場合には,たいてい最短の道順を見つけます.完全に解析しきれないほど複雑な運搬では,まとめ運搬に戻ります.</PWU_HaulPlannerThoroughDesc>
+
+</LanguageData>

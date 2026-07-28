@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Monosword -->
+  <!-- EN: make monosword -->
+  <PWU_Make_MonoSword.label>モノソードを作る</PWU_Make_MonoSword.label>
+  <!-- EN: Craft a monosword: a crystal-metallic longsword infused with mechanites that maintain a mono-molecular cutting edge. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_MonoSword.description>モノソードを作ります.単分子の刃を維持するメカナイトが混合された,クリスタル鋼のロングソードです.その後コンポーネント工作台でペルソナ形態に変換すると,ペルソナ武器としての特性・特徴が目覚めます.</PWU_Make_MonoSword.description>
+  <!-- EN: Making monosword. -->
+  <PWU_Make_MonoSword.jobString>モノソードを作成中</PWU_Make_MonoSword.jobString>
+
+  <!-- Plasmasword -->
+  <!-- EN: make plasmasword -->
+  <PWU_Make_PlasmaSword.label>プラズマソードを作る</PWU_Make_PlasmaSword.label>
+  <!-- EN: Craft a plasmasword: a metal-cored sword wrapped in a plasma sheath that slices and burns. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_PlasmaSword.description>プラズマソードを作ります.メタルコアの剣をプラズマの鞘が包み込み,目標を切り裂きつつ火傷を負わせます.その後コンポーネント工作台でペルソナ形態に変換すると,ペルソナ武器としての特性・特徴が目覚めます.</PWU_Make_PlasmaSword.description>
+  <!-- EN: Making plasmasword. -->
+  <PWU_Make_PlasmaSword.jobString>プラズマソードを作成中</PWU_Make_PlasmaSword.jobString>
+
+  <!-- Zeushammer -->
+  <!-- EN: make zeushammer -->
+  <PWU_Make_Zeushammer.label>ゼウスハンマーを作る</PWU_Make_Zeushammer.label>
+  <!-- EN: Craft a zeushammer: a warhammer with an embedded EMP capacitor that blasts targets with an EMP burst on impact. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_Zeushammer.description>ゼウスハンマーを作ります.EMPコンデンサが搭載されたウォーハンマーで,打撃を加えるとEMPバーストで目標を爆破します.その後コンポーネント工作台でペルソナ形態に変換すると,ペルソナ武器としての特性・特徴が目覚めます.</PWU_Make_Zeushammer.description>
+  <!-- EN: Making zeushammer. -->
+  <PWU_Make_Zeushammer.jobString>ゼウスハンマーを作成中</PWU_Make_Zeushammer.jobString>
+
+  <!-- AI persona core -->
+  <!-- EN: make persona core -->
+  <PWU_Make_AIPersonaCore.label>AI人格コアを作る</PWU_Make_AIPersonaCore.label>
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
+  <PWU_Make_AIPersonaCore.description>AI人格コアを組み立てます.人間の頂点に匹敵する機械ペルソナを納めた,非常に進んだコンピュータコアです.単体では休止状態にありますが,宇宙船やペルソナ武器の柄といったしかるべき構造体に組み込まれれば,驚くべき力を持つ知性となります.</PWU_Make_AIPersonaCore.description>
+  <!-- EN: Making persona core. -->
+  <PWU_Make_AIPersonaCore.jobString>AI人格コアを作成中</PWU_Make_AIPersonaCore.jobString>
+
+</LanguageData>

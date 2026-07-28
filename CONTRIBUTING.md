@@ -20,7 +20,7 @@ welcome too.
 | Spanish              | Planned          |         |
 | French               | Planned          |         |
 | Brazilian Portuguese | Planned          |         |
-| Japanese             | Planned          |         |
+| Japanese             | Machine-assisted | Opus 5  |
 
 Statuses: **Source** (the authoritative English strings), **Machine-assisted**
 (generated with terminology grounded against the official RimWorld
