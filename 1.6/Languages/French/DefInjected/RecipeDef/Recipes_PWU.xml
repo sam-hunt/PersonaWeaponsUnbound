@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Monosword -->
+  <!-- EN: make monosword -->
+  <PWU_Make_MonoSword.label>fabriquer une épée mono-moléculaire</PWU_Make_MonoSword.label>
+  <!-- EN: Craft a monosword: a crystal-metallic longsword infused with mechanites that maintain a mono-molecular cutting edge. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_MonoSword.description>Fabriquer une épée mono-moléculaire : une épée longue en alliage de cristal et de métal, imprégnée de mécanites qui maintiennent un tranchant mono-moléculaire. Il faut ensuite la convertir en arme intelligente à l'atelier de fabrication pour éveiller ses traits.</PWU_Make_MonoSword.description>
+  <!-- EN: Making monosword. -->
+  <PWU_Make_MonoSword.jobString>Fabrique une épée mono-moléculaire.</PWU_Make_MonoSword.jobString>
+
+  <!-- Plasmasword -->
+  <!-- EN: make plasmasword -->
+  <PWU_Make_PlasmaSword.label>fabriquer une épée plasmique</PWU_Make_PlasmaSword.label>
+  <!-- EN: Craft a plasmasword: a metal-cored sword wrapped in a plasma sheath that slices and burns. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_PlasmaSword.description>Fabriquer une épée plasmique : une épée à lame métallique enveloppée d'une gaine de plasma qui tranche et brûle. Il faut ensuite la convertir en arme intelligente à l'atelier de fabrication pour éveiller ses traits.</PWU_Make_PlasmaSword.description>
+  <!-- EN: Making plasmasword. -->
+  <PWU_Make_PlasmaSword.jobString>Fabrique une épée plasmique.</PWU_Make_PlasmaSword.jobString>
+
+  <!-- Zeushammer -->
+  <!-- EN: make zeushammer -->
+  <PWU_Make_Zeushammer.label>fabriquer un marteau de Zeus</PWU_Make_Zeushammer.label>
+  <!-- EN: Craft a zeushammer: a warhammer with an embedded EMP capacitor that blasts targets with an EMP burst on impact. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_Zeushammer.description>Fabriquer un marteau de Zeus : un marteau de guerre doté d'un condensateur IEM intégré qui frappe les cibles d'un souffle IEM à l'impact. Il faut ensuite le convertir en arme intelligente à l'atelier de fabrication pour éveiller ses traits.</PWU_Make_Zeushammer.description>
+  <!-- EN: Making zeushammer. -->
+  <PWU_Make_Zeushammer.jobString>Fabrique un marteau de Zeus.</PWU_Make_Zeushammer.jobString>
+
+  <!-- AI persona core -->
+  <!-- EN: make persona core -->
+  <PWU_Make_AIPersonaCore.label>fabriquer un noyau IA de personnalité</PWU_Make_AIPersonaCore.label>
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
+  <PWU_Make_AIPersonaCore.description>Assembler un noyau IA de personnalité : un noyau d'ordinateur hyper-avancé hébergeant une intelligence artificielle équivalente à un humain d'exception. Dans son état isolé, le noyau demeure dormant, mais installé dans une structure adéquate (un vaisseau, ou la poignée d'une arme intelligente), il devient un esprit d'une grande puissance.</PWU_Make_AIPersonaCore.description>
+  <!-- EN: Making persona core. -->
+  <PWU_Make_AIPersonaCore.jobString>Assemble un noyau IA de personnalité.</PWU_Make_AIPersonaCore.jobString>
+
+</LanguageData>

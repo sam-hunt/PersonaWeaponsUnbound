@@ -798,21 +798,251 @@ collapsing it the way German does, because both read naturally against
 `PWU_TabMemory` = Memoria. Haul planner modes are mod-coined with no vanilla
 anchor: **Secuencial / Barrido / Exhaustivo**.
 
+### Glossary — French (machine-assisted fr landed 2026-07-29; no native review yet)
+
+All rows below were grounded during PWU's own 2026-07-29 fr generation — French
+had no preseed from a sibling mod. RimWorld's language folder is `French` (tar:
+`French (Français).tar`).
+
+**French needs no coinage for either central term, but it does need a choice.**
+Vanilla fr renders "persona weapon" four different ways and you have to pick:
+`WeaponsMeleeBladelink.label` = **armes intelligentes** (the official *category*
+name), the individual labels use the adjective **conscient(e)**
+(`MeleeWeapon_MonoSwordBladelink.label` = "épée mono-moléculaire consciente"),
+`BladelinkAlreadyBondedDialog` says "arme intelligente", and
+`LetterBladelinkWeaponBondedLabel` keeps the English — "Lien **Bladelink** :
+{PAWN_labelShort}" (the only value in the whole corpus that does). PWU uses
+**arme intelligente** for the class, because it is the ThingCategoryDef label and
+therefore the one term the game itself presents as the category's name. For the
+onboard mind, **la conscience** is dominant (28 hits; every bladelink ThingDef
+description says "Cette arme a une conscience qui ne peut se lier qu'à une seule
+et unique personne", and `BladelinkEquipWarning` says "la conscience de l'arme").
+Note `AIPersonaCore.label` = "noyau IA de **personnalité**" and
+`NeverBond.description` says "La **personnalité** de cette arme" — so
+*personnalité* is vanilla too, and a native reviewer may prefer it. PWU keeps
+conscience for the mind and reserves personnalité for the core's fixed label;
+flagged in the 2026-07-29 commit, do not silently flip it either way.
+"Customize" is **personnaliser / personnalisation** (Ideology
+`CustomizeIdeoligion` = "Personnalisez votre idéoligion").
+
+**French diverges on trait — but in the opposite direction from every other
+language so far.** Royalty's `Stat_Thing_PersonaWeaponTrait_Label`, Odyssey's
+`Stat_ThingUniqueWeaponTrait_Label` and Core's `WeaponTraits` all say plain
+**Traits** (`WeaponTraits` = "Traits d'arme"), while Core's *pawn* trait header
+`<Traits>` is **"Éléments marquants :"**. So the bare word "trait" is the
+weapon word here and the pawn word is the special one — the reverse of Korean
+(개성 vs 무기 특성) and Russian (черта vs свойство). Royalty ships one outlier:
+`BladelinkEquipWarningTraits` = "L'arme possède les **caractéristiques**
+suivantes"; it is a paraphrase in running prose, not the term. Use **trait**.
+
+Style rules from the vanilla fr data (mandatory):
+
+- **A space before `:` `?` `!` — and it is a plain ASCII space, not a
+  non-breaking one.** Counted in Core Keyed: 593 ` :`, 183 ` ?`, 55 ` !`, versus
+  3 U+00A0 and 0 U+202F in the entire file set. Typographically French wants
+  NBSP; vanilla does not use it, so neither do we.
+- **Semicolons are effectively unused** (1 with space, 1 without, in Core Keyed).
+  English source uses `;` in four settings strings — split them into two
+  sentences rather than reproducing the semicolon.
+- **No em dash and no en dash** (0 `—` and 2 `–` in Core Keyed; 5 and 9 across
+  Core+Royalty). Like Spanish and unlike German, dashes must be *restructured
+  away*, not swapped. PWU converts them to a colon
+  (`PWU_IntegrateVpweCustomizationDesc`, `PWU_EnablePersonaCoreRecipeDesc`) and
+  to parentheses (`PWU_Make_AIPersonaCore.description`).
+- Ellipsis is ASCII `...` (56 in Core Keyed vs 18 `…`).
+- **Two quote systems, and they are not interchangeable.** ASCII double quotes
+  `"{0}"` for *injected* values (24 in Core Keyed — quests, projects, bills,
+  stats: `La quête "{0}" expirera dans {1}`); ASCII single `'{0}'` also occurs
+  (10, mostly research labels). Guillemets `« … »` **with inner spaces** are
+  reserved for naming a *fixed* UI element the player must go click (« Secourir »,
+  « Lit médical », « Options »). PWU follows both: `"{0}"` everywhere a
+  placeholder is cited, `« Masquer les traits négatifs »` and « Personnaliser »
+  where the English quotes one of the mod's own labels. Curly `“ ”` never
+  appears — 0 occurrences. Pawn names are not quoted.
+- **Register is vous, not tu** — 262 `vous` / 171 `votre|vos` against 3 `tu` and
+  **0** `ton|ta|tes` in Core Keyed. This is the reverse of German (du) and
+  Spanish (tú); settings prose uses vouvoiement imperatives (Activez ceci,
+  Désactivez, Réglez ceci sur 0).
+- Descriptions/tooltips end with `.`; labels, buttons and float-menu reasons take
+  none.
+- `RecipeDef.label` is a lowercase infinitive **with** the article (Core
+  `Make_Gun_AssaultRifle` = "fabriquer un fusil d'assaut",
+  `Make_ComponentSpacer` = "fabriquer un composant avancé") — fr keeps the
+  article where es and de drop it. `description` is an infinitive with a period
+  ("Fabriquer un composant avancé." — 3 of 4 sampled Core recipes; `Make_Kibble`
+  is the third-person outlier). `jobString` is third-person **with** a period
+  ("Fabrique un composant avancé."), and `JobDef.reportString` is likewise
+  third-person lowercase with a period ("construit un bonhomme de neige.").
+- Research labels are lowercase noun phrases (assemblage de composant, usinage,
+  longues lames, brassage de la bière).
+
+**The French landmine is `LanguageWorker_French.PostProcessed`, which silently
+rewrites five patterns in every finished string** (decompile-verified). Unlike
+German's single genitive regex, these fire constantly — and most of the time
+they *help*, which is what makes the two that bite so easy to miss:
+
+- `ElisionE`: whole-word `ce|de|je|le|me|ne|se|te|que|quoique|lorsque` + space +
+  vowel/`h` → apostrophe. `ElisionLa`: `la ` + vowel → `l'`. `ElisionSi`:
+  `si il(s)` → `s'il(s)`. All three are *correct* French, so **writing
+  `de {0}` / `la {0}` is self-repairing when the injected value starts with a
+  vowel** — "de or" becomes "d'or" at runtime. This is the opposite of the
+  German/Spanish situation and worth exploiting rather than avoiding.
+- **Trap 1 — enclitic pronouns.** The `\b` in `ElisionLa`/`ElisionE` matches
+  after a hyphen, so an imperative like `Convertissez-la ensuite` becomes
+  **`Convertissez-l'ensuite`**, and `Convertissez-le ensuite` the same. Never
+  write `-la`/`-le` (or `-ce`, `-te`, `-me`) immediately before a vowel-initial
+  word. PWU's three weapon recipes originally said "Convertissez-la ensuite…"
+  and were rewritten to "**Il faut ensuite la convertir…**" for exactly this
+  reason (`la c` is safe, and it avoids `à le` below).
+- **Trap 2 — `de le` is mangled, not contracted.** `DeLe` is
+  `\b(d)e l(es?)\b` → `$1$2`, so "de les" correctly yields "des" but **"de le"
+  yields "de", not "du"**. Write `du` directly; never let `de le` reach the
+  worker.
+- **Trap 3 — `à le`/`à les` are consumed.** `ALe` rewrites them to `au`/`aux`,
+  which is right for an article but destroys a pronoun: `à le convertir` becomes
+  **`au convertir`**. That is the second reason PWU's recipe descriptions use
+  "Il faut ensuite le convertir" rather than "Il reste ensuite à le convertir".
+- `WithDefiniteArticle` does handle vowel-initial values (`l'` + str) and
+  `WithIndefiniteArticle` gives un/une/des — but **gender still comes from
+  `LanguageWordInfo`, and none of the nouns PWU injects are in the fr tables.**
+  Checked against `Core/WordInfo/Gender/`: `arme`, `qualité`, `trait`,
+  `caractéristique`, `recherche`, `relique`, `épée`, `marteau`, `mémoire` all
+  miss; only `noyau`, `schéma`, `atelier`, `composant` are present (all Male).
+  `ResolveGender` defaults to Male, so `{0_definite}` on a weapon label is a
+  coin flip. Same net rule as German and Spanish: restructure so no article or
+  adjective has to agree with an injected value.
+
+Worked rewrites in this mod:
+
+- `PWU_RequiresWorkbench` ("requires a {0}") drops the article: `nécessite {0}`.
+  `{0}` comes from `ResolveWorkbenchLabel` over a VEF-expandable bench set, so
+  the noun is genuinely unknown. Vanilla sanctions the bare form —
+  `NeedResearchBenchDesc` = "Ce projet nécessite que vous construisiez {1}."
+- `PWU_RequiresMinimumQuality` quotes the label: `nécessite la qualité "{0}" ou
+  mieux`. Quality tiers are adjectives (horrible, médiocre, normal, bon,
+  excellent, **merveille** — a feminine *noun* — légendaire), so no unquoted form
+  agrees with feminine *qualité* across all seven. Vanilla's own
+  `NormalQualityOrBetter` = "qualité normale ou mieux" is pre-inflected and
+  cannot be templated. Same treatment in `PWU_CostTableNotApplicableDesc`
+  (`réglée sur "{0}"`).
+- Bail/error messages use `Personnalisation de "{0}" interrompue : …` — quoting
+  blocks the elision *and* removes the need for an article, the fr counterpart of
+  German's `von`-frame and Spanish's `de`-frame.
+- After a **colon** no quotes are needed (`Personnaliser la conscience : {0}`,
+  `Qualité minimale de l'arme : {0}`) — matches vanilla `ResearchFinished` =
+  "Recherche terminée : {0}".
+- The one place an elided article IS hard-coded is `à l'{1}` in the four
+  `PWU_Enable*RecipeDesc` strings. Deliberate and safe: `{1}` is bound to
+  `PWU_ThingDefOf.FabricationBench.label` in `PWU_Mod.cs`, which fr renders
+  **atelier de fabrication** — vowel-initial, so `l'` is always right. Do not
+  generalize it to an unpinned placeholder (a consonant-initial value would give
+  "l'plastacier"), and note you cannot write `à le {1}` instead because `ALe`
+  would turn it into "au atelier". Exact analogue of German's `am {1}` and
+  Spanish's `en la {1}`.
+- Fixed French nouns inflect normally (une épée longue, une arme de qualité
+  merveille) — only *injected* values need the workaround.
+
+| English | Use | Never | Why |
+|---|---|---|---|
+| persona weapon / bladelink weapon | arme intelligente (label adjective conscient/consciente) | arme persona, arme à lien de lame | Core `WeaponsMeleeBladelink.label` = armes intelligentes; Royalty `MeleeWeapon_*Bladelink.label` |
+| persona (the onboard mind) | la conscience | l'âme, l'esprit | Royalty bladelink descs, `BladelinkEquipWarning` = "la conscience de l'arme" |
+| trait (weapon) | trait | caractéristique, éléments marquants (that's the *pawn* word) | Royalty `Stat_Thing_PersonaWeaponTrait_Label`, Core `WeaponTraits` — see the divergence note above |
+| customize / customization | personnaliser / personnalisation | adapter, configurer, modifier | Ideology `CustomizeIdeoligion` |
+| bond (noun / verb) | lien / se lier, lié | attache, liaison | Royalty `LetterBladelinkWeaponBonded`, `BladelinkAlreadyBonded*`, Core `BondedTo` = "Lié à" |
+| AI persona core | noyau IA de personnalité | noyau de conscience, cœur IA | Core `AIPersonaCore.label` |
+| wielder / bearer | porteur | manieur, utilisateur | Royalty bladelink descs ("lié à un porteur") |
+| techprint | schéma technique | plan technique, tirage tech | Core `TechprintLabel` = "schéma technique ({PROJECT_label})" |
+| fabrication bench | atelier de fabrication | table de fabrication, établi de fabrication | Core `FabricationBench.label` |
+| workbench (generic) | établi | plan de travail, poste de travail | Core bench labels — établi de boucher, établi d'assemblage, établi de sculpture |
+| advanced components | composants avancés | composants de pointe | Core `ComponentSpacer.label`; plain components are composants |
+| monosword / plasmasword / zeushammer | épée mono-moléculaire / épée plasmique / marteau de Zeus | monoépée, épée à plasma | Royalty weapon labels (persona forms append conscient/consciente) |
+| longsword / warhammer / mace | épée longue / marteau de guerre / masse | | Core labels |
+| handle / hilt / edge / point | poignée (marteau: manche) / tranchant / pointe | manche for a sword | Royalty `MeleeWeapon_*Bladelink.tools.*.label` |
+| mechanite | mécanites | nanomachines, mécanites (sg. in prose) | Core + Royalty, 47 occurrences |
+| plasteel / uranium / gold | plastacier / uranium / or | plastier, plasteel | Core labels — **plastacier**, counterintuitive, always check |
+| quality (noun) / tiers | qualité / horrible·médiocre·normal·bon·excellent·merveille·légendaire | | Core `Quality`, `QualityCategory_*` — note *merveille* is a noun among adjectives |
+| "{0} quality or better" | `la qualité "{0}" ou mieux` | `qualité {0} ou mieux` | quoting is required; `NormalQualityOrBetter` = "qualité normale ou mieux" is pre-inflected |
+| ultratech (tech level) | ultra | ultratechnologie, supertech | Core `TechLevel_Ultra` |
+| Crafting (the skill) | artisanat | fabrication, façonnage | Core `Crafting.label` |
+| bill (work bill) | tâche (add-bill menu: Ajouter une tâche) | facture, commande, ordre | Core `TabBills` = Tâches, `AddBill` = Ajouter une tâche |
+| recipe | recette | | Core `Stat_Recipe_*` |
+| ingredients / hauling | ingrédients / transport | composants, portage | Core `Ingredients`, `WorkTagHauling` |
+| pawn / colonist | personnage / colon | pion, colonisateur | Core `StatsReport_CharacterQuality` = "Qualité du personnage", `Colonist` = colon |
+| research project / research | projet de recherche / recherche | | Core `NeedResearchBenchDesc`, `Research` |
+| Cancel / Reset / Confirm / Randomize | Annuler / Réinitialiser / Confirmer / Aléatoire | Au hasard | Core buttons |
+| Reset to defaults | Utiliser les paramètres par défaut | Valeurs par défaut | Core `RestoreToDefaultSettings`; `Default` = Par défaut |
+| None / Warning / Appearance | Aucun(e) / Avertissement / Apparence | Néant, Attention, Aspect | Core `None` = Aucune (feminine — PWU's `PWU_RefundNone` uses **Aucun** to agree with *remboursement*), `Warning`, `Appearance` |
+| Empire (faction) | empire brisé | empire alone | Royalty `Empire.label` |
+| freewielder (trait label) | porteur libre | libre porteur, sans lien | Royalty `NeverBond.label` — quote it as `« porteur libre »` when naming it |
+| relic / reliquary | relique / reliquaire | vestige, châsse | Ideology `Relic`, `RelicOf`, `Reliquary.label` |
+| ideoligion / reform | idéoligion / réformer l'idéoligion | idéologie | Ideology `IdeoligionOf`, `ReformIdeoligion` — fr keeps the portmanteau, like es and ru |
+| stopping power / burst count / burst speed | Puissance d'arrêt / Nombre de tirs par rafale / Cadence de tir | Force d'arrêt | Core `StoppingPower`, `BurstShotCount`, `BurstShotFireRate` |
+| armor penetration / damage / accuracy | Pénétration d'armure / Dégâts / Précision | Perforation, Justesse | Core `ArmorPenetration`, `Damage`, `Accuracy` |
+| cut / stab (DamageDef) | taillade / blessure par lame | coupure, estocade | Core DamageDefs |
+| EMP / EMP stun | IEM / Étourdi par une IEM | EMP | Core `StunnedByEMP`, Royalty zeushammer desc — fr localizes the acronym |
+| forbidden / reserved / unreachable / no power | interdit / réservé / inaccessible / pas d'énergie | | Core `ForbiddenLower`, `ReservedBy`, `NoPath`, `NoPower` |
+| quest / hostiles | quête / hostiles | | Core `Quest`, `Hostiles` (`Enemies` = ennemis is a different key) |
+| rename | renommer | | Core `Rename` |
+| "{0} days ago" | `il y a {0} jours` | | Core `AwokeDaysAgo` = "S'est éveillé il y a {0} jours" |
+| gizmo button | bouton de commande | gadget, gizmo | no vanilla fr `Gizmo*` key exists; `Command*Desc` establishes "commande" |
+| bladelink customization (this mod's research) | personnalisation des armes intelligentes | | composed from two grounded terms — see the note below |
+
+Three further French notes.
+
+**`PWU_BladelinkCustomization.label` is composed, not coined.** personnalisation
+and armes intelligentes are both vanilla fr, so no invention was needed. It is
+longer than the median fr research label (usinage, longues lames), so a native
+reviewer may prefer a terser "personnalisation des consciences"; flagged in the
+2026-07-29 commit, do not silently flip it either way.
+
+**Landmine — the persona-core recipe's research prerequisite.** `PWU_UI.xml`'s
+translator comment calls it "machine persuasion (vanilla research label)". The
+def is `ShipComputerCore`, and fr renders it **noyau central de l'ordinateur de
+bord** — nothing like the English, exactly as in ja (AIコンピュータコア) and zh
+(飞船电脑核心). Its description does give the sense ("Vous apprend à brider une IA
+existante…"), but the label does not. Resolve the defName through the tar every
+time. (No def named `MachinePersuasion` exists, so grepping the hint text finds
+nothing.)
+
+**Kill tracker vs kill memory, and the haul planner.** English's "kill tracker"
+(toggle label) and "kill memory" (prose) split into **registre des victimes** and
+**mémoire des victimes** — fr keeps the distinction like Spanish rather than
+collapsing it like German, because both read naturally against `PWU_TabMemory` =
+Mémoire. Haul planner modes are mod-coined with no vanilla anchor: **Séquentiel /
+Balayage / Exhaustif**.
+
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
 - Japanese vanilla style: ASCII punctuation (`,` `.`, never `、` `。`),
   です/ます descriptions, continuous-form job strings (〜している, no period),
   「」 around quoted labels.
 - Wrap injected `{0}` def labels in the language's quote marks (JP 「{0}」,
-  RU «{0}», zh-Hans “{0}”, ko '{0}', de '{0}', es "{0}") — note de and es both
-  use ASCII quotes but *different* ones (single vs double), and neither uses its
-  own typographic pair (`„…"` / `«…»`) in Keyed data — injected labels never inflect,
+  RU «{0}», zh-Hans “{0}”, ko '{0}', de '{0}', es "{0}", fr "{0}") — note de, es
+  and fr all use ASCII quotes, but de takes single and es/fr take double, and
+  none of the three uses its own typographic pair (`„…"` / `«…»`) for a
+  placeholder in Keyed data. French is the one language with a *split* convention:
+  ASCII `"{0}"` for injected values, but guillemets with inner spaces
+  (`« Secourir »`) when naming a fixed UI element the player must click — so which
+  mark to use depends on whether the quoted thing is a runtime value or a literal
+  label. Injected labels never inflect,
   and quoting sidesteps case and agreement problems. Korean is the one language
   where quoting also interacts with grammar and still works:
   `LanguageWorker_Korean` looks *through* a preceding `'`/`"` to find the
   syllable that decides the josa, so `'{0}'(와)과` resolves correctly. Note the
   de quote mark is the **ASCII** single quote, not `„…"` — vanilla de never
   uses German typographic quotes in Keyed data.
+- **Always decompile `LanguageWorker_<Language>` before writing a value, and
+  check `PostProcessed` specifically.** It rewrites every finished string, the
+  checker cannot see it, and its edits are silent. So far: ko's `ReplaceJosa`
+  (a feature to use), de's genitive `'s` regex (one narrow trap), and fr's five
+  elision/contraction regexes (mostly a feature — `de {0}` self-repairs to
+  `d'{0}` for vowel-initial values — but with three real traps: enclitic
+  `-la`/`-le` before a vowel becomes `-l'`, `de le` becomes `de` instead of `du`,
+  and `à le` is consumed into `au` even when "le" is a pronoun). The cheap way to
+  verify a whole language at once is to port `PostProcessedInt` to a throwaway
+  script and diff it over every translated value: any value the worker rewrites
+  is a value you did not actually write. Do this with placeholders substituted
+  too, since the traps fire on the *filled* string.
 - **Know which resolver your strings actually reach.** `"key".Translate(args)`
   goes to `GrammarResolverSimple`, *not* the full rulepack `GrammarResolver`, so
   the two are not interchangeable in what they support. On a plain `string` arg
