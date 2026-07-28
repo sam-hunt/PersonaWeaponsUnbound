@@ -3,7 +3,8 @@ using Verse;
 
 namespace PersonaWeaponsUnbound.Patches
 {
-    // Gates the three PWU weapon-crafting recipes (fork spec §10) behind their
+    // Gates the three PWU weapon-crafting recipes (fork spec §10) and the
+    // optional persona-core recipe behind their
     // individual settings toggles by postfixing the AvailableNow property
     // getter. No def surgery, so it works mid-save with no restart.
     //
@@ -36,6 +37,10 @@ namespace PersonaWeaponsUnbound.Patches
                     break;
                 case "PWU_Make_Zeushammer":
                     if (!PWU_Mod.Settings.enableZeushammerRecipe)
+                        __result = false;
+                    break;
+                case "PWU_Make_AIPersonaCore":
+                    if (!PWU_Mod.Settings.enablePersonaCoreRecipe)
                         __result = false;
                     break;
             }

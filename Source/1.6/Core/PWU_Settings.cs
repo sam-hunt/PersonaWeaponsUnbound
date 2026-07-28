@@ -29,6 +29,9 @@ namespace PersonaWeaponsUnbound
         public bool enableMonoswordRecipe = true;
         public bool enablePlasmaswordRecipe = true;
         public bool enableZeushammerRecipe = true;
+        public bool enablePersonaCoreRecipe;
+        public int personaCoreRecipeComponentCost = 20;
+        public int personaCoreRecipeMinSkill = 18;
 
         // Haul Planner
         public HaulPlannerKind haulPlannerKind = HaulPlannerKind.Sweep;
@@ -62,6 +65,9 @@ namespace PersonaWeaponsUnbound
             enableMonoswordRecipe = true;
             enablePlasmaswordRecipe = true;
             enableZeushammerRecipe = true;
+            enablePersonaCoreRecipe = false;
+            personaCoreRecipeComponentCost = 20;
+            personaCoreRecipeMinSkill = 18;
 
             haulPlannerKind = HaulPlannerKind.Sweep;
 
@@ -97,6 +103,9 @@ namespace PersonaWeaponsUnbound
             Scribe_Values.Look(ref enableMonoswordRecipe, "enableMonoswordRecipe", true);
             Scribe_Values.Look(ref enablePlasmaswordRecipe, "enablePlasmaswordRecipe", true);
             Scribe_Values.Look(ref enableZeushammerRecipe, "enableZeushammerRecipe", true);
+            Scribe_Values.Look(ref enablePersonaCoreRecipe, "enablePersonaCoreRecipe");
+            Scribe_Values.Look(ref personaCoreRecipeComponentCost, "personaCoreRecipeComponentCost", 20);
+            Scribe_Values.Look(ref personaCoreRecipeMinSkill, "personaCoreRecipeMinSkill", 18);
 
             Scribe_Values.Look(ref haulPlannerKind, "haulPlannerKind", HaulPlannerKind.Sweep);
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Optional recipe for crafting a vanilla AI persona core, closing the last
+       gap in the in-colony persona-weapon loop: craft a base weapon, craft a
+       core, install it via customization. Player-suggested; OFF by default
+       (PWU_Settings.enablePersonaCoreRecipe) because vanilla only ever lets you
+       find or trade for a core, and that scarcity is load-bearing for anyone
+       who wants it. Gating lives in RecipeDef_AvailableNow_Patch.cs.
+
+       Unlike the three weapon recipes this one is gated on vanilla's
+       ShipComputerCore ("machine persuasion") rather than PWU's own research —
+       that project is exactly the "we understand persona cores well enough to
+       work with them" beat, and it keeps the recipe useful to players who
+       disable PWU's customization research.
+
+       The ComponentSpacer count and the crafting skill requirement below are
+       both live-overwritten at startup and on every settings write from the
+       matching sliders — see PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings.
+       The values here are the slider defaults, so the def reads correctly on
+       its own. effectWorking/soundWorking mirror vanilla Make_ComponentSpacer;
+       workAmount matches PWU's own weapon recipes. -->
+
+  <RecipeDef>
+    <defName>PWU_Make_AIPersonaCore</defName>
+    <label>make persona core</label>
+    <description>Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power.</description>
+    <jobString>Making persona core.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <workAmount>75000</workAmount>
+    <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+    <recipeUsers>
+      <li>FabricationBench</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentSpacer</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ComponentSpacer</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <AIPersonaCore>1</AIPersonaCore>
+    </products>
+    <researchPrerequisite>ShipComputerCore</researchPrerequisite>
+    <skillRequirements>
+      <Crafting>18</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+</Defs>

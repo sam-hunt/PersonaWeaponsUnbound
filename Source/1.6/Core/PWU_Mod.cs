@@ -23,8 +23,10 @@ namespace PersonaWeaponsUnbound
         {
             base.WriteSettings();
             // Live-apply: the techprint slider takes effect immediately, no restart
-            // required (fork spec §7, D4).
+            // required (fork spec §7, D4). Same for the persona-core recipe's
+            // ingredient count and skill requirement.
             PWU_ResearchDefOf.ApplyTechprintCount();
+            PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
@@ -203,6 +205,42 @@ namespace PersonaWeaponsUnbound
                     PWU_ThingDefOf.FabricationBench.label,
                     PWU_ResearchDefOf.PWU_BladelinkCustomization.label));
 
+            listing.Gap();
+
+            listing.CheckboxLabeled(
+                "PWU_EnablePersonaCoreRecipe".Translate(),
+                ref Settings.enablePersonaCoreRecipe,
+                "PWU_EnablePersonaCoreRecipeDesc".Translate(
+                    PWU_RecipeDefOf.PWU_Make_AIPersonaCore.label,
+                    PWU_ThingDefOf.FabricationBench.label,
+                    PWU_ResearchDefOf.ShipComputerCore.label));
+
+            // The two sliders below only configure the recipe above, so they
+            // stay hidden while it's off (the default) rather than sitting
+            // there dead.
+            if (Settings.enablePersonaCoreRecipe)
+            {
+                listing.Gap();
+
+                string coreComponentLabel = "PWU_PersonaCoreRecipeComponentCost".Translate(
+                    Settings.personaCoreRecipeComponentCost);
+                if (Settings.personaCoreRecipeComponentCost == 20)
+                    coreComponentLabel += "PWU_DefaultSuffix".Translate();
+                listing.Label(coreComponentLabel, tooltip: "PWU_PersonaCoreRecipeComponentCostDesc".Translate());
+                Settings.personaCoreRecipeComponentCost =
+                    Mathf.RoundToInt(listing.Slider(Settings.personaCoreRecipeComponentCost, 5f, 30f));
+
+                listing.Gap();
+
+                string coreSkillLabel = "PWU_PersonaCoreRecipeMinSkill".Translate(
+                    Settings.personaCoreRecipeMinSkill);
+                if (Settings.personaCoreRecipeMinSkill == 18)
+                    coreSkillLabel += "PWU_DefaultSuffix".Translate();
+                listing.Label(coreSkillLabel, tooltip: "PWU_PersonaCoreRecipeMinSkillDesc".Translate());
+                Settings.personaCoreRecipeMinSkill =
+                    Mathf.RoundToInt(listing.Slider(Settings.personaCoreRecipeMinSkill, 0f, 20f));
+            }
+
             listing.Gap(24.0f);
 
             Text.Font = GameFont.Medium;
@@ -305,6 +343,8 @@ namespace PersonaWeaponsUnbound
         // Legendary), recomputed every frame from the current (possibly unsaved)
         // slider values via TraitCostUtility.ComponentCostForQuality
         // so it never drifts out of sync with the sliders above it.
+        // Rows below the minimum-quality prerequisite show a dash instead of a
+        // number, since those weapons can't be customized at any price.
         private static void DrawCostTable(Listing_Standard listing)
         {
             const float rowHeight = 24f;
@@ -326,14 +366,33 @@ namespace PersonaWeaponsUnbound
                     rowRect.x + qualityColumnWidth, rowRect.y,
                     rowRect.width - qualityColumnWidth, rowRect.height);
 
-                int componentCount = TraitCostUtility.ComponentCostForQuality(
-                    quality,
-                    Settings.traitChangeBaseComponentCost,
-                    Settings.traitChangeQualitySurchargeThreshold,
-                    Settings.traitChangeQualitySurchargePerLevel);
+                // Awful means "no restriction", matching CustomizationRules.
+                bool belowMinimum = Settings.minimumQuality > QualityCategory.Awful
+                    && quality < Settings.minimumQuality;
 
+                string countLabel;
+                if (belowMinimum)
+                {
+                    countLabel = "PWU_CostTableNotApplicable".Translate();
+                    TooltipHandler.TipRegion(
+                        rowRect,
+                        "PWU_CostTableNotApplicableDesc".Translate(Settings.minimumQuality.GetLabel()));
+                }
+                else
+                {
+                    countLabel = TraitCostUtility.ComponentCostForQuality(
+                        quality,
+                        Settings.traitChangeBaseComponentCost,
+                        Settings.traitChangeQualitySurchargeThreshold,
+                        Settings.traitChangeQualitySurchargePerLevel).ToString();
+                }
+
+                Color prevColor = GUI.color;
+                if (belowMinimum)
+                    GUI.color = Color.gray;
                 Widgets.Label(qualityRect, quality.GetLabel().CapitalizeFirst());
-                Widgets.Label(countRect, componentCount.ToString());
+                Widgets.Label(countRect, countLabel);
+                GUI.color = prevColor;
             }
         }
     }

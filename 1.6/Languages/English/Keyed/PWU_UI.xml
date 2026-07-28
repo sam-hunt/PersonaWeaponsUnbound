@@ -146,6 +146,9 @@
   <PWU_TraitChangeQualitySurchargePerLevel>Quality surcharge per level: {0}</PWU_TraitChangeQualitySurchargePerLevel>
   <PWU_TraitChangeQualitySurchargePerLevelDesc>Extra advanced components charged per quality tier above the surcharge threshold. For example, at the default threshold (Normal) and per-level value (1), a Masterwork weapon costs 3 more components per trait change than the base amount.</PWU_TraitChangeQualitySurchargePerLevelDesc>
   <PWU_CostTableHeader>Advanced components required per trait change, by weapon quality:</PWU_CostTableHeader>
+  <PWU_CostTableNotApplicable>-</PWU_CostTableNotApplicable>
+  <!-- {0} = minimum weapon quality setting (quality label) -->
+  <PWU_CostTableNotApplicableDesc>Weapons of this quality can't be customized: the minimum weapon quality prerequisite is set to {0}.</PWU_CostTableNotApplicableDesc>
 
   <!-- Settings: Memory costs -->
   <PWU_WipeBondingComponentCost>Bond wipe component cost: {0}</PWU_WipeBondingComponentCost>
@@ -173,6 +176,13 @@
   <PWU_EnableZeushammerRecipe>Enable zeushammer crafting recipe</PWU_EnableZeushammerRecipe>
   <!-- {0} = make zeushammer (recipe label), {1} = fabrication bench (vanilla bench label), {2} = bladelink customization (research label) -->
   <PWU_EnableZeushammerRecipeDesc>Show the "{0}" bill at the {1} (requires {2} research). Disabling this only hides it from the add-bill menu; bills already queued keep producing.</PWU_EnableZeushammerRecipeDesc>
+  <PWU_EnablePersonaCoreRecipe>Enable persona core crafting recipe</PWU_EnablePersonaCoreRecipe>
+  <!-- {0} = make persona core (recipe label), {1} = fabrication bench (vanilla bench label), {2} = machine persuasion (vanilla research label) -->
+  <PWU_EnablePersonaCoreRecipeDesc>Show the "{0}" bill at the {1} (requires {2} research). Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path — craft a base weapon, craft a core, install it through customization. Disabling this only hides it from the add-bill menu; bills already queued keep producing.</PWU_EnablePersonaCoreRecipeDesc>
+  <PWU_PersonaCoreRecipeComponentCost>Persona core component cost: {0}</PWU_PersonaCoreRecipeComponentCost>
+  <PWU_PersonaCoreRecipeComponentCostDesc>Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too.</PWU_PersonaCoreRecipeComponentCostDesc>
+  <PWU_PersonaCoreRecipeMinSkill>Persona core crafting skill required: {0}</PWU_PersonaCoreRecipeMinSkill>
+  <PWU_PersonaCoreRecipeMinSkillDesc>Minimum Crafting skill a colonist needs to work the persona core bill. Setting this to 0 removes the skill requirement entirely. Takes effect immediately, no restart needed.</PWU_PersonaCoreRecipeMinSkillDesc>
 
   <!-- Settings: Miscellaneous -->
   <PWU_AllowDefConversion>Allow weapon def conversion</PWU_AllowDefConversion>

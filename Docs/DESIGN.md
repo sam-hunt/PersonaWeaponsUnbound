@@ -93,6 +93,16 @@ Persona weapons' base variants aren't craftable in vanilla. With Bladelink Custo
 
 Craft the base weapon, then install a persona core through customization — a fully in-colony path to a bespoke persona weapon.
 
+### Persona cores (optional, off by default)
+
+A fourth recipe closes the loop for players who want persona weapons to be fully colony-producible rather than dependent on finds and traders:
+
+| Product      | Ingredients                        | Research                     | Skill       |
+| ------------ | ---------------------------------- | ---------------------------- | ----------- |
+| Persona core | 20 advanced components (5–30 slider) | Machine persuasion (vanilla) | Crafting 18 (0–20 slider) |
+
+It is **disabled by default** — vanilla core scarcity is deliberate, and turning it on changes the mod's progression shape rather than just its numbers. Unlike the weapon recipes it's gated on vanilla's machine persuasion project rather than Bladelink Customization: that project is already the "we can work with persona cores" beat, and it keeps the recipe available to players who disable PWU's own research gate. Both slider values are applied live to the def (ingredient count and skill requirement), no restart needed.
+
 ---
 
 ## Workbench Integration

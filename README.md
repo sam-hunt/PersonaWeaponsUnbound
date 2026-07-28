@@ -49,13 +49,15 @@ This mod lets you take control. Add and remove persona traits, rename the person
 
 Persona weapons' base variants aren't craftable in vanilla. With Bladelink Customization researched, the fabrication bench offers craftable base monoswords, plasmaswords, and zeushammers (each individually toggleable in settings) — craft the base weapon, then install a persona core through customization for a fully in-colony path to a bespoke persona weapon.
 
+An optional persona core recipe (**off by default**, since vanilla only ever lets you find or trade for one) closes the last gap in that loop: 20 advanced components at the fabrication bench, Crafting 18, gated behind vanilla's machine persuasion research. Both the component count (5–30) and the skill requirement (0–20) are sliders.
+
 ### Mod Settings
 
 All balance levers are configurable from the in-game mod settings:
 
 - **Persona cost sliders** — base component cost per trait change, the quality tier at which a surcharge kicks in, and the surcharge per quality level above it, with a live cost table
 - **Techprint count** (0–3) — how many Empire techprints the research requires; 0 removes the requirement entirely, no restart needed
-- **Crafting recipe toggles** — enable/disable each of the three base weapon recipes independently
+- **Crafting recipe toggles** — enable/disable each of the three base weapon recipes independently, plus the optional persona core recipe (off by default) with its own component-cost and skill-requirement sliders
 - **Minimum weapon quality** — restrict customization to weapons at or above a quality threshold
 - **Trait discovery progression** — optionally restrict available traits to those seen on persona weapons held by the colony, in caravans, or on hostiles
 - **Trait limit / sole-trait enforcement** — optionally enforce vanilla's generation restrictions during customization
