@@ -118,11 +118,11 @@ uses «черта»; this is deliberate, flagged for native review in the
 2026-07 generation commit. (JP: 特性, shared with pawn traits — it varies
 per language.)
 
-### Glossary — Simplified Chinese (preseeded from UniqueMeleeWeapons' generation, 2026-07; no zh translation in this repo yet)
+### Glossary — Simplified Chinese (machine-assisted zh landed 2026-07-28; no native review yet)
 
-UMW's 2026-07 zh-Hans run grounded the shared terms against the vanilla zh
-data; the persona-domain rows below were grounded from the Royalty zh tar at
-the same time. RimWorld's language folder is `ChineseSimplified` (tar:
+Rows below the divider were grounded during PWU's own 2026-07-28 zh-Hans
+generation; rows above it were preseeded from UniqueMeleeWeapons' 2026-07 run
+and the Royalty zh tar. RimWorld's language folder is `ChineseSimplified` (tar:
 `ChineseSimplified (简体中文).tar`) — the mod folder must match it exactly.
 
 Style rules from the vanilla zh data (mandatory):
@@ -148,13 +148,40 @@ Style rules from the vanilla zh data (mandatory):
 | wielder | 使用者 | | Royalty `SpeedBoost` desc |
 | plasteel | 玻璃钢 | 塑钢 | Core `Plasteel` — counterintuitive, always check |
 | quality tiers | 极差/较差/一般/良好/极佳/大师级/传奇级 | | Core `QualityCategory_*` |
+| — grounded in PWU's own 2026-07-28 run below — | | | |
+| fabrication bench | 精密装配台 | 制造台 | Core `FabricationBench.label` |
+| advanced components | 高级零部件 | 高级元件 | Core `ComponentSpacer.label`; plain components are 零部件 |
+| quality (the noun) | 品质 | 质量 | Core `Quality`/`QualityIs` |
+| Crafting (the skill) | 手工 | 制作 | Core `Crafting.label` — 制作 is the *verb*, never the skill name |
+| bill (work bill) | 清单 | 工单/账单 | Core `AddBill`=添加清单 — the common community rendering 工单 is not vanilla |
+| Empire (faction) | 破碎帝国 | 帝国 | Royalty `Empire.label` |
+| ideoligion / reform | 文化形态 / 文化改革 | 意识形态 | Ideology `IdeoligionOf`, `ReformIdeoligion` |
+| relic | 圣物 | 遗物 | Ideology `RelicTip`, `RelicOf` |
+| freewielder (trait label) | 自由 | 自由持有 | Royalty `NeverBond.label` — quote it as “自由”特性 when naming it |
+| stopping power / burst count / burst speed | 抑止能力 / 连射次数 / 射速 | | Core `StoppingPower`, `BurstShotCount`, `BurstShotFireRate` |
+| bladelink customization (this mod's research) | 智能人格定制 | | **Coined** — see the note below |
 
-Two persona-specific notes: Royalty zh ships the persona-weapon name grammar
+Three persona-specific notes.
+
+Royalty zh ships the persona-weapon name grammar
 (`DefInjected/RulePackDef/MeleeBladelink.xml`, syllable-composition rules) —
-the style reference for any zh naming-grammar work here. And the
-bladelink-customization research was NOT found in the Royalty zh data during
-this preseed — ground it directly at translation time or flag it for native
-review.
+the style reference for any zh naming-grammar work here.
+
+**"Bladelink" has no standalone zh rendering anywhere in vanilla.** Vanilla zh
+marks bladelink weapons with the Δ' label prefix and calls the mind 智能人格 in
+prose; the `Bladelink*` keyed strings sidestep the term entirely (这把武器…).
+So `PWU_BladelinkCustomization.label` is a coinage: 智能人格定制, chosen to
+match vanilla's terse research-label style (人工代谢, 枪械联控器) while staying
+grounded in 智能人格. Flagged for native review in the 2026-07-28 commit —
+do not silently "correct" it toward a literal 刃链/剑链 rendering without a
+native speaker's call.
+
+**Landmine — the persona-core recipe's research prerequisite.** `PWU_UI.xml`'s
+translator comment calls it "machine persuasion (vanilla research label)", and
+that is the correct *English* label, but the def is `ShipComputerCore` and zh
+renders it **飞船电脑核心** — nothing like the English. Never translate that
+`{2}` hint literally; resolve the defName through the tar. (No def named
+`MachinePersuasion` exists, so grepping the hint text finds nothing.)
 
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
