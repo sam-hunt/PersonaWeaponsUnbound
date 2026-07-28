@@ -5,7 +5,7 @@
   <!-- EN: make monosword -->
   <PWU_Make_MonoSword.label>단분자검 만들기</PWU_Make_MonoSword.label>
   <!-- EN: Craft a monosword: a crystal-metallic longsword infused with mechanites that maintain a mono-molecular cutting edge. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
-  <PWU_Make_MonoSword.description>단분자검을 만듭니다. 단분자 칼날을 유지하는 나노머신이 주입된 결정질 장검입니다. 이후 조립 작업대에서 결속 형태로 변환하면 결속 무기로서의 특성이 깨어납니다.</PWU_Make_MonoSword.description>
+  <PWU_Make_MonoSword.description>단분자검을 만듭니다. 단분자 칼날을 유지하는 기계입자가 주입된 결정질 장검입니다. 이후 조립 작업대에서 결속 형태로 변환하면 결속 무기로서의 특성이 깨어납니다.</PWU_Make_MonoSword.description>
   <!-- EN: Making monosword. -->
   <PWU_Make_MonoSword.jobString>단분자검 만드는 중</PWU_Make_MonoSword.jobString>
 

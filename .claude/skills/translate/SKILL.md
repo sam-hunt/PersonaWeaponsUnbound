@@ -342,7 +342,7 @@ Anything else is left as literal text — so never invent a pair like `(과)와`
 | trait (persona weapon) | 무기 특성 standalone; 특성 once context is the weapon | 개성 as a countable item | see the divergence note below |
 | monosword / plasmasword / zeushammer | 단분자검 / 플라즈마검 / 제우스망치 | 모노소드 | Royalty weapon labels — ko translates, does not transliterate |
 | longsword / mace | 장검 / 철퇴 | | Core labels |
-| mechanite | 나노머신 | 메카나이트 | ko has no "mechanite"; Royalty's monosword desc says 나노 기술, Biotech glands say 나노머신 |
+| mechanite(s) | 기계입자 | 나노머신, 메카나이트 | Core, 36/36 occurrences (근섬유질 기계입자, 감각기 기계입자, 부활 기계입자) across 7 files incl. `Hediffs_Local_Infections`, `Luciferium`, `Items_Exotic`. **Corrected 2026-07-28** from 나노머신, which renders the *different* English word "nanomachines" (Royalty's Armorskin/Stoneskin glands); Royalty's monosword desc paraphrases to 나노 기술 and is not a term source. Grounding on Royalty+Biotech alone misses this |
 | techprint | 기술청사진 | 기술 도면 | Core `TechprintLabel` |
 | fabrication bench | 조립 작업대 | 제작 작업대, 정밀 작업대 | Core `FabricationBench.label` |
 | advanced components | 고급 부품 | 고급 부품류, 첨단 부품 | Core `ComponentSpacer.label`; plain components are 부품 |
@@ -402,6 +402,37 @@ AIコンピュータコア and zh 飞船电脑核心 — nothing like the Englis
 exception: `ShipComputerCore.label` = **기계 설득**, a literal match for
 "machine persuasion". Still resolve the defName through the tar rather than
 trusting the hint — the coincidence is language-specific, not a general licence.
+
+**Rows carried in from UMW's ko pass (2026-07-28), independently grounded.** That
+pass reached the same josa conclusion from the same decompiled worker, so the
+mechanics above are corroborated, not just asserted. What it adds beyond the
+table:
+
+- **Core's DamageDef cut/stab labels differ from its HediffDef ones**: DamageDef
+  `Cut`=잘림 / `Stab`=찔림, but HediffDef `Cut`=베임 (and `Stab.labelNoun`=찔린
+  상처). Point each of a mod's own defs at the right one. Toxic variants take a
+  parenthetical: `ScratchToxic`=찢김 (독성), `ToxicBite`=물림 (독성).
+- **`첨단` means "cutting-edge", not "tip/point"** — every vanilla ko occurrence
+  is 첨단 기술 / 첨단 장치 / 최첨단 금속 검. For a weapon's point use 칼끝
+  (Core's own tool label); 끝 for a spear.
+- **Korean uses spaces where ja and zh concatenate.** The ko namer composes
+  `[weapon_adjective] [weapon_noun]`, so ko trait adjectives may be attributive
+  verb forms (가벼운, 저주받은) *or* bare noun modifiers (황금, 신속, 특제).
+  Genitive epithets carry their own 의 (죽음의). Do not port ja's "must end in
+  の/な/い" rule to ko.
+- **Vanilla ko drops `[RECIPIENT_possessive]`** in every combat rulePack — 12
+  textual occurrences, all inside EN comments, none in Korean values. Korean
+  omits possessive pronouns, so a battle-log pack should drop it rather than
+  render 그의.
+- **Register split by def type**: `ThoughtDef` stage descriptions are casual
+  first-person (`-어`, `-지`, `-거야`; vanilla `이제 거의 깼어.`), battle-log
+  rulesStrings end in the nominalized `-함.`/`-임.`, and everything else is
+  polite `-습니다.`. Anesthetic's stage labels (혼미함, 안정됨) show the `-됨`
+  hediff-stage family.
+- **`Reset to defaults` is 기본값 복원** (Core `RestoreToDefaultSettings`), which
+  matches the row already in the table — worth noting because ja and ru also
+  reuse that vanilla string verbatim for the same button, so it is the
+  cross-language default rather than a ko quirk.
 
 ### Cross-language lessons (from UniqueWeaponsUnbound's translation work)
 
