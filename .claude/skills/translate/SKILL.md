@@ -83,6 +83,20 @@ the source of truth; every other language derives from it.
   `PWU_UI.xml` for the convention in practice (each carries a comment like
   `<!-- {0} = bladelink customization (research label) -->` directly above
   the entry).
+- **Some translatable fields can exist nowhere in a mod's XML** — text
+  inherited from vanilla `ParentName` defs or defaulted in C# (UMW's tool
+  labels and `chargeNoun`/`cooldownGerund` are the family's worked example;
+  found by its 2026-07-30 in-game translation report). The in-game report
+  (Dev Mode > Save translation report) sees them by reflection over the live
+  DefDatabase; the checker's `EXTERNAL_INJECTIONS` manifest and its guards
+  cover the known classes. This repo's defs are all self-contained, so its
+  manifest is empty — run the in-game report as a pre-release backstop, and
+  add manifest rows from it if such a field ever appears.
+- `PWU_SettingsCategory` (the mod's proper name) and
+  `PWU_CostTableNotApplicable` (a bare `-` glyph) deliberately stay identical
+  to English in every language, so the in-game report will always list them
+  under "Keyed translations matching English (maybe ok)" — expected, not a
+  gap.
 
 ## Terminology grounding (do not skip)
 
@@ -102,6 +116,11 @@ Terms that MUST be grounded before use: persona weapon, bladelink, trait
 fabrication bench, bladelink customization (research), quality tiers, tech
 levels. All of these have official vanilla/Royalty translations in the
 language tars — use them rather than inventing a rendering.
+
+The glossaries below are shared across the mod family (here, ../UniqueMeleeWeapons,
+../UniqueWeaponsUnbound): when a row or lesson is added or
+corrected in one repo's skill, mirror it into the siblings, adjusting
+domain-specific rows. Add rows whenever a native review lands corrections.
 
 ### Glossary — native-review lessons (none yet)
 

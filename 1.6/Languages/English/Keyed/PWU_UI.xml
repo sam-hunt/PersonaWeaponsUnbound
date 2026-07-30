@@ -120,6 +120,9 @@
   <PWU_DialogErrored>{0} customization dialog errored and was closed. See log.</PWU_DialogErrored>
 
   <!-- Settings: Section headers -->
+  <!-- The category name is the mod's proper name and deliberately stays English in every
+       language; the in-game translation report always lists it under "Keyed translations
+       matching English (maybe ok)" - expected, not a gap. -->
   <PWU_SettingsCategory>Persona Weapons Unbound</PWU_SettingsCategory>
   <PWU_SettingsProgression>Progression</PWU_SettingsProgression>
   <PWU_SettingsTraitCosts>Trait costs</PWU_SettingsTraitCosts>
@@ -146,6 +149,8 @@
   <PWU_TraitChangeQualitySurchargePerLevel>Quality surcharge per level: {0}</PWU_TraitChangeQualitySurchargePerLevel>
   <PWU_TraitChangeQualitySurchargePerLevelDesc>Extra advanced components charged per quality tier above the surcharge threshold. For example, at the default threshold (Normal) and per-level value (1), a Masterwork weapon costs 3 more components per trait change than the base amount.</PWU_TraitChangeQualitySurchargePerLevelDesc>
   <PWU_CostTableHeader>Advanced components required per trait change, by weapon quality:</PWU_CostTableHeader>
+  <!-- Deliberately a bare glyph, identical in every language; the in-game translation
+       report lists it under "matching English (maybe ok)" - expected, not a gap. -->
   <PWU_CostTableNotApplicable>-</PWU_CostTableNotApplicable>
   <!-- {0} = minimum weapon quality setting (quality label) -->
   <PWU_CostTableNotApplicableDesc>Weapons of this quality can't be customized: the minimum weapon quality prerequisite is set to {0}.</PWU_CostTableNotApplicableDesc>
