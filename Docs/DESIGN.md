@@ -101,7 +101,7 @@ A fourth recipe closes the loop for players who want persona weapons to be fully
 | ------------ | ---------------------------------- | ---------------------------- | ----------- |
 | Persona core | 20 advanced components (5–30 slider) | Machine persuasion (vanilla) | Crafting 18 (0–20 slider) |
 
-It is **disabled by default** — vanilla core scarcity is deliberate, and turning it on changes the mod's progression shape rather than just its numbers. Unlike the weapon recipes it's gated on vanilla's machine persuasion project rather than Bladelink Customization: that project is already the "we can work with persona cores" beat, and it keeps the recipe available to players who disable PWU's own research gate. Both slider values are applied live to the def (ingredient count and skill requirement), no restart needed.
+It is **disabled by default** — vanilla core scarcity is deliberate, and turning it on changes the mod's progression shape rather than just its numbers. Unlike the weapon recipes it's gated on vanilla's machine persuasion project rather than Bladelink Customization: that project is already the "we can work with persona cores" beat, and it keeps the recipe available to players who disable PWU's own research gate. Both slider values are applied live to the def (ingredient count and skill requirement), no restart needed. While the recipe is off, machine persuasion's research entry doesn't advertise "Unlocks: persona core" either — the toggle governs the research tab, the research-completed dialog, and the info card, not just the bill.
 
 ---
 

@@ -20,6 +20,8 @@ namespace PersonaWeaponsUnbound
             report.Time("reflection checks", () => WeaponModificationUtility.VerifyReflection());
             report.Time("techprint count", () => PWU_ResearchDefOf.ApplyTechprintCount());
             report.Time("persona core recipe", () => PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings());
+            report.Time("persona core unlock filter",
+                () => ResearchProjectDef_UnlockedDefs_Patch.Initialize(report));
 
             // Force the optional VPWE/VEF skin integration to resolve now so any
             // API drift is reported at startup rather than lazily on first use.

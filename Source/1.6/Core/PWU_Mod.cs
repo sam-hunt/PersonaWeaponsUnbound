@@ -1,4 +1,5 @@
 using PersonaWeaponsUnbound.HaulPlanning;
+using PersonaWeaponsUnbound.Patches;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -27,6 +28,9 @@ namespace PersonaWeaponsUnbound
             // ingredient count and skill requirement.
             PWU_ResearchDefOf.ApplyTechprintCount();
             PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings();
+            // Machine persuasion's "Unlocks: persona core" row follows the same
+            // toggle, and vanilla caches that list without ever invalidating it.
+            ResearchProjectDef_UnlockedDefs_Patch.Notify_SettingsChanged();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
