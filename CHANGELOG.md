@@ -5,6 +5,19 @@ All notable changes to Persona Weapons Unbound will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-07-31
+
+### Added
+
+- Localization in eight new languages: Russian, Simplified Chinese, Japanese, Korean,
+  German, Spanish, French, and Brazilian Portuguese. Machine-assisted with terminology
+  grounded against the vanilla translations; corrections from native speakers are welcome
+- Optional AI persona core recipe at the fabrication bench, gated on vanilla's machine
+  persuasion research. Off by default, with configurable component cost and Crafting
+  skill requirement
+- Info card buttons in the customization dialog, one for the weapon as it stands and one
+  for the weapon as staged, for comparing full before/after stats
+
 ## [1.0.0] - 2026-07-18
 
 ### Added
@@ -25,4 +38,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - VEF recipe-inheritance benches (e.g. VFE's compact fabrication bench) are recognized as customization benches automatically
 - Deep Vanilla Persona Weapons Expanded / Vanilla Expanded Framework integration: preserves composed weapon skins across persona conversion and dialog previews, adds a Texture tab to PWU's customization dialog for editing appearance parts directly (suppressing VEF's redundant float-menu entry), and links cross-mod persona weapons to their base by reused art when defName conventions don't match
 
+[1.1.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.1.0
 [1.0.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.0.0

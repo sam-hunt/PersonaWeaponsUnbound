@@ -3,7 +3,7 @@
   <name>Persona Weapons Unbound</name>
   <author>Sam Hunt</author>
   <packageId>shunter.personaweaponsunbound</packageId>
-  <modVersion>1.0.0</modVersion>
+  <modVersion>1.1.0</modVersion>
   <description>Customize Royalty's persona weapons at a fabrication bench: add and remove bladelink traits, convert base weapons to and from their persona variants with a persona core, and rename. Gated behind research and an Empire techprint. Craft base monoswords, plasmaswords, and zeushammers. Configurable trait costs. Requires Royalty.</description>
   <supportedVersions>
     <li>1.6</li>
