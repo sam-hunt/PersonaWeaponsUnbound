@@ -28,8 +28,8 @@
   <!-- AI persona core -->
   <!-- EN: make persona core -->
   <PWU_Make_AIPersonaCore.label>изготовить ядро ИИ</PWU_Make_AIPersonaCore.label>
-  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
-  <PWU_Make_AIPersonaCore.description>Собрать ядро ИИ: сверхпередовое компьютерное ядро со встроенной ИИ-личностью, равной человеку на пике возможностей. В изоляции оно бездействует, но, будучи установлено в подходящую структуру — звездолёт или рукоять синхрооружия, — становится разумом внушительной мощи.</PWU_Make_AIPersonaCore.description>
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power. -->
+  <PWU_Make_AIPersonaCore.description>Собрать ядро ИИ: сверхпередовое компьютерное ядро со встроенной ИИ-личностью, равной человеку на пике возможностей. В изоляции оно бездействует. Будучи установлено в подходящую структуру, например в звездолёт или в рукоять синхрооружия, оно становится разумом внушительной мощи.</PWU_Make_AIPersonaCore.description>
   <!-- EN: Making persona core. -->
   <PWU_Make_AIPersonaCore.jobString>Изготавливает ядро ИИ</PWU_Make_AIPersonaCore.jobString>
 

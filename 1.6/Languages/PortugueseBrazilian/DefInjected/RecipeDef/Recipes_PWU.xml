@@ -28,7 +28,7 @@
   <!-- AI persona core -->
   <!-- EN: make persona core -->
   <PWU_Make_AIPersonaCore.label>fazer núcleo de personalidade IA</PWU_Make_AIPersonaCore.label>
-  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power. -->
   <PWU_Make_AIPersonaCore.description>Monte um núcleo de personalidade IA: um núcleo de computador hiper avançado que abriga uma persona de máquina equivalente a um humano excepcional. Isolado, permanece dormente, mas instalado em uma estrutura de suporte (uma nave estelar ou o cabo de uma arma persona) ele se torna uma mente de grande poder.</PWU_Make_AIPersonaCore.description>
   <!-- EN: Making persona core. -->
   <PWU_Make_AIPersonaCore.jobString>Fazendo núcleo de personalidade IA.</PWU_Make_AIPersonaCore.jobString>

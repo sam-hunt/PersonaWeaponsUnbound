@@ -28,8 +28,8 @@
   <!-- AI persona core -->
   <!-- EN: make persona core -->
   <PWU_Make_AIPersonaCore.label>制作人格核心</PWU_Make_AIPersonaCore.label>
-  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
-  <PWU_Make_AIPersonaCore.description>组装一个人格核心：一个极先进的计算机核心，装载有相当于人类巅峰水平的智能人格。它在未连接时处于休眠状态，但一旦装入合适的承载结构——一艘飞船，或是一把人格武器的剑柄——它便会成为拥有惊人能力的主脑。</PWU_Make_AIPersonaCore.description>
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power. -->
+  <PWU_Make_AIPersonaCore.description>组装一个人格核心：一个极先进的计算机核心，装载有相当于人类巅峰水平的智能人格。它在隔离状态下处于休眠。一旦装入合适的承载结构，例如一艘飞船或是一把人格武器的剑柄，它便会成为拥有惊人能力的主脑。</PWU_Make_AIPersonaCore.description>
   <!-- EN: Making persona core. -->
   <PWU_Make_AIPersonaCore.jobString>正在制作人格核心。</PWU_Make_AIPersonaCore.jobString>
 

@@ -28,7 +28,7 @@
   <!-- AI persona core -->
   <!-- EN: make persona core -->
   <PWU_Make_AIPersonaCore.label>AI人格コアを作る</PWU_Make_AIPersonaCore.label>
-  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power. -->
   <PWU_Make_AIPersonaCore.description>AI人格コアを組み立てます.人間の頂点に匹敵する機械ペルソナを納めた,非常に進んだコンピュータコアです.単体では休止状態にありますが,宇宙船やペルソナ武器の柄といったしかるべき構造体に組み込まれれば,驚くべき力を持つ知性となります.</PWU_Make_AIPersonaCore.description>
   <!-- EN: Making persona core. -->
   <PWU_Make_AIPersonaCore.jobString>AI人格コアを作成中</PWU_Make_AIPersonaCore.jobString>

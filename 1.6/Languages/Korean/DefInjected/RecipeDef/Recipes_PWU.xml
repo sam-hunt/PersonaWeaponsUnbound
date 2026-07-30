@@ -28,7 +28,7 @@
   <!-- AI persona core -->
   <!-- EN: make persona core -->
   <PWU_Make_AIPersonaCore.label>인공자아 핵 만들기</PWU_Make_AIPersonaCore.label>
-  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power. -->
   <PWU_Make_AIPersonaCore.description>인공자아 핵을 조립합니다. 인간의 정점에 맞먹는 기계 자아를 담은 고도로 발달된 컴퓨터 핵입니다. 분리된 상태에서는 작동하지 않지만, 우주선이나 결속 무기의 손잡이처럼 적절한 보조 구조물에 설치되면 막강한 힘을 지닌 두뇌가 됩니다.</PWU_Make_AIPersonaCore.description>
   <!-- EN: Making persona core. -->
   <PWU_Make_AIPersonaCore.jobString>인공자아 핵 만드는 중</PWU_Make_AIPersonaCore.jobString>

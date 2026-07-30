@@ -203,7 +203,7 @@
 
   <!-- Settings: VEF texture-composition integration (only shown when the extended VEF reflection surface resolved) -->
   <PWU_IntegrateVpweCustomization>Integrate VEF texture customization</PWU_IntegrateVpweCustomization>
-  <PWU_IntegrateVpweCustomizationDesc>Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition — the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched.</PWU_IntegrateVpweCustomizationDesc>
+  <PWU_IntegrateVpweCustomizationDesc>Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition: the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched.</PWU_IntegrateVpweCustomizationDesc>
 
   <!-- Settings: Haul planner -->
   <PWU_HaulPlannerSequential>Sequential</PWU_HaulPlannerSequential>

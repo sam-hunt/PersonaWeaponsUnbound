@@ -45,7 +45,7 @@
 
   <!-- Dialog: Controls -->
   <!-- EN: This weapon is an ideology relic. Its name can only be changed when forming or reforming an ideoligion. -->
-  <PWU_RelicNameTooltip>Это оружие — реликвия идеолигии. Её название можно изменить только при создании или реформировании идеолигии.</PWU_RelicNameTooltip>
+  <PWU_RelicNameTooltip>Это оружие является реликвией идеолигии. Её название можно изменить только при создании или реформировании идеолигии.</PWU_RelicNameTooltip>
   <!-- EN: Select at least one trait first -->
   <PWU_SelectTraitFirst>Сначала выберите хотя бы одну черту</PWU_SelectTraitFirst>
   <!-- EN: Auto-regenerate name when traits change -->
@@ -313,7 +313,7 @@
   <!-- EN: Enable persona core crafting recipe -->
   <PWU_EnablePersonaCoreRecipe>Включить рецепт крафта ядра ИИ</PWU_EnablePersonaCoreRecipe>
   <!-- {0} = make persona core (recipe label), {1} = fabrication bench (vanilla bench label), {2} = machine persuasion (vanilla research label) -->
-  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path — craft a base weapon, craft a core, install it through customization. Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path: craft a base weapon, craft a core, install it through customization. Disabling this only hides it from the add-bill menu; bills already queued keep producing. -->
   <PWU_EnablePersonaCoreRecipeDesc>Показывать задание «{0}» у верстака «{1}» (требуется исследование «{2}»). По умолчанию выключено: в ванильной игре ядро ИИ можно только найти или выменять, а возможность крафта делает оружие с личностью воспроизводимым, а не редким. Включите для полностью самодостаточного пути внутри колонии: скрафтить базовое оружие, скрафтить ядро, установить его через настройку. Отключение лишь скрывает задание из меню «Добавить задание»; уже добавленные задания продолжают выполняться.</PWU_EnablePersonaCoreRecipeDesc>
   <!-- EN: Persona core component cost: {0} -->
   <PWU_PersonaCoreRecipeComponentCost>Стоимость ядра ИИ в компонентах: {0}</PWU_PersonaCoreRecipeComponentCost>
@@ -349,8 +349,8 @@
   <!-- Settings: VEF texture-composition integration (only shown when the extended VEF reflection surface resolved) -->
   <!-- EN: Integrate VEF texture customization -->
   <PWU_IntegrateVpweCustomization>Интегрировать настройку текстур VEF</PWU_IntegrateVpweCustomization>
-  <!-- EN: Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition — the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched. -->
-  <PWU_IntegrateVpweCustomizationDesc>Добавляет вкладку «Текстура» в диалог настройки PWU для редактирования составного внешнего вида (рукоять, клинок и другие части) любого оружия с личностью, построенного на композиции текстур Vanilla Expanded Framework — оружия из Vanilla Persona Weapons Expanded, клинка Archoblade из Vanilla Races Expanded - Archons и всего прочего, использующего ту же систему. Также скрывает собственную опцию VEF «Настроить» в контекстном меню оружия на земле там, где доступна опция настройки PWU, давая вам единое место для редактирования оружия с личностью вместо двух конкурирующих пунктов меню. Включено по умолчанию; отключите, чтобы оставить отдельный процесс VEF нетронутым.</PWU_IntegrateVpweCustomizationDesc>
+  <!-- EN: Add a Texture tab to PWU's customization dialog for editing the composed appearance (grip, blade, and similar parts) of any persona weapon built on Vanilla Expanded Framework's texture composition: the weapons from Vanilla Persona Weapons Expanded, the Archoblade from Vanilla Races Expanded - Archons, and anything else using the same system. Also hides VEF's own separate "Customize" ground float-menu option wherever PWU's own customize option is available, giving you one unified place to edit a persona weapon instead of two competing menu entries. Enabled by default; disable this to keep the separate VEF workflow untouched. -->
+  <PWU_IntegrateVpweCustomizationDesc>Добавляет вкладку «Текстура» в диалог настройки PWU для редактирования составного внешнего вида (рукоять, клинок и другие части) любого оружия с личностью, построенного на композиции текстур Vanilla Expanded Framework: оружия из Vanilla Persona Weapons Expanded, клинка Archoblade из Vanilla Races Expanded - Archons и всего прочего, использующего ту же систему. Также скрывает собственную опцию VEF «Настроить» в контекстном меню оружия на земле там, где доступна опция настройки PWU, давая вам единое место для редактирования оружия с личностью вместо двух конкурирующих пунктов меню. Включено по умолчанию; отключите, чтобы оставить отдельный процесс VEF нетронутым.</PWU_IntegrateVpweCustomizationDesc>
 
   <!-- Settings: Haul planner -->
   <!-- EN: Sequential -->

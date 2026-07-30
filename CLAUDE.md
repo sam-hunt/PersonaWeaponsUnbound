@@ -55,7 +55,9 @@ xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run with `./
 
 **Settings Triple Invariant (`PWU_Settings.cs`):** Every settings field must appear in three places with matching defaults: (1) field declaration, (2) `ResetToDefaults()`, (3) `ExposeData()`'s `Scribe_Values.Look` default. Missing a spot fails silently — drops from save, skips reset, or drifts from declared default. All three lists are kept in the UI's display order (the section ordering from `PWU_Mod.DoSettingsWindowContents`) with section comments, so a diff across the three blocks lines up row-for-row. When adding/removing/renaming a setting, update all three and slot it into its UI section.
 
-**No em-dashes in player-facing strings:** Never use `—` in `1.6/Languages/**` or any string the player sees. Use a colon, comma, or separate sentence instead. (Code comments are fine.)
+**No em-dashes in player-facing strings:** Never use `—` or `–` in text the player sees: values in `1.6/Languages/**` (every language, not just English) and `<label>`/`<description>`/`<jobString>` in `1.6/Defs/**`. Use a colon, comma, or separate sentence. Code comments, `<!-- EN: -->` mirrors, and `Log.*` strings are exempt.
+
+**Editing an English string breaks every translation:** `Scripts/check-translations.py` hard-errors STALE when a language's `<!-- EN: -->` comment no longer matches the English source verbatim. Change an English value and you must update that key's EN comment in all 8 language folders in the same commit. Run the script before committing.
 
 **No XML-doc comments:** We don't use `///` XML-doc style comments (`<summary>`, `<param>`, etc.) anywhere in this codebase — no tooling here consumes them. Use plain `//` comments instead.
 

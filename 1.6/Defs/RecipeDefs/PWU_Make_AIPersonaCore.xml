@@ -24,7 +24,7 @@
   <RecipeDef>
     <defName>PWU_Make_AIPersonaCore</defName>
     <label>make persona core</label>
-    <description>Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power.</description>
+    <description>Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power.</description>
     <jobString>Making persona core.</jobString>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>

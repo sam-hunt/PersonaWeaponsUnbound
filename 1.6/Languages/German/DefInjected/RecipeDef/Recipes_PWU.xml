@@ -28,8 +28,8 @@
   <!-- AI persona core -->
   <!-- EN: make persona core -->
   <PWU_Make_AIPersonaCore.label>Personakern herstellen</PWU_Make_AIPersonaCore.label>
-  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. Dormant in isolation, but installed in a support structure — a starship, or the hilt of a bladelink weapon — it becomes a mind of great power. -->
-  <PWU_Make_AIPersonaCore.description>Baue einen Personakern zusammen: einen hypermodernen Computerkern mit einer Maschinenpersona, die einer menschlichen Persönlichkeit gleichkommt. Im isolierten Zustand ist er inaktiv, doch in ein geeignetes System eingebaut – ein Raumschiff oder den Griff einer Personawaffe – wird daraus ein unglaublich leistungsfähiges Bewusstsein.</PWU_Make_AIPersonaCore.description>
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power. -->
+  <PWU_Make_AIPersonaCore.description>Baue einen Personakern zusammen: einen hypermodernen Computerkern mit einer Maschinenpersona, die einer menschlichen Persönlichkeit gleichkommt. Im isolierten Zustand ist er inaktiv. In ein geeignetes Trägersystem eingebaut, etwa ein Raumschiff oder den Griff einer Personawaffe, wird daraus ein unglaublich leistungsfähiges Bewusstsein.</PWU_Make_AIPersonaCore.description>
   <!-- EN: Making persona core. -->
   <PWU_Make_AIPersonaCore.jobString>Stellt Personakern her.</PWU_Make_AIPersonaCore.jobString>
 
