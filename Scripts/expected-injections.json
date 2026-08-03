@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "gameBuild": "1.6.4871 rev591",
+    "activeDlcs": [
+      "Core",
+      "Royalty",
+      "Ideology",
+      "Biotech",
+      "Odyssey"
+    ],
+    "modPackageId": "shunter.personaweaponsunbound",
+    "modName": "Persona Weapons Unbound"
+  },
+  "defInjections": {
+    "JobDef": {
+      "PWU_CustomizeWeapon.reportString": {
+        "english": "customizing weapon.",
+        "required": true
+      }
+    },
+    "RecipeDef": {
+      "PWU_Make_AIPersonaCore.description": {
+        "english": "Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power.",
+        "required": true
+      },
+      "PWU_Make_AIPersonaCore.jobString": {
+        "english": "Making persona core.",
+        "required": true
+      },
+      "PWU_Make_AIPersonaCore.label": {
+        "english": "make persona core",
+        "required": true
+      },
+      "PWU_Make_MonoSword.description": {
+        "english": "Craft a monosword: a crystal-metallic longsword infused with mechanites that maintain a mono-molecular cutting edge. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits.",
+        "required": true
+      },
+      "PWU_Make_MonoSword.jobString": {
+        "english": "Making monosword.",
+        "required": true
+      },
+      "PWU_Make_MonoSword.label": {
+        "english": "make monosword",
+        "required": true
+      },
+      "PWU_Make_PlasmaSword.description": {
+        "english": "Craft a plasmasword: a metal-cored sword wrapped in a plasma sheath that slices and burns. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits.",
+        "required": true
+      },
+      "PWU_Make_PlasmaSword.jobString": {
+        "english": "Making plasmasword.",
+        "required": true
+      },
+      "PWU_Make_PlasmaSword.label": {
+        "english": "make plasmasword",
+        "required": true
+      },
+      "PWU_Make_Zeushammer.description": {
+        "english": "Craft a zeushammer: a warhammer with an embedded EMP capacitor that blasts targets with an EMP burst on impact. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits.",
+        "required": true
+      },
+      "PWU_Make_Zeushammer.jobString": {
+        "english": "Making zeushammer.",
+        "required": true
+      },
+      "PWU_Make_Zeushammer.label": {
+        "english": "make zeushammer",
+        "required": true
+      }
+    },
+    "ResearchProjectDef": {
+      "PWU_BladelinkCustomization.description": {
+        "english": "Reprogram the AI personas bonded to bladelink weapons. Install a persona core to awaken a weapon's persona and unlock its traits for editing, then rewire those traits at a fabrication bench using advanced components.",
+        "required": true
+      },
+      "PWU_BladelinkCustomization.label": {
+        "english": "bladelink customization",
+        "required": true
+      }
+    }
+  }
+}
