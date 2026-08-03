@@ -85,6 +85,12 @@
     <ItemGroup Condition="'$(UseLocalRimWorld)' == 'true'">
       <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Assembly-CSharp.dll" />
       <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine*.dll" />
+      <!-- Unity.Burst and friends: assembly-level attributes on Assembly-CSharp
+           reference them, so anything that reflects over the assembly's
+           attributes (xunit does, when serializing a RimWorld enum used as a
+           [InlineData] argument) loads them. The ref-only copies throw
+           BadImageFormatException there and break test discovery. -->
+      <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Unity.*.dll" />
       <!-- Assembly-CSharp's manifest refs netstandard 2.1 — RimWorld ships
            those facades from its bundled Mono runtime. The default test
            output picks up Microsoft.NETFramework.ReferenceAssemblies'
@@ -92,6 +98,12 @@
            Copying RimWorld's runtime versions over the top fixes that. -->
       <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/netstandard.dll" />
       <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/System.Runtime.dll" />
+      <!-- Steamworks for the same reason: RimWorld.Scenario implements
+           WorkshopUploadable, so JITting anything that mentions Scenario (e.g.
+           StatWorker.FinalizeValue, which every stat lookup goes through) makes
+           the CLR load this assembly. Krafs's ref-only copy fails there with
+           BadImageFormatException. -->
+      <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/com.rlabrecque.steamworks.net.dll" />
     </ItemGroup>
     <ItemGroup Condition="'$(UseLocalRimWorld)' != 'true'">
       <_RimWorldAssemblies Include="$(PkgKrafs_Rimworld_Ref)\ref\net472\*.dll" />

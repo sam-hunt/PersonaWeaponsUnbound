@@ -8,7 +8,8 @@ namespace PersonaWeaponsUnbound
 {
     public class PWU_Mod : Mod
     {
-        public static PWU_Settings Settings { get; private set; }
+        // Setter is internal so the headless test suite can install a settings instance.
+        public static PWU_Settings Settings { get; internal set; }
 
         private Vector2 settingsScroll;
         private float settingsHeight;
