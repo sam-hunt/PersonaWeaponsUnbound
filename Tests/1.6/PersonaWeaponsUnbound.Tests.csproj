@@ -75,6 +75,13 @@
   <Target Name="CopyRimWorldAssembliesToTestOutput" AfterTargets="Build">
     <ItemGroup Condition="'$(UseLocalRimWorld)' == 'true'">
       <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Assembly-CSharp.dll" />
+      <!-- Mono (the native WSL/Linux test host) resolves field types eagerly, so
+           loading Verse.Current pulls in Assembly-CSharp-firstpass (its
+           colorCorrectionCurvesInt field's type lives there). The Windows CLR
+           resolves lazily and never needs it — omitting this DLL is invisible on
+           Windows but fails tests under mono with BadImageFormatException
+           (diagnosed in UniqueWeaponsUnbound, 2026-08-04: 61/351 failures). -->
+      <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Assembly-CSharp-firstpass.dll" />
       <_RimWorldAssemblies Include="$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine*.dll" />
       <!-- Unity.Burst and friends: assembly-level attributes on Assembly-CSharp
            reference them, so anything that reflects over the assembly's
