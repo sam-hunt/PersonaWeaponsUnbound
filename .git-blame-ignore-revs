@@ -3,3 +3,6 @@
 
 # refactor: Replace XML-doc comments with plain comments
 cd9ea2b4e12052ed81123aa38ad9da050284d349
+
+# style: Apply RCS1146 conditional-access fixes via roslynator
+e122189d6e8af28c01867f1810f598aaccffd355
