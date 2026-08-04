@@ -323,4 +323,4 @@ Exact copy may be tuned during the copy review pass (TODOs.md); the key set is f
 - [ ] Upgrade-while-equipped flow: on completion the game pauses with vanilla's persona warning (traits listed); Yes → pawn equips, bond letter fires; No → weapon stays on the bench unforbidden, no job queued
 - [ ] No dialog on re-equip when: weapon already bonded to the pawn, weapon downgraded to base, or weapon carries freewielder
 - [ ] Dev save with a recolored weapon loads clean; the weapon shows the def tint; no scribe errors
-- [ ] Localization cross-check passes (every C# key in XML and vice versa); tests pass (`./Scripts/test-windows.sh`)
+- [ ] Localization cross-check passes (every C# key in XML and vice versa); tests pass (`dotnet test Tests/1.6/PersonaWeaponsUnbound.Tests.csproj`)

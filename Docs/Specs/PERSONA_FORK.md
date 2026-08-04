@@ -332,4 +332,4 @@ Suggested section order: Progression / Persona Costs (3 sliders + live cost tabl
 - [ ] Renaming works (reflection into `CompGeneratedNames.name`); persona namer generates "noun+verber" style names; relic name lock still works
 - [ ] Recolor: swatch applies via `CompColorable`, visible on ground and equipped; default swatch restores vanilla tint
 - [ ] Mutation side effects: removing a hediff trait from a bonded weapon strips its hediff (no orphaned NoPain/SpeedBoost/HungerMaker/NeuralHeatRecoveryGain); adding `NeedKill` to a long-bonded weapon grants a fresh 20-day grace; removing `Jealous`/`OnKill_*` purges lingering memories
-- [ ] Tests pass (`./Scripts/test-windows.sh`) after renames
+- [ ] Tests pass (`dotnet test Tests/1.6/PersonaWeaponsUnbound.Tests.csproj`) after renames

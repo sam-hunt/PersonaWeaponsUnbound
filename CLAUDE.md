@@ -37,7 +37,7 @@ A gitignored Stop hook (`.claude/hooks/sync-mod.sh`) rebuilds + redeploys after 
 
 ### Tests
 
-xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run with `./Scripts/test-windows.sh` — WSL can't host the net472 runner, so it shells out to the Windows `dotnet` CLI. CI builds but doesn't run it.
+xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run natively with `dotnet test Tests/1.6/PersonaWeaponsUnbound.Tests.csproj` — vstest hosts the net472 suite through Mono on Linux/WSL (requires `mono` on PATH). Debug builds don't redeploy (`DeployToModFolder` is Release-gated). CI builds the suite but can't run it (tests need a live RimWorld install; the Krafs ref assemblies are compile-only).
 
 ## Architecture
 
