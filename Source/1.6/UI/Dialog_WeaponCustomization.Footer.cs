@@ -66,8 +66,7 @@ namespace PersonaWeaponsUnbound
                 string countText = "x" + cost.count;
                 float textWidth = Text.CalcSize(countText).x;
                 Rect textRect = new Rect(curX, rect.y, textWidth, rect.height);
-                bool isShort = insufficientResources != null
-                    && insufficientResources.Contains(cost.thingDef);
+                bool isShort = insufficientResources?.Contains(cost.thingDef) == true;
                 if (isShort)
                 {
                     Color prevCostColor = GUI.color;
@@ -151,7 +150,7 @@ namespace PersonaWeaponsUnbound
             bool insufficientForConfirm = false;
             if (canConfirm)
             {
-                if (insufficientResources != null && insufficientResources.Count > 0)
+                if (insufficientResources?.Count > 0)
                 {
                     canConfirm = false;
                     insufficientForConfirm = true;
@@ -165,8 +164,7 @@ namespace PersonaWeaponsUnbound
                     // Reverting a BONDED persona weapon to base severs its bond
                     // (UnCode runs during conversion) — confirm first (spec D5/§9).
                     CompBladelinkWeapon bladelink = weapon.TryGetComp<CompBladelinkWeapon>();
-                    if (IsRevertedToBase && bladelink != null
-                        && bladelink.Biocoded && bladelink.CodedPawn != null)
+                    if (IsRevertedToBase && bladelink?.Biocoded == true && bladelink.CodedPawn != null)
                     {
                         string bondedLabel = !string.IsNullOrEmpty(bladelink.CodedPawnLabel)
                             ? bladelink.CodedPawnLabel

@@ -21,7 +21,7 @@ namespace PersonaWeaponsUnbound
         {
             FieldInfo field = typeof(CompBladelinkWeapon)
                 .GetField("TraitsRange", BindingFlags.NonPublic | BindingFlags.Static);
-            if (field != null && field.GetValue(null) is IntRange range && range.max > 0)
+            if (field?.GetValue(null) is IntRange range && range.max > 0)
                 return range.max;
             Log.Warning("[Persona Weapons Unbound] Could not read CompBladelinkWeapon.TraitsRange "
                 + "via reflection; defaulting the max trait cap to 2. RimWorld API may have changed.");

@@ -62,7 +62,7 @@ namespace PersonaWeaponsUnbound
         // instead of double-recovering.
         private void QueueWeaponRecoveryFor(Thing recoverWeapon)
         {
-            if (recoverWeapon == null || recoverWeapon.Destroyed)
+            if (recoverWeapon?.Destroyed != false)
                 return;
 
             if (pawn.Map == null)

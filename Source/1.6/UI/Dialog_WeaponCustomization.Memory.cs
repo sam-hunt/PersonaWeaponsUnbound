@@ -150,7 +150,7 @@ namespace PersonaWeaponsUnbound
                 return null;
 
             CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
-            bool bonded = comp != null && comp.Biocoded;
+            bool bonded = comp?.Biocoded == true;
             bool neverBondStaged = TraitsToAdd.Any(t => t.neverBond);
 
             switch (kind)

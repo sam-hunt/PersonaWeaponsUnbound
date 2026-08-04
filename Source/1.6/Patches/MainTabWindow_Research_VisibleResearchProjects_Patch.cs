@@ -46,7 +46,7 @@ namespace PersonaWeaponsUnbound.Patches
             // projects (matches requireCustomizationResearch=true) rather than
             // silently hiding them. Still cache the reference so we don't re-
             // check Settings every frame.
-            if (PWU_Mod.Settings == null || PWU_Mod.Settings.requireCustomizationResearch)
+            if (PWU_Mod.Settings?.requireCustomizationResearch != false)
             {
                 lastFiltered = projects;
                 return;

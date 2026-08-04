@@ -247,7 +247,7 @@ namespace PersonaWeaponsUnbound
 
                     // If removing the last trait, convert persona→base atomically
                     CompBladelinkWeapon removeComp = weapon.TryGetComp<CompBladelinkWeapon>();
-                    if (removeComp != null && removeComp.TraitsListForReading.Count == 0
+                    if (removeComp?.TraitsListForReading.Count == 0
                         && PWU_Mod.Settings.allowDefConversion)
                     {
                         ThingDef baseDef = WeaponRegistry.GetBaseVariant(weapon.def);
@@ -369,8 +369,7 @@ namespace PersonaWeaponsUnbound
             // state is never carried onto the new base weapon. On an upgrade the
             // old weapon has no CompBladelinkWeapon, so this is skipped.
             CompBladelinkWeapon oldBladelink = weapon.TryGetComp<CompBladelinkWeapon>();
-            if (oldBladelink != null)
-                oldBladelink.UnCode();
+            oldBladelink?.UnCode();
 
             Thing newWeapon = WeaponDefConversion.ConvertWeaponDef(weapon, targetDef);
 

@@ -200,11 +200,11 @@ namespace PersonaWeaponsUnbound
         public static AcceptanceReport GetWorkbenchOperationalReport(Building_WorkTable workbench)
         {
             CompPowerTrader power = workbench.TryGetComp<CompPowerTrader>();
-            if (power != null && !power.PowerOn)
+            if (power?.PowerOn == false)
                 return "NoPower".Translate();
 
             CompRefuelable fuel = workbench.TryGetComp<CompRefuelable>();
-            if (fuel != null && !fuel.HasFuel)
+            if (fuel?.HasFuel == false)
                 return "NoFuel".Translate();
 
             return true;

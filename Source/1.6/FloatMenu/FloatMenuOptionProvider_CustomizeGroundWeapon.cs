@@ -54,7 +54,7 @@ namespace PersonaWeaponsUnbound
         // care about a genuinely usable option must check both.
         internal static FloatMenuOption BuildOptionFor(Thing weapon, Pawn pawn)
         {
-            if (PWU_Mod.Settings == null || !PWU_Mod.Settings.enableGroundCustomization)
+            if (PWU_Mod.Settings?.enableGroundCustomization != true)
                 return null;
             if (weapon == null || weapon.def == null)
                 return null;

@@ -110,7 +110,7 @@ namespace PersonaWeaponsUnbound.Patches
                 if (recipe == PWU_RecipeDefOf.PWU_Make_AIPersonaCore || recipe.products == null)
                     continue;
                 if (recipe.researchPrerequisite != gate
-                    && (recipe.researchPrerequisites == null || !recipe.researchPrerequisites.Contains(gate)))
+                    && (recipe.researchPrerequisites?.Contains(gate) != true))
                     continue;
 
                 foreach (ThingDefCountClass product in recipe.products)
@@ -175,7 +175,7 @@ namespace PersonaWeaponsUnbound.Patches
             // Settings null (startup ordering, or a corrupt settings file leaving
             // GetSettings returning null) defaults to leaving the entry visible,
             // matching RecipeDef_AvailableNow_Patch's own null guard.
-            if (PWU_Mod.Settings == null || PWU_Mod.Settings.enablePersonaCoreRecipe)
+            if (PWU_Mod.Settings?.enablePersonaCoreRecipe != false)
                 return unlocked;
 
             if (!ReferenceEquals(filterSource, unlocked))

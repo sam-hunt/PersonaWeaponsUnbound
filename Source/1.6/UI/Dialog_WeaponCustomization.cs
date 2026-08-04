@@ -172,7 +172,7 @@ namespace PersonaWeaponsUnbound
 
             // Snapshot original traits from the live bladelink comp
             CompBladelinkWeapon bladelinkComp = weapon.TryGetComp<CompBladelinkWeapon>();
-            if (bladelinkComp != null && bladelinkComp.TraitsListForReading != null)
+            if (bladelinkComp?.TraitsListForReading != null)
                 originalTraits = new List<WeaponTraitDef>(bladelinkComp.TraitsListForReading);
             else
                 originalTraits = new List<WeaponTraitDef>();
@@ -257,7 +257,7 @@ namespace PersonaWeaponsUnbound
             get
             {
                 CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
-                return comp != null && comp.Biocoded && comp.CodedPawn != null;
+                return comp?.Biocoded == true && comp.CodedPawn != null;
             }
         }
 
@@ -278,8 +278,7 @@ namespace PersonaWeaponsUnbound
             get
             {
                 CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
-                return comp != null
-                    && comp.Biocoded
+                return comp?.Biocoded == true
                     && ResultingDef == weapon.def
                     && !desiredTraits.Any(t => t.neverBond)
                     && desiredMemoryOp != MemoryOpKind.WipeBonding;
@@ -292,7 +291,7 @@ namespace PersonaWeaponsUnbound
             get
             {
                 CompBladelinkWeapon comp = weapon.TryGetComp<CompBladelinkWeapon>();
-                if (comp == null || !comp.Biocoded || comp.CodedPawn == null)
+                if (comp?.Biocoded != true || comp.CodedPawn == null)
                     return "";
                 return !string.IsNullOrEmpty(comp.CodedPawnLabel)
                     ? comp.CodedPawnLabel

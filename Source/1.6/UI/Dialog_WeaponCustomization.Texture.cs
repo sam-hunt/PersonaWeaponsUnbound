@@ -69,7 +69,7 @@ namespace PersonaWeaponsUnbound
                 if (!PWU_Mod.Settings.integrateVpweCustomization || !VPWEIntegration.UiSurfaceAvailable)
                     return false;
                 List<VpweTexturePart> catalog = VPWEIntegration.GetPartCatalog(ResultingDef);
-                return catalog != null && catalog.Count > 0;
+                return catalog?.Count > 0;
             }
         }
 

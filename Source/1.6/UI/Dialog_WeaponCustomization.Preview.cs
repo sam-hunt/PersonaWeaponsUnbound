@@ -123,8 +123,7 @@ namespace PersonaWeaponsUnbound
 
                         // Label — yellow when removing this trait would empty the
                         // player's pool of available sources for it (progression mode).
-                        bool isLastSource = progressionPool != null
-                            && progressionPool.IsLastNonHostileSource(trait, originalTraits);
+                        bool isLastSource = progressionPool?.IsLastNonHostileSource(trait, originalTraits) == true;
                         Text.Anchor = TextAnchor.MiddleLeft;
                         Rect labelRect = new Rect(
                             chipRect.x + 4f, chipRect.y,
@@ -224,8 +223,8 @@ namespace PersonaWeaponsUnbound
                     Widgets.EndScrollView();
                 }
 
-                bool hasSurplus = currentSurplus != null && currentSurplus.Count > 0;
-                bool hasNetCost = currentNetCost != null && currentNetCost.Count > 0;
+                bool hasSurplus = currentSurplus?.Count > 0;
+                bool hasNetCost = currentNetCost?.Count > 0;
 
                 // Stack from bottom: refund row, net cost row
                 float bottomY = rect.yMax - bottomPadding;

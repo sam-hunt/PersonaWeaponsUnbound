@@ -28,7 +28,7 @@ namespace PersonaWeaponsUnbound.Patches
         // option in the original iterator to preserve.
         public static void Postfix(ref IEnumerable<FloatMenuOption> __result, ThingComp __instance, Pawn selPawn)
         {
-            if (PWU_Mod.Settings == null || !PWU_Mod.Settings.integrateVpweCustomization)
+            if (PWU_Mod.Settings?.integrateVpweCustomization != true)
                 return;
 
             Thing weapon = __instance?.parent;
@@ -55,7 +55,7 @@ namespace PersonaWeaponsUnbound.Patches
             // (null) or disabled (action == null) option must not swallow
             // VEF's fallback, or the player would lose all access to
             // texture customization for that weapon/pawn combination.
-            if (ours != null && !ours.Disabled)
+            if (ours?.Disabled == false)
                 __result = Array.Empty<FloatMenuOption>();
         }
     }

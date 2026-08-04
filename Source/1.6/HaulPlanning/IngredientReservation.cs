@@ -144,7 +144,7 @@ namespace PersonaWeaponsUnbound.HaulPlanning
                 plan = AttemptPlan(pawn, demand, workbenchPos, HaulPlannerKind.Sequential);
             }
 
-            if (plan == null || !plan.IsValid)
+            if (plan?.IsValid != true)
                 return ReservationResult.PlanInfeasible();
 
             return CommitPlanAtomic(pawn, job, driver, plan);

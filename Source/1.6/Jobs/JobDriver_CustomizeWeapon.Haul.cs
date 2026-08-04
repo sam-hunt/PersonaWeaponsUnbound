@@ -48,7 +48,7 @@ namespace PersonaWeaponsUnbound
         private bool GotoIngredientFailCondition()
         {
             Thing ing = job.GetTarget(IngredientIndex).Thing;
-            if (ing == null || !ing.Spawned || ing.IsForbidden(pawn))
+            if (ing?.Spawned != true || ing.IsForbidden(pawn))
             {
                 SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 return true;
@@ -100,7 +100,7 @@ namespace PersonaWeaponsUnbound
             Toil sync = ToilMaker.MakeToil("HaulSyncMetadata");
             sync.initAction = delegate
             {
-                if (pickupDestinations != null && pickupDestinations.Count > 0)
+                if (pickupDestinations?.Count > 0)
                 {
                     currentPickupDestination = (PickupDestination)pickupDestinations[0];
                     pickupDestinations.RemoveAt(0);
@@ -109,7 +109,7 @@ namespace PersonaWeaponsUnbound
                 {
                     currentPickupDestination = PickupDestination.CarryTracker;
                 }
-                if (pickupLastInTrip != null && pickupLastInTrip.Count > 0)
+                if (pickupLastInTrip?.Count > 0)
                 {
                     currentPickupLastInTrip = pickupLastInTrip[0];
                     pickupLastInTrip.RemoveAt(0);
@@ -139,7 +139,7 @@ namespace PersonaWeaponsUnbound
         private void DoCarryTrackerPickup()
         {
             Thing thing = job.GetTarget(IngredientIndex).Thing;
-            if (thing == null || !thing.Spawned || thing.stackCount <= 0)
+            if (thing?.Spawned != true || thing.stackCount <= 0)
             {
                 SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
@@ -195,7 +195,7 @@ namespace PersonaWeaponsUnbound
         private void DoInventoryPickup()
         {
             Thing thing = job.GetTarget(IngredientIndex).Thing;
-            if (thing == null || !thing.Spawned || thing.stackCount <= 0)
+            if (thing?.Spawned != true || thing.stackCount <= 0)
             {
                 SetBailMessage("PWU_BailIngredientLost".Translate(WeaponLabel));
                 EndJobWith(JobCondition.Incompletable);
