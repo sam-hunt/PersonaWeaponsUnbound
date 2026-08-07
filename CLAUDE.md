@@ -63,6 +63,8 @@ xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run natively
 
 **No XML-doc comments:** We don't use `///` XML-doc style comments (`<summary>`, `<param>`, etc.) anywhere in this codebase — no tooling here consumes them. Use plain `//` comments instead.
 
+**Label casing (vanilla convention):** thing/trait/def labels placed mid-sentence in player-facing text use the lowercase form (`LabelShort`, `.label`) — vanilla renders "Pick up monosword x1", never "Pick up Monosword x1"; named persona weapons keep their proper-noun capitalization either way since `LabelShort` doesn't lowercase, it just stops force-capitalizing. Keyed strings carry their own sentence-start capital; where a `{0}` placeholder can begin the sentence (bail messages, some translations reorder it there), `CapitalizeFirst()` the composed string instead of capitalizing the argument. `LabelCap`/`LabelShortCap` is for standalone display (list rows, name fields) and proper nouns (pawns, precepts).
+
 **No `?.`/`??` on Unity objects:** Never use null propagation or null coalescing on receivers deriving from `UnityEngine.Object` (`Material`, `Texture`, `RenderTexture`, `GameObject`, ...). Unity overloads `==` so destroyed objects compare equal to null; `?.` bypasses the overload with a raw reference check and then throws `MissingReferenceException` on the member access. Use explicit `== null`/`!= null` guards for those types. Verse types (`Thing`, `Pawn`, `ThingComp`, defs) are plain classes where `?.` is fine. Enforced at build time by UNT0007/UNT0008 (Microsoft.Unity.Analyzers). Corollary: never bulk-apply Roslynator's RCS1146 (use conditional access) fixer to Unity-typed receivers; see the note in `.editorconfig`.
 
 ## Debugging
