@@ -4,7 +4,7 @@
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
 [![Royalty DLC](https://img.shields.io/badge/DLC-Royalty-blue.svg)](https://store.steampowered.com/app/1178350/RimWorld__Royalty/)
-[![Version](https://img.shields.io/badge/Version-1.1.0-brightgreen.svg)](https://github.com/sam-hunt/PersonaWeaponsUnbound/releases)
+[![Version](https://img.shields.io/badge/Version-1.1.1-brightgreen.svg)](https://github.com/sam-hunt/PersonaWeaponsUnbound/releases)
 [![Development Status](https://img.shields.io/badge/Status-Released-brightgreen.svg)](https://github.com/sam-hunt/PersonaWeaponsUnbound/releases)
 
 ![Preview](About/Preview.png)
