@@ -1,3 +1,4 @@
+using System;
 using RimWorld;
 using Verse;
 
@@ -23,12 +24,12 @@ namespace PersonaWeaponsUnbound
             else
             {
                 if (WeaponRegistry.GetPersonaVariant(def) == null)
-                    return HiddenUnlessDev("PWU_DevNoPersonaVariant".Translate());
+                    return HiddenUnlessDev(() => "PWU_DevNoPersonaVariant".Translate());
 
                 // When def conversion is disabled, only already-persona weapons
                 // can enter the customization system.
                 if (!PWU_Mod.Settings.allowDefConversion)
-                    return HiddenUnlessDev("PWU_DevDefConversionDisabled".Translate());
+                    return HiddenUnlessDev(() => "PWU_DevDefConversionDisabled".Translate());
             }
 
             if (PWU_Mod.Settings.requireCustomizationResearch
@@ -57,11 +58,13 @@ namespace PersonaWeaponsUnbound
         // Rejection report for paths that are normally hidden (silent false).
         // In dev mode, surfaces the reason so the option/gizmo renders as visible-but-disabled,
         // letting modders diagnose why a weapon isn't customizable without exporting logs.
-        private static AcceptanceReport HiddenUnlessDev(string devReason)
+        // Takes a factory rather than the translated string so the hidden path (evaluated per
+        // frame for every selected non-customizable weapon) skips the translation lookup.
+        private static AcceptanceReport HiddenUnlessDev(Func<string> devReason)
         {
             if (!Prefs.DevMode)
                 return false;
-            return devReason;
+            return devReason();
         }
     }
 }

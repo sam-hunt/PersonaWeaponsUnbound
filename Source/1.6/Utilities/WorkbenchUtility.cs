@@ -50,14 +50,10 @@ namespace PersonaWeaponsUnbound
             IntVec3 distanceOrigin)
         {
             return FindBestWorkbenchCore(pawn.Map, baseDef, personaDef, weaponTechLevel,
-                distanceOrigin, pawn, workbench =>
-                {
-                    if (!pawn.CanReach(workbench, PathEndMode.InteractionCell, Danger.Deadly))
-                        return "NoPath".Translate();
-                    if (workbench.IsForbidden(pawn))
-                        return "ForbiddenLower".Translate();
-                    return true;
-                });
+                distanceOrigin, pawn,
+                canReach: workbench =>
+                    pawn.CanReach(workbench, PathEndMode.InteractionCell, Danger.Deadly),
+                isForbidden: workbench => workbench.IsForbidden(pawn));
         }
 
         // Finds the closest valid colonist workbench for customizing the specified weapon.
@@ -69,28 +65,24 @@ namespace PersonaWeaponsUnbound
             IntVec3 distanceOrigin)
         {
             return FindBestWorkbenchCore(map, baseDef, personaDef, weaponTechLevel,
-                distanceOrigin, null, workbench =>
-                {
-                    if (!map.reachability.CanReach(distanceOrigin, workbench,
-                            PathEndMode.InteractionCell,
-                            TraverseParms.For(TraverseMode.PassDoors)))
-                        return "NoPath".Translate();
-                    if (workbench.IsForbidden(Faction.OfPlayer))
-                        return "ForbiddenLower".Translate();
-                    return true;
-                });
+                distanceOrigin, null,
+                canReach: workbench => map.reachability.CanReach(distanceOrigin, workbench,
+                    PathEndMode.InteractionCell,
+                    TraverseParms.For(TraverseMode.PassDoors)),
+                isForbidden: workbench => workbench.IsForbidden(Faction.OfPlayer));
         }
 
         // Common core for workbench search. Iterates colonist workbenches, applies the
         // fabrication-set and operational checks, then delegates reachability/forbidden
-        // checks to the caller-provided predicate. Returns the closest valid workbench or
+        // checks to the caller-provided predicates. Returns the closest valid workbench or
         // the highest-priority rejection reason. baseDef/personaDef/weaponTechLevel are
         // accepted for call-site stability but unused now that there is a single bench
         // tier (§8).
         private static WorkbenchSearchResult FindBestWorkbenchCore(
             Map map, ThingDef baseDef, ThingDef personaDef, TechLevel weaponTechLevel,
             IntVec3 distanceOrigin, Pawn pawn,
-            Func<Building_WorkTable, AcceptanceReport> accessCheck)
+            Func<Building_WorkTable, bool> canReach,
+            Func<Building_WorkTable, bool> isForbidden)
         {
             // Track two tiers: prefer unreserved benches, fall back to reserved.
             // This avoids interrupting in-progress work when a free bench is available,
@@ -121,16 +113,24 @@ namespace PersonaWeaponsUnbound
                     continue;
                 }
 
-                // Caller-provided access check (reachability + forbidden)
-                AcceptanceReport accessReport = accessCheck(workbench);
-                if (!accessReport.Accepted)
+                // Caller-provided access checks: reachability (priority 2), then
+                // forbidden (priority 1). Rejection reasons are only translated when
+                // they become the best rejection so far.
+                if (!canReach(workbench))
                 {
-                    // Determine priority from the rejection reason
-                    int priority = accessReport.Reason == "ForbiddenLower".Translate() ? 1 : 2;
-                    if (bestRejectionPriority < priority)
+                    if (bestRejectionPriority < 2)
                     {
-                        bestRejectionPriority = priority;
-                        bestRejection = accessReport;
+                        bestRejectionPriority = 2;
+                        bestRejection = "NoPath".Translate();
+                    }
+                    continue;
+                }
+                if (isForbidden(workbench))
+                {
+                    if (bestRejectionPriority < 1)
+                    {
+                        bestRejectionPriority = 1;
+                        bestRejection = "ForbiddenLower".Translate();
                     }
                     continue;
                 }

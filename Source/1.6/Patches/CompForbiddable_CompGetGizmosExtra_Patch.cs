@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -66,6 +67,14 @@ namespace PersonaWeaponsUnbound.Patches
             if (!parent.def.IsWeapon || !parent.Spawned)
                 return null;
 
+            // Multi-select: identical customize gizmos would merge into one
+            // unlabelled button that targets an arbitrary weapon from the
+            // selection, so hide the gizmo entirely instead. This also
+            // short-circuits the per-weapon rule and workbench evaluation for
+            // large drag-selections (battlefield loot).
+            if (MultipleWeaponsSelected())
+                return null;
+
             AcceptanceReport customizable = CustomizationRules.IsCustomizable(parent);
             if (!customizable.Accepted && customizable.Reason.NullOrEmpty())
                 return null;
@@ -86,19 +95,13 @@ namespace PersonaWeaponsUnbound.Patches
             }
             else
             {
-                var workbenchCheck = WorkbenchUtility.FindBestWorkbench(
-                    parent.Map, baseDef, personaDef, TechLevel.Undefined, parent.Position);
+                var workbenchCheck = GetCachedGizmoSearch(parent, baseDef, personaDef);
                 if (!workbenchCheck.Found)
                 {
                     gizmo.Disabled = true;
                     gizmo.disabledReason = workbenchCheck.BestRejection.Reason;
                 }
             }
-
-            // Capture locals for the delegate closures
-            Thing weapon = parent;
-            ThingDef capturedBaseDef = baseDef;
-            ThingDef capturedPersonaDef = personaDef;
 
             gizmo.action = delegate
             {
@@ -107,12 +110,11 @@ namespace PersonaWeaponsUnbound.Patches
                 // pathological weapon doesn't flood the log on repeat clicks.
                 try
                 {
-                    BeginCustomizeTargeting(
-                        weapon, capturedBaseDef, capturedPersonaDef);
+                    BeginCustomizeTargeting(parent, baseDef, personaDef);
                 }
                 catch (Exception ex)
                 {
-                    string defName = weapon?.def?.defName ?? "(null)";
+                    string defName = parent?.def?.defName ?? "(null)";
                     Log.ErrorOnce(
                         "[Persona Weapons Unbound] Customize action failed for "
                             + defName + ": " + ex,
@@ -123,9 +125,91 @@ namespace PersonaWeaponsUnbound.Patches
             return gizmo;
         }
 
+        // Whether more than one weapon is currently selected. Early-exits on
+        // the second weapon, so large mixed selections stay cheap.
+        private static bool MultipleWeaponsSelected()
+        {
+            List<object> selected = Find.Selector.SelectedObjectsListForReading;
+            int weapons = 0;
+            for (int i = 0; i < selected.Count; i++)
+            {
+                if (selected[i] is Thing thing && thing.def.IsWeapon && ++weapons > 1)
+                    return true;
+            }
+            return false;
+        }
+
+        // The workbench search walks every colonist building and runs
+        // reachability/reservation checks per candidate, and the gizmo is
+        // rebuilt once per rendered frame while a weapon is selected
+        // (GizmoGridDrawer caches per Time.frameCount). A short TTL keeps the
+        // search off the per-frame path; frames rather than ticks so the
+        // enabled/disabled state stays responsive while paused (e.g. the
+        // player forbidding a bench). Keyed by thingIDNumber; stale entries
+        // from a previous save fail the frame check and recompute.
+        private const int SearchCacheTtlFrames = 30;
+
+        private struct CachedSearch
+        {
+            public int Frame;
+            public WorkbenchUtility.WorkbenchSearchResult Result;
+        }
+
+        private static readonly Dictionary<int, CachedSearch> gizmoSearchCache =
+            new Dictionary<int, CachedSearch>();
+        private static readonly Dictionary<int, CachedSearch> targeterSearchCache =
+            new Dictionary<int, CachedSearch>();
+
+        private static WorkbenchUtility.WorkbenchSearchResult GetCachedGizmoSearch(
+            Thing weapon, ThingDef baseDef, ThingDef personaDef)
+        {
+            int frame = Time.frameCount;
+            if (gizmoSearchCache.TryGetValue(weapon.thingIDNumber, out CachedSearch cached)
+                && frame - cached.Frame < SearchCacheTtlFrames)
+            {
+                return cached.Result;
+            }
+
+            var result = WorkbenchUtility.FindBestWorkbench(
+                weapon.Map, baseDef, personaDef, TechLevel.Undefined, weapon.Position);
+            if (gizmoSearchCache.Count > 128)
+                gizmoSearchCache.Clear();
+            gizmoSearchCache[weapon.thingIDNumber] = new CachedSearch
+            {
+                Frame = frame,
+                Result = result,
+            };
+            return result;
+        }
+
+        // Same TTL treatment for the targeter validator, which runs the
+        // pawn-specific search for hovered candidates every frame while
+        // targeting. Keyed by pawn; cleared when targeting begins so a stale
+        // verdict never carries over into a new targeting session.
+        private static WorkbenchUtility.WorkbenchSearchResult GetCachedTargeterSearch(
+            Pawn pawn, Thing weapon, ThingDef baseDef, ThingDef personaDef)
+        {
+            int frame = Time.frameCount;
+            if (targeterSearchCache.TryGetValue(pawn.thingIDNumber, out CachedSearch cached)
+                && frame - cached.Frame < SearchCacheTtlFrames)
+            {
+                return cached.Result;
+            }
+
+            var result = WorkbenchUtility.FindBestWorkbench(
+                pawn, baseDef, personaDef, TechLevel.Undefined, weapon.Position);
+            targeterSearchCache[pawn.thingIDNumber] = new CachedSearch
+            {
+                Frame = frame,
+                Result = result,
+            };
+            return result;
+        }
+
         private static void BeginCustomizeTargeting(
             Thing weapon, ThingDef baseDef, ThingDef personaDef)
         {
+            targeterSearchCache.Clear();
             TargetingParameters parms = TargetingParameters.ForColonist();
 
             // Layer 3: pawn-specific validation on the targeter
@@ -133,8 +217,7 @@ namespace PersonaWeaponsUnbound.Patches
             {
                 if (!(targetInfo.Thing is Pawn p))
                     return false;
-                return WorkbenchUtility.FindBestWorkbench(
-                    p, baseDef, personaDef, TechLevel.Undefined, weapon.Position).Found;
+                return GetCachedTargeterSearch(p, weapon, baseDef, personaDef).Found;
             };
 
             Find.Targeter.BeginTargeting(parms,
