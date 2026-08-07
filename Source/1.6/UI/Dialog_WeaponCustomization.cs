@@ -672,12 +672,12 @@ namespace PersonaWeaponsUnbound
                 // null-spec and bails silently. Surface a player-visible
                 // message and close cleanly so the bail is attributable.
                 string label;
-                try { label = weapon?.LabelShortCap ?? "(unknown weapon)"; }
+                try { label = weapon?.LabelShort ?? "(unknown weapon)"; }
                 catch { label = weapon?.def?.defName ?? "(unknown weapon)"; }
                 Log.Error("[Persona Weapons Unbound] Customization dialog errored for "
                     + label + ": " + ex);
                 Messages.Message(
-                    "PWU_DialogErrored".Translate(label),
+                    "PWU_DialogErrored".Translate(label).CapitalizeFirst(),
                     weapon, MessageTypeDefOf.NegativeEvent, historical: false);
                 Close();
             }
@@ -719,7 +719,7 @@ namespace PersonaWeaponsUnbound
             // Title
             Text.Font = GameFont.Medium;
             Rect titleRect = new Rect(inRect.x, inRect.y, inRect.width, TitleHeight);
-            string titleLabel = "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap);
+            string titleLabel = "PWU_CustomizeWeapon".Translate(weapon.LabelShort);
             Widgets.Label(titleRect, titleLabel);
 
             // "i" button for the ORIGINAL weapon, right after the title text —

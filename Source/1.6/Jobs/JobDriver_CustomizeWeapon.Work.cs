@@ -175,12 +175,12 @@ namespace PersonaWeaponsUnbound
                 case OpType.AddTrait:
                     opDescr = "adding trait " + (op.trait?.defName ?? "(null)");
                     bailMessageText = "PWU_BailOpAddTraitFailed".Translate(
-                        WeaponLabel, op.trait?.LabelCap ?? "");
+                        WeaponLabel, op.trait?.label ?? "");
                     break;
                 case OpType.RemoveTrait:
                     opDescr = "removing trait " + (op.trait?.defName ?? "(null)");
                     bailMessageText = "PWU_BailOpRemoveTraitFailed".Translate(
-                        WeaponLabel, op.trait?.LabelCap ?? "");
+                        WeaponLabel, op.trait?.label ?? "");
                     break;
                 case OpType.Rename:
                     opDescr = "renaming weapon";

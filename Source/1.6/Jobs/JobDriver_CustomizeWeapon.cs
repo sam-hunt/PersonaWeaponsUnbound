@@ -75,15 +75,18 @@ namespace PersonaWeaponsUnbound
         // Best label for the weapon: the live Thing if we have one, otherwise the
         // job target (still labelled even if despawned), otherwise a fallback.
         // Stays valid through every bail path including pre-acquire failures.
+        // Lowercase, like every vanilla label placed mid-sentence; sentence-start
+        // consumers CapitalizeFirst the composed string instead (SetBailMessage
+        // does this for every bail path).
         private string WeaponLabel
         {
             get
             {
                 if (weapon?.Destroyed == false)
-                    return weapon.LabelShortCap;
+                    return weapon.LabelShort;
                 Thing target = job?.GetTarget(WeaponIndex).Thing;
                 if (target != null)
-                    return target.LabelShortCap;
+                    return target.LabelShort;
                 return "PWU_WeaponFallback".Translate();
             }
         }
@@ -94,7 +97,7 @@ namespace PersonaWeaponsUnbound
         private void SetBailMessage(string text)
         {
             if (string.IsNullOrEmpty(bailMessage))
-                bailMessage = text;
+                bailMessage = text.CapitalizeFirst();
         }
 
         // Records the standard "ingredients lost mid-customization" bail message
@@ -106,7 +109,7 @@ namespace PersonaWeaponsUnbound
         {
             string opLabel = op.type == OpType.WipeMemory
                 ? (string)"PWU_MemoryWipeLabel".Translate()
-                : op.trait?.LabelCap ?? "";
+                : op.trait?.label ?? "";
             SetBailMessage("PWU_IngredientShortfall".Translate(WeaponLabel, opLabel));
         }
 
@@ -199,8 +202,8 @@ namespace PersonaWeaponsUnbound
             if (phaseReport != null)
                 return phaseReport;
 
-            string weaponLabel = weapon?.LabelShortCap
-                ?? job.GetTarget(WeaponIndex).Thing?.LabelShortCap
+            string weaponLabel = weapon?.LabelShort
+                ?? job.GetTarget(WeaponIndex).Thing?.LabelShort
                 ?? "PWU_WeaponFallback".Translate();
 
             if (spec != null && currentOpIndex >= 0 && currentOpIndex < spec.operations.Count)
@@ -210,10 +213,10 @@ namespace PersonaWeaponsUnbound
                 {
                     case OpType.AddTrait:
                         return "PWU_AddingTrait".Translate(
-                            op.trait.LabelCap, weaponLabel);
+                            op.trait.label, weaponLabel);
                     case OpType.RemoveTrait:
                         return "PWU_RemovingTrait".Translate(
-                            op.trait.LabelCap, weaponLabel);
+                            op.trait.label, weaponLabel);
                     case OpType.Rename:
                         return "PWU_RenamingWeapon".Translate(weaponLabel);
                     case OpType.WipeMemory:
@@ -315,7 +318,7 @@ namespace PersonaWeaponsUnbound
                 else if (condition == JobCondition.Errored)
                 {
                     Messages.Message(
-                        "PWU_BailUnexpected".Translate(WeaponLabel), pawn,
+                        "PWU_BailUnexpected".Translate(WeaponLabel).CapitalizeFirst(), pawn,
                         MessageTypeDefOf.NegativeEvent, historical: false);
                 }
 
@@ -417,8 +420,8 @@ namespace PersonaWeaponsUnbound
             Toil placeWeapon = ToilMaker.MakeToil("MakeNewToils");
             placeWeapon.initAction = delegate
             {
-                string label = weapon?.LabelShortCap ?? "PWU_WeaponFallback".Translate();
-                phaseReport = "PWU_PlacingWeapon".Translate(label, Workbench.LabelShortCap);
+                string label = weapon?.LabelShort ?? "PWU_WeaponFallback".Translate();
+                phaseReport = "PWU_PlacingWeapon".Translate(label, Workbench.LabelShort);
 
                 Thing carried = pawn.carryTracker.CarriedThing;
                 if (carried != null)
@@ -527,7 +530,7 @@ namespace PersonaWeaponsUnbound
             Toil setHaulReport = ToilMaker.MakeToil("HaulSetReport");
             setHaulReport.initAction = delegate
             {
-                string label = weapon?.LabelShortCap ?? "PWU_WeaponFallback".Translate();
+                string label = weapon?.LabelShort ?? "PWU_WeaponFallback".Translate();
                 phaseReport = "PWU_GatheringMaterials".Translate(label);
                 if (currentTripInvLoad == null)
                     currentTripInvLoad = new List<ThingDefCountClass>();

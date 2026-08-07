@@ -150,7 +150,7 @@ namespace PersonaWeaponsUnbound.Patches
                     if (!result.Found)
                     {
                         Messages.Message(
-                            "PWU_CustomizeWeapon".Translate(weapon.LabelShortCap)
+                            "PWU_CustomizeWeapon".Translate(weapon.LabelShort)
                                 + " (" + result.BestRejection.Reason + ")",
                             weapon, MessageTypeDefOf.RejectInput, false);
                         return;

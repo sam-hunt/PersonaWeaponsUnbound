@@ -62,7 +62,7 @@ namespace PersonaWeaponsUnbound
             foreach (WeaponTraitDef existing in desiredTraits)
             {
                 if (TraitsOverlap(candidate, existing))
-                    return "PWU_ConflictsWith".Translate(existing.LabelCap);
+                    return "PWU_ConflictsWith".Translate(existing.label);
             }
 
             if (PWU_Mod.Settings.enforceCanGenerateAlone
@@ -104,7 +104,7 @@ namespace PersonaWeaponsUnbound
                     ? desiredTraits[1]
                     : desiredTraits[0];
                 if (!remaining.canGenerateAlone)
-                    return "PWU_TraitCannotBeOnlyTrait".Translate(remaining.LabelCap);
+                    return "PWU_TraitCannotBeOnlyTrait".Translate(remaining.label).CapitalizeFirst();
             }
             return null;
         }
