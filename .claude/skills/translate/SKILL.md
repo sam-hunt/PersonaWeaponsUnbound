@@ -30,6 +30,17 @@ the source of truth; every other language derives from it.
 - English Keyed source: `1.6/Languages/English/Keyed/PWU_UI.xml`
 - Target layout: `1.6/Languages/<Language>/Keyed/*.xml` and
   `1.6/Languages/<Language>/DefInjected/<DefTypeFolder>/*.xml`
+- **A gated compat load root would be an additional language root, not a
+  language of its own.** This mod ships no `MayRequire`-gated defs today, so
+  there is no `1.6/Mods/<Mod Name>/Languages/<Language>/...` root yet — but if
+  one is ever added (BetterTradersGuild's `1.6/Mods/UniqueMeleeWeapons/...`
+  and `1.6/Mods/Biotech/...` are the worked examples), that def's translations
+  must live under its own compat root, mirrored per language, never the main
+  `1.6` tree: MayRequire is ignored on DefInjected entries, so the
+  LoadFolders-gated folder is the only way to gate them. The checker and
+  csproj `StageMod` target both already glob `*/Mods/*/Languages` and
+  `*/Mods/*/Defs`, so this needs no tooling changes when it happens — only the
+  content and the routing described here.
 - **`<Language>` is the vanilla tar name with the native-name suffix stripped**
   (decompile-verified, `Verse.LoadedLanguage`): the ctor derives
   `legacyFolderName` by cutting `folderName` at the first `(` and trimming, and
@@ -1409,9 +1420,19 @@ Varredura / Minucioso**.
 ### Initial generation (`/translate <Language>`)
 
 1. Run the checker; confirm English itself is clean.
-2. Enumerate English Keyed keys and DefInjected-translatable def fields
-   (mirror the structure of an existing language if one exists — Russian,
-   as of 2026-07).
+2. Enumerate the target key set: every Keyed key in
+   `1.6/Languages/English/Keyed/PWU_UI.xml`, plus every `required` DefInjected
+   entry in the `Scripts/expected-injections.json` sidecar, taking the
+   English source text from each entry's `english` field — NOT by scanning
+   `1.6/Defs/` or the English DefInjected tree (this repo ships neither a
+   vanilla-inherited field nor an English DefInjected file today, but the
+   sidecar is the authority the moment either exists). Mirror the structure
+   of an existing language if one exists (Russian, as of 2026-07). If a
+   gated compat load root is ever added (a `MayRequire`-gated def, mirroring
+   BetterTradersGuild's `1.6/Mods/<Mod>/Languages/<Language>/...` pattern),
+   route its entries to their own compat root, never the main `1.6` tree —
+   the checker enforces that placement both ways and names the owning root
+   in its missing-entry errors.
 3. Extract the vanilla tar for the target language into the scratchpad;
    build a term list for the grounded terms above.
 4. Translate via subagent(s) carrying: the glossary, the vanilla term list,
