@@ -114,11 +114,17 @@ the source of truth; every other language derives from it.
   that is a fact each regen reproves, not an assumption. If a regen ever adds
   a vanilla-sourced key, ground it by copying the official translation of the
   matching vanilla def verbatim.
-- `PWU_SettingsCategory` (the mod's proper name) and
-  `PWU_CostTableNotApplicable` (a bare `-` glyph) deliberately stay identical
-  to English in every language, so the in-game report will always list them
+- `PWU_CostTableNotApplicable` (a bare `-` glyph) deliberately stays identical
+  to English in every language, so the in-game report will always list it
   under "Keyed translations matching English (maybe ok)" — expected, not a
   gap.
+- `PWU_SettingsCategory` is not a stay-English exception: it is that
+  language's localized Steam Workshop title and must stay in sync with the
+  title line (line 1) of `.steamworkshop/Description/<Language>.txt` (see
+  the CLAUDE.md localization note). Until the initial Workshop translation
+  pass runs (see `TODOs.md`), it still holds the English brand, so today it
+  will also show up under "matching English" — expected for now, not a
+  target state.
 
 ## Terminology grounding (do not skip)
 
