@@ -95,3 +95,12 @@ muertes** and **memoria de muertes** respectively — es keeps the
 distinction rather than collapsing it the way German does, because both
 read naturally against `PWU_TabMemory` = Memoria. Haul planner modes are
 mod-coined with no vanilla anchor: **Secuencial / Barrido / Exhaustivo**.
+
+## Workshop title (2026-08-18, machine-assisted, pending native review)
+
+**Armas vinculadas sin ataduras** (= `PWU_SettingsCategory`, coupled to line 1
+of `.steamworkshop/Description/Spanish.txt`). Vanilla es renders persona
+weapons through the adjective *vinculada* (mono-espada vinculada; category
+"armas de filo vinculadas"), so "armas vinculadas" is the searchable anchor.
+"sin ataduras" renders "Unbound" as deliberate wordplay against
+vincular = to bond. Sentence case per Spanish title norms.

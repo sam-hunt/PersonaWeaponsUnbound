@@ -149,3 +149,12 @@ mortes** and **memória de mortes** — pt-BR keeps the distinction like
 Spanish and French rather than collapsing it like German, because both read
 naturally against `PWU_TabMemory` = Memória. Haul planner modes are
 mod-coined with no vanilla anchor: **Sequencial / Varredura / Minucioso**.
+
+## Workshop title (2026-08-18, machine-assisted, pending native review)
+
+**Armas persona liberadas** (= `PWU_SettingsCategory`, coupled to line 1 of
+`.steamworkshop/Description/PortugueseBrazilian.txt`). "armas persona" is
+Royalty pt-BR's own `WeaponsMeleeBladelink.label` verbatim. "liberadas"
+renders "Unbound" without touching the vinculo/Vínculo livre bond vocabulary
+already reserved for the bladelink-bond and freewielder mechanics.
+Sentence case per Portuguese title norms.

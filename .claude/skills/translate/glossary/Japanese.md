@@ -59,3 +59,11 @@ research label)", and that is the correct *English* label, but the def is
 the English. It reaches the player through `{2}` at runtime, so nothing is
 translated there, but never resolve that hint literally when phrasing
 around it; look the defName up in the tar.
+
+## Workshop title (2026-08-18, machine-assisted, pending native review)
+
+**ペルソナ武器解放MOD** (= `PWU_SettingsCategory`, coupled to line 1 of
+`.steamworkshop/Description/Japanese.txt`). ペルソナ武器 is vanilla Royalty
+ja's persona-weapon term; the 解放MOD suffix deliberately mirrors the sibling
+mod UWU's established ja title ユニークな武器解放MOD so the family reads as a
+matched pair on the Workshop.

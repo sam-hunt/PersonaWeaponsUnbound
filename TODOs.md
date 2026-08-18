@@ -12,12 +12,5 @@
 
 - Decide whether to standardize `generate_release_notes` in release.yml across
   the family (UMW uses false + manual changelog paste; UWU/PWU use true).
-- Run the initial Steam Workshop description translation pass: create
-  `.steamworkshop/Description/<Language>.txt` for each non-English language
-  under `1.6/Languages/`, localize titles per `.steamworkshop/README.md`
-  (vanilla Royalty persona weapon/bladelink term, no English brand appended),
-  and sync each language's `PWU_SettingsCategory` Keyed value to its title
-  line. Structure/process landed 2026-08-18; only `English.txt` exists so
-  far.
-- Backfill glossary/Russian.md's mod-coined terms on the next Russian pass (the old skill never had a ru glossary section despite shipped ru Keyed; noted during the 2026-08-18 l10n consolidation)
-- Run the initial Steam Workshop description translations for the 8 shipped languages (the checker now warns on the missing Description files; process in l10n/workshop.md)
+- Backfill glossary/Russian.md's mod-coined terms on the next Russian pass (the old skill never had a ru glossary section despite shipped ru Keyed; noted during the 2026-08-18 l10n consolidation; the 2026-08-18 Workshop pass seeded a partial table but a full grounding pass is still owed)
+- Upstream to the l10n repo's `languages/<Language>.md` vocabulary tables: vanilla `AdvancedFabrication.label` values verified against the game tars during the 2026-08-18 Workshop pass (de "Hightech-Fabrikation", fr "fabrication avancée", es "fabricación avanzada", ko "고급 부품", ja "先進組立製造", ru "сверхвысокоточное производство", zh "高级精密装配") — mod-independent corpus facts that belong upstream per the content contract, then bump the pin here.

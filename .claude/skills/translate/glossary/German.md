@@ -114,3 +114,11 @@ label and "kill memory" in prose; de collapses both to
 **Tötungsgedächtnis** so the Memory tab reads consistently against
 `PWU_TabMemory` = Gedächtnis. The haul planner modes are mod-coined with no
 vanilla anchor: **Sequenziell / Sammelgang / Gründlich**.
+
+## Workshop title (2026-08-18, machine-assisted, pending native review)
+
+**Personawaffen entfesselt** (= `PWU_SettingsCategory`, coupled to line 1 of
+`.steamworkshop/Description/German.txt`). "Personawaffen" is Royalty de's own
+`WeaponsMeleeBladelink.label` verbatim. "entfesselt" renders "Unbound";
+"ungebunden" was rejected because it collides with the Bindung/bond
+vocabulary (bladelink weapons literally bond to a wielder).

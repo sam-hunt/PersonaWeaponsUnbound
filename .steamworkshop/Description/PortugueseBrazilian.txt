@@ -1,0 +1,89 @@
+Armas persona liberadas
+
+[h1]Sobre[/h1]
+Os comerciantes imperiais e as missões nunca lhe dão a persona que você quer. Agora você pode preencher essa lacuna: na bancada de fabricação, com controle por projetos técnicos, custos em componentes e configurações de equilíbrio que fazem tudo parecer merecido.
+
+[hr][/hr]
+[h2]Personalização de Traços[/h2]
+[list]
+[*]Adicione e remova traços de armas persona na bancada de fabricação
+[*]Converta uma espada monomolecular, espada de plasma ou martelo de zeus base em sua variante persona ao adicionar seu primeiro traço, instalando um núcleo de personalidade IA
+[*]Remova todos os traços para reverter uma arma persona à sua forma base, reembolsando o núcleo
+[*]Validação completa do jogo original: o número máximo de traços, os conflitos de tags de exclusão e as restrições de traço único são todos aplicados
+[/list]
+
+[h2]Custos de Reprogramação[/h2]
+Os traços de armas persona são facetas da personalidade da persona, não peças adicionadas por fora. Alterá-los significa reprogramar à força a persona usando componentes avançados que se queimam no processo.
+[list]
+[*]O primeiro traço e o último traço custam ou reembolsam exatamente um núcleo de personalidade IA
+[*]Toda outra alteração custa componentes avançados nos dois sentidos: tanto adições quanto remoções. A reprogramação é destrutiva, não há reembolsos
+[*]A quantidade de componentes aumenta conforme a qualidade da arma acima de um limite configurável. A página de configurações mostra uma tabela de custos em tempo real
+[*]Pré-visualização do custo em tempo real antes de confirmar
+[/list]
+
+[h2]Renomear[/h2]
+[list]
+[*]Renomeie a persona usando o gerador de nomes de armas persona do jogo original, ou digite o nome que quiser
+[*]Nomes de relíquias de ideologia permanecem bloqueados e só podem ser alterados por meio da reforma da ideologia, como pretendido
+[/list]
+
+[h2]Três Formas de Personalizar[/h2]
+[list]
+[*][b]Botão de comando da arma:[/b] selecione uma arma, clique em "Personalizar persona" e escolha um colono
+[*][b]Menu da bancada:[/b] selecione um colono e clique com o botão direito em uma bancada de fabricação para personalizar as armas que ele estiver usando ou carregando
+[*][b]Menu de arma no chão:[/b] clique com o botão direito em uma arma no chão para enviar um colono até a bancada de fabricação operacional mais próxima
+[/list]
+
+[h2]Pesquisa e Fabricação[/h2]
+Um único projeto de pesquisa ultratecnológico, personalização de armas persona, restringe tudo o que vem abaixo: ele requer fabricação avançada e (por padrão) um projeto técnico obtido do Império Fragmentado.
+[list]
+[*]Armas persona são ultratecnológicas. A personalização requer uma bancada de fabricação (ou um equivalente reconhecido pela VEF)
+[*]Receitas fabricáveis para as armas base espada monomolecular, espada de plasma e martelo de zeus, cada uma ativável individualmente: fabrique a arma base e depois instale um núcleo de personalidade IA para obter uma arma persona sob medida, feita inteiramente dentro da colônia
+[*]A exigência de projetos técnicos é um controle deslizante aplicado em tempo real (0 a 3). Defini-la como 0 remove completamente a exigência, sem precisar reiniciar
+[/list]
+
+[h2]Descoberta Opcional de Traços[/h2]
+[list]
+[*]Restrinja os traços disponíveis àqueles vistos em armas persona que a colônia possui, que estão em uma caravana ou em posse de hostis, sem estado persistente no jogo salvo
+[*]Fontes em posse de hostis aparecem na lista, mas não podem ser adicionadas até que a arma seja capturada
+[/list]
+
+[hr][/hr]
+[h1]Compatibilidade de Mods[/h1]
+[list]
+[*]Requer o DLC Royalty
+[*]Seguro para adicionar a jogos salvos existentes
+[*]Seguro para remover de jogos salvos (apenas erros em vermelho que podem ser ignorados com segurança)
+[*]Coexiste perfeitamente com o Unique Weapons Unbound (o mod irmão deste para as armas únicas do Odyssey): identificadores distintos e filtros de traços complementares, permitindo rodar os dois juntos
+[*]Compatível automaticamente com a maioria dos mods que adicionam novas armas persona ou traços de armas persona, por exemplo o [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2863308112]More Persona Traits[/url]. Nenhuma referência fixa a defs
+[*]Bancadas de mods que herdam as receitas da bancada de fabricação (RecipeInheritanceExtension da VEF, por exemplo a bancada de fabricação compacta da VFE) são detectadas automaticamente
+[*]Funciona com CE, PUAH, Ideology, e se integra com o [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2826922787]Vanilla Persona Weapons Expanded[/url]
+[/list]
+
+[hr][/hr]
+[h1]Perguntas Frequentes[/h1]
+[b]P: Preciso do DLC Royalty?[/b]
+R: Sim. Este mod se baseia no sistema de armas persona do Royalty.
+
+[b]P: Preciso do Odyssey também?[/b]
+R: Não. Este mod é exclusivo para o Royalty. Se você também quiser personalizar as armas únicas do Odyssey, confira o mod irmão Unique Weapons Unbound: os dois coexistem sem conflitos.
+
+[b]P: Por que não consigo personalizar [nome da arma]?[/b]
+R: Apenas armas com um par base/persona resolvível pelo sistema de armas persona do jogo original são compatíveis. As três armas persona originais (espada monomolecular, espada de plasma, martelo de zeus) funcionam imediatamente. Armas persona de mods funcionam automaticamente se usarem o CompBladelinkWeapon.
+
+[b]P: Posso personalizar armas de outros mods?[/b]
+R: Se o mod adicionar armas persona usando o sistema CompBladelinkWeapon do jogo original, elas são compatíveis automaticamente, incluindo seus próprios traços e geradores de nomes.
+
+[b]P: Isto é desbalanceado?[/b]
+R: Isso depende de você. As configurações padrão exigem pesquisa, um projeto técnico e custos significativos em componentes. Se você quiser mais dificuldade, aumente os custos em componentes. Se quiser mais facilidade, reduza-os ou pule a pesquisa por completo. Sua colônia, suas regras.
+
+[b]P: Posso interromper uma tarefa de personalização com segurança?[/b]
+R: Sim. Cada alteração de traço ou cosmética é uma tarefa de fabricação separada. Interromper não faz você perder recursos. O trabalho não concluído é simplesmente cancelado.
+
+[b]P: O que acontece com o vínculo de uma arma vinculada?[/b]
+R: Adicionar o traço Vínculo livre ou reverter uma arma persona vinculada à sua forma base rompe o vínculo. Nos dois casos, um aviso de confirmação é mostrado antes.
+
+
+[h2]Links[/h2]
+[url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url]: código-fonte, relatos de bugs e pedidos de recursos
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url]: o mod irmão para as armas únicas do Odyssey

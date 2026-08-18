@@ -135,3 +135,11 @@ victimes** and **mémoire des victimes** — fr keeps the distinction like
 Spanish rather than collapsing it like German, because both read naturally
 against `PWU_TabMemory` = Mémoire. Haul planner modes are mod-coined with
 no vanilla anchor: **Séquentiel / Balayage / Exhaustif**.
+
+## Workshop title (2026-08-18, machine-assisted, pending native review)
+
+**Armes intelligentes libérées** (= `PWU_SettingsCategory`, coupled to line 1
+of `.steamworkshop/Description/French.txt`). "armes intelligentes" is Royalty
+fr's own `WeaponsMeleeBladelink.label` term; "libérées" renders "Unbound".
+The description quotes the research name « personnalisation des armes
+intelligentes » lowercase, matching the DefInjected label verbatim.

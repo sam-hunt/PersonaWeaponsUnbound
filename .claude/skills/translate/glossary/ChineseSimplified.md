@@ -53,3 +53,17 @@ through the tar. (This is PWU's own instance of the general
 "resolve-a-hint-through-the-tar" methodology recorded in `l10n/languages/
 ChineseSimplified.md`'s Pitfalls section — only the specific defName mapping
 is mod-specific and lives here.)
+
+## Workshop title (2026-08-18, machine-assisted, pending native review)
+
+**人格武器解放** (= `PWU_SettingsCategory`, coupled to line 1 of
+`.steamworkshop/Description/ChineseSimplified.txt`). 人格武器 is vanilla
+Royalty zh's prose term for persona weapons (`Royalty.description`:
+"挥舞具有独特特性的人格武器"), the searchable anchor since the Δ' label prefix
+is not prose-usable. 解放 renders "Unbound" without colliding with the mod's
+自由 (freewielder) or 定制 (customize) vocabulary.
+
+Workshop-description-only notes from this pass: vanilla zh localizes the DLC
+brand names, so the description uses 皇权 / 奥德赛 / 文化 (unlike the other 7
+languages, which keep them English per vanilla); Odyssey's unique weapon is
+特化武器 (used for the UWU sibling-mod references).

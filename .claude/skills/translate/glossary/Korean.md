@@ -92,3 +92,14 @@ nothing like the English. Korean is the exception:
 `ShipComputerCore.label` = **기계 설득**, a literal match for "machine
 persuasion". Still resolve the defName through the tar rather than trusting
 the hint — the coincidence is language-specific, not a general licence.
+
+## Workshop title (2026-08-18, machine-assisted, pending native review)
+
+**결속 무기 자유 개조** (= `PWU_SettingsCategory`, coupled to line 1 of
+`.steamworkshop/Description/Korean.txt`). 결속 is vanilla Royalty ko's
+bladelink prefix (`MeleeWeapon_MonoSwordBladelink.label` = 결속 단분자검), so
+결속 무기 is the searchable anchor; 자유 개조 renders "Unbound" using the
+mod's own coined 개조 (customize) vocabulary.
+
+New coinage from this pass: **배타 태그 충돌** = "exclusion-tag conflicts"
+(no vanilla anchor exists), pending native review.

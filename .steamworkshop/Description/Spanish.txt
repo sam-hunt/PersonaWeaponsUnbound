@@ -1,0 +1,89 @@
+Armas vinculadas sin ataduras
+
+[h1]Acerca de[/h1]
+Los comerciantes imperiales y las misiones nunca te dan la IA que quieres. Ahora puedes cerrar esa brecha: en la mesa de ensamblaje, con el requisito de tecnoplanos, costes en componentes y ajustes de equilibrio que hacen que te lo sigas ganando.
+
+[hr][/hr]
+[h2]Personalización de características[/h2]
+[list]
+[*]Añade y quita características de las armas vinculadas en la mesa de ensamblaje
+[*]Convierte una mono-espada, una espada de plasma o un martillo de Zeus base en su variante vinculada añadiendo su primera característica, lo que instala un núcleo de IA
+[*]Quita todas las características para revertir un arma vinculada a su forma base, lo que reembolsa el núcleo
+[*]Validación completa de vanilla: se aplican el número máximo de características, los conflictos por etiquetas de exclusión y las restricciones de característica única
+[/list]
+
+[h2]Costes de reprogramación[/h2]
+Las características de las armas vinculadas son facetas de la personalidad de la IA, no piezas añadidas. Cambiarlas significa reprogramar a la fuerza la IA con componentes avanzados que se queman en el proceso.
+[list]
+[*]La primera característica añadida o la última quitada cuesta o reembolsa exactamente un núcleo de IA
+[*]Cualquier otro cambio, ya sea añadir o quitar, cuesta componentes avanzados en ambos sentidos: reprogramar es destructivo, no hay reembolsos
+[*]La cantidad de componentes escala con la calidad del arma por encima de un umbral configurable; la página de ajustes muestra una tabla de costes en tiempo real
+[*]Vista previa del coste en tiempo real antes de confirmar
+[/list]
+
+[h2]Renombrar[/h2]
+[list]
+[*]Renombra la IA usando el generador de nombres de vanilla para armas vinculadas, o escribe el tuyo propio
+[*]Los nombres de las reliquias de ideoligión permanecen bloqueados y solo se pueden cambiar mediante la reforma de la ideoligión, tal y como está previsto
+[/list]
+
+[h2]Tres formas de personalizar[/h2]
+[list]
+[*][b]Botón de comando del arma:[/b] selecciona un arma, haz clic en "Personalizar IA" y elige un colono
+[*][b]Menú de la mesa de trabajo:[/b] selecciona un colono y haz clic derecho en una mesa de ensamblaje para personalizar las armas que lleva equipadas o consigo
+[*][b]Menú del arma en el suelo:[/b] haz clic derecho en un arma en el suelo para enviar a un colono a la mesa de ensamblaje operativa más cercana
+[/list]
+
+[h2]Investigación y fabricación[/h2]
+Un único proyecto de investigación de ultratecnología, "personalización de armas vinculadas", da acceso a todo lo que aparece a continuación: requiere "fabricación avanzada" y, por defecto, un tecnoplano de origen imperial.
+[list]
+[*]Las armas vinculadas son de ultratecnología; la personalización requiere una mesa de ensamblaje (o un equivalente reconocido por VEF)
+[*]Recetas de fabricación para la mono-espada, la espada de plasma y el martillo de Zeus base, cada una activable por separado: fabrica el arma base y después instala un núcleo de IA para conseguir un arma vinculada totalmente artesanal y hecha en la colonia
+[*]El requisito de tecnoplanos es un control deslizante que se aplica al instante (0-3); ponerlo en 0 elimina el requisito por completo, sin necesidad de reiniciar
+[/list]
+
+[h2]Descubrimiento opcional de características[/h2]
+[list]
+[*]Restringe las características disponibles a las vistas en armas vinculadas que posea la colonia, que lleve una caravana o que porten los hostiles: no añade ningún estado persistente a la partida guardada
+[*]Las fuentes en posesión de hostiles aparecen en la lista, pero no se pueden añadir hasta que se captura el arma
+[/list]
+
+[hr][/hr]
+[h1]Compatibilidad del mod[/h1]
+[list]
+[*]Requiere el DLC Royalty
+[*]Seguro de añadir a partidas guardadas ya existentes
+[*]Seguro de quitar de las partidas guardadas (solo mostrará errores en rojo que se pueden ignorar sin problema)
+[*]Coexiste sin problemas con Unique Weapons Unbound (el mod hermano de este para las armas únicas de Odyssey): usan identificadores distintos y filtros de características complementarios, así que ambos pueden funcionar juntos
+[*]Compatible de forma automática con la mayoría de los mods que añaden nuevas armas vinculadas o nuevas características, como [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2863308112]More Persona Traits[/url]. No usa referencias fijas a defs
+[*]Las mesas de trabajo de otros mods que heredan las recetas de la mesa de ensamblaje (RecipeInheritanceExtension de VEF, como la mesa de ensamblaje compacta de VFE) se detectan automáticamente
+[*]Funciona con CE, PUAH e Ideology, y se integra con [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2826922787]Vanilla Persona Weapons Expanded[/url]
+[/list]
+
+[hr][/hr]
+[h1]Preguntas frecuentes[/h1]
+[b]P: ¿Necesito el DLC Royalty?[/b]
+R: Sí. Este mod se basa en el sistema de armas vinculadas de Royalty.
+
+[b]P: ¿También necesito Odyssey?[/b]
+R: No. Este mod es exclusivo de Royalty. Si además quieres personalizar las armas únicas de Odyssey, echa un vistazo al mod hermano Unique Weapons Unbound: los dos coexisten sin ningún conflicto.
+
+[b]P: ¿Por qué no puedo personalizar [nombre del arma]?[/b]
+R: Solo se admiten armas con un par base/vinculada resoluble mediante el sistema de armas vinculadas de vanilla. Las tres armas vinculadas de vanilla (mono-espada, espada de plasma, martillo de Zeus) funcionan sin configuración adicional; las armas vinculadas de otros mods funcionan automáticamente si usan CompBladelinkWeapon.
+
+[b]P: ¿Puedo personalizar armas de otros mods?[/b]
+R: Si el mod añade armas vinculadas usando el sistema CompBladelinkWeapon de vanilla, se admiten automáticamente, incluidas sus propias características y sus generadores de nombres.
+
+[b]P: ¿Esto está descompensado?[/b]
+R: Eso depende de ti. Los ajustes por defecto exigen investigación, un tecnoplano y costes en componentes considerables. Si quieres que sea más difícil, sube los costes en componentes. Si quieres que sea más fácil, redúcelos o sáltate la investigación por completo. Tu colonia, tus reglas.
+
+[b]P: ¿Puedo interrumpir un trabajo de personalización sin problemas?[/b]
+R: Sí. Cada cambio de característica o cosmético es un trabajo de fabricación independiente. Interrumpirlo no hace perder recursos: el trabajo sin terminar simplemente se cancela.
+
+[b]P: ¿Qué pasa con el vínculo de un arma ya vinculada?[/b]
+R: Añadir la característica "liberal" o revertir un arma vinculada a su forma base rompe el vínculo: en ambos casos se muestra antes un aviso de confirmación.
+
+
+[h2]Enlaces[/h2]
+[url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url]: código fuente, informes de errores y peticiones de funciones
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url]: el mod hermano para las armas únicas de Odyssey

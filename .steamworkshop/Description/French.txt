@@ -1,0 +1,89 @@
+Armes intelligentes libérées
+
+[h1]À propos[/h1]
+Les marchands de l'empire brisé et les quêtes ne vous donnent jamais la conscience que vous voulez. Vous pouvez désormais combler cet écart : à l'atelier de fabrication, avec un verrouillage par schéma technique, des coûts en composants, et des paramètres d'équilibrage qui font que tout cela reste mérité.
+
+[hr][/hr]
+[h2]Personnalisation des traits[/h2]
+[list]
+[*]Ajoutez et retirez des traits d'arme intelligente à l'atelier de fabrication
+[*]Convertissez une épée mono-moléculaire, une épée plasmique ou un marteau de Zeus de base en sa variante intelligente en lui ajoutant son premier trait, ce qui installe un noyau IA de personnalité
+[*]Retirez tous les traits pour ramener une arme intelligente à sa forme de base, ce qui rembourse le noyau
+[*]Validation complète du jeu de base : le nombre maximal de traits, les conflits d'étiquettes d'exclusion et les restrictions de trait unique sont tous appliqués
+[/list]
+
+[h2]Coûts de reprogrammation[/h2]
+Les traits d'une arme intelligente sont des facettes de la personnalité de sa conscience, pas de simples pièces rapportées. Les modifier revient à reprogrammer de force la conscience à l'aide de composants avancés qui se consument dans le processus.
+[list]
+[*]Le premier trait ajouté ou le dernier trait retiré coûte ou rembourse exactement un noyau IA de personnalité
+[*]Tout autre changement coûte des composants avancés dans les deux sens, ajouts comme retraits : la reprogrammation est destructive, il n'y a aucun remboursement
+[*]Le nombre de composants augmente avec la qualité de l'arme au-delà d'un seuil configurable. La page des paramètres affiche un tableau des coûts en temps réel
+[*]Aperçu du coût en temps réel avant de valider
+[/list]
+
+[h2]Renommer[/h2]
+[list]
+[*]Renommez la conscience à l'aide du générateur de noms des armes intelligentes du jeu de base, ou saisissez votre propre nom
+[*]Les noms des reliques idéologiques restent verrouillés et ne peuvent être modifiés qu'en réformant l'idéoligion, comme prévu
+[/list]
+
+[h2]Trois façons de personnaliser[/h2]
+[list]
+[*][b]Bouton de commande de l'arme :[/b] sélectionnez une arme, cliquez sur « Personnaliser la conscience », puis choisissez un colon
+[*][b]Menu de l'établi :[/b] sélectionnez un colon et faites un clic droit sur un atelier de fabrication pour personnaliser les armes qu'il porte ou transporte
+[*][b]Menu de l'arme au sol :[/b] faites un clic droit sur une arme au sol pour envoyer un colon vers l'atelier de fabrication opérationnel le plus proche
+[/list]
+
+[h2]Recherche et fabrication[/h2]
+Un unique projet de recherche ultratech, « personnalisation des armes intelligentes », conditionne tout ce qui suit : il nécessite la recherche « fabrication avancée » et, par défaut, un schéma technique fourni par l'empire brisé.
+[list]
+[*]Les armes intelligentes sont ultratech ; leur personnalisation nécessite un atelier de fabrication (ou un équivalent reconnu par VEF)
+[*]Recettes de fabrication pour l'épée mono-moléculaire, l'épée plasmique et le marteau de Zeus de base, chacune activable individuellement. Fabriquez l'arme de base, puis installez un noyau de personnalité pour obtenir une arme intelligente entièrement conçue dans votre colonie
+[*]L'exigence de schémas techniques est un curseur appliqué en temps réel (0 à 3) ; le régler sur 0 supprime entièrement l'exigence, sans redémarrage nécessaire
+[/list]
+
+[h2]Découverte optionnelle des traits[/h2]
+[list]
+[*]Limitez les traits disponibles à ceux observés sur des armes intelligentes détenues par la colonie, dans une caravane, ou portées par des hostiles. Aucun état persistant n'est sauvegardé
+[*]Les sources détenues par des hostiles apparaissent dans la liste, mais ne peuvent être ajoutées qu'une fois l'arme capturée
+[/list]
+
+[hr][/hr]
+[h1]Compatibilité des mods[/h1]
+[list]
+[*]Nécessite le DLC Royalty
+[*]Peut être ajouté à une sauvegarde existante sans risque
+[*]Peut être retiré d'une sauvegarde sans risque (seules des erreurs rouges sans danger apparaissent)
+[*]Coexiste parfaitement avec Unique Weapons Unbound (le mod frère pour les armes uniques d'Odyssey) : identifiants distincts et filtres de traits complémentaires, les deux peuvent tourner ensemble
+[*]Compatible automatiquement avec la plupart des mods ajoutant de nouvelles armes intelligentes ou de nouveaux traits d'arme intelligente, par exemple [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2863308112]More Persona Traits[/url]. Aucune référence de def codée en dur
+[*]Les établis moddés qui héritent des recettes de l'atelier de fabrication (l'extension RecipeInheritanceExtension de VEF, par exemple l'atelier de fabrication compact de VFE) sont détectés automatiquement
+[*]Fonctionne avec CE, PUAH, Ideology, et s'intègre à [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2826922787]Vanilla Persona Weapons Expanded[/url]
+[/list]
+
+[hr][/hr]
+[h1]FAQ[/h1]
+[b]Q : Ai-je besoin du DLC Royalty ?[/b]
+R : Oui. Ce mod s'appuie sur le système d'armes intelligentes de Royalty.
+
+[b]Q : Ai-je aussi besoin d'Odyssey ?[/b]
+R : Non. Ce mod ne concerne que Royalty. Si vous souhaitez également personnaliser les armes uniques d'Odyssey, découvrez le mod frère Unique Weapons Unbound : les deux coexistent sans conflit.
+
+[b]Q : Pourquoi ne puis-je pas personnaliser [nom de l'arme] ?[/b]
+R : Seules les armes disposant d'un lien base/intelligente résoluble via le système d'armes intelligentes du jeu de base sont prises en charge. Les trois armes intelligentes du jeu de base (épée mono-moléculaire, épée plasmique, marteau de Zeus) fonctionnent d'emblée ; les armes intelligentes moddées fonctionnent automatiquement si elles utilisent CompBladelinkWeapon.
+
+[b]Q : Puis-je personnaliser des armes provenant d'autres mods ?[/b]
+R : Si le mod ajoute des armes intelligentes à l'aide du système CompBladelinkWeapon du jeu de base, elles sont automatiquement prises en charge, y compris leurs propres traits et générateurs de noms.
+
+[b]Q : Est-ce déséquilibré ?[/b]
+R : Cela dépend de vous. Les paramètres par défaut exigent de la recherche, un schéma technique, et des coûts en composants significatifs. Pour plus de difficulté, augmentez les coûts en composants. Pour plus de facilité, réduisez-les ou ignorez la recherche entièrement. Votre colonie, vos règles.
+
+[b]Q : Puis-je interrompre une tâche de personnalisation sans risque ?[/b]
+R : Oui. Chaque changement de trait ou changement cosmétique est une tâche de fabrication distincte. Interrompre ne fait perdre aucune ressource ; le travail non terminé est simplement annulé.
+
+[b]Q : Qu'arrive-t-il au lien d'une arme liée ?[/b]
+R : Ajouter le trait de porteur libre, ou ramener une arme intelligente liée à sa forme de base, rompt le lien. Les deux cas affichent d'abord un avertissement de confirmation.
+
+
+[h2]Liens[/h2]
+[url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url] : code source, rapports de bogues et demandes de fonctionnalités
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url] : le mod frère pour les armes uniques d'Odyssey

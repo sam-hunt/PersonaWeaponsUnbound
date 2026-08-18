@@ -1,0 +1,89 @@
+Personawaffen entfesselt
+
+[h1]Über[/h1]
+Händler des Imperiums und Quests geben dir nie die Persona, die du wirklich willst. Jetzt kannst du diese Lücke schließen: am Fabrikationstisch, mit Techplananforderung, Bauteilkosten und Balance-Einstellungen, die dafür sorgen, dass es sich verdient anfühlt.
+
+[hr][/hr]
+[h2]Merkmalsanpassung[/h2]
+[list]
+[*]Füge am Fabrikationstisch Merkmale von Personawaffen hinzu oder entferne sie
+[*]Verwandle Monoschwert, Plasmaschwert oder Zeushammer aus der Basisform in die Personaform, indem du das erste Merkmal hinzufügst; dabei wird ein Personakern eingebaut
+[*]Entferne alle Merkmale, um eine Personawaffe in ihre Basisform zurückzuverwandeln; der Kern wird dabei erstattet
+[*]Vollständige Vanilla-Validierung: Obergrenze für Merkmalsanzahl, Konflikte durch Ausschluss-Tags und Einzelmerkmal-Beschränkungen werden durchgehend erzwungen
+[/list]
+
+[h2]Neuprogrammierungskosten[/h2]
+Merkmale einer Personawaffe sind Facetten der Persönlichkeit ihrer Persona, keine angeflanschten Teile. Sie zu ändern bedeutet, die Persona gewaltsam mit Hightech-Bauteilen neu zu programmieren, die dabei durchbrennen.
+[list]
+[*]Erstes Merkmal und letztes Merkmal kosten beziehungsweise erstatten genau einen Personakern
+[*]Jede weitere Änderung kostet Hightech-Bauteile in beide Richtungen: sowohl beim Hinzufügen als auch beim Entfernen. Die Neuprogrammierung ist destruktiv, es gibt keine Erstattung
+[*]Die Anzahl der Bauteile skaliert oberhalb einer einstellbaren Schwelle mit der Waffenqualität; die Einstellungsseite zeigt eine Live-Kostentabelle
+[*]Kostenvorschau in Echtzeit, bevor du bestätigst
+[/list]
+
+[h2]Umbenennen[/h2]
+[list]
+[*]Benenne die Persona mit Vanillas Namensgenerator für Personawaffen um, oder gib selbst einen Namen ein
+[*]Namen von Ideologie-Reliquien bleiben gesperrt und können, wie vorgesehen, nur durch das Reformieren der Ideologie geändert werden
+[/list]
+
+[h2]Drei Wege zur Anpassung[/h2]
+[list]
+[*][b]Waffen-Befehlsknopf:[/b] Wähle eine Waffe aus, klicke auf "Persona anpassen" und wähle einen Kolonisten
+[*][b]Werkbankmenü:[/b] Wähle einen Kolonisten aus und klicke mit der rechten Maustaste auf einen Fabrikationstisch, um seine ausgerüsteten oder mitgeführten Waffen anzupassen
+[*][b]Bodenwaffenmenü:[/b] Klicke mit der rechten Maustaste auf eine Waffe am Boden, um einen Kolonisten zum nächsten funktionsfähigen Fabrikationstisch zu schicken
+[/list]
+
+[h2]Forschung & Herstellung[/h2]
+Ein einziges Ultratech-Forschungsprojekt, 'Personawaffen anpassen', schaltet alles Folgende frei: Es erfordert Hightech-Fabrikation und (standardmäßig) einen Techplan des Imperiums.
+[list]
+[*]Personawaffen sind Ultratech; die Anpassung erfordert einen Fabrikationstisch (oder ein von VEF erkanntes Äquivalent)
+[*]Herstellbare Aufträge für Basis-Monoschwert, -Plasmaschwert und -Zeushammer, jeweils einzeln aktivierbar: Stelle die Basiswaffe her und baue anschließend einen Personakern ein, für eine vollständig in der Kolonie gefertigte, maßgeschneiderte Personawaffe
+[*]Die Techplananforderung ist ein sofort wirksamer Schieberegler (0 bis 3); wird er auf 0 gesetzt, entfällt die Anforderung vollständig, kein Neustart nötig
+[/list]
+
+[h2]Optionale Merkmalsentdeckung[/h2]
+[list]
+[*]Beschränkt die verfügbaren Merkmale auf jene, die auf Personawaffen der Kolonie, in einer Karawane oder im Besitz von Feinden gesehen wurden. Es werden keine dauerhaften Daten im Spielstand gespeichert
+[*]Von Feinden gehaltene Quellen erscheinen in der Liste, können aber erst hinzugefügt werden, wenn die Waffe erbeutet wurde
+[/list]
+
+[hr][/hr]
+[h1]Mod-Kompatibilität[/h1]
+[list]
+[*]Erfordert das Royalty-DLC
+[*]Kann sicher zu bestehenden Spielständen hinzugefügt werden
+[*]Kann sicher aus Spielständen entfernt werden (nur unbedenkliche rote Fehlermeldungen)
+[*]Funktioniert reibungslos neben Unique Weapons Unbound (dem Schwestermod dieses Mods für Odysseys einzigartige Waffen): getrennte Bezeichner und einander ergänzende Merkmalsfilter, sodass beide gemeinsam laufen können
+[*]Automatisch kompatibel mit den meisten Mods, die neue Personawaffen oder Merkmale hinzufügen, z. B. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2863308112]More Persona Traits[/url]. Keine hartcodierten Def-Verweise
+[*]Modifizierte Werkbänke, die Fabrikationstisch-Aufträge erben (VEFs RecipeInheritanceExtension, z. B. VFEs kompakter Fabrikationstisch), werden automatisch erkannt
+[*]Funktioniert mit CE, PUAH, Ideology, integriert sich mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2826922787]Vanilla Persona Weapons Expanded[/url]
+[/list]
+
+[hr][/hr]
+[h1]FAQ[/h1]
+[b]F: Benötige ich das Royalty-DLC?[/b]
+A: Ja. Dieser Mod baut auf Royaltys Personawaffensystem auf.
+
+[b]F: Brauche ich auch Odyssey?[/b]
+A: Nein. Dieser Mod ist rein auf Royalty ausgelegt. Wenn du auch Odysseys einzigartige Waffen anpassen möchtest, wirf einen Blick auf den Schwestermod Unique Weapons Unbound: Die beiden funktionieren ohne Konflikte nebeneinander.
+
+[b]F: Warum kann ich [Waffenname] nicht anpassen?[/b]
+A: Unterstützt werden nur Waffen mit einer über Vanillas Personawaffensystem auflösbaren Basis-/Persona-Zuordnung. Die drei Personawaffen aus Vanilla (Monoschwert, Plasmaschwert, Zeushammer) funktionieren sofort; Personawaffen aus anderen Mods funktionieren automatisch, sofern sie CompBladelinkWeapon verwenden.
+
+[b]F: Kann ich Waffen aus anderen Mods anpassen?[/b]
+A: Wenn der Mod Personawaffen über Vanillas CompBladelinkWeapon-System hinzufügt, werden sie automatisch unterstützt, einschließlich ihrer eigenen Merkmale und Namensgeneratoren.
+
+[b]F: Ist das unausgewogen?[/b]
+A: Das liegt bei dir. Die Standardeinstellungen setzen Forschung, einen Techplan und spürbare Bauteilkosten voraus. Wenn es dir schwerer sein soll, erhöhe die Bauteilkosten. Wenn es dir leichter sein soll, senke sie ab oder überspringe die Forschung ganz. Deine Kolonie, deine Regeln.
+
+[b]F: Kann ich einen Anpassungsauftrag sicher unterbrechen?[/b]
+A: Ja. Jede Merkmals- oder optische Änderung ist ein eigener Herstellungsauftrag. Eine Unterbrechung verliert keine Ressourcen; unfertige Arbeit wird einfach abgebrochen.
+
+[b]F: Was passiert mit der Bindung einer gebundenen Waffe?[/b]
+A: Das Hinzufügen des Merkmals 'frei schwingend' oder das Zurückverwandeln einer gebundenen Personawaffe in ihre Basisform löst die Bindung. In beiden Fällen wird zuerst eine Bestätigungswarnung angezeigt.
+
+
+[h2]Links[/h2]
+[url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url]: Quellcode, Fehlerberichte und Funktionswünsche
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url]: der Schwestermod für Odysseys einzigartige Waffen
