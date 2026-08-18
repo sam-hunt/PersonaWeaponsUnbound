@@ -20,3 +20,4 @@
   line. Structure/process landed 2026-08-18; only `English.txt` exists so
   far.
 - Backfill glossary/Russian.md's mod-coined terms on the next Russian pass (the old skill never had a ru glossary section despite shipped ru Keyed; noted during the 2026-08-18 l10n consolidation)
+- Run the initial Steam Workshop description translations for the 8 shipped languages (the checker now warns on the missing Description files; process in l10n/workshop.md)
