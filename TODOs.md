@@ -19,3 +19,4 @@
   and sync each language's `PWU_SettingsCategory` Keyed value to its title
   line. Structure/process landed 2026-08-18; only `English.txt` exists so
   far.
+- Backfill glossary/Russian.md's mod-coined terms on the next Russian pass (the old skill never had a ru glossary section despite shipped ru Keyed; noted during the 2026-08-18 l10n consolidation)
