@@ -64,8 +64,6 @@ translation's own term for bladelink weapon (see the vocabulary table);
 ограничений) for family consistency. The Workshop description reuses the
 table's terms verbatim.
 
-Vanilla-corpus note: Core ru's `AdvancedFabrication.label` is
-«сверхвысокоточное производство» (verified against the Core ru tar during
-this pass; an initial «Высокоточное производство» draft was corrected).
-Slated to move upstream to `l10n/languages/Russian.md` with the other
-languages' AdvancedFabrication rows (see TODOs.md).
+The AdvancedFabrication research name (the near-miss this pass corrected in
+the Workshop description) is grounded upstream: see the vocabulary table in
+`l10n/languages/Russian.md`.
