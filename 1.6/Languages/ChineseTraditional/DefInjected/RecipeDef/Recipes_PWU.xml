@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: make persona core -->
+  <PWU_Make_AIPersonaCore.label>製作人格核心</PWU_Make_AIPersonaCore.label>
+  <!-- EN: Assemble a persona core: a hyper-advanced computer core housing a peak-human-equivalent machine persona. In isolation it is dormant. Installed in a proper support structure, such as a starship or the hilt of a bladelink weapon, it becomes a mind of great power. -->
+  <PWU_Make_AIPersonaCore.description>組裝一個人格核心：一個搭載了高度類人機械人格的先進電腦核心。單獨存放時它處於休眠狀態。一旦裝設在合適的支撐結構上，例如星艦或羈絆武器的劍柄，它就會成為一個力量強大的心智。</PWU_Make_AIPersonaCore.description>
+  <!-- EN: Making persona core. -->
+  <PWU_Make_AIPersonaCore.jobString>製作人格核心</PWU_Make_AIPersonaCore.jobString>
+
+  <!-- EN: make monosword -->
+  <PWU_Make_MonoSword.label>製作單分子劍</PWU_Make_MonoSword.label>
+  <!-- EN: Craft a monosword: a crystal-metallic longsword infused with mechanites that maintain a mono-molecular cutting edge. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_MonoSword.description>製作一把單分子劍：一把單分子晶鐵長劍，它的單分子刃部依靠自身附帶的奈米機械進行維護。之後可在精密製作桌上將它轉化為羈絆武器，以喚醒它的羈絆特性。</PWU_Make_MonoSword.description>
+  <!-- EN: Making monosword. -->
+  <PWU_Make_MonoSword.jobString>製作單分子劍</PWU_Make_MonoSword.jobString>
+
+  <!-- EN: make plasmasword -->
+  <PWU_Make_PlasmaSword.label>製作等離子劍</PWU_Make_PlasmaSword.label>
+  <!-- EN: Craft a plasmasword: a metal-cored sword wrapped in a plasma sheath that slices and burns. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_PlasmaSword.description>製作一把等離子劍：一把金屬劍身的長劍，外層包裹著電漿鞘，既能切割也能灼燒。之後可在精密製作桌上將它轉化為羈絆武器，以喚醒它的羈絆特性。</PWU_Make_PlasmaSword.description>
+  <!-- EN: Making plasmasword. -->
+  <PWU_Make_PlasmaSword.jobString>製作等離子劍</PWU_Make_PlasmaSword.jobString>
+
+  <!-- EN: make zeushammer -->
+  <PWU_Make_Zeushammer.label>製作宙斯錘</PWU_Make_Zeushammer.label>
+  <!-- EN: Craft a zeushammer: a warhammer with an embedded EMP capacitor that blasts targets with an EMP burst on impact. Persona-convert it at a fabrication bench afterward to awaken its bladelink traits. -->
+  <PWU_Make_Zeushammer.description>製作一把宙斯錘：一把內置 EMP 電容器的戰錘，擊中目標時會對其釋放 EMP 衝擊。之後可在精密製作桌上將它轉化為羈絆武器，以喚醒它的羈絆特性。</PWU_Make_Zeushammer.description>
+  <!-- EN: Making zeushammer. -->
+  <PWU_Make_Zeushammer.jobString>製作宙斯錘</PWU_Make_Zeushammer.jobString>
+
+</LanguageData>
