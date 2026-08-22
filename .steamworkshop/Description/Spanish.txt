@@ -83,7 +83,11 @@ R: Sí. Cada cambio de característica o cosmético es un trabajo de fabricació
 [b]P: ¿Qué pasa con el vínculo de un arma ya vinculada?[/b]
 R: Añadir la característica "liberal" o revertir un arma vinculada a su forma base rompe el vínculo: en ambos casos se muestra antes un aviso de confirmación.
 
+[b]P: ¡¿Esto se ha hecho con LLM?![/b]
+R: Parte del código repetitivo y la mayoría de las traducciones. Soy ingeniero de software de profesión y llevo 25 años escribiendo código. Todo el código se revisa y se prueba a mano; de todos los informes de errores y conflictos entre mods me ocupo personalmente, en la medida en que el tiempo y los detalles aportados lo permiten. Todas las ilustraciones están encargadas a artistas humanos, hechas a mano en Krita, o ambas cosas.
+
 
 [h2]Enlaces[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url]: código fuente, informes de errores y peticiones de funciones
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url]: el mod hermano para las armas únicas de Odyssey
+Ilustración principal por [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcyWithCheeseCake[/url]

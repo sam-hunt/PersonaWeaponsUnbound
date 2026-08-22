@@ -83,7 +83,11 @@ R : Oui. Chaque changement de trait ou changement cosmétique est une tâche de 
 [b]Q : Qu'arrive-t-il au lien d'une arme liée ?[/b]
 R : Ajouter le trait de porteur libre, ou ramener une arme intelligente liée à sa forme de base, rompt le lien. Les deux cas affichent d'abord un avertissement de confirmation.
 
+[b]Q : Est-ce que tout ça a été fait avec des LLM !?[/b]
+R : Une partie du code répétitif, et la plupart des traductions. Je suis ingénieur logiciel de métier et j'écris du code depuis 25 ans. Tout le code est relu et testé à la main ; tous les rapports de bogues et conflits entre mods font l'objet d'un suivi personnel, dans la mesure où le temps et les détails fournis le permettent. Toutes les illustrations sont soit commandées à des artistes humains, soit réalisées à la main dans Krita, soit les deux.
+
 
 [h2]Liens[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url] : code source, rapports de bogues et demandes de fonctionnalités
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url] : le mod frère pour les armes uniques d'Odyssey
+Illustration principale par [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcyWithCheeseCake[/url]

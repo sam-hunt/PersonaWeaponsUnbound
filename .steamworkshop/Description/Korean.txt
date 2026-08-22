@@ -83,7 +83,11 @@
 [b]질문: 결속된 무기의 결속은 어떻게 되나요?[/b]
 답변: 자유 의지 특성을 추가하거나, 결속된 결속 무기를 기본 형태로 되돌리면 결속이 끊어집니다. 두 경우 모두 먼저 확인 경고가 표시됩니다.
 
+[b]질문: 이거 LLM으로 만든 건가요!?[/b]
+답변: 반복적인 코드 일부와 대부분의 번역이 그렇습니다. 저는 직업이 소프트웨어 엔지니어이고, 25년째 코드를 작성해 왔습니다. 모든 코드는 직접 검토하고 테스트합니다. 버그 신고와 모드 충돌은 시간과 제공된 정보가 허락하는 한 모두 직접 확인합니다. 아트는 모두 사람 작가에게 의뢰한 것이거나, Krita로 직접 그린 것이거나, 둘 다입니다.
+
 
 [h2]링크[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url]: 소스 코드, 버그 신고, 기능 요청
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url]: Odyssey 고유 무기를 위한 자매 모드
+메인 일러스트: [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcyWithCheeseCake[/url]

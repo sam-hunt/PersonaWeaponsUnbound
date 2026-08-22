@@ -83,7 +83,11 @@
 [b]问：已绑定武器的绑定关系会怎样？[/b]
 答：添加“自由”特性，或是将已绑定的人格武器还原为基础形态，都会解除绑定；这两种情况都会先弹出确认警告。
 
+[b]问：这是用大语言模型（LLM）做出来的吗！？[/b]
+答：部分繁琐重复的代码，以及大部分本地化文本。我的本职工作是软件工程师，写代码已有25年。所有代码都经过人工审阅和测试；所有错误报告与模组冲突，只要时间和信息足够，我都会亲自跟进。所有美术素材要么向真人画师约稿，要么在Krita中手工绘制，或者两者兼有。
+
 
 [h2]链接[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url]：源代码、错误报告与功能请求
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url]：面向奥德赛特化武器的姊妹模组
+主视觉插画：[url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcyWithCheeseCake[/url]

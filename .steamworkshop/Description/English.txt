@@ -83,7 +83,11 @@ A: Yes. Each trait or cosmetic change is a separate crafting job. Interrupting w
 [b]Q: What happens to a bonded weapon's bond?[/b]
 A: Adding the free-wielding trait or reverting a bonded persona weapon to its base form severs the bond - both cases show a confirmation warning first.
 
+[b]Q: Was this made using LLMs!?[/b]
+A: Some of the grunt code, and most localizations. I'm a software engineer by trade, and have been writing code for 25 years. All code is manually reviewed and tested; all bug reports and mod-conflicts followed up personally as time and detail allows. All art is either commissioned from humans, hand-authored in Krita, or both.
+
 
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url] - Source code, bug reports, and feature requests
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url] - the sibling mod for Odyssey's unique weapons
+Hero art by [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcyWithCheeseCake[/url]

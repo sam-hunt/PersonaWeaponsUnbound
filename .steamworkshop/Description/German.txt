@@ -83,7 +83,11 @@ A: Ja. Jede Merkmals- oder optische Änderung ist ein eigener Herstellungsauftra
 [b]F: Was passiert mit der Bindung einer gebundenen Waffe?[/b]
 A: Das Hinzufügen des Merkmals 'frei schwingend' oder das Zurückverwandeln einer gebundenen Personawaffe in ihre Basisform löst die Bindung. In beiden Fällen wird zuerst eine Bestätigungswarnung angezeigt.
 
+[b]F: Wurde das mit LLMs gemacht!?[/b]
+A: Ein Teil des Routinecodes und die meisten Übersetzungen. Ich bin von Beruf Softwareentwickler und schreibe seit 25 Jahren Code. Der gesamte Code wird von Hand überprüft und getestet; alle Fehlerberichte und Mod-Konflikte verfolge ich persönlich nach, soweit Zeit und die gelieferten Details es zulassen. Alle Grafiken sind entweder bei menschlichen Künstlern in Auftrag gegeben, von Hand in Krita erstellt oder beides.
+
 
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url]: Quellcode, Fehlerberichte und Funktionswünsche
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url]: der Schwestermod für Odysseys einzigartige Waffen
+Titelbild von [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcyWithCheeseCake[/url]

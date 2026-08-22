@@ -83,7 +83,11 @@ R: Sim. Cada alteração de traço ou cosmética é uma tarefa de fabricação s
 [b]P: O que acontece com o vínculo de uma arma vinculada?[/b]
 R: Adicionar o traço Vínculo livre ou reverter uma arma persona vinculada à sua forma base rompe o vínculo. Nos dois casos, um aviso de confirmação é mostrado antes.
 
+[b]P: Isto foi feito usando LLMs!?[/b]
+R: Parte do código repetitivo e a maior parte das traduções. Sou engenheiro de software de profissão e escrevo código há 25 anos. Todo o código é revisado e testado manualmente; todos os relatos de bugs e conflitos entre mods recebem acompanhamento pessoal, na medida em que o tempo e os detalhes informados permitem. Todas as artes são encomendadas a artistas humanos, feitas à mão no Krita, ou as duas coisas.
+
 
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url]: código-fonte, relatos de bugs e pedidos de recursos
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url]: o mod irmão para as armas únicas do Odyssey
+Arte principal por [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcyWithCheeseCake[/url]

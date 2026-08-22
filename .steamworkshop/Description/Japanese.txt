@@ -83,7 +83,11 @@ A: はい。特性・特徴や外観の変更は,それぞれ独立した製作�
 [b]Q: 絆を結んだ武器の絆はどうなりますか?[/b]
 A: 「自由支配者」の特性・特徴を追加する,または絆を結んだペルソナ武器を基本形態に戻すと,絆が断たれます。どちらの場合も,先に確認の警告が表示されます。
 
+[b]Q: これはLLMで作ったのですか!?[/b]
+A: 一部の定型的なコードと,大半のローカライズです。私は職業としてソフトウェアエンジニアをしており,25年間コードを書いてきました。すべてのコードは人の手でレビューとテストを行っています。バグ報告やMOD間の競合についても,時間と情報が許す限り,すべて私自身が対応しています。アートはすべて,人間の絵師に依頼したものか,Kritaで手描きしたものか,あるいはその両方です。
+
 
 [h2]リンク[/h2]
 [url=https://github.com/sam-hunt/PersonaWeaponsUnbound]GitHub[/url] - ソースコード,バグ報告,機能リクエスト
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url] - Odysseyのユニークな武器向けの姉妹MOD
+メインイラスト: [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcyWithCheeseCake[/url]
