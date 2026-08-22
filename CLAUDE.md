@@ -47,7 +47,9 @@ xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run natively
 
 ### Key Patterns
 
-**Harmony Patching:** All patches use `[HarmonyPatch]` attributes for automatic discovery. Patches are organized by target class in subdirectories under `Source/1.6/`.
+**Harmony Patching:** Attribute-discovered patches (`[HarmonyPatch]`) plus one manually registered patch (the VEF `CompGraphicCustomization.CompFloatMenuOptions` postfix in `ModInitializer`). Patches are organized by target class in subdirectories under `Source/1.6/`.
+
+**Patch-timing hazard (other mods' methods):** applying a Harmony detour JIT-compiles the target method, which runs its declaring type's static ctor — done before defs load, a target cctor that resolves defs breaks permanently (the BetterTradersGuild v1.1.0 CWTL incident). This repo patches from `ModInitializer`'s `[StaticConstructorOnStartup]` ctor (post-defs), which guards the VEF foreign-target patch; that placement is load-bearing — never move `PatchAll()` or the manual `Patch()` onto the `Mod` constructor path. Worked example of deferring foreign-target patches when ctor-time patching is required: BetterTradersGuild's `Core/DeferredModPatches.cs`.
 
 **Namespace Convention:** Use `*Patches` suffix for patch namespaces to avoid RimWorld type conflicts.
 
