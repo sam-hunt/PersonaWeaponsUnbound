@@ -39,6 +39,8 @@ A gitignored Stop hook (`.claude/hooks/sync-mod.sh`) rebuilds + redeploys after 
 
 xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run natively with `dotnet test Tests/1.6/PersonaWeaponsUnbound.Tests.csproj` — vstest hosts the net472 suite through Mono on Linux/WSL (requires `mono` on PATH). Debug builds don't redeploy (`DeployToModFolder` is Release-gated). CI builds the suite but can't run it (tests need a live RimWorld install; the Krafs ref assemblies are compile-only).
 
+**Startup smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots PWU plus its integration mods (VEF, VPWE) and family siblings on a pinned list, then classifies Player.log errors by origin and fails on anything attributed to PWU or an integration seam. Run before every release (wired into the release skill); thin shim over the shared engine in `l10n/smoke/` (born from the BetterTradersGuild v1.1.0 CWTL incident).
+
 ## Architecture
 
 ### Entry Point
