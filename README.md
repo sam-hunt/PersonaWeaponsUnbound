@@ -7,6 +7,11 @@
 [![Version](https://img.shields.io/badge/Version-1.1.1-brightgreen.svg)](https://github.com/sam-hunt/PersonaWeaponsUnbound/releases)
 [![Development Status](https://img.shields.io/badge/Status-Released-brightgreen.svg)](https://github.com/sam-hunt/PersonaWeaponsUnbound/releases)
 
+[![Subscribers](https://img.shields.io/steam/subscriptions/3766728761?logo=steam&label=subscribers)](https://steamcommunity.com/sharedfiles/filedetails/?id=3766728761)
+[![Downloads](https://img.shields.io/steam/downloads/3766728761?logo=steam&label=downloads)](https://steamcommunity.com/sharedfiles/filedetails/?id=3766728761)
+[![Favorites](https://img.shields.io/steam/favorites/3766728761?logo=steam&label=favorites)](https://steamcommunity.com/sharedfiles/filedetails/?id=3766728761)
+[![Views](https://img.shields.io/steam/views/3766728761?logo=steam&label=views)](https://steamcommunity.com/sharedfiles/filedetails/?id=3766728761)
+
 ![Preview](About/Preview.png)
 
 ## About
