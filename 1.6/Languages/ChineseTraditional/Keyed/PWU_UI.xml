@@ -45,7 +45,7 @@
 
   <!-- Dialog: Controls -->
   <!-- EN: This weapon is an ideology relic. Its name can only be changed when forming or reforming an ideoligion. -->
-  <PWU_RelicNameTooltip>這把武器是理念聖物。只有在建立或改革理念時才能更改它的名稱。</PWU_RelicNameTooltip>
+  <PWU_RelicNameTooltip>這把武器是理念聖物。只有在建立或重組理念時才能更改它的名稱。</PWU_RelicNameTooltip>
   <!-- EN: Select at least one trait first -->
   <PWU_SelectTraitFirst>請先選擇至少一項特性</PWU_SelectTraitFirst>
   <!-- EN: Auto-regenerate name when traits change -->
@@ -55,7 +55,7 @@
 
   <!-- Dialog: Cost display -->
   <!-- EN: Net refund:  -->
-  <PWU_NetRefund>淨退還：</PWU_NetRefund>
+  <PWU_NetRefund>淨返還：</PWU_NetRefund>
   <!-- EN: None -->
   <PWU_RefundNone>無</PWU_RefundNone>
   <!-- EN: Net cost:  -->
@@ -89,7 +89,7 @@
   <!-- EN: Stopping power -->
   <PWU_StoppingPower>攔截力</PWU_StoppingPower>
   <!-- EN: Ignores accuracy penalties -->
-  <PWU_IgnoresAccuracyPenalties>無視命中率懲罰</PWU_IgnoresAccuracyPenalties>
+  <PWU_IgnoresAccuracyPenalties>忽略準度懲罰</PWU_IgnoresAccuracyPenalties>
 
   <!-- Trait validation -->
   <!-- EN: Already applied -->
@@ -219,7 +219,7 @@
   <!-- EN: Persona Weapons Unbound -->
   <PWU_SettingsCategory>羈絆武器解放</PWU_SettingsCategory>
   <!-- EN: Progression -->
-  <PWU_SettingsProgression>進程</PWU_SettingsProgression>
+  <PWU_SettingsProgression>進度</PWU_SettingsProgression>
   <!-- EN: Trait costs -->
   <PWU_SettingsTraitCosts>特性花費</PWU_SettingsTraitCosts>
   <!-- EN: Memory costs -->
@@ -249,11 +249,11 @@
   <!-- EN: First trait costs an AI persona core -->
   <PWU_FirstTraitCostsPersonaCore>第一項特性需消耗一個人格核心</PWU_FirstTraitCostsPersonaCore>
   <!-- EN: When enabled (default), adding the first trait to a base weapon installs an AI persona core, which is refunded when the last trait is removed and the weapon reverts to base. When disabled, the first trait added and the last trait removed are priced like any other change: advanced components (scaled by weapon quality per the table below), which are never refunded. -->
-  <PWU_FirstTraitCostsPersonaCoreDesc>啟用時(預設)，為基礎武器加入第一項特性會裝設一個人格核心；當最後一項特性被移除、武器還原為基礎型態時，該核心會被退還。停用時，加入的第一項特性與移除的最後一項特性都與其他變更同樣計價：消耗高級零件(依下表按武器品質調整)，且永不退還。</PWU_FirstTraitCostsPersonaCoreDesc>
+  <PWU_FirstTraitCostsPersonaCoreDesc>啟用時(預設)，為基礎武器加入第一項特性會裝設一個人格核心；當最後一項特性被移除、武器還原為基礎型態時，該核心會被返還。停用時，加入的第一項特性與移除的最後一項特性都與其他變更同樣計價：消耗高級零件(依下表按武器品質調整)，且永不返還。</PWU_FirstTraitCostsPersonaCoreDesc>
   <!-- EN: Base component cost per trait change: {0} -->
   <PWU_TraitChangeBaseComponentCost>每次特性變更的基礎零件花費：{0}</PWU_TraitChangeBaseComponentCost>
   <!-- EN: Advanced components charged for every trait change that doesn't cross the base/persona boundary (both additions and removals cost, neither refunds). Charged regardless of the weapon's quality. Installing a persona core on the first trait, or refunding it on the last, is unaffected by this setting. -->
-  <PWU_TraitChangeBaseComponentCostDesc>每次未跨越基礎型態與羈絆武器型態界線的特性變更所收取的高級零件(加入與移除都需花費，兩者皆不退還)。無論武器品質為何都會收取。第一項特性裝設人格核心、或最後一項特性退還人格核心，均不受此設定影響。</PWU_TraitChangeBaseComponentCostDesc>
+  <PWU_TraitChangeBaseComponentCostDesc>每次未跨越基礎型態與羈絆武器型態界線的特性變更所收取的高級零件(加入與移除都需花費，兩者皆不返還)。無論武器品質為何都會收取。第一項特性裝設人格核心、或最後一項特性返還人格核心，均不受此設定影響。</PWU_TraitChangeBaseComponentCostDesc>
   <!-- EN: Quality surcharge threshold: {0} -->
   <PWU_TraitChangeQualitySurchargeThreshold>品質附加費門檻：{0}</PWU_TraitChangeQualitySurchargeThreshold>
   <!-- EN: The weapon quality tier at which the per-level component surcharge below starts applying. Trait changes on weapons at or below this quality cost only the base component amount. -->
@@ -291,7 +291,7 @@
   <PWU_RequireCustomizationResearch>需要自訂研究</PWU_RequireCustomizationResearch>
   <!-- {0} = bladelink customization (research label) -->
   <!-- EN: Require the completion of the {0} research project before customizing weapons. When disabled, the project is hidden from the research tree. -->
-  <PWU_RequireCustomizationResearchDesc>在自訂武器前需先完成「{0}」研究項目。停用時，該項目會從研究樹中隱藏。</PWU_RequireCustomizationResearchDesc>
+  <PWU_RequireCustomizationResearchDesc>在自訂武器前需先完成「{0}」研究項目。停用時，該項目會從研究視窗中隱藏。</PWU_RequireCustomizationResearchDesc>
   <!-- EN: Techprints required: {0} -->
   <PWU_TechprintCount>所需科技藍圖：{0}</PWU_TechprintCount>
   <!-- {0} = bladelink customization (research label) -->
@@ -344,7 +344,7 @@
   <!-- EN: Restrict available traits to discovered weapons -->
   <PWU_RestrictTraitsToDiscovered>將可用特性限制在已發現的武器</PWU_RestrictTraitsToDiscovered>
   <!-- EN: A lightweight progression system: when enabled, the customization dialog only offers traits found on persona weapons the colony has seen: unfogged and unsealed on a loaded map, or carried in a player-faction caravan. Weapons carried by hostiles count too, but their traits stay disabled until the weapon is captured. No persistent state is added to saves; toggling this off restores the full trait list immediately. -->
-  <PWU_RestrictTraitsToDiscoveredDesc>一套輕量的進程系統：啟用時，自訂對話框只會提供殖民地見過的羈絆武器上所擁有的特性，也就是在已載入的地圖上脫離迷霧且未被封存的武器，或由玩家派系旅隊攜帶的武器。敵人攜帶的武器同樣計入，但它們的特性在武器被奪取前仍維持停用。不會為存檔增加任何持續狀態；關閉此項會立即恢復完整的特性列表。</PWU_RestrictTraitsToDiscoveredDesc>
+  <PWU_RestrictTraitsToDiscoveredDesc>一套輕量的進度系統：啟用時，自訂對話框只會提供殖民地見過的羈絆武器上所擁有的特性，也就是在已載入的地圖上脫離迷霧且未被封存的武器，或由玩家派系旅隊攜帶的武器。敵人攜帶的武器同樣計入，但它們的特性在武器被奪取前仍維持停用。不會為存檔增加任何持續狀態；關閉此項會立即恢復完整的特性列表。</PWU_RestrictTraitsToDiscoveredDesc>
   <!-- EN: Enable ground weapon right-click menu -->
   <PWU_EnableGroundCustomization>啟用地面武器右鍵選單</PWU_EnableGroundCustomization>
   <!-- EN: Show "Customize" options when right-clicking weapons on the ground. Disable this to reduce float menu clutter, especially with storage mods that stack items in the same cell. Weapons can still be customized by selecting them and using the gizmo button. -->
