@@ -106,3 +106,28 @@ in corner brackets (「皇權」/「漫遊」/「理念」), so the description 
 rather than the English names the FR/DE/ES/JA/KO/RU descriptions keep. Mod
 names that are not vanilla (Unique Weapons Unbound, VEF, More Persona Traits)
 stay English, spaced from adjacent CJK.
+
+## Pending retranslation (found 2026-08-26, not yet applied)
+
+UniqueWeaponsUnbound's 2026-08-26 zh-Hant pass re-ground the crafting / cost /
+settings-UI register and found five terms PWU ships that vanilla has an exact
+slot match for. The grounding now lives upstream in
+`l10n/languages/ChineseTraditional.md` ("crafting / cost / settings-UI domain"
+table); this section is only the PWU work list. Apply on the next zh-Hant
+update pass: retranslate each value (the surrounding sentence may need
+re-fitting), not just the term, and re-verify against the tars at that time.
+Shipped output is unchanged until then, so nothing here is blocking.
+
+| Keyed key (`Keyed/PWU_UI.xml`) | Ships | Grounded form |
+|---|---|---|
+| `PWU_RelicNameTooltip` | 改革理念 | 重組理念 (Ideology `ReformIdeoligion`) |
+| `PWU_RequireCustomizationResearchDesc` | 研究樹 | 研究視窗 (Core `ClickToOpenResearchTab`; vanilla has no tree metaphor) |
+| `PWU_IgnoresAccuracyPenalties` | 無視命中率懲罰 | 忽略準度懲罰 (Odyssey `AimAssistance.description`, verbatim) |
+| `PWU_NetRefund` | 淨退還： | 淨返還： |
+| `PWU_FirstTraitCostsPersonaCoreDesc`, `PWU_TraitChangeBaseComponentCostDesc` | 退還 | 返還 (Core `Flagstone*.description`; 退還 has 0 corpus hits) |
+| `PWU_SettingsProgression`, `PWU_RestrictTraitsToDiscoveredDesc` | 進程 | 進度 (41 corpus hits vs 0) |
+
+Confirmed and kept: 工作桌, the bare-`reportString` and 「」 rules, ASCII
+parenthetical suffixes. 花費 for "cost" is a legitimate slot choice (a price
+paid) rather than an error, but UWU chose 成本, so a player running both mods
+sees two words for one concept; decide at the same pass whether to align.
