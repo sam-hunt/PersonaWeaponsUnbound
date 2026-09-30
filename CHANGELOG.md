@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Entries are short one-liners ready to paste as Steam Workshop change notes: what changed for the player, no rationale, no def names, no sub-bullets. -->
 
+## [Unreleased]
+
+### Fixed
+
+- Research tree mods no longer list the persona core recipe under machine persuasion while the recipe is disabled.
+
+### Changed
+
+- Toggling the persona core recipe now takes effect after a game restart; its component cost and skill sliders still apply live.
+
 ## [1.1.1] - 2026-08-07
 
 ### Fixed

@@ -51,7 +51,7 @@ This mod lets you take control. Add and remove persona traits, rename the person
 
 Persona weapons' base variants aren't craftable in vanilla. With Bladelink Customization researched, the fabrication bench offers craftable base monoswords, plasmaswords, and zeushammers (each individually toggleable in settings) — craft the base weapon, then install a persona core through customization for a fully in-colony path to a bespoke persona weapon.
 
-An optional persona core recipe (**off by default**, since vanilla only ever lets you find or trade for one) closes the last gap in that loop: 20 advanced components at the fabrication bench, Crafting 18, gated behind vanilla's machine persuasion research. Both the component count (5–30) and the skill requirement (0–20) are sliders.
+An optional persona core recipe (**off by default**, since vanilla only ever lets you find or trade for one) closes the last gap in that loop: 20 advanced components at the fabrication bench, Crafting 18, gated behind vanilla's machine persuasion research. Both the component count (5–30) and the skill requirement (0–20) are sliders. The on/off toggle takes effect after a game restart (it's applied as an XML patch at load, so research-tree mods see it too); the sliders apply live.
 
 ### Mod Settings
 

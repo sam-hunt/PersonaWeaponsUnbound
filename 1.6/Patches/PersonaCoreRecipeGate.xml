@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Orphans the optional persona-core recipe while its setting
+       (PWU_Settings.enablePersonaCoreRecipe, off by default) is off: with no
+       research prerequisite and no recipe users, neither vanilla nor
+       research-tree mods list it anywhere, and no bench offers it. The def
+       itself stays loaded so translations, the DefOf binding, saved bills and
+       the live cost/skill sliders all keep working. The gate class explains
+       the reasoning; the toggle takes effect on restart. -->
+
+  <Operation Class="PersonaWeaponsUnbound.PatchOperation_UnlessPersonaCoreRecipeEnabled">
+    <operation Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationRemove">
+          <xpath>Defs/RecipeDef[defName="PWU_Make_AIPersonaCore"]/researchPrerequisite</xpath>
+        </li>
+        <li Class="PatchOperationRemove">
+          <xpath>Defs/RecipeDef[defName="PWU_Make_AIPersonaCore"]/recipeUsers</xpath>
+        </li>
+      </operations>
+    </operation>
+  </Operation>
+
+</Patch>

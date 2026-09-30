@@ -3,10 +3,14 @@ using Verse;
 
 namespace PersonaWeaponsUnbound.Patches
 {
-    // Gates the three PWU weapon-crafting recipes (fork spec §10) and the
-    // optional persona-core recipe behind their
+    // Gates the three PWU weapon-crafting recipes (fork spec §10) behind their
     // individual settings toggles by postfixing the AvailableNow property
     // getter. No def surgery, so it works mid-save with no restart.
+    //
+    // The optional persona-core recipe is deliberately not gated here: its
+    // toggle is an XML patch gate (PatchOperation_UnlessPersonaCoreRecipeEnabled)
+    // applied at load, because research-tree mods list unlocks straight from
+    // the def fields and never consult this getter or the research one.
     //
     // AvailableNow's only callers are UI/event-scoped — the bills-tab
     // clipboard check, add-bill menus, quest generation — never the work scan
@@ -37,10 +41,6 @@ namespace PersonaWeaponsUnbound.Patches
                     break;
                 case "PWU_Make_Zeushammer":
                     if (!PWU_Mod.Settings.enableZeushammerRecipe)
-                        __result = false;
-                    break;
-                case "PWU_Make_AIPersonaCore":
-                    if (!PWU_Mod.Settings.enablePersonaCoreRecipe)
                         __result = false;
                     break;
             }

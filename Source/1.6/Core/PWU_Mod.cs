@@ -1,5 +1,4 @@
 using PersonaWeaponsUnbound.HaulPlanning;
-using PersonaWeaponsUnbound.Patches;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -29,9 +28,9 @@ namespace PersonaWeaponsUnbound
             // ingredient count and skill requirement.
             PWU_ResearchDefOf.ApplyTechprintCount();
             PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings();
-            // Machine persuasion's "Unlocks: persona core" row follows the same
-            // toggle, and vanilla caches that list without ever invalidating it.
-            ResearchProjectDef_UnlockedDefs_Patch.Notify_SettingsChanged();
+            // The persona-core recipe toggle itself is not live: it's an XML
+            // patch gate (PatchOperation_UnlessPersonaCoreRecipeEnabled) that
+            // only runs at load, so it takes effect on restart.
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
@@ -219,6 +218,16 @@ namespace PersonaWeaponsUnbound
                     PWU_RecipeDefOf.PWU_Make_AIPersonaCore.label,
                     PWU_ThingDefOf.FabricationBench.label,
                     PWU_ResearchDefOf.ShipComputerCore.label));
+
+            // The toggle is applied by an XML patch at load, so unlike every
+            // other setting here it only takes effect on restart. Say so the
+            // moment the value drifts from what the patch saw.
+            bool? recipeEnabledAtLoad = PatchOperation_UnlessPersonaCoreRecipeEnabled.RecipeEnabledAtLoad;
+            if (recipeEnabledAtLoad.HasValue && recipeEnabledAtLoad.Value != Settings.enablePersonaCoreRecipe)
+            {
+                listing.Gap(4f);
+                listing.Label("PWU_RestartRequiredNote".Translate());
+            }
 
             // The two sliders below only configure the recipe above, so they
             // stay hidden while it's off (the default) rather than sitting

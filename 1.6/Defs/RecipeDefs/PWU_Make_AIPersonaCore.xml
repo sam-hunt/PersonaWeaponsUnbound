@@ -6,7 +6,9 @@
        core, install it via customization. Player-suggested; OFF by default
        (PWU_Settings.enablePersonaCoreRecipe) because vanilla only ever lets you
        find or trade for a core, and that scarcity is load-bearing for anyone
-       who wants it. Gating lives in RecipeDef_AvailableNow_Patch.cs.
+       who wants it. Gating lives in Patches/PersonaCoreRecipeGate.xml, which
+       strips researchPrerequisite and recipeUsers below while the setting is
+       off (applied at load, so the toggle takes effect on restart).
 
        Unlike the three weapon recipes this one is gated on vanilla's
        ShipComputerCore ("machine persuasion") rather than PWU's own research —
