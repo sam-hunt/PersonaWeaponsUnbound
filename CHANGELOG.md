@@ -9,13 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
+## [1.2.0] - 2026-10-03
 
-- Research tree mods no longer list the persona core recipe under machine persuasion while the recipe is disabled.
+### Added
+
+- Traditional Chinese localization. Machine-assisted, grounded against the vanilla translation; corrections from native speakers are welcome.
+- Sharper customize gizmo icon.
 
 ### Changed
 
 - Toggling the persona core recipe now takes effect after a game restart; its component cost and skill sliders still apply live.
+
+### Fixed
+
+- Research tree mods no longer list the persona core recipe under machine persuasion while the recipe is disabled.
 
 ## [1.1.1] - 2026-08-07
 
@@ -59,6 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - VEF recipe-inheritance benches (e.g. VFE's compact fabrication bench) are recognized as customization benches automatically
 - Deep Vanilla Persona Weapons Expanded / Vanilla Expanded Framework integration: preserves composed weapon skins across persona conversion and dialog previews, adds a Texture tab to PWU's customization dialog for editing appearance parts directly (suppressing VEF's redundant float-menu entry), and links cross-mod persona weapons to their base by reused art when defName conventions don't match
 
+[1.2.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.2.0
 [1.1.1]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.1.1
 [1.1.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.1.0
 [1.0.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.0.0
