@@ -2,7 +2,6 @@
 
 ## Features
 
-- Add Traditional Chinese localization
-- Mod option for gating customization on colony crafting skill recipe +2 or 12?
+- Mod options for skill gating ported from UWU once UWU ships it
 - Negative thoughts on memory ops?
 - Multiplayer support?
