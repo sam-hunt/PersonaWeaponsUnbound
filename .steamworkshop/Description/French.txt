@@ -83,7 +83,7 @@ R : Oui. Chaque changement de trait ou changement cosmétique est une tâche de 
 [b]Q : Qu'arrive-t-il au lien d'une arme liée ?[/b]
 R : Ajouter le trait de porteur libre, ou ramener une arme intelligente liée à sa forme de base, rompt le lien. Les deux cas affichent d'abord un avertissement de confirmation.
 
-[b]Q : Est-ce que tout ça a été fait avec des LLM !?[/b]
+[b]Q : Est-ce que tout ça a été fait avec l'aide de LLM ?[/b]
 R : Une partie du code répétitif, et la plupart des traductions. Je suis ingénieur logiciel de métier et j'écris du code depuis 25 ans. Tout le code est relu et testé à la main ; tous les rapports de bogues et conflits entre mods font l'objet d'un suivi personnel, quand le temps et les détails le permettent. Toutes les illustrations sont soit commandées à des artistes humains, soit réalisées à la main dans Krita, soit les deux.
 
 
