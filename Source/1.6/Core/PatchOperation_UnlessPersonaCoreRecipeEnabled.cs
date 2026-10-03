@@ -48,7 +48,7 @@ namespace PersonaWeaponsUnbound
         // null) reads as the default, off, so the recipe stays hidden: the
         // opt-in direction is the safe one to fail towards.
         internal static bool RecipeEnabled(PWU_Settings settings)
-            => settings != null && settings.enablePersonaCoreRecipe;
+            => settings?.enablePersonaCoreRecipe == true;
 
         protected override bool ApplyWorker(XmlDocument xml)
         {
