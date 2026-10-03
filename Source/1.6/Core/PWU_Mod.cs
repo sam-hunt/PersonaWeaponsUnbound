@@ -211,23 +211,15 @@ namespace PersonaWeaponsUnbound
 
             listing.Gap();
 
+            // The toggle is applied by an XML patch at load, so unlike every
+            // other setting here it only takes effect on restart.
             listing.CheckboxLabeled(
-                "PWU_EnablePersonaCoreRecipe".Translate(),
+                "PWU_EnablePersonaCoreRecipe".Translate() + "PWU_RestartRequiredSuffix".Translate(),
                 ref Settings.enablePersonaCoreRecipe,
                 "PWU_EnablePersonaCoreRecipeDesc".Translate(
                     PWU_RecipeDefOf.PWU_Make_AIPersonaCore.label,
                     PWU_ThingDefOf.FabricationBench.label,
                     PWU_ResearchDefOf.ShipComputerCore.label));
-
-            // The toggle is applied by an XML patch at load, so unlike every
-            // other setting here it only takes effect on restart. Say so the
-            // moment the value drifts from what the patch saw.
-            bool? recipeEnabledAtLoad = PatchOperation_UnlessPersonaCoreRecipeEnabled.RecipeEnabledAtLoad;
-            if (recipeEnabledAtLoad.HasValue && recipeEnabledAtLoad.Value != Settings.enablePersonaCoreRecipe)
-            {
-                listing.Gap(4f);
-                listing.Label("PWU_RestartRequiredNote".Translate());
-            }
 
             // The two sliders below only configure the recipe above, so they
             // stay hidden while it's off (the default) rather than sitting

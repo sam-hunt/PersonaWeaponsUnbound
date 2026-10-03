@@ -26,18 +26,13 @@ namespace PersonaWeaponsUnbound
     // Mod settings are readable here because LoadedModManager creates Mod
     // classes (which is where PWU_Mod loads its settings) before it applies
     // XML patches. The gate is evaluated once at load, so flipping the toggle
-    // mid-session takes effect at the next restart; RecipeEnabledAtLoad lets
-    // the settings UI say so.
+    // mid-session takes effect at the next restart (the settings label says
+    // so).
     public class PatchOperation_UnlessPersonaCoreRecipeEnabled : PatchOperation
     {
         // Loaded from XML by DirectXmlToObject, like PatchOperationConditional's
         // match/nomatch.
         private PatchOperation operation;
-
-        // The toggle value the gate saw when it ran, or null if it never ran
-        // (patch failed to load). The settings window compares this against
-        // the current value to show its restart note.
-        public static bool? RecipeEnabledAtLoad { get; private set; }
 
         public PatchOperation_UnlessPersonaCoreRecipeEnabled()
         {
@@ -57,9 +52,7 @@ namespace PersonaWeaponsUnbound
 
         protected override bool ApplyWorker(XmlDocument xml)
         {
-            bool enabled = RecipeEnabled(PWU_Mod.Settings);
-            RecipeEnabledAtLoad = enabled;
-            if (enabled)
+            if (RecipeEnabled(PWU_Mod.Settings))
                 return true;
 
             if (operation == null)

@@ -242,6 +242,8 @@
   <PWU_VanillaSuffix>（原版）</PWU_VanillaSuffix>
   <!-- EN:  (experimental) -->
   <PWU_ExperimentalSuffix>（实验性）</PWU_ExperimentalSuffix>
+  <!-- EN:  (requires restart) -->
+  <PWU_RestartRequiredSuffix>（需要重启）</PWU_RestartRequiredSuffix>
 
   <!-- Settings: Persona costs -->
   <!-- EN: First trait costs an AI persona core -->
@@ -306,10 +308,8 @@
   <PWU_EnableZeushammerRecipeDesc>在“{1}”上显示“{0}”清单（需要“{2}”研究）。禁用此项只会将它从添加清单菜单中隐藏；已排入队列的清单仍会继续生产。</PWU_EnableZeushammerRecipeDesc>
   <!-- EN: Enable persona core crafting recipe -->
   <PWU_EnablePersonaCoreRecipe>启用人格核心制作配方</PWU_EnablePersonaCoreRecipe>
-  <!-- EN: Add the "{0}" bill to the {1}, unlocked by {2} research. Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path: craft a base weapon, craft a core, install it through customization. Takes effect after restarting the game. Bills already queued keep producing either way. -->
-  <PWU_EnablePersonaCoreRecipeDesc>在“{1}”上添加“{0}”清单，由“{2}”研究解锁。默认关闭：在原版中人格核心只能靠寻找或交易获得，而能够制作它们会让人格武器从稀有变为可批量获取。若你想要一条完全自给自足的殖民地路线，可以开启此项：制作基础武器，制作核心，再通过定制把核心装入武器。重新启动游戏后生效。无论是否开启，已排入队列的清单都会继续生产。</PWU_EnablePersonaCoreRecipeDesc>
-  <!-- EN: Restart the game for this change to take effect. -->
-  <PWU_RestartRequiredNote>重新启动游戏以使此更改生效。</PWU_RestartRequiredNote>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default, since vanilla persona cores can only be found or traded for. Bills already queued keep producing either way. -->
+  <PWU_EnablePersonaCoreRecipeDesc>在“{1}”上显示“{0}”清单（需要“{2}”研究）。默认关闭，因为在原版中人格核心只能靠寻找或交易获得。无论是否开启，已排入队列的清单都会继续生产。</PWU_EnablePersonaCoreRecipeDesc>
   <!-- EN: Persona core component cost: {0} -->
   <PWU_PersonaCoreRecipeComponentCost>人格核心的零部件成本：{0}</PWU_PersonaCoreRecipeComponentCost>
   <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->

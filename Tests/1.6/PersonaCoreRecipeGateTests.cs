@@ -45,7 +45,6 @@ namespace PersonaWeaponsUnbound.Tests
 
             Assert.True(gate.Apply(new XmlDocument()));
             Assert.Equal(1, inner.Calls);
-            Assert.False(PatchOperation_UnlessPersonaCoreRecipeEnabled.RecipeEnabledAtLoad);
         }
 
         [Fact]
@@ -56,7 +55,6 @@ namespace PersonaWeaponsUnbound.Tests
 
             Assert.True(gate.Apply(new XmlDocument()));
             Assert.Equal(0, inner.Calls);
-            Assert.True(PatchOperation_UnlessPersonaCoreRecipeEnabled.RecipeEnabledAtLoad);
         }
 
         [Fact]

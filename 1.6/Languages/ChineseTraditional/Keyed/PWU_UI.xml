@@ -244,6 +244,8 @@
   <PWU_VanillaSuffix>(原版)</PWU_VanillaSuffix>
   <!-- EN:  (experimental) -->
   <PWU_ExperimentalSuffix>(實驗性)</PWU_ExperimentalSuffix>
+  <!-- EN:  (requires restart) -->
+  <PWU_RestartRequiredSuffix>(需要重新啟動)</PWU_RestartRequiredSuffix>
 
   <!-- Settings: Persona costs -->
   <!-- EN: First trait costs an AI persona core -->
@@ -317,10 +319,8 @@
   <!-- EN: Enable persona core crafting recipe -->
   <PWU_EnablePersonaCoreRecipe>啟用人格核心製作配方</PWU_EnablePersonaCoreRecipe>
   <!-- {0} = make persona core (recipe label), {1} = fabrication bench (vanilla bench label), {2} = machine persuasion (vanilla research label) -->
-  <!-- EN: Add the "{0}" bill to the {1}, unlocked by {2} research. Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path: craft a base weapon, craft a core, install it through customization. Takes effect after restarting the game. Bills already queued keep producing either way. -->
-  <PWU_EnablePersonaCoreRecipeDesc>在{1}新增「{0}」工作，由「{2}」研究解鎖。預設關閉：在原版中人格核心只能拾獲或交易取得，而能夠製作它們會使羈絆武器從稀有變成可以反覆取得。若想要一條完全自給自足的殖民地路線，可以開啟此項：製作一把基礎武器、製作一個核心，再透過自訂將它裝設上去。重新啟動遊戲後生效。無論是否開啟，已排入佇列的工作都會繼續生產。</PWU_EnablePersonaCoreRecipeDesc>
-  <!-- EN: Restart the game for this change to take effect. -->
-  <PWU_RestartRequiredNote>重新啟動遊戲以使此更改生效。</PWU_RestartRequiredNote>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default, since vanilla persona cores can only be found or traded for. Bills already queued keep producing either way. -->
+  <PWU_EnablePersonaCoreRecipeDesc>在{1}顯示「{0}」工作(需要「{2}」研究)。預設關閉，因為在原版中人格核心只能拾獲或交易取得。無論是否開啟，已排入佇列的工作都會繼續生產。</PWU_EnablePersonaCoreRecipeDesc>
   <!-- EN: Persona core component cost: {0} -->
   <PWU_PersonaCoreRecipeComponentCost>人格核心的零件花費：{0}</PWU_PersonaCoreRecipeComponentCost>
   <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->

@@ -242,6 +242,8 @@
   <PWU_VanillaSuffix> (ванильный)</PWU_VanillaSuffix>
   <!-- EN:  (experimental) -->
   <PWU_ExperimentalSuffix> (экспериментально)</PWU_ExperimentalSuffix>
+  <!-- EN:  (requires restart) -->
+  <PWU_RestartRequiredSuffix> (требуется перезапуск)</PWU_RestartRequiredSuffix>
 
   <!-- Settings: Persona costs -->
   <!-- EN: First trait costs an AI persona core -->
@@ -313,10 +315,8 @@
   <!-- EN: Enable persona core crafting recipe -->
   <PWU_EnablePersonaCoreRecipe>Включить рецепт крафта ядра ИИ</PWU_EnablePersonaCoreRecipe>
   <!-- {0} = make persona core (recipe label), {1} = fabrication bench (vanilla bench label), {2} = machine persuasion (vanilla research label) -->
-  <!-- EN: Add the "{0}" bill to the {1}, unlocked by {2} research. Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path: craft a base weapon, craft a core, install it through customization. Takes effect after restarting the game. Bills already queued keep producing either way. -->
-  <PWU_EnablePersonaCoreRecipeDesc>Добавить задание «{0}» на верстак «{1}» (открывается исследованием «{2}»). По умолчанию выключено: в ванильной игре ядро ИИ можно только найти или выменять, а возможность крафта делает оружие с личностью воспроизводимым, а не редким. Включите для полностью самодостаточного пути внутри колонии: скрафтить базовое оружие, скрафтить ядро, установить его через настройку. Вступает в силу после перезапуска игры. Уже добавленные задания продолжают выполняться в любом случае.</PWU_EnablePersonaCoreRecipeDesc>
-  <!-- EN: Restart the game for this change to take effect. -->
-  <PWU_RestartRequiredNote>Чтобы изменение вступило в силу, перезапустите игру.</PWU_RestartRequiredNote>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default, since vanilla persona cores can only be found or traded for. Bills already queued keep producing either way. -->
+  <PWU_EnablePersonaCoreRecipeDesc>Показывать задание «{0}» у верстака «{1}» (требуется исследование «{2}»). По умолчанию выключено, так как в ванильной игре ядро ИИ можно только найти или выменять. Уже добавленные задания продолжают выполняться в любом случае.</PWU_EnablePersonaCoreRecipeDesc>
   <!-- EN: Persona core component cost: {0} -->
   <PWU_PersonaCoreRecipeComponentCost>Стоимость ядра ИИ в компонентах: {0}</PWU_PersonaCoreRecipeComponentCost>
   <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->

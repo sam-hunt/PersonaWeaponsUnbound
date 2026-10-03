@@ -242,6 +242,8 @@
   <PWU_VanillaSuffix>(バニラ)</PWU_VanillaSuffix>
   <!-- EN:  (experimental) -->
   <PWU_ExperimentalSuffix>(実験的)</PWU_ExperimentalSuffix>
+  <!-- EN:  (requires restart) -->
+  <PWU_RestartRequiredSuffix>(要再起動)</PWU_RestartRequiredSuffix>
 
   <!-- Settings: Persona costs -->
   <!-- EN: First trait costs an AI persona core -->
@@ -306,10 +308,8 @@
   <PWU_EnableZeushammerRecipeDesc>「{1}」に「{0}」の加工を表示します(研究「{2}」が必要).無効にしても新しい加工のメニューから隠れるだけで,既に登録された加工は生産を続けます.</PWU_EnableZeushammerRecipeDesc>
   <!-- EN: Enable persona core crafting recipe -->
   <PWU_EnablePersonaCoreRecipe>AI人格コアの製作レシピを有効化</PWU_EnablePersonaCoreRecipe>
-  <!-- EN: Add the "{0}" bill to the {1}, unlocked by {2} research. Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path: craft a base weapon, craft a core, install it through customization. Takes effect after restarting the game. Bills already queued keep producing either way. -->
-  <PWU_EnablePersonaCoreRecipeDesc>「{1}」に「{0}」の加工を追加します(研究「{2}」で解放).デフォルトでは無効です: バニラではAI人格コアは発見か交易でしか手に入らず,製作できるようにするとペルソナ武器は希少なものではなく,何度でも作れるものになります.コロニー内で完全に自給自足する道筋が欲しい場合に有効にしてください.基本形態の武器を製作し,コアを製作し,カスタマイズでそれを組み込む,という流れになります.ゲームを再起動すると反映されます.既に登録された加工は,どちらの設定でも生産を続けます.</PWU_EnablePersonaCoreRecipeDesc>
-  <!-- EN: Restart the game for this change to take effect. -->
-  <PWU_RestartRequiredNote>この変更を有効にするには,ゲームを再起動してください.</PWU_RestartRequiredNote>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default, since vanilla persona cores can only be found or traded for. Bills already queued keep producing either way. -->
+  <PWU_EnablePersonaCoreRecipeDesc>「{1}」に「{0}」の加工を表示します(研究「{2}」が必要).バニラではAI人格コアは発見か交易でしか手に入らないため,デフォルトでは無効です.既に登録された加工は,どちらの設定でも生産を続けます.</PWU_EnablePersonaCoreRecipeDesc>
   <!-- EN: Persona core component cost: {0} -->
   <PWU_PersonaCoreRecipeComponentCost>AI人格コアのコンポーネント費用: {0}</PWU_PersonaCoreRecipeComponentCost>
   <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->

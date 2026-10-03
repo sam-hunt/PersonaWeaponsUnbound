@@ -242,6 +242,8 @@
   <PWU_VanillaSuffix> (바닐라)</PWU_VanillaSuffix>
   <!-- EN:  (experimental) -->
   <PWU_ExperimentalSuffix> (실험적)</PWU_ExperimentalSuffix>
+  <!-- EN:  (requires restart) -->
+  <PWU_RestartRequiredSuffix> (재시작 필요)</PWU_RestartRequiredSuffix>
 
   <!-- Settings: Persona costs -->
   <!-- EN: First trait costs an AI persona core -->
@@ -306,10 +308,8 @@
   <PWU_EnableZeushammerRecipeDesc>'{1}'에 '{0}' 계획서를 표시합니다('{2}' 연구 필요). 비활성화해도 계획서 추가 메뉴에서만 숨겨지며, 이미 등록된 계획서는 계속 생산합니다.</PWU_EnableZeushammerRecipeDesc>
   <!-- EN: Enable persona core crafting recipe -->
   <PWU_EnablePersonaCoreRecipe>인공자아 핵 제작 레시피 활성화</PWU_EnablePersonaCoreRecipe>
-  <!-- EN: Add the "{0}" bill to the {1}, unlocked by {2} research. Off by default: in vanilla a persona core can only be found or traded for, and crafting them makes persona weapons repeatable rather than rare. Turn this on for a fully self-sufficient in-colony path: craft a base weapon, craft a core, install it through customization. Takes effect after restarting the game. Bills already queued keep producing either way. -->
-  <PWU_EnablePersonaCoreRecipeDesc>'{1}'에 '{0}' 계획서를 추가합니다('{2}' 연구로 해금). 기본적으로 꺼져 있습니다. 바닐라에서 인공자아 핵은 발견하거나 거래로만 얻을 수 있으며, 이를 제작하면 결속 무기가 희귀한 물건이 아니라 반복 생산할 수 있는 물건이 됩니다. 정착지 안에서 완전히 자급하는 경로를 원한다면 켜세요. 기본 무기를 만들고, 핵을 만들고, 개조를 통해 설치하면 됩니다. 게임을 다시 시작해야 적용됩니다. 이미 등록된 계획서는 어느 쪽이든 계속 생산합니다.</PWU_EnablePersonaCoreRecipeDesc>
-  <!-- EN: Restart the game for this change to take effect. -->
-  <PWU_RestartRequiredNote>이 변경 사항을 적용하려면 게임을 다시 시작해야 합니다.</PWU_RestartRequiredNote>
+  <!-- EN: Show the "{0}" bill at the {1} (requires {2} research). Off by default, since vanilla persona cores can only be found or traded for. Bills already queued keep producing either way. -->
+  <PWU_EnablePersonaCoreRecipeDesc>'{1}'에 '{0}' 계획서를 표시합니다('{2}' 연구 필요). 바닐라에서 인공자아 핵은 발견하거나 거래로만 얻을 수 있으므로 기본적으로 꺼져 있습니다. 이미 등록된 계획서는 어느 쪽이든 계속 생산합니다.</PWU_EnablePersonaCoreRecipeDesc>
   <!-- EN: Persona core component cost: {0} -->
   <PWU_PersonaCoreRecipeComponentCost>인공자아 핵 부품 비용: {0}</PWU_PersonaCoreRecipeComponentCost>
   <!-- EN: Advanced components required to craft one persona core. Takes effect immediately, no restart needed; queued bills are repriced too. -->
