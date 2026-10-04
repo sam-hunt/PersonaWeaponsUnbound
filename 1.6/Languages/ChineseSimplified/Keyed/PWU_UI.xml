@@ -346,8 +346,22 @@
   <PWU_SkillCheckSkillCraftingDesc>检查角色的手工技能：在工作台上把人格当作一件工艺品来改造。</PWU_SkillCheckSkillCraftingDesc>
   <!-- EN: Skill requirement -->
   <PWU_SkillCheckKind>技能要求</PWU_SkillCheckKind>
-  <!-- EN: What the checked pawn must have. -->
-  <PWU_SkillCheckKindDesc>被检查的角色必须具备什么。</PWU_SkillCheckKindDesc>
+  <!-- EN: What the checked pawn must have. Every level below is required in the checked skill. -->
+  <PWU_SkillCheckKindDesc>被检查的角色必须具备什么。下方的每个等级都是对所检查技能的要求。</PWU_SkillCheckKindDesc>
+  <!-- EN: Based on the weapon's crafting recipe -->
+  <PWU_SkillCheckKindRecipe>基于武器的制作配方</PWU_SkillCheckKindRecipe>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>要求达到武器制作配方所需的技能等级，因此能制作武器的人就能重新编写其人格。没有配方的武器按科技等级设定最低要求：{0}。</PWU_SkillCheckKindRecipeDesc>
+  <!-- {0} = tech level (lowercase), {1} = required level -->
+  <!-- EN: {0} {1} -->
+  <PWU_SkillCheckTierEntry>{0} {1}级</PWU_SkillCheckTierEntry>
+  <!-- {0} = the tech-level minimums lowest tier first, slash-separated, e.g. 4/5/7/9/12/15 -->
+  <!-- EN: Based on the weapon's tech level ({0}) -->
+  <PWU_SkillCheckKindTechTier>基于武器的科技等级（{0}）</PWU_SkillCheckKindTechTier>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <!-- EN: Require a minimum skill level set by the weapon's tech level, ignoring its crafting recipe: {0}. -->
+  <PWU_SkillCheckKindTechTierDesc>按武器的科技等级设定最低技能等级，忽略其制作配方：{0}。</PWU_SkillCheckKindTechTierDesc>
   <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
   <!-- EN: Minimum {0} skill: {1} -->
   <PWU_SkillCheckKindFlat>最低{0}技能：{1}</PWU_SkillCheckKindFlat>

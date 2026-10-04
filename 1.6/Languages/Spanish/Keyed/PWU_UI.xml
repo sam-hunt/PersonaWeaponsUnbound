@@ -349,8 +349,22 @@
   <PWU_SkillCheckSkillCraftingDesc>Comprueba la habilidad de fabricación del personaje: la IA se reforma como una obra de artesanía en la mesa de trabajo.</PWU_SkillCheckSkillCraftingDesc>
   <!-- EN: Skill requirement -->
   <PWU_SkillCheckKind>Requisito de habilidad</PWU_SkillCheckKind>
-  <!-- EN: What the checked pawn must have. -->
-  <PWU_SkillCheckKindDesc>Lo que debe tener el personaje comprobado.</PWU_SkillCheckKindDesc>
+  <!-- EN: What the checked pawn must have. Every level below is required in the checked skill. -->
+  <PWU_SkillCheckKindDesc>Lo que debe tener el personaje comprobado. Todos los niveles de abajo se exigen en la habilidad comprobada.</PWU_SkillCheckKindDesc>
+  <!-- EN: Based on the weapon's crafting recipe -->
+  <PWU_SkillCheckKindRecipe>Según la receta de fabricación del arma</PWU_SkillCheckKindRecipe>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>Exige el nivel de habilidad que pide la receta de fabricación del arma, de modo que quien pueda fabricar un arma también pueda reprogramar su IA. Las armas sin receta exigen un mínimo fijado por el nivel tecnológico: {0}.</PWU_SkillCheckKindRecipeDesc>
+  <!-- {0} = tech level (lowercase), {1} = required level -->
+  <!-- EN: {0} {1} -->
+  <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>
+  <!-- {0} = the tech-level minimums lowest tier first, slash-separated, e.g. 4/5/7/9/12/15 -->
+  <!-- EN: Based on the weapon's tech level ({0}) -->
+  <PWU_SkillCheckKindTechTier>Según el nivel tecnológico del arma ({0})</PWU_SkillCheckKindTechTier>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <!-- EN: Require a minimum skill level set by the weapon's tech level, ignoring its crafting recipe: {0}. -->
+  <PWU_SkillCheckKindTechTierDesc>Exige un nivel de habilidad mínimo fijado por el nivel tecnológico del arma, sin tener en cuenta su receta de fabricación: {0}.</PWU_SkillCheckKindTechTierDesc>
   <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
   <!-- EN: Minimum {0} skill: {1} -->
   <PWU_SkillCheckKindFlat>Habilidad mínima de {0}: {1}</PWU_SkillCheckKindFlat>

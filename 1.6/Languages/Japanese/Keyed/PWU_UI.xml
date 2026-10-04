@@ -346,8 +346,22 @@
   <PWU_SkillCheckSkillCraftingDesc>入植者の工芸スキルを確認します: ペルソナは作業台で職人技として作り直されます.</PWU_SkillCheckSkillCraftingDesc>
   <!-- EN: Skill requirement -->
   <PWU_SkillCheckKind>スキル要件</PWU_SkillCheckKind>
-  <!-- EN: What the checked pawn must have. -->
-  <PWU_SkillCheckKindDesc>確認対象の入植者が満たすべき内容です.</PWU_SkillCheckKindDesc>
+  <!-- EN: What the checked pawn must have. Every level below is required in the checked skill. -->
+  <PWU_SkillCheckKindDesc>確認対象の入植者が満たすべき内容です.以下のレベルはすべて,確認するスキルで必要となります.</PWU_SkillCheckKindDesc>
+  <!-- EN: Based on the weapon's crafting recipe -->
+  <PWU_SkillCheckKindRecipe>武器の製作レシピに基づく</PWU_SkillCheckKindRecipe>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>武器の製作レシピが要求するスキルレベルを必要とします.武器を製作できる入植者なら誰でも,そのペルソナを再プログラミングできます.レシピを持たない武器には,技術レベルごとの最低レベルが必要です: {0}.</PWU_SkillCheckKindRecipeDesc>
+  <!-- {0} = tech level (lowercase), {1} = required level -->
+  <!-- EN: {0} {1} -->
+  <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>
+  <!-- {0} = the tech-level minimums lowest tier first, slash-separated, e.g. 4/5/7/9/12/15 -->
+  <!-- EN: Based on the weapon's tech level ({0}) -->
+  <PWU_SkillCheckKindTechTier>武器の技術レベルに基づく ({0})</PWU_SkillCheckKindTechTier>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <!-- EN: Require a minimum skill level set by the weapon's tech level, ignoring its crafting recipe: {0}. -->
+  <PWU_SkillCheckKindTechTierDesc>製作レシピを無視し,武器の技術レベルで決まる最低スキルレベルを必要とします: {0}.</PWU_SkillCheckKindTechTierDesc>
   <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
   <!-- EN: Minimum {0} skill: {1} -->
   <PWU_SkillCheckKindFlat>最低{0}スキル: {1}</PWU_SkillCheckKindFlat>

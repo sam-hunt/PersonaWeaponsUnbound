@@ -346,8 +346,22 @@
   <PWU_SkillCheckSkillCraftingDesc>인물의 제작 기술을 확인합니다: 작업대에서 장인의 솜씨로 자아를 다시 빚어냅니다.</PWU_SkillCheckSkillCraftingDesc>
   <!-- EN: Skill requirement -->
   <PWU_SkillCheckKind>기술 요구 조건</PWU_SkillCheckKind>
-  <!-- EN: What the checked pawn must have. -->
-  <PWU_SkillCheckKindDesc>확인 대상이 갖춰야 하는 조건입니다.</PWU_SkillCheckKindDesc>
+  <!-- EN: What the checked pawn must have. Every level below is required in the checked skill. -->
+  <PWU_SkillCheckKindDesc>확인 대상이 갖춰야 하는 조건입니다. 아래의 모든 등급은 확인할 기술에서 요구됩니다.</PWU_SkillCheckKindDesc>
+  <!-- EN: Based on the weapon's crafting recipe -->
+  <PWU_SkillCheckKindRecipe>무기의 제작 레시피 기준</PWU_SkillCheckKindRecipe>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>무기의 제작 레시피가 요구하는 기술 등급을 그대로 요구하므로, 무기를 제작할 수 있는 사람이라면 자아도 재프로그래밍할 수 있습니다. 레시피가 없는 무기는 기술 수준에 따라 정해진 최소 등급이 요구됩니다: {0}.</PWU_SkillCheckKindRecipeDesc>
+  <!-- {0} = tech level (lowercase), {1} = required level -->
+  <!-- EN: {0} {1} -->
+  <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>
+  <!-- {0} = the tech-level minimums lowest tier first, slash-separated, e.g. 4/5/7/9/12/15 -->
+  <!-- EN: Based on the weapon's tech level ({0}) -->
+  <PWU_SkillCheckKindTechTier>무기의 기술 수준 기준 ({0})</PWU_SkillCheckKindTechTier>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <!-- EN: Require a minimum skill level set by the weapon's tech level, ignoring its crafting recipe: {0}. -->
+  <PWU_SkillCheckKindTechTierDesc>무기의 제작 레시피와 상관없이, 무기의 기술 수준에 따라 정해진 최소 기술 등급을 요구합니다: {0}.</PWU_SkillCheckKindTechTierDesc>
   <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
   <!-- EN: Minimum {0} skill: {1} -->
   <PWU_SkillCheckKindFlat>최소 {0} 기술: {1}</PWU_SkillCheckKindFlat>
