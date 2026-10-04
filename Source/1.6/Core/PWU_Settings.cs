@@ -26,7 +26,7 @@ namespace PersonaWeaponsUnbound
         public int techprintCount = 1;
         public SkillCheckSubject skillCheckSubject = SkillCheckSubject.None;
         public SkillCheckSkill skillCheckSkill = SkillCheckSkill.Intellectual;
-        public SkillCheckKind skillCheckKind = SkillCheckKind.FlatMinimum;
+        public SkillCheckKind skillCheckKind = SkillCheckKind.RecipeOrTechTier;
         public int skillCheckMinimumLevel = 10;
 
         // Crafting Recipes
@@ -67,7 +67,7 @@ namespace PersonaWeaponsUnbound
             techprintCount = 1;
             skillCheckSubject = SkillCheckSubject.None;
             skillCheckSkill = SkillCheckSkill.Intellectual;
-            skillCheckKind = SkillCheckKind.FlatMinimum;
+            skillCheckKind = SkillCheckKind.RecipeOrTechTier;
             skillCheckMinimumLevel = 10;
 
             enableMonoswordRecipe = true;
@@ -109,7 +109,7 @@ namespace PersonaWeaponsUnbound
             Scribe_Values.Look(ref techprintCount, "techprintCount", 1);
             Scribe_Values.Look(ref skillCheckSubject, "skillCheckSubject", SkillCheckSubject.None);
             Scribe_Values.Look(ref skillCheckSkill, "skillCheckSkill", SkillCheckSkill.Intellectual);
-            Scribe_Values.Look(ref skillCheckKind, "skillCheckKind", SkillCheckKind.FlatMinimum);
+            Scribe_Values.Look(ref skillCheckKind, "skillCheckKind", SkillCheckKind.RecipeOrTechTier);
             Scribe_Values.Look(ref skillCheckMinimumLevel, "skillCheckMinimumLevel", 10);
 
             Scribe_Values.Look(ref enableMonoswordRecipe, "enableMonoswordRecipe", true);

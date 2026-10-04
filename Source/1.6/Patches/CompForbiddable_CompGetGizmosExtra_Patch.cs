@@ -239,7 +239,7 @@ namespace PersonaWeaponsUnbound.Patches
             Action<LocalTargetInfo> onGui = null;
             if (PWU_Mod.Settings.skillCheckSubject == SkillCheckSubject.CustomizingPawn)
             {
-                SkillCheckRules.Requirement requirement = SkillCheckRules.GetRequirement();
+                SkillCheckRules.Requirement requirement = SkillCheckRules.GetRequirement(weapon);
                 if (!requirement.IsEmpty)
                 {
                     onGui = delegate(LocalTargetInfo hovered)

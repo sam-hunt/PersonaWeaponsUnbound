@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Optional skill check for customization (off by default): require the customizing pawn, or the best colonist on the map or anywhere, to meet a minimum Intellectual or Crafting level, or hold the matching Vanilla Skills Expanded expertise (hacking or weaponsmithing).
+- Optional skill check for customization (off by default): require the customizing pawn, or the best colonist on the map or anywhere, to meet an Intellectual or Crafting level set by the weapon's recipe, its tech level, or a flat minimum, or to hold the matching Vanilla Skills Expanded expertise (hacking or weaponsmithing).
 
 ### Fixed
 

@@ -29,10 +29,19 @@ namespace PersonaWeaponsUnbound
         Crafting,
     }
 
-    // What the skill prerequisite demands.
+    // What the skill prerequisite demands. Every level-based kind is demanded
+    // in the checked skill (SkillCheckSkill), so a recipe that asks Crafting 10
+    // becomes "Intellectual 10" under the default skill.
     public enum SkillCheckKind
     {
-        // A flat minimum in the checked skill from the settings slider.
+        // The level the weapon's own crafting recipe demands (see
+        // WeaponRecipeIndex); weapons no recipe produces fall back to a
+        // per-tech-tier minimum.
+        RecipeOrTechTier,
+        // The per-tech-tier minimum for every weapon, recipe or not (the same
+        // table RecipeOrTechTier falls back to).
+        TechTier,
+        // A flat minimum from the settings slider.
         FlatMinimum,
         // Vanilla Skills Expanded's expertise for the checked skill (hacking
         // for Intellectual, weaponsmithing for Crafting). When that expertise
@@ -42,13 +51,13 @@ namespace PersonaWeaponsUnbound
     }
 
     // The optional skill prerequisite for customization: setting resolution
-    // (including the VSE fallback), requirement derivation, and the
+    // (including the VSE fallback), per-weapon requirement derivation, and the
     // pawn/colony evaluation the entry points consume as AcceptanceReports.
     //
-    // Persona weapons have no recipe or tech-tier spread to key off (every
-    // base variant is ultratech and uncraftable in vanilla), so unlike UWU the
-    // requirement is a single skill minimum or a single expertise, both read
-    // from settings rather than from the weapon.
+    // Vanilla persona weapons are all ultratech and uncraftable, but nothing in
+    // the API holds other mods to that, and several add persona weapons at
+    // other tech levels or with recipes, so the recipe and tech-tier kinds are
+    // derived from the weapon exactly as UWU does rather than assumed away.
     //
     // Placement in the prerequisite chain: after the research/quality checks
     // (global settings the player controls) and before pathing and the
@@ -64,6 +73,55 @@ namespace PersonaWeaponsUnbound
 
         public const int MinFlatLevel = 0;
         public const int MaxFlatLevel = 20;
+
+        // The tiers the table below distinguishes, lowest first; the settings
+        // UI enumerates this to describe the table.
+        public static readonly TechLevel[] TechTiers =
+        {
+            TechLevel.Neolithic, TechLevel.Medieval, TechLevel.Industrial,
+            TechLevel.Spacer, TechLevel.Ultra, TechLevel.Archotech,
+        };
+
+        // Fallback skill minimum for weapons with no recipe, by tech tier. The
+        // same table as UWU's, derived from a survey of every craftable vanilla
+        // weapon's recipe requirement (Core + all DLC, 2026-08): Neolithic
+        // median 3 / max 6, Medieval 3 / 5, Industrial 5 / 7, Spacer 8 / 9.
+        // Uncraftable weapons at a tier are its exotic end, so each tier sits at
+        // the upper end of its craftable range; Ultra and Archotech have no
+        // craftable vanilla weapons at all and continue the roughly +3-per-tier
+        // trend (Archotech lands on VSE's expertise threshold). Vanilla persona
+        // weapons are Ultra, so without a recipe they land on 12. Animal and
+        // Undefined fall in with Neolithic.
+        public static int TechTierMinimumSkill(TechLevel techLevel)
+        {
+            switch (techLevel)
+            {
+                case TechLevel.Medieval:
+                    return 5;
+                case TechLevel.Industrial:
+                    return 7;
+                case TechLevel.Spacer:
+                    return 9;
+                case TechLevel.Ultra:
+                    return 12;
+                case TechLevel.Archotech:
+                    return 15;
+                default: // Undefined, Animal, Neolithic
+                    return 4;
+            }
+        }
+
+        // The tech level the tier table reads for a weapon: its own def's, or
+        // its paired base/persona def's when its own is Undefined (a modded
+        // persona variant that forgot the field inherits its base weapon's
+        // tier rather than dropping to the Neolithic floor).
+        public static TechLevel GetWeaponTechLevel(ThingDef baseDef, ThingDef personaDef, ThingDef ownDef)
+        {
+            if (ownDef != null && ownDef.techLevel != TechLevel.Undefined)
+                return ownDef.techLevel;
+            ThingDef other = ownDef == baseDef ? personaDef : baseDef;
+            return other != null ? other.techLevel : TechLevel.Undefined;
+        }
 
         public static bool Enabled => PWU_Mod.Settings.skillCheckSubject != SkillCheckSubject.None;
 
@@ -131,9 +189,19 @@ namespace PersonaWeaponsUnbound
             public bool IsEmpty => Skill == null && ExpertiseDefName == null;
         }
 
-        // Builds the requirement from settings. Never null; empty when nothing
-        // is demanded (a flat minimum of 0).
-        public static Requirement GetRequirement()
+        // Builds the requirement for a weapon Thing: resolves its base/persona
+        // pairing and tech level, then derives as below.
+        public static Requirement GetRequirement(Thing weapon)
+        {
+            WeaponRegistry.ResolveWeaponDefs(weapon, out ThingDef baseDef, out ThingDef personaDef);
+            return GetRequirement(baseDef, personaDef, GetWeaponTechLevel(baseDef, personaDef, weapon.def));
+        }
+
+        // Builds the requirement for a weapon from its base/persona defs and
+        // tech level under the current settings. Never null; empty when nothing
+        // is demanded (a recipe with no skill requirement, so anyone who could
+        // craft the weapon may reprogram it, or a flat minimum of 0).
+        public static Requirement GetRequirement(ThingDef baseDef, ThingDef personaDef, TechLevel techLevel)
         {
             var requirement = new Requirement();
             SkillCheckSkill skill = PWU_Mod.Settings.skillCheckSkill;
@@ -143,18 +211,42 @@ namespace PersonaWeaponsUnbound
                     requirement.ExpertiseDefName = ExpertiseDefNameFor(skill);
                     break;
 
-                default: // FlatMinimum
-                    if (flatLevel > 0)
+                case SkillCheckKind.FlatMinimum:
+                    SetLevel(requirement, skill, flatLevel);
+                    break;
+
+                case SkillCheckKind.TechTier:
+                    SetLevel(requirement, skill, TechTierMinimumSkill(techLevel));
+                    break;
+
+                default: // RecipeOrTechTier
+                    // The base weapon's recipe is the natural craft path (this
+                    // mod's own recipes make base weapons); a persona def with
+                    // a recipe of its own is consulted when the base has none.
+                    if (WeaponRecipeIndex.TryGetRequiredLevel(baseDef, out int level)
+                        || WeaponRecipeIndex.TryGetRequiredLevel(personaDef, out level))
                     {
-                        requirement.Skill = new SkillRequirement
-                        {
-                            skill = SkillDefFor(skill),
-                            minLevel = flatLevel,
-                        };
+                        SetLevel(requirement, skill, level);
+                    }
+                    else
+                    {
+                        SetLevel(requirement, skill, TechTierMinimumSkill(techLevel));
                     }
                     break;
             }
             return requirement;
+        }
+
+        private static void SetLevel(Requirement requirement, SkillCheckSkill skill, int minLevel)
+        {
+            if (minLevel > 0)
+            {
+                requirement.Skill = new SkillRequirement
+                {
+                    skill = SkillDefFor(skill),
+                    minLevel = minLevel,
+                };
+            }
         }
 
         // Whether one pawn meets the requirement.
@@ -182,7 +274,7 @@ namespace PersonaWeaponsUnbound
             if (subject == SkillCheckSubject.None)
                 return true;
 
-            Requirement requirement = GetRequirement();
+            Requirement requirement = GetRequirement(weapon);
             if (requirement.IsEmpty)
                 return true;
 

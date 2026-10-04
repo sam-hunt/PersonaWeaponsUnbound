@@ -200,7 +200,16 @@
   <PWU_SkillCheckSkillIntellectualDesc>Check the pawn's Intellectual skill: the persona is reprogrammed by hacking its AI.</PWU_SkillCheckSkillIntellectualDesc>
   <PWU_SkillCheckSkillCraftingDesc>Check the pawn's Crafting skill: the persona is reworked as a piece of craftsmanship at the bench.</PWU_SkillCheckSkillCraftingDesc>
   <PWU_SkillCheckKind>Skill requirement</PWU_SkillCheckKind>
-  <PWU_SkillCheckKindDesc>What the checked pawn must have.</PWU_SkillCheckKindDesc>
+  <PWU_SkillCheckKindDesc>What the checked pawn must have. Every level below is required in the checked skill.</PWU_SkillCheckKindDesc>
+  <PWU_SkillCheckKindRecipe>Based on the weapon's crafting recipe</PWU_SkillCheckKindRecipe>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <PWU_SkillCheckKindRecipeDesc>Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}.</PWU_SkillCheckKindRecipeDesc>
+  <!-- {0} = tech level (lowercase), {1} = required level -->
+  <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>
+  <!-- {0} = the tech-level minimums lowest tier first, slash-separated, e.g. 4/5/7/9/12/15 -->
+  <PWU_SkillCheckKindTechTier>Based on the weapon's tech level ({0})</PWU_SkillCheckKindTechTier>
+  <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
+  <PWU_SkillCheckKindTechTierDesc>Require a minimum skill level set by the weapon's tech level, ignoring its crafting recipe: {0}.</PWU_SkillCheckKindTechTierDesc>
   <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
   <PWU_SkillCheckKindFlat>Minimum {0} skill: {1}</PWU_SkillCheckKindFlat>
   <!-- {0} = skill label (lowercase, e.g. intellectual) -->

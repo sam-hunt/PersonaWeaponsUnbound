@@ -343,7 +343,8 @@ namespace PersonaWeaponsUnbound
 
         // The optional skill prerequisite, behind a "Require minimum skill"
         // checkbox that expands three radio groups (who is checked, which
-        // skill, what is demanded) and the flat-minimum slider. Unticking the
+        // skill, what is demanded: recipe, tech tier, expertise, or a flat
+        // minimum) and the flat-minimum slider. Unticking the
         // checkbox resets the subject to "no one" and collapses the section;
         // ticking it only expands (the subject stays "no one" until the player
         // picks one). Picking "no one" from the radio group does not collapse
@@ -441,6 +442,24 @@ namespace PersonaWeaponsUnbound
 
             DrawGroupLabel(listing, "PWU_SkillCheckKind", "PWU_SkillCheckKindDesc", enabled, inertTip);
 
+            if (DrawRadioOption(listing,
+                "PWU_SkillCheckKindRecipe".Translate() + "PWU_DefaultSuffix".Translate(),
+                enabled ? "PWU_SkillCheckKindRecipeDesc".Translate(TechTierSummary()) : inertTip,
+                active: effective == SkillCheckKind.RecipeOrTechTier,
+                enabled: enabled, tabIn: optionTab))
+            {
+                Settings.skillCheckKind = SkillCheckKind.RecipeOrTechTier;
+            }
+
+            if (DrawRadioOption(listing,
+                "PWU_SkillCheckKindTechTier".Translate(TechTierLevels()),
+                enabled ? "PWU_SkillCheckKindTechTierDesc".Translate(TechTierSummary()) : inertTip,
+                active: effective == SkillCheckKind.TechTier,
+                enabled: enabled, tabIn: optionTab))
+            {
+                Settings.skillCheckKind = SkillCheckKind.TechTier;
+            }
+
             // Hidden when the paired expertise can't be checked; a stored
             // expertise selection then shows as the flat row active at the
             // fallback level (see the summary comment above) and is kept for
@@ -511,6 +530,33 @@ namespace PersonaWeaponsUnbound
 
             listing.ColumnWidth += SkillCheckLabelIndent;
             listing.Outdent(SkillCheckLabelIndent);
+        }
+
+        // The per-tier minimums for the radio tooltips ("neolithic 4, medieval
+        // 5, ..."), read from the rule table so the text can't drift from the
+        // behaviour.
+        private static string TechTierSummary()
+        {
+            TechLevel[] tiers = SkillCheckRules.TechTiers;
+            var parts = new string[tiers.Length];
+            for (int i = 0; i < tiers.Length; i++)
+            {
+                parts[i] = "PWU_SkillCheckTierEntry".Translate(
+                    tiers[i].ToStringHuman(),
+                    SkillCheckRules.TechTierMinimumSkill(tiers[i]));
+            }
+            return string.Join(", ", parts);
+        }
+
+        // The same table compressed for the tech-level radio label
+        // ("4/5/7/9/12/15"), lowest tier first.
+        private static string TechTierLevels()
+        {
+            TechLevel[] tiers = SkillCheckRules.TechTiers;
+            var parts = new string[tiers.Length];
+            for (int i = 0; i < tiers.Length; i++)
+                parts[i] = SkillCheckRules.TechTierMinimumSkill(tiers[i]).ToString();
+            return string.Join("/", parts);
         }
 
         // Heading of a radio group that renders inert (grey, with the inert

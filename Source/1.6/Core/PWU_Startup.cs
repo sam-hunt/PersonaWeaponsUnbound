@@ -2,7 +2,8 @@ namespace PersonaWeaponsUnbound
 {
     // Startup work that must run against the CURRENT DefDatabase: the weapon
     // pair registry, the fabrication-bench set (and its display label), the
-    // def-level caches of the optional integrations, and the settings that are applied by mutating
+    // weapon recipe index the skill check reads, the def-level caches of the
+    // optional integrations, and the settings that are applied by mutating
     // live defs (techprint count, persona-core recipe cost and skill). Runs
     // once per play-data LOAD, not once per process: an in-process reload (a
     // mid-session language change) replaces every def instance, and a
@@ -29,6 +30,7 @@ namespace PersonaWeaponsUnbound
         {
             report.Time("WeaponRegistry", () => WeaponRegistry.Initialize(report));
             report.Time("WorkbenchUtility", () => WorkbenchUtility.Initialize(report));
+            report.Time("WeaponRecipeIndex", () => WeaponRecipeIndex.Initialize(report));
             report.Time("VPWE caches", VPWEIntegration.ResetPerLoadCaches);
             report.Time("techprint count", PWU_ResearchDefOf.ApplyTechprintCount);
             report.Time("persona core recipe", PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings);
