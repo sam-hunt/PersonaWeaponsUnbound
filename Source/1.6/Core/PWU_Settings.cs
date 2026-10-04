@@ -24,6 +24,10 @@ namespace PersonaWeaponsUnbound
         public bool allowDefConversion = true;
         public bool requireCustomizationResearch = true;
         public int techprintCount = 1;
+        public SkillCheckSubject skillCheckSubject = SkillCheckSubject.None;
+        public SkillCheckSkill skillCheckSkill = SkillCheckSkill.Intellectual;
+        public SkillCheckKind skillCheckKind = SkillCheckKind.FlatMinimum;
+        public int skillCheckMinimumLevel = 10;
 
         // Crafting Recipes
         public bool enableMonoswordRecipe = true;
@@ -61,6 +65,10 @@ namespace PersonaWeaponsUnbound
             allowDefConversion = true;
             requireCustomizationResearch = true;
             techprintCount = 1;
+            skillCheckSubject = SkillCheckSubject.None;
+            skillCheckSkill = SkillCheckSkill.Intellectual;
+            skillCheckKind = SkillCheckKind.FlatMinimum;
+            skillCheckMinimumLevel = 10;
 
             enableMonoswordRecipe = true;
             enablePlasmaswordRecipe = true;
@@ -99,6 +107,10 @@ namespace PersonaWeaponsUnbound
             Scribe_Values.Look(ref allowDefConversion, "allowDefConversion", true);
             Scribe_Values.Look(ref requireCustomizationResearch, "requireCustomizationResearch", true);
             Scribe_Values.Look(ref techprintCount, "techprintCount", 1);
+            Scribe_Values.Look(ref skillCheckSubject, "skillCheckSubject", SkillCheckSubject.None);
+            Scribe_Values.Look(ref skillCheckSkill, "skillCheckSkill", SkillCheckSkill.Intellectual);
+            Scribe_Values.Look(ref skillCheckKind, "skillCheckKind", SkillCheckKind.FlatMinimum);
+            Scribe_Values.Look(ref skillCheckMinimumLevel, "skillCheckMinimumLevel", 10);
 
             Scribe_Values.Look(ref enableMonoswordRecipe, "enableMonoswordRecipe", true);
             Scribe_Values.Look(ref enablePlasmaswordRecipe, "enablePlasmaswordRecipe", true);

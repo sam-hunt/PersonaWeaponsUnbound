@@ -130,6 +130,12 @@ namespace PersonaWeaponsUnbound
             if (!customizable.Accepted)
                 return DisabledOrHidden(weapon, customizable);
 
+            // Skill prerequisite (optional; O(colonists) at most): after the
+            // research gates, before pathing
+            AcceptanceReport skill = SkillCheckRules.GetReport(pawn, weapon);
+            if (!skill.Accepted)
+                return DisabledOrHidden(weapon, skill);
+
             string label = "PWU_CustomizeWeapon".Translate(weapon.LabelShort);
 
             if (!pawn.CanReach(workbench, PathEndMode.InteractionCell, Danger.Deadly))

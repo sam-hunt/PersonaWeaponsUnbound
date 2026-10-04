@@ -7,6 +7,16 @@
   <PWU_RequiresWorkbench>requires a {0}</PWU_RequiresWorkbench>
   <PWU_NoSuitableWorkbench>no suitable workbench</PWU_NoSuitableWorkbench>
   <PWU_RequiresMinimumQuality>requires {0} quality or better</PWU_RequiresMinimumQuality>
+  <!-- Skill check rejections (a pawn's own skill shortfall reuses vanilla SkillTooLow).
+       {0} = skill label (lowercase, e.g. intellectual) or expertise label; {1} = required level -->
+  <PWU_RequiresExpertise>requires {0} expertise</PWU_RequiresExpertise>
+  <PWU_NoColonistWithSkill>no colonist has {0} {1}</PWU_NoColonistWithSkill>
+  <PWU_NoColonistOnMapWithSkill>no colonist on this map has {0} {1}</PWU_NoColonistOnMapWithSkill>
+  <PWU_NoColonistWithExpertise>no colonist has {0} expertise</PWU_NoColonistWithExpertise>
+  <PWU_NoColonistOnMapWithExpertise>no colonist on this map has {0} expertise</PWU_NoColonistOnMapWithExpertise>
+  <!-- Used in place of the Vanilla Skills Expanded expertise label when it cannot be read -->
+  <PWU_HackingFallbackLabel>hacking</PWU_HackingFallbackLabel>
+  <PWU_WeaponsmithingFallbackLabel>weaponsmithing</PWU_WeaponsmithingFallbackLabel>
   <PWU_CustomizeGizmoLabel>Customize persona</PWU_CustomizeGizmoLabel>
   <PWU_CustomizeGizmoDesc>Select a colonist to customize this weapon at a nearby workbench.</PWU_CustomizeGizmoDesc>
 
@@ -171,6 +181,34 @@
   <PWU_TechprintCount>Techprints required: {0}</PWU_TechprintCount>
   <!-- {0} = bladelink customization (research label) -->
   <PWU_TechprintCountDesc>Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed.</PWU_TechprintCountDesc>
+  <PWU_SkillCheckEnable>Require minimum skill</PWU_SkillCheckEnable>
+  <PWU_SkillCheckEnableDesc>Require a skill before a weapon's persona can be customized. Choose whose skill is checked, which skill, and what is required below.</PWU_SkillCheckEnableDesc>
+  <PWU_SkillCheckSubject>Skill check applies to</PWU_SkillCheckSubject>
+  <PWU_SkillCheckSubjectDesc>Whose skill is checked. Which skill, and what is required, are set below.</PWU_SkillCheckSubjectDesc>
+  <PWU_SkillCheckSubjectNone>No one</PWU_SkillCheckSubjectNone>
+  <PWU_SkillCheckSubjectNoneDesc>Any pawn can customize persona weapons.</PWU_SkillCheckSubjectNoneDesc>
+  <PWU_SkillCheckSubjectPawn>The pawn doing the customization</PWU_SkillCheckSubjectPawn>
+  <PWU_SkillCheckSubjectPawnDesc>The pawn ordered to customize the weapon must meet the requirement. When selecting a pawn for a weapon on the ground, hovering an under-skilled colonist shows their shortfall.</PWU_SkillCheckSubjectPawnDesc>
+  <PWU_SkillCheckSubjectMap>The most skilled colonist on the map</PWU_SkillCheckSubjectMap>
+  <PWU_SkillCheckSubjectMapDesc>Any colonist on the weapon's map may meet the requirement on the colony's behalf. The pawn doing the work does not need the skill themselves.</PWU_SkillCheckSubjectMapDesc>
+  <PWU_SkillCheckSubjectWorld>The most skilled colonist anywhere</PWU_SkillCheckSubjectWorld>
+  <PWU_SkillCheckSubjectWorldDesc>Any colonist anywhere in the world, including caravans and transports, may meet the requirement on the colony's behalf.</PWU_SkillCheckSubjectWorldDesc>
+  <PWU_SkillCheckNoEffect>Has no effect while the skill check applies to no one.</PWU_SkillCheckNoEffect>
+  <!-- The radio labels under this heading are vanilla's own skill labels (Intellectual, Crafting) -->
+  <PWU_SkillCheckSkill>Skill checked</PWU_SkillCheckSkill>
+  <PWU_SkillCheckSkillDesc>Which skill the check reads. Reprogramming a persona is closer to hacking its AI than reworking the weapon, so Intellectual is the default. Choose Crafting to treat it as workbench craftsmanship instead.</PWU_SkillCheckSkillDesc>
+  <PWU_SkillCheckSkillIntellectualDesc>Check the pawn's Intellectual skill: the persona is reprogrammed by hacking its AI.</PWU_SkillCheckSkillIntellectualDesc>
+  <PWU_SkillCheckSkillCraftingDesc>Check the pawn's Crafting skill: the persona is reworked as a piece of craftsmanship at the bench.</PWU_SkillCheckSkillCraftingDesc>
+  <PWU_SkillCheckKind>Skill requirement</PWU_SkillCheckKind>
+  <PWU_SkillCheckKindDesc>What the checked pawn must have.</PWU_SkillCheckKindDesc>
+  <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
+  <PWU_SkillCheckKindFlat>Minimum {0} skill: {1}</PWU_SkillCheckKindFlat>
+  <!-- {0} = skill label (lowercase, e.g. intellectual) -->
+  <PWU_SkillCheckKindFlatDesc>Require at least this {0} skill level for every weapon.</PWU_SkillCheckKindFlatDesc>
+  <PWU_SkillCheckFlatSliderSelects>Adjusting this selects the minimum skill option.</PWU_SkillCheckFlatSliderSelects>
+  <!-- {0} = Vanilla Skills Expanded expertise label (Hacking for Intellectual, Weaponsmithing for Crafting) -->
+  <PWU_SkillCheckKindExpertise>{0} expertise (Vanilla Skills Expanded)</PWU_SkillCheckKindExpertise>
+  <PWU_SkillCheckKindExpertiseDesc>Require the {0} expertise from Vanilla Skills Expanded.</PWU_SkillCheckKindExpertiseDesc>
 
   <!-- Settings: Crafting recipes -->
   <PWU_EnableMonoswordRecipe>Enable monosword crafting recipe</PWU_EnableMonoswordRecipe>

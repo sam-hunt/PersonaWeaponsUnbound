@@ -14,6 +14,42 @@ namespace PersonaWeaponsUnbound.Tests
     // HaulCandidate quartet (Thing, Position, AvailableCount, MassPerUnit).
     internal static class TestHelpers
     {
+        private static readonly object BootstrapLock = new object();
+        private static bool bootstrapped;
+
+        // Held for the life of the process: Verse.Log routes into Unity
+        // (StackTraceUtility.ExtractStackTrace throws "ECall methods must be
+        // packaged into a system module" outside a Unity runtime), and merely
+        // touching a DefOf class runs DefOfHelper.EnsureInitializedInCtor,
+        // which warns. A LogLock raises Log's own logDisablers counter so
+        // every Log.Message/Warning/Error returns before it reaches Unity.
+        private static Log.LogLock logSuppression;
+
+        // Once-per-process setup for tests that touch Verse globals a headless
+        // run has none of: silences Verse.Log and installs a PrefsData with
+        // devMode off (Prefs.DevMode is TRUE while Prefs.data is null, which
+        // routes dev-only diagnostics into Unity). Required before the first
+        // read or write of any DefOf class (SkillDefOf, ...).
+        public static void BootstrapHeadlessGame()
+        {
+            lock (BootstrapLock)
+            {
+                if (bootstrapped)
+                    return;
+                bootstrapped = true;
+
+                logSuppression = Log.LockMessages();
+                FieldInfo dataField = typeof(Prefs).GetField(
+                    "data", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+                if (dataField == null)
+                {
+                    throw new System.InvalidOperationException(
+                        "Verse.Prefs has no 'data' field any more; the harness cannot force devMode off.");
+                }
+                dataField.SetValue(null, new PrefsData { devMode = false });
+            }
+        }
+
         // ThingDef.smallVolume drives the VolumePerUnit getter that
         // SweepHaulPlanner consults (true → 0.1 per unit, false → 1.0 per
         // unit). Resolved by reflection so we don't bind to a public field

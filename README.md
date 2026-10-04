@@ -61,6 +61,7 @@ All balance levers are configurable from the in-game mod settings:
 - **Techprint count** (0–3) — how many Empire techprints the research requires; 0 removes the requirement entirely, no restart needed
 - **Crafting recipe toggles** — enable/disable each of the three base weapon recipes independently, plus the optional persona core recipe (off by default) with its own component-cost and skill-requirement sliders
 - **Minimum weapon quality** — restrict customization to weapons at or above a quality threshold
+- **Skill check** (off by default) — require Intellectual (hacking the persona) or Crafting skill from the customizing pawn or your best colonist, as a flat minimum or Vanilla Skills Expanded's matching expertise (hacking or weaponsmithing)
 - **Trait discovery progression** — optionally restrict available traits to those seen on persona weapons held by the colony, in caravans, or on hostiles
 - **Trait limit / sole-trait enforcement** — optionally enforce vanilla's generation restrictions during customization
 - **Ingredient hauling** — choose between Sequential (vanilla-equivalent), Sweep, and Thorough haul planners

@@ -27,6 +27,7 @@ namespace PersonaWeaponsUnbound
             {
                 _ = VPWEIntegration.Available;
                 _ = VPWEIntegration.UiSurfaceAvailable;
+                _ = VanillaSkillsExpandedIntegration.Available;
             });
 
             // Manual patch: suppresses VEF's own "Customize" ground float-menu

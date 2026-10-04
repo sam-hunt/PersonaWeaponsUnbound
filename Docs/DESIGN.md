@@ -105,6 +105,18 @@ It is **disabled by default** — vanilla core scarcity is deliberate, and turni
 
 ---
 
+## Optional Skill Check
+
+Off by default. Ported from UWU's skill prerequisite with the kinds that don't fit persona weapons dropped (every base variant is ultratech and uncraftable in vanilla, so there is no recipe or tech-tier spread to key off). Three settings axes:
+
+- **Who is checked:** the customizing pawn, the best colonist on the weapon's map, or the best colonist anywhere (maps, caravans, transports). Under the per-pawn subject, the ground gizmo's targeter annotates under-skilled colonists with vanilla's `SkillTooLow` line rather than excluding them, and picking one surfaces the rejection as a message.
+- **Which skill:** Intellectual (default) or Crafting. Reprogramming an AI persona is hacking, not smithing, so unlike UWU the default is Intellectual; Crafting is offered for players who prefer UWU's workbench-craftsmanship framing or run both mods and want them to agree.
+- **What is demanded:** a flat minimum in the checked skill (slider, default 10), or the Vanilla Skills Expanded expertise paired with it: `Hacker` ("Hacking", Intellectual; VSE ships it `MayRequire` Ideology, which this mod does not require) or `Weaponsmith` ("Weaponsmithing", Crafting). The pairing is resolved live from the selected skill, so the requirement row's label and every rejection message follow the skill switch. When the paired expertise is unavailable (no VSE, or VSE without Ideology under Intellectual) the option is hidden and the stored selection resolves to a flat 15, VSE's own expertise threshold, without rewriting the setting, so installing VSE later restores the player's intent.
+
+VSE is reached through reflection (`VanillaSkillsExpandedIntegration`), so the mod builds and runs without it; shape drift degrades to the flat fallback with a startup warning.
+
+---
+
 ## Workbench Integration
 
 Customization happens at the **fabrication bench**, statically — persona weapons are all ultratech, so there is no workbench tier system. Entry points (unchanged from UWU):

@@ -13,6 +13,14 @@ namespace PersonaWeaponsUnbound
         private Vector2 settingsScroll;
         private float settingsHeight;
 
+        // Whether the skill-check subsection is expanded. Purely a dialog-level
+        // view state (never scribed): derived from the stored subject the first
+        // time the dialog draws after opening, then driven only by the
+        // player's own clicks on the "Require minimum skill" checkbox. Null
+        // means "derive on next draw"; WriteSettings (fired when the dialog
+        // closes) and Reset to defaults clear it so the next open re-derives.
+        private static bool? skillCheckExpanded;
+
         public PWU_Mod(ModContentPack content) : base(content)
         {
             Settings = GetSettings<PWU_Settings>();
@@ -31,6 +39,7 @@ namespace PersonaWeaponsUnbound
             // The persona-core recipe toggle itself is not live: it's an XML
             // patch gate (PatchOperation_UnlessPersonaCoreRecipeEnabled) that
             // only runs at load, so it takes effect on restart.
+            skillCheckExpanded = null;
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
@@ -173,6 +182,10 @@ namespace PersonaWeaponsUnbound
             listing.Label(techprintLabel, tooltip: "PWU_TechprintCountDesc".Translate(
                 PWU_ResearchDefOf.PWU_BladelinkCustomization.label));
             Settings.techprintCount = Mathf.RoundToInt(listing.Slider(Settings.techprintCount, 0f, 3f));
+
+            listing.Gap();
+
+            DrawSkillCheckSettings(listing);
 
             listing.Gap(24.0f);
 
@@ -324,7 +337,207 @@ namespace PersonaWeaponsUnbound
             if (Widgets.ButtonText(buttonRect, "PWU_ResetToDefaults".Translate()))
             {
                 Settings.ResetToDefaults();
+                skillCheckExpanded = null;
             }
+        }
+
+        // The optional skill prerequisite, behind a "Require minimum skill"
+        // checkbox that expands three radio groups (who is checked, which
+        // skill, what is demanded) and the flat-minimum slider. Unticking the
+        // checkbox resets the subject to "no one" and collapses the section;
+        // ticking it only expands (the subject stays "no one" until the player
+        // picks one). Picking "no one" from the radio group does not collapse
+        // the section; only reopening the dialog re-derives the expanded state.
+        //
+        // Within the section the skill and requirement groups and the slider
+        // render inert while the subject is "no one"; the slider is also inert
+        // unless the flat kind is in force. The expertise row is hidden when
+        // the selected skill's expertise is unavailable (no Vanilla Skills
+        // Expanded, or VSE without the DLC it gates that expertise on), and
+        // when it is nonetheless the stored selection the flat row simply
+        // renders as active at the fallback level, mirroring what
+        // SkillCheckRules.EffectiveKind enforces, without touching the stored
+        // value, so installing VSE later restores the player's intent.
+        private const float SkillCheckLabelIndent = 16f;
+        private const float SkillCheckOptionIndent = 32f;
+
+        private static void DrawSkillCheckSettings(Listing_Standard listing)
+        {
+            if (skillCheckExpanded == null)
+                skillCheckExpanded = SkillCheckRules.Enabled;
+
+            bool expanded = skillCheckExpanded.Value;
+            listing.CheckboxLabeled("PWU_SkillCheckEnable".Translate(), ref expanded,
+                "PWU_SkillCheckEnableDesc".Translate());
+            if (expanded != skillCheckExpanded.Value)
+            {
+                skillCheckExpanded = expanded;
+                if (!expanded)
+                    Settings.skillCheckSubject = SkillCheckSubject.None;
+            }
+            if (!expanded)
+                return;
+
+            listing.Gap(8f);
+            listing.Indent(SkillCheckLabelIndent);
+            listing.ColumnWidth -= SkillCheckLabelIndent;
+            float optionTab = SkillCheckOptionIndent - SkillCheckLabelIndent;
+
+            listing.Label("PWU_SkillCheckSubject".Translate(),
+                tooltip: "PWU_SkillCheckSubjectDesc".Translate());
+            listing.Gap(4f);
+
+            DrawSubjectOption(listing, SkillCheckSubject.None,
+                "PWU_SkillCheckSubjectNone".Translate() + "PWU_DefaultSuffix".Translate(),
+                "PWU_SkillCheckSubjectNoneDesc".Translate(), optionTab);
+            DrawSubjectOption(listing, SkillCheckSubject.CustomizingPawn,
+                "PWU_SkillCheckSubjectPawn".Translate(),
+                "PWU_SkillCheckSubjectPawnDesc".Translate(), optionTab);
+            DrawSubjectOption(listing, SkillCheckSubject.BestOnMap,
+                "PWU_SkillCheckSubjectMap".Translate(),
+                "PWU_SkillCheckSubjectMapDesc".Translate(), optionTab);
+            DrawSubjectOption(listing, SkillCheckSubject.BestAnywhere,
+                "PWU_SkillCheckSubjectWorld".Translate(),
+                "PWU_SkillCheckSubjectWorldDesc".Translate(), optionTab);
+
+            listing.Gap(8f);
+
+            bool enabled = SkillCheckRules.Enabled;
+            string inertTip = "PWU_SkillCheckNoEffect".Translate();
+            SkillCheckSkill skill = Settings.skillCheckSkill;
+            Color prevColor = GUI.color;
+
+            // Which skill. Radio labels are vanilla's own skill labels so they
+            // match the skills tab in every language.
+            if (!enabled)
+                GUI.color = Color.gray;
+            listing.Label("PWU_SkillCheckSkill".Translate(),
+                tooltip: enabled ? "PWU_SkillCheckSkillDesc".Translate() : inertTip);
+            GUI.color = prevColor;
+            listing.Gap(4f);
+
+            if (DrawRadioOption(listing,
+                SkillCheckRules.SkillDefFor(SkillCheckSkill.Intellectual).LabelCap
+                    + "PWU_DefaultSuffix".Translate(),
+                enabled ? "PWU_SkillCheckSkillIntellectualDesc".Translate() : inertTip,
+                active: skill == SkillCheckSkill.Intellectual,
+                enabled: enabled, tabIn: optionTab))
+            {
+                Settings.skillCheckSkill = skill = SkillCheckSkill.Intellectual;
+            }
+
+            if (DrawRadioOption(listing,
+                SkillCheckRules.SkillDefFor(SkillCheckSkill.Crafting).LabelCap,
+                enabled ? "PWU_SkillCheckSkillCraftingDesc".Translate() : inertTip,
+                active: skill == SkillCheckSkill.Crafting,
+                enabled: enabled, tabIn: optionTab))
+            {
+                Settings.skillCheckSkill = skill = SkillCheckSkill.Crafting;
+            }
+
+            listing.Gap(8f);
+
+            // What is demanded. Evaluated after the skill group so a click
+            // there is reflected in the same frame.
+            SkillCheckKind effective = SkillCheckRules.EffectiveKind(out int flatLevel);
+            string skillLabel = SkillCheckRules.SkillDefFor(skill).skillLabel;
+
+            if (!enabled)
+                GUI.color = Color.gray;
+            listing.Label("PWU_SkillCheckKind".Translate(),
+                tooltip: enabled ? "PWU_SkillCheckKindDesc".Translate() : inertTip);
+            GUI.color = prevColor;
+            listing.Gap(4f);
+
+            // Hidden when the paired expertise can't be checked; a stored
+            // expertise selection then shows as the flat row active at the
+            // fallback level (see the summary comment above) and is kept for
+            // when VSE returns.
+            if (SkillCheckRules.ExpertiseAvailableFor(skill))
+            {
+                string expertiseLabel = SkillCheckRules.ExpertiseLabelFor(skill);
+                if (DrawRadioOption(listing,
+                    "PWU_SkillCheckKindExpertise".Translate(expertiseLabel).CapitalizeFirst(),
+                    enabled ? "PWU_SkillCheckKindExpertiseDesc".Translate(expertiseLabel) : inertTip,
+                    active: effective == SkillCheckKind.Expertise,
+                    enabled: enabled, tabIn: optionTab))
+                {
+                    Settings.skillCheckKind = SkillCheckKind.Expertise;
+                }
+            }
+
+            // The flat row sits last so its slider closes the group instead of
+            // splitting it. The radio label doubles as the slider's value label
+            // (no "(default)" suffix here: on a radio row it would read as the
+            // default option rather than the default level).
+            string flatLabel = "PWU_SkillCheckKindFlat".Translate(skillLabel, flatLevel).CapitalizeFirst();
+            string flatTip = enabled ? "PWU_SkillCheckKindFlatDesc".Translate(skillLabel) : inertTip;
+            if (DrawRadioOption(listing, flatLabel, flatTip,
+                active: effective == SkillCheckKind.FlatMinimum,
+                enabled: enabled, tabIn: optionTab))
+            {
+                Settings.skillCheckKind = SkillCheckKind.FlatMinimum;
+            }
+
+            // Slider indented under its radio row's label. Live whenever the
+            // group is, and touching it (a press over it or a value change)
+            // also selects the flat kind, so the player needn't click the radio
+            // first (under the expertise fallback that makes the displayed
+            // fallback level the permanent choice). With the group inert
+            // (subject "no one") the slider is grey and non-interactive, and
+            // never re-enables anything.
+            Rect sliderRect = listing.GetRect(22f);
+            sliderRect.xMin += optionTab + 12f;
+            if (enabled)
+            {
+                // Read before the slider consumes the event.
+                bool pressed = Event.current.type == EventType.MouseDown
+                    && Event.current.button == 0 && Mouse.IsOver(sliderRect);
+                int chosen = Mathf.RoundToInt(Widgets.HorizontalSlider(sliderRect, flatLevel,
+                    SkillCheckRules.MinFlatLevel, SkillCheckRules.MaxFlatLevel));
+                if (pressed || chosen != flatLevel)
+                {
+                    Settings.skillCheckMinimumLevel = chosen;
+                    Settings.skillCheckKind = SkillCheckKind.FlatMinimum;
+                }
+                if (effective != SkillCheckKind.FlatMinimum)
+                    TooltipHandler.TipRegion(sliderRect, "PWU_SkillCheckFlatSliderSelects".Translate());
+            }
+            else
+            {
+                GUI.color = Color.gray;
+                Widgets.HorizontalSlider(sliderRect, flatLevel,
+                    SkillCheckRules.MinFlatLevel, SkillCheckRules.MaxFlatLevel);
+                GUI.color = prevColor;
+                TooltipHandler.TipRegion(sliderRect, inertTip);
+            }
+
+            listing.ColumnWidth += SkillCheckLabelIndent;
+            listing.Outdent(SkillCheckLabelIndent);
+        }
+
+        private static void DrawSubjectOption(
+            Listing_Standard listing, SkillCheckSubject subject, string label, string tooltip,
+            float tabIn)
+        {
+            if (DrawRadioOption(listing, label, tooltip,
+                active: Settings.skillCheckSubject == subject, enabled: true, tabIn: tabIn))
+            {
+                Settings.skillCheckSubject = subject;
+            }
+        }
+
+        // One radio row. Disabled rows render in vanilla's subtle grey and
+        // ignore clicks (Widgets.RadioButtonLabeled still reports the click, so
+        // the enabled check lives here). Returns true when an enabled row was
+        // clicked.
+        private static bool DrawRadioOption(
+            Listing_Standard listing, string label, string tooltip, bool active, bool enabled,
+            float tabIn = 0f)
+        {
+            bool clicked = listing.RadioButton(label, active, tabIn, tooltip, null, disabled: !enabled);
+            listing.Gap(4f);
+            return clicked && enabled;
         }
 
         // Renders one row of the haul-planner radio group. Selecting an option
