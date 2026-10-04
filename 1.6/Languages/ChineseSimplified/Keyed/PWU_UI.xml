@@ -12,6 +12,23 @@
   <PWU_NoSuitableWorkbench>没有合适的工作台</PWU_NoSuitableWorkbench>
   <!-- EN: requires {0} quality or better -->
   <PWU_RequiresMinimumQuality>需要{0}及以上品质</PWU_RequiresMinimumQuality>
+  <!-- Skill check rejections (a pawn's own skill shortfall reuses vanilla SkillTooLow).
+       {0} = skill label (lowercase, e.g. intellectual) or expertise label; {1} = required level -->
+  <!-- EN: requires {0} expertise -->
+  <PWU_RequiresExpertise>需要{0}专精</PWU_RequiresExpertise>
+  <!-- EN: no colonist has {0} {1} -->
+  <PWU_NoColonistWithSkill>没有殖民者拥有{1}级{0}技能</PWU_NoColonistWithSkill>
+  <!-- EN: no colonist on this map has {0} {1} -->
+  <PWU_NoColonistOnMapWithSkill>此地图上没有殖民者拥有{1}级{0}技能</PWU_NoColonistOnMapWithSkill>
+  <!-- EN: no colonist has {0} expertise -->
+  <PWU_NoColonistWithExpertise>没有殖民者拥有{0}专精</PWU_NoColonistWithExpertise>
+  <!-- EN: no colonist on this map has {0} expertise -->
+  <PWU_NoColonistOnMapWithExpertise>此地图上没有殖民者拥有{0}专精</PWU_NoColonistOnMapWithExpertise>
+  <!-- Used in place of the Vanilla Skills Expanded expertise label when it cannot be read -->
+  <!-- EN: hacking -->
+  <PWU_HackingFallbackLabel>黑客技术</PWU_HackingFallbackLabel>
+  <!-- EN: weaponsmithing -->
+  <PWU_WeaponsmithingFallbackLabel>武器锻造</PWU_WeaponsmithingFallbackLabel>
   <!-- EN: Customize persona -->
   <PWU_CustomizeGizmoLabel>定制人格</PWU_CustomizeGizmoLabel>
   <!-- EN: Select a colonist to customize this weapon at a nearby workbench. -->
@@ -292,6 +309,58 @@
   <PWU_TechprintCount>所需科研蓝图数量：{0}</PWU_TechprintCount>
   <!-- EN: Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed. -->
   <PWU_TechprintCountDesc>在研究点数消耗之外，完成该研究还需要的“{0}”科研蓝图数量。设为0将完全移除科研蓝图要求，并使商人不再进货该蓝图。设置立即生效，无需重启。</PWU_TechprintCountDesc>
+  <!-- EN: Require minimum skill -->
+  <PWU_SkillCheckEnable>要求最低技能</PWU_SkillCheckEnable>
+  <!-- EN: Require a skill before a weapon's persona can be customized. Choose whose skill is checked, which skill, and what is required below. -->
+  <PWU_SkillCheckEnableDesc>自定义武器的人格前要求具备相应技能。可在下方选择检查谁的技能、检查哪项技能以及具体要求。</PWU_SkillCheckEnableDesc>
+  <!-- EN: Skill check applies to -->
+  <PWU_SkillCheckSubject>技能检查对象</PWU_SkillCheckSubject>
+  <!-- EN: Whose skill is checked. Which skill, and what is required, are set below. -->
+  <PWU_SkillCheckSubjectDesc>检查谁的技能。检查哪项技能以及具体要求在下方设置。</PWU_SkillCheckSubjectDesc>
+  <!-- EN: No one -->
+  <PWU_SkillCheckSubjectNone>无</PWU_SkillCheckSubjectNone>
+  <!-- EN: Any pawn can customize persona weapons. -->
+  <PWU_SkillCheckSubjectNoneDesc>任何人都可以自定义人格武器。</PWU_SkillCheckSubjectNoneDesc>
+  <!-- EN: The pawn doing the customization -->
+  <PWU_SkillCheckSubjectPawn>执行自定义的角色</PWU_SkillCheckSubjectPawn>
+  <!-- EN: The pawn ordered to customize the weapon must meet the requirement. When selecting a pawn for a weapon on the ground, hovering an under-skilled colonist shows their shortfall. -->
+  <PWU_SkillCheckSubjectPawnDesc>被命令自定义武器的角色必须满足要求。为地面上的武器选择角色时，将鼠标悬停在技能不足的殖民者上可查看其差距。</PWU_SkillCheckSubjectPawnDesc>
+  <!-- EN: The most skilled colonist on the map -->
+  <PWU_SkillCheckSubjectMap>地图上技能最高的殖民者</PWU_SkillCheckSubjectMap>
+  <!-- EN: Any colonist on the weapon's map may meet the requirement on the colony's behalf. The pawn doing the work does not need the skill themselves. -->
+  <PWU_SkillCheckSubjectMapDesc>武器所在地图上的任何殖民者都可以代表殖民地满足要求。执行工作的角色自己无需具备该技能。</PWU_SkillCheckSubjectMapDesc>
+  <!-- EN: The most skilled colonist anywhere -->
+  <PWU_SkillCheckSubjectWorld>任意位置技能最高的殖民者</PWU_SkillCheckSubjectWorld>
+  <!-- EN: Any colonist anywhere in the world, including caravans and transports, may meet the requirement on the colony's behalf. -->
+  <PWU_SkillCheckSubjectWorldDesc>世界上任何位置的殖民者，包括远行队和运输舱中的殖民者，都可以代表殖民地满足要求。</PWU_SkillCheckSubjectWorldDesc>
+  <!-- EN: Has no effect while the skill check applies to no one. -->
+  <PWU_SkillCheckNoEffect>技能检查对象为“无”时不起作用。</PWU_SkillCheckNoEffect>
+  <!-- The radio labels under this heading are vanilla's own skill labels (Intellectual, Crafting) -->
+  <!-- EN: Skill checked -->
+  <PWU_SkillCheckSkill>检查的技能</PWU_SkillCheckSkill>
+  <!-- EN: Which skill the check reads. Reprogramming a persona is closer to hacking its AI than reworking the weapon, so Intellectual is the default. Choose Crafting to treat it as workbench craftsmanship instead. -->
+  <PWU_SkillCheckSkillDesc>检查读取哪项技能。重新编写人格更像是入侵其AI，而不是改造武器本身，因此默认为智识。选择手工则将其视为工作台上的工艺活。</PWU_SkillCheckSkillDesc>
+  <!-- EN: Check the pawn's Intellectual skill: the persona is reprogrammed by hacking its AI. -->
+  <PWU_SkillCheckSkillIntellectualDesc>检查角色的智识技能：通过入侵其AI来重新编写人格。</PWU_SkillCheckSkillIntellectualDesc>
+  <!-- EN: Check the pawn's Crafting skill: the persona is reworked as a piece of craftsmanship at the bench. -->
+  <PWU_SkillCheckSkillCraftingDesc>检查角色的手工技能：在工作台上把人格当作一件工艺品来改造。</PWU_SkillCheckSkillCraftingDesc>
+  <!-- EN: Skill requirement -->
+  <PWU_SkillCheckKind>技能要求</PWU_SkillCheckKind>
+  <!-- EN: What the checked pawn must have. -->
+  <PWU_SkillCheckKindDesc>被检查的角色必须具备什么。</PWU_SkillCheckKindDesc>
+  <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
+  <!-- EN: Minimum {0} skill: {1} -->
+  <PWU_SkillCheckKindFlat>最低{0}技能：{1}</PWU_SkillCheckKindFlat>
+  <!-- {0} = skill label (lowercase, e.g. intellectual) -->
+  <!-- EN: Require at least this {0} skill level for every weapon. -->
+  <PWU_SkillCheckKindFlatDesc>每把武器都要求至少达到此{0}技能等级。</PWU_SkillCheckKindFlatDesc>
+  <!-- EN: Adjusting this selects the minimum skill option. -->
+  <PWU_SkillCheckFlatSliderSelects>调整此项将选中“最低技能”选项。</PWU_SkillCheckFlatSliderSelects>
+  <!-- {0} = Vanilla Skills Expanded expertise label (Hacking for Intellectual, Weaponsmithing for Crafting) -->
+  <!-- EN: {0} expertise (Vanilla Skills Expanded) -->
+  <PWU_SkillCheckKindExpertise>{0}专精（Vanilla Skills Expanded）</PWU_SkillCheckKindExpertise>
+  <!-- EN: Require the {0} expertise from Vanilla Skills Expanded. -->
+  <PWU_SkillCheckKindExpertiseDesc>要求具备 Vanilla Skills Expanded 中的{0}专精。</PWU_SkillCheckKindExpertiseDesc>
 
   <!-- Settings: Crafting recipes -->
   <!-- EN: Enable monosword crafting recipe -->

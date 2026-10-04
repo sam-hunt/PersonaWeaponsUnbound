@@ -59,6 +59,9 @@ do not silently flip it either way.
 | armor penetration / damage / accuracy | Penetración de blindaje / Daño / Precisión | Penetración de armadura | Core `ArmorPenetration`, `Damage`, `Accuracy` |
 | EMP / EMP stun | PEM / Aturdido por PEM | EMP | Core `StunnedByEMP`, Royalty zeushammer desc — es localizes the acronym |
 | gizmo button | botón de comando | gizmo, artilugio | no vanilla es `Gizmo*` key exists; `Command*Desc` establishes "comando" |
+| expertise (VSE) / hacking / weaponsmithing | pericia en {0} / hackeo / armería | | Mod-coined: no vanilla anchor for VSE's expertise. `pericia en` keeps {0} article-free (UWU's sibling choice); `hackeo` from Core's `hackeando TargetA.`; `armería` matches UWU's fallback |
+| Intellectual / Crafting (skills) | inteligencia / fabricación | intelecto, artesanía | Core `Intellectual.skillLabel`, `Crafting.skillLabel` |
+| skill check | comprobación de habilidad | | Mod-coined, same wording as UWU |
 
 ## Worked rewrites tied to PWU's own strings
 

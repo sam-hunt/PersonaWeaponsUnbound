@@ -12,6 +12,23 @@
   <PWU_NoSuitableWorkbench>適切な作業台がない</PWU_NoSuitableWorkbench>
   <!-- EN: requires {0} quality or better -->
   <PWU_RequiresMinimumQuality>{0}以上の品質が必要</PWU_RequiresMinimumQuality>
+  <!-- Skill check rejections (a pawn's own skill shortfall reuses vanilla SkillTooLow).
+       {0} = skill label (lowercase, e.g. intellectual) or expertise label; {1} = required level -->
+  <!-- EN: requires {0} expertise -->
+  <PWU_RequiresExpertise>{0}の専門知識が必要</PWU_RequiresExpertise>
+  <!-- EN: no colonist has {0} {1} -->
+  <PWU_NoColonistWithSkill>{0}レベル{1}以上の入植者がいない</PWU_NoColonistWithSkill>
+  <!-- EN: no colonist on this map has {0} {1} -->
+  <PWU_NoColonistOnMapWithSkill>このマップに{0}レベル{1}以上の入植者がいない</PWU_NoColonistOnMapWithSkill>
+  <!-- EN: no colonist has {0} expertise -->
+  <PWU_NoColonistWithExpertise>{0}の専門知識を持つ入植者がいない</PWU_NoColonistWithExpertise>
+  <!-- EN: no colonist on this map has {0} expertise -->
+  <PWU_NoColonistOnMapWithExpertise>このマップに{0}の専門知識を持つ入植者がいない</PWU_NoColonistOnMapWithExpertise>
+  <!-- Used in place of the Vanilla Skills Expanded expertise label when it cannot be read -->
+  <!-- EN: hacking -->
+  <PWU_HackingFallbackLabel>ハッキング</PWU_HackingFallbackLabel>
+  <!-- EN: weaponsmithing -->
+  <PWU_WeaponsmithingFallbackLabel>武器鍛冶</PWU_WeaponsmithingFallbackLabel>
   <!-- EN: Customize persona -->
   <PWU_CustomizeGizmoLabel>ペルソナをカスタマイズ</PWU_CustomizeGizmoLabel>
   <!-- EN: Select a colonist to customize this weapon at a nearby workbench. -->
@@ -292,6 +309,58 @@
   <PWU_TechprintCount>必要なテックプリント数: {0}</PWU_TechprintCount>
   <!-- EN: Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed. -->
   <PWU_TechprintCountDesc>研究ポイントの消費に加えて,この研究の完了に必要な「{0}」のテックプリントの枚数です.0に設定するとテックプリントの要求が完全になくなり,貿易商もこのテックプリントを扱わなくなります.設定は即座に反映され,再起動は不要です.</PWU_TechprintCountDesc>
+  <!-- EN: Require minimum skill -->
+  <PWU_SkillCheckEnable>最低限のスキルを必要とする</PWU_SkillCheckEnable>
+  <!-- EN: Require a skill before a weapon's persona can be customized. Choose whose skill is checked, which skill, and what is required below. -->
+  <PWU_SkillCheckEnableDesc>武器のペルソナをカスタマイズする前にスキルを必要とします.誰のスキルを確認するか,どのスキルか,何を必要とするかは下で選択します.</PWU_SkillCheckEnableDesc>
+  <!-- EN: Skill check applies to -->
+  <PWU_SkillCheckSubject>スキルチェックの対象</PWU_SkillCheckSubject>
+  <!-- EN: Whose skill is checked. Which skill, and what is required, are set below. -->
+  <PWU_SkillCheckSubjectDesc>スキルを確認する対象です.どのスキルか,何を必要とするかは下で設定します.</PWU_SkillCheckSubjectDesc>
+  <!-- EN: No one -->
+  <PWU_SkillCheckSubjectNone>対象なし</PWU_SkillCheckSubjectNone>
+  <!-- EN: Any pawn can customize persona weapons. -->
+  <PWU_SkillCheckSubjectNoneDesc>誰でもペルソナ武器をカスタマイズできます.</PWU_SkillCheckSubjectNoneDesc>
+  <!-- EN: The pawn doing the customization -->
+  <PWU_SkillCheckSubjectPawn>カスタマイズを行う入植者</PWU_SkillCheckSubjectPawn>
+  <!-- EN: The pawn ordered to customize the weapon must meet the requirement. When selecting a pawn for a weapon on the ground, hovering an under-skilled colonist shows their shortfall. -->
+  <PWU_SkillCheckSubjectPawnDesc>武器のカスタマイズを指示された入植者が条件を満たす必要があります.地面にある武器に対して入植者を選択する際,スキルが足りない入植者にカーソルを合わせると,その不足分が表示されます.</PWU_SkillCheckSubjectPawnDesc>
+  <!-- EN: The most skilled colonist on the map -->
+  <PWU_SkillCheckSubjectMap>マップ上で最も熟練した入植者</PWU_SkillCheckSubjectMap>
+  <!-- EN: Any colonist on the weapon's map may meet the requirement on the colony's behalf. The pawn doing the work does not need the skill themselves. -->
+  <PWU_SkillCheckSubjectMapDesc>武器があるマップ上の入植者の誰かが,コロニーに代わって条件を満たせば構いません.作業を行う入植者自身がスキルを持っている必要はありません.</PWU_SkillCheckSubjectMapDesc>
+  <!-- EN: The most skilled colonist anywhere -->
+  <PWU_SkillCheckSubjectWorld>世界中で最も熟練した入植者</PWU_SkillCheckSubjectWorld>
+  <!-- EN: Any colonist anywhere in the world, including caravans and transports, may meet the requirement on the colony's behalf. -->
+  <PWU_SkillCheckSubjectWorldDesc>キャラバン隊や輸送中の入植者も含め,世界中のどこにいる入植者でも,コロニーに代わって条件を満たせば構いません.</PWU_SkillCheckSubjectWorldDesc>
+  <!-- EN: Has no effect while the skill check applies to no one. -->
+  <PWU_SkillCheckNoEffect>スキルチェックの対象が「対象なし」の間は,効果がありません.</PWU_SkillCheckNoEffect>
+  <!-- The radio labels under this heading are vanilla's own skill labels (Intellectual, Crafting) -->
+  <!-- EN: Skill checked -->
+  <PWU_SkillCheckSkill>確認するスキル</PWU_SkillCheckSkill>
+  <!-- EN: Which skill the check reads. Reprogramming a persona is closer to hacking its AI than reworking the weapon, so Intellectual is the default. Choose Crafting to treat it as workbench craftsmanship instead. -->
+  <PWU_SkillCheckSkillDesc>確認するスキルです.ペルソナの再プログラミングは,武器を作り直すというよりそのAIをハッキングするのに近いため,デフォルトは知力です.作業台での職人技として扱いたい場合は工芸を選択してください.</PWU_SkillCheckSkillDesc>
+  <!-- EN: Check the pawn's Intellectual skill: the persona is reprogrammed by hacking its AI. -->
+  <PWU_SkillCheckSkillIntellectualDesc>入植者の知力スキルを確認します: ペルソナはそのAIをハッキングすることで再プログラミングされます.</PWU_SkillCheckSkillIntellectualDesc>
+  <!-- EN: Check the pawn's Crafting skill: the persona is reworked as a piece of craftsmanship at the bench. -->
+  <PWU_SkillCheckSkillCraftingDesc>入植者の工芸スキルを確認します: ペルソナは作業台で職人技として作り直されます.</PWU_SkillCheckSkillCraftingDesc>
+  <!-- EN: Skill requirement -->
+  <PWU_SkillCheckKind>スキル要件</PWU_SkillCheckKind>
+  <!-- EN: What the checked pawn must have. -->
+  <PWU_SkillCheckKindDesc>確認対象の入植者が満たすべき内容です.</PWU_SkillCheckKindDesc>
+  <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
+  <!-- EN: Minimum {0} skill: {1} -->
+  <PWU_SkillCheckKindFlat>最低{0}スキル: {1}</PWU_SkillCheckKindFlat>
+  <!-- {0} = skill label (lowercase, e.g. intellectual) -->
+  <!-- EN: Require at least this {0} skill level for every weapon. -->
+  <PWU_SkillCheckKindFlatDesc>すべての武器に対して,少なくともこのレベルの{0}スキルを必要とします.</PWU_SkillCheckKindFlatDesc>
+  <!-- EN: Adjusting this selects the minimum skill option. -->
+  <PWU_SkillCheckFlatSliderSelects>これを調整すると最低スキルのオプションが選択されます.</PWU_SkillCheckFlatSliderSelects>
+  <!-- {0} = Vanilla Skills Expanded expertise label (Hacking for Intellectual, Weaponsmithing for Crafting) -->
+  <!-- EN: {0} expertise (Vanilla Skills Expanded) -->
+  <PWU_SkillCheckKindExpertise>{0}の専門知識 (Vanilla Skills Expanded)</PWU_SkillCheckKindExpertise>
+  <!-- EN: Require the {0} expertise from Vanilla Skills Expanded. -->
+  <PWU_SkillCheckKindExpertiseDesc>Vanilla Skills Expandedの{0}の専門知識を必要とします.</PWU_SkillCheckKindExpertiseDesc>
 
   <!-- Settings: Crafting recipes -->
   <!-- EN: Enable monosword crafting recipe -->

@@ -12,6 +12,23 @@
   <PWU_NoSuitableWorkbench>nenhuma bancada adequada</PWU_NoSuitableWorkbench>
   <!-- EN: requires {0} quality or better -->
   <PWU_RequiresMinimumQuality>requer qualidade "{0}" ou melhor</PWU_RequiresMinimumQuality>
+  <!-- Skill check rejections (a pawn's own skill shortfall reuses vanilla SkillTooLow).
+       {0} = skill label (lowercase, e.g. intellectual) or expertise label; {1} = required level -->
+  <!-- EN: requires {0} expertise -->
+  <PWU_RequiresExpertise>requer especialização em {0}</PWU_RequiresExpertise>
+  <!-- EN: no colonist has {0} {1} -->
+  <PWU_NoColonistWithSkill>nenhum colono tem {0} {1}</PWU_NoColonistWithSkill>
+  <!-- EN: no colonist on this map has {0} {1} -->
+  <PWU_NoColonistOnMapWithSkill>nenhum colono neste mapa tem {0} {1}</PWU_NoColonistOnMapWithSkill>
+  <!-- EN: no colonist has {0} expertise -->
+  <PWU_NoColonistWithExpertise>nenhum colono tem especialização em {0}</PWU_NoColonistWithExpertise>
+  <!-- EN: no colonist on this map has {0} expertise -->
+  <PWU_NoColonistOnMapWithExpertise>nenhum colono neste mapa tem especialização em {0}</PWU_NoColonistOnMapWithExpertise>
+  <!-- Used in place of the Vanilla Skills Expanded expertise label when it cannot be read -->
+  <!-- EN: hacking -->
+  <PWU_HackingFallbackLabel>hacking</PWU_HackingFallbackLabel>
+  <!-- EN: weaponsmithing -->
+  <PWU_WeaponsmithingFallbackLabel>armaria</PWU_WeaponsmithingFallbackLabel>
   <!-- EN: Customize persona -->
   <PWU_CustomizeGizmoLabel>Personalizar persona</PWU_CustomizeGizmoLabel>
   <!-- EN: Select a colonist to customize this weapon at a nearby workbench. -->
@@ -295,6 +312,58 @@
   <!-- {0} = bladelink customization (research label) -->
   <!-- EN: Number of {0} techprints required to complete the research, on top of its research point cost. Setting this to 0 removes the techprint requirement entirely and stops traders from stocking the print. Takes effect immediately, no restart needed. -->
   <PWU_TechprintCountDesc>Número de projetos técnicos de '{0}' necessários para concluir a pesquisa, além do seu custo em pontos de pesquisa. Definir isto como 0 remove completamente a exigência de projetos técnicos e faz os comerciantes pararem de estocá-los. Aplica-se imediatamente, sem precisar reiniciar.</PWU_TechprintCountDesc>
+  <!-- EN: Require minimum skill -->
+  <PWU_SkillCheckEnable>Exigir habilidade mínima</PWU_SkillCheckEnable>
+  <!-- EN: Require a skill before a weapon's persona can be customized. Choose whose skill is checked, which skill, and what is required below. -->
+  <PWU_SkillCheckEnableDesc>Exige uma habilidade antes que a persona de uma arma possa ser personalizada. Escolha abaixo de quem a habilidade é verificada, qual habilidade e o que é exigido.</PWU_SkillCheckEnableDesc>
+  <!-- EN: Skill check applies to -->
+  <PWU_SkillCheckSubject>A verificação de habilidade vale para</PWU_SkillCheckSubject>
+  <!-- EN: Whose skill is checked. Which skill, and what is required, are set below. -->
+  <PWU_SkillCheckSubjectDesc>De quem a habilidade é verificada. Qual habilidade e o que é exigido são definidos abaixo.</PWU_SkillCheckSubjectDesc>
+  <!-- EN: No one -->
+  <PWU_SkillCheckSubjectNone>Ninguém</PWU_SkillCheckSubjectNone>
+  <!-- EN: Any pawn can customize persona weapons. -->
+  <PWU_SkillCheckSubjectNoneDesc>Qualquer personagem pode personalizar armas persona.</PWU_SkillCheckSubjectNoneDesc>
+  <!-- EN: The pawn doing the customization -->
+  <PWU_SkillCheckSubjectPawn>O personagem que faz a personalização</PWU_SkillCheckSubjectPawn>
+  <!-- EN: The pawn ordered to customize the weapon must meet the requirement. When selecting a pawn for a weapon on the ground, hovering an under-skilled colonist shows their shortfall. -->
+  <PWU_SkillCheckSubjectPawnDesc>O personagem designado para personalizar a arma deve cumprir o requisito. Ao selecionar um personagem para uma arma no chão, passar o cursor sobre um colono sem habilidade suficiente mostra o que lhe falta.</PWU_SkillCheckSubjectPawnDesc>
+  <!-- EN: The most skilled colonist on the map -->
+  <PWU_SkillCheckSubjectMap>O colono mais habilidoso do mapa</PWU_SkillCheckSubjectMap>
+  <!-- EN: Any colonist on the weapon's map may meet the requirement on the colony's behalf. The pawn doing the work does not need the skill themselves. -->
+  <PWU_SkillCheckSubjectMapDesc>Qualquer colono no mapa da arma pode cumprir o requisito em nome da colônia. Quem faz o trabalho não precisa ter a habilidade.</PWU_SkillCheckSubjectMapDesc>
+  <!-- EN: The most skilled colonist anywhere -->
+  <PWU_SkillCheckSubjectWorld>O colono mais habilidoso em qualquer lugar</PWU_SkillCheckSubjectWorld>
+  <!-- EN: Any colonist anywhere in the world, including caravans and transports, may meet the requirement on the colony's behalf. -->
+  <PWU_SkillCheckSubjectWorldDesc>Qualquer colono em qualquer lugar do mundo, inclusive em caravanas e transportes, pode cumprir o requisito em nome da colônia.</PWU_SkillCheckSubjectWorldDesc>
+  <!-- EN: Has no effect while the skill check applies to no one. -->
+  <PWU_SkillCheckNoEffect>Não tem efeito enquanto a verificação de habilidade não valer para ninguém.</PWU_SkillCheckNoEffect>
+  <!-- The radio labels under this heading are vanilla's own skill labels (Intellectual, Crafting) -->
+  <!-- EN: Skill checked -->
+  <PWU_SkillCheckSkill>Habilidade verificada</PWU_SkillCheckSkill>
+  <!-- EN: Which skill the check reads. Reprogramming a persona is closer to hacking its AI than reworking the weapon, so Intellectual is the default. Choose Crafting to treat it as workbench craftsmanship instead. -->
+  <PWU_SkillCheckSkillDesc>Qual habilidade a verificação lê. Reprogramar uma persona se parece mais com hackear sua IA do que com retrabalhar a arma, por isso Intelectual é o padrão. Escolha Fabricação para tratar o processo como trabalho de bancada.</PWU_SkillCheckSkillDesc>
+  <!-- EN: Check the pawn's Intellectual skill: the persona is reprogrammed by hacking its AI. -->
+  <PWU_SkillCheckSkillIntellectualDesc>Verifica a habilidade Intelectual do personagem: a persona é reprogramada hackeando sua IA.</PWU_SkillCheckSkillIntellectualDesc>
+  <!-- EN: Check the pawn's Crafting skill: the persona is reworked as a piece of craftsmanship at the bench. -->
+  <PWU_SkillCheckSkillCraftingDesc>Verifica a habilidade Fabricação do personagem: a persona é retrabalhada como uma peça de artesanato na bancada.</PWU_SkillCheckSkillCraftingDesc>
+  <!-- EN: Skill requirement -->
+  <PWU_SkillCheckKind>Requisito de habilidade</PWU_SkillCheckKind>
+  <!-- EN: What the checked pawn must have. -->
+  <PWU_SkillCheckKindDesc>O que o personagem verificado precisa ter.</PWU_SkillCheckKindDesc>
+  <!-- {0} = skill label (lowercase, e.g. intellectual), {1} = required level -->
+  <!-- EN: Minimum {0} skill: {1} -->
+  <PWU_SkillCheckKindFlat>Habilidade mínima de {0}: {1}</PWU_SkillCheckKindFlat>
+  <!-- {0} = skill label (lowercase, e.g. intellectual) -->
+  <!-- EN: Require at least this {0} skill level for every weapon. -->
+  <PWU_SkillCheckKindFlatDesc>Exige pelo menos este nível de habilidade de {0} para toda arma.</PWU_SkillCheckKindFlatDesc>
+  <!-- EN: Adjusting this selects the minimum skill option. -->
+  <PWU_SkillCheckFlatSliderSelects>Ajustar isto seleciona a opção de habilidade mínima.</PWU_SkillCheckFlatSliderSelects>
+  <!-- {0} = Vanilla Skills Expanded expertise label (Hacking for Intellectual, Weaponsmithing for Crafting) -->
+  <!-- EN: {0} expertise (Vanilla Skills Expanded) -->
+  <PWU_SkillCheckKindExpertise>Especialização em {0} (Vanilla Skills Expanded)</PWU_SkillCheckKindExpertise>
+  <!-- EN: Require the {0} expertise from Vanilla Skills Expanded. -->
+  <PWU_SkillCheckKindExpertiseDesc>Exige a especialização em {0} do Vanilla Skills Expanded.</PWU_SkillCheckKindExpertiseDesc>
 
   <!-- Settings: Crafting recipes -->
   <!-- EN: Enable monosword crafting recipe -->

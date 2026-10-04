@@ -67,6 +67,7 @@ only needed if surrounding context is absent (vanilla itself ships
 | EMP stun | Betäubt durch EMP | | Core `StunnedByEMP` |
 | gizmo button | Befehlsknopf | Gizmo | no vanilla de `Gizmo*` key exists; Befehlsknopf is the descriptive form |
 | bladelink customization (this mod's research) | Personawaffen anpassen | | composed from two grounded terms — see below |
+| Intellectual (skill) / skill check / expertise (VSE) / hacking | Intellekt / Fertigkeitsprüfung / Expertise / Hacking | Wissenschaft, Kompetenz | Core `Intellectual.skillLabel` = Intellekt (Crafting = Handwerk, above); Fertigkeit is Core `Skill`; Expertise and Hacking are mod-coined with no vanilla anchor, wording shared with UWU's de |
 
 ## Worked rewrites tied to PWU's own strings
 

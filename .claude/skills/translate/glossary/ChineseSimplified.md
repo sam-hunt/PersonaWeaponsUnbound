@@ -42,6 +42,8 @@ counterpart).
 | freewielder (trait label) | 自由 | 自由持有 | Royalty `NeverBond.label` — quote it as “自由”特性 when naming it |
 | stopping power / burst count / burst speed | 抑止能力 / 连射次数 / 射速 | | Core `StoppingPower`, `BurstShotCount`, `BurstShotFireRate` |
 | bladelink customization (this mod's research) | 智能人格定制 | | **Coined** — see above |
+| hacking (VSE expertise fallback label) | 黑客技术 | | **Coined**: VSE zh label unverified; plain noun for mid-sentence use before 专精 |
+| Intellectual (skill) | 智识 | 智力 | Core `Intellectual.skillLabel` |
 
 ## Landmine — ShipComputerCore research prerequisite
 
