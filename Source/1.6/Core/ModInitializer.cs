@@ -15,11 +15,16 @@ namespace PersonaWeaponsUnbound
             var harmony = new Harmony("shunter.personaweaponsunbound");
             report.Time("Harmony patching", () => harmony.PatchAll());
 
-            report.Time("WeaponRegistry", () => WeaponRegistry.Initialize(report));
-            report.Time("WorkbenchUtility", () => WorkbenchUtility.Initialize(report));
+            // Def-derived caches and def-mutating settings live in
+            // PWU_Startup.Run, which must fire once per play-data LOAD (a
+            // mid-session language switch replaces every def instance), not
+            // once per process. The CallAll postfix armed by PatchAll above
+            // covers every reload, but it cannot fire for the CallAll
+            // invocation this static ctor is running inside of, so the first
+            // load calls Run directly, sharing this report and summary.
+            PWU_Startup.Run(report);
+
             report.Time("reflection checks", () => WeaponModificationUtility.VerifyReflection());
-            report.Time("techprint count", () => PWU_ResearchDefOf.ApplyTechprintCount());
-            report.Time("persona core recipe", () => PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings());
 
             // Force the optional VPWE/VEF skin integration to resolve now so any
             // API drift is reported at startup rather than lazily on first use.

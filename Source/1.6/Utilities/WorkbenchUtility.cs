@@ -13,11 +13,14 @@ namespace PersonaWeaponsUnbound
         private static HashSet<ThingDef> fabricationDefs;
         private static string fabricationLabel;
 
-        // Initializes the fabrication-bench set. Must be called during
-        // StaticConstructorOnStartup (after all defs are loaded). A non-null
-        // report absorbs any fatal exception so the rest of the mod can still
-        // initialize; passing null preserves the throwing contract for direct
-        // callers.
+        // Initializes the fabrication-bench set. Called once per play-data
+        // load via PWU_Startup.Run (after all defs are loaded and DefInjected
+        // is applied); an in-process reload replaces every def instance, so
+        // the set AND the display label (baked from def.label in the active
+        // language) must be rebuilt, and the full rebuild below keeps this
+        // idempotent. A non-null report absorbs any fatal exception so the
+        // rest of the mod can still initialize; passing null preserves the
+        // throwing contract for direct callers.
         public static void Initialize(InitDiagnostics report = null)
         {
             try

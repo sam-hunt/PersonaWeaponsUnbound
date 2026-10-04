@@ -152,12 +152,21 @@ namespace PersonaWeaponsUnbound
             && CompFloatMenuOptionsMethod != null;
 
         // Per-def catalog cache for GetPartCatalog. A def's declared
-        // graphics/variants are static content (set once at load), so this
-        // never needs invalidating. A cached null means "resolved, no
+        // graphics/variants are static content (set once at load), so within
+        // one play-data load this never needs invalidating; PWU_Startup clears
+        // it on each load since a reload replaces every def and the old keys
+        // would only pin dead defs. A cached null means "resolved, no
         // catalog" (e.g. a base weapon def with no graphic-customization
         // comp) — distinct from "not yet looked up" (absent key).
         private static readonly Dictionary<ThingDef, List<VpweTexturePart>> partCatalogCache =
             new Dictionary<ThingDef, List<VpweTexturePart>>();
+
+        // Drops def-keyed memo state from a previous play-data load. Called
+        // once per load by PWU_Startup.Run.
+        public static void ResetPerLoadCaches()
+        {
+            partCatalogCache.Clear();
+        }
 
         private static bool runtimeFailureLogged;
 
