@@ -14,8 +14,9 @@ namespace PersonaWeaponsUnbound.Patches
     // baked display label, the weapon recipe index, and the settings applied
     // by mutating defs (techprint count, persona-core recipe cost and skill).
     // An in-process play-data reload (LanguageDatabase.SelectLanguage runs
-    // ClearAllPlayData + LoadAllPlayData; the mid-session language switch is
-    // the one player-facing trigger) replaces every def instance, but a type
+    // ClearAllPlayData + LoadAllPlayData; the main-menu language switch,
+    // which vanilla only allows outside a running game, is the one
+    // player-facing trigger) replaces every def instance, but a type
     // initializer can never run twice (StaticConstructorOnStartupUtility.
     // CallAll goes through RuntimeHelpers.RunClassConstructor, which no-ops on
     // an initialized type). With attribute-only startup the fresh defs are

@@ -19,7 +19,10 @@ namespace PersonaWeaponsUnbound
         // time settings are written (PWU_Mod.WriteSettings).
         public static void ApplyTechprintCount()
         {
-            PWU_BladelinkCustomization.techprintCount = PWU_Mod.Settings.techprintCount;
+            // Null if another mod removed the project; DefOf binding already
+            // logged that, and there is nothing to apply the count to.
+            if (PWU_BladelinkCustomization != null)
+                PWU_BladelinkCustomization.techprintCount = PWU_Mod.Settings.techprintCount;
         }
     }
 }

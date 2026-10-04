@@ -358,8 +358,8 @@
   <!-- EN: Based on the weapon's crafting recipe -->
   <PWU_SkillCheckKindRecipe>依據武器的製作配方</PWU_SkillCheckKindRecipe>
   <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
-  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
-  <PWU_SkillCheckKindRecipeDesc>要求武器製作配方所需的技能等級，因此能製作某把武器的人就能重新編寫其人格。沒有配方的武器則依科技等級要求最低等級：{0}。</PWU_SkillCheckKindRecipeDesc>
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe, or whose only recipe is disabled above, require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>要求武器製作配方所需的技能等級，因此能製作某把武器的人就能重新編寫其人格。沒有配方或唯一配方已在上方停用的武器則依科技等級要求最低等級：{0}。</PWU_SkillCheckKindRecipeDesc>
   <!-- {0} = tech level (lowercase), {1} = required level -->
   <!-- EN: {0} {1} -->
   <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>

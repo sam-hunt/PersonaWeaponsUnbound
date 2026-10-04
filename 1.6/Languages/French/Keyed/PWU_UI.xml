@@ -351,8 +351,8 @@
   <!-- EN: Based on the weapon's crafting recipe -->
   <PWU_SkillCheckKindRecipe>Selon la recette de fabrication de l'arme</PWU_SkillCheckKindRecipe>
   <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
-  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
-  <PWU_SkillCheckKindRecipeDesc>Exige le niveau de compétence que demande la recette de fabrication de l'arme, de sorte que quiconque pourrait fabriquer une arme pourrait aussi reprogrammer sa conscience. Les armes sans recette exigent un niveau minimal fixé selon le niveau technique : {0}.</PWU_SkillCheckKindRecipeDesc>
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe, or whose only recipe is disabled above, require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>Exige le niveau de compétence que demande la recette de fabrication de l'arme, de sorte que quiconque pourrait fabriquer une arme pourrait aussi reprogrammer sa conscience. Les armes sans recette, ou dont la seule recette est désactivée ci-dessus, exigent un niveau minimal fixé selon le niveau technique : {0}.</PWU_SkillCheckKindRecipeDesc>
   <!-- {0} = tech level (lowercase), {1} = required level -->
   <!-- EN: {0} {1} -->
   <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>

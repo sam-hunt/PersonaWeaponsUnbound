@@ -354,8 +354,8 @@
   <!-- EN: Based on the weapon's crafting recipe -->
   <PWU_SkillCheckKindRecipe>Basierend auf dem Herstellungsauftrag der Waffe</PWU_SkillCheckKindRecipe>
   <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
-  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
-  <PWU_SkillCheckKindRecipeDesc>Verlangt die Fertigkeitsstufe, die der Herstellungsauftrag der Waffe fordert, sodass jeder, der eine Waffe herstellen könnte, auch ihre Persona umprogrammieren kann. Waffen ohne Auftrag erfordern ein Minimum je nach Techstufe: {0}.</PWU_SkillCheckKindRecipeDesc>
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe, or whose only recipe is disabled above, require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>Verlangt die Fertigkeitsstufe, die der Herstellungsauftrag der Waffe fordert, sodass jeder, der eine Waffe herstellen könnte, auch ihre Persona umprogrammieren kann. Waffen ohne Auftrag oder mit einzigem, oben deaktiviertem Auftrag erfordern ein Minimum je nach Techstufe: {0}.</PWU_SkillCheckKindRecipeDesc>
   <!-- {0} = tech level (lowercase), {1} = required level -->
   <!-- EN: {0} {1} -->
   <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>

@@ -439,12 +439,13 @@ namespace PersonaWeaponsUnbound
             // there is reflected in the same frame.
             SkillCheckKind effective = SkillCheckRules.EffectiveKind(out int flatLevel);
             string skillLabel = SkillCheckRules.SkillDefFor(skill).skillLabel;
+            string tierSummary = enabled ? TechTierSummary() : null;
 
             DrawGroupLabel(listing, "PWU_SkillCheckKind", "PWU_SkillCheckKindDesc", enabled, inertTip);
 
             if (DrawRadioOption(listing,
                 "PWU_SkillCheckKindRecipe".Translate() + "PWU_DefaultSuffix".Translate(),
-                enabled ? "PWU_SkillCheckKindRecipeDesc".Translate(TechTierSummary()) : inertTip,
+                enabled ? "PWU_SkillCheckKindRecipeDesc".Translate(tierSummary) : inertTip,
                 active: effective == SkillCheckKind.RecipeOrTechTier,
                 enabled: enabled, tabIn: optionTab))
             {
@@ -453,7 +454,7 @@ namespace PersonaWeaponsUnbound
 
             if (DrawRadioOption(listing,
                 "PWU_SkillCheckKindTechTier".Translate(TechTierLevels()),
-                enabled ? "PWU_SkillCheckKindTechTierDesc".Translate(TechTierSummary()) : inertTip,
+                enabled ? "PWU_SkillCheckKindTechTierDesc".Translate(tierSummary) : inertTip,
                 active: effective == SkillCheckKind.TechTier,
                 enabled: enabled, tabIn: optionTab))
             {

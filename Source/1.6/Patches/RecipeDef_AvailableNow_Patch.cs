@@ -26,23 +26,29 @@ namespace PersonaWeaponsUnbound.Patches
         [HarmonyPostfix]
         public static void Postfix(RecipeDef __instance, ref bool __result)
         {
-            if (!__result || PWU_Mod.Settings == null)
-                return;
+            if (__result && IsDisabledBySettings(__instance))
+                __result = false;
+        }
 
-            switch (__instance.defName)
+        // Whether this is one of the three toggled recipes and its toggle is
+        // off. Also consulted by the skill check's recipe kind, so a recipe
+        // the player has switched off stops standing in for "what crafting
+        // the weapon would take".
+        public static bool IsDisabledBySettings(RecipeDef recipe)
+        {
+            PWU_Settings settings = PWU_Mod.Settings;
+            if (settings == null || recipe == null)
+                return false;
+            switch (recipe.defName)
             {
                 case "PWU_Make_MonoSword":
-                    if (!PWU_Mod.Settings.enableMonoswordRecipe)
-                        __result = false;
-                    break;
+                    return !settings.enableMonoswordRecipe;
                 case "PWU_Make_PlasmaSword":
-                    if (!PWU_Mod.Settings.enablePlasmaswordRecipe)
-                        __result = false;
-                    break;
+                    return !settings.enablePlasmaswordRecipe;
                 case "PWU_Make_Zeushammer":
-                    if (!PWU_Mod.Settings.enableZeushammerRecipe)
-                        __result = false;
-                    break;
+                    return !settings.enableZeushammerRecipe;
+                default:
+                    return false;
             }
         }
     }

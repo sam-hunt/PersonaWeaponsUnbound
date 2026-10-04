@@ -354,8 +354,8 @@
   <!-- EN: Based on the weapon's crafting recipe -->
   <PWU_SkillCheckKindRecipe>По рецепту крафта оружия</PWU_SkillCheckKindRecipe>
   <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
-  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
-  <PWU_SkillCheckKindRecipeDesc>Требовать уровень навыка, которого требует рецепт крафта оружия, так что перепрограммировать его личность может каждый, кто мог бы создать такое оружие. Для оружия без рецепта требуется минимум, заданный технологическим уровнем: {0}.</PWU_SkillCheckKindRecipeDesc>
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe, or whose only recipe is disabled above, require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>Требовать уровень навыка, которого требует рецепт крафта оружия, так что перепрограммировать его личность может каждый, кто мог бы создать такое оружие. Для оружия без рецепта или с единственным рецептом, отключённым выше, требуется минимум, заданный технологическим уровнем: {0}.</PWU_SkillCheckKindRecipeDesc>
   <!-- {0} = tech level (lowercase), {1} = required level -->
   <!-- EN: {0} {1} -->
   <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>

@@ -2,11 +2,12 @@ namespace PersonaWeaponsUnbound
 {
     // Startup work that must run against the CURRENT DefDatabase: the weapon
     // pair registry, the fabrication-bench set (and its display label), the
-    // weapon recipe index the skill check reads, the def-level caches of the
-    // optional integrations, and the settings that are applied by mutating
+    // weapon recipe index the skill check reads, the def- and texture-keyed
+    // memo caches of the dialog and the optional integrations, and the settings that are applied by mutating
     // live defs (techprint count, persona-core recipe cost and skill). Runs
     // once per play-data LOAD, not once per process: an in-process reload (a
-    // mid-session language change) replaces every def instance, and a
+    // main-menu language change without restarting the game) replaces every
+    // def instance, and a
     // [StaticConstructorOnStartup] type initializer never re-runs, which
     // would leave these caches pointing at the previous database's dead defs
     // (customization would stop finding persona variants and workbenches) and
@@ -32,8 +33,25 @@ namespace PersonaWeaponsUnbound
             report.Time("WorkbenchUtility", () => WorkbenchUtility.Initialize(report));
             report.Time("WeaponRecipeIndex", () => WeaponRecipeIndex.Initialize(report));
             report.Time("VPWE caches", VPWEIntegration.ResetPerLoadCaches);
-            report.Time("techprint count", PWU_ResearchDefOf.ApplyTechprintCount);
-            report.Time("persona core recipe", PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings);
+            report.Time("texture lookup cache", Dialog_WeaponCustomization.ResetPerLoadCaches);
+            report.Time("techprint count", () => Guarded(report, "techprint count", PWU_ResearchDefOf.ApplyTechprintCount));
+            report.Time("persona core recipe", () => Guarded(report, "persona core recipe", PWU_RecipeDefOf.ApplyPersonaCoreRecipeSettings));
+        }
+
+        // Same failure isolation the Initialize methods carry internally: a
+        // throw (a DefOf another mod removed, say) is recorded on the report
+        // instead of aborting the rest of the first-load ctor or escaping the
+        // reload postfix out of CallAll.
+        private static void Guarded(InitDiagnostics report, string name, System.Action work)
+        {
+            try
+            {
+                work();
+            }
+            catch (System.Exception ex)
+            {
+                report.RecordFailure(name, ex);
+            }
         }
 
         // Reload entry (the CallAll postfix): builds its own report so each

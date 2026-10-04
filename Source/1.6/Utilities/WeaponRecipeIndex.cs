@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PersonaWeaponsUnbound.Patches;
 using Verse;
 
 namespace PersonaWeaponsUnbound
@@ -17,18 +18,25 @@ namespace PersonaWeaponsUnbound
     // A weapon produced by several recipes takes the LOWEST level any of them
     // demands: "whoever could craft it" means the easiest craft path. A recipe
     // with no skill requirement records 0, which the skill check treats as
-    // "craftable by anyone, so customizable by anyone". Disabled recipes (this
-    // mod's own toggles hide them from the bill menu, not from the database)
-    // still count: the toggle means "stop offering this", and the skill level
-    // it declares is still the right proxy for the weapon's difficulty.
+    // "craftable by anyone, so customizable by anyone". This mod's own three
+    // recipes are skipped while their settings toggle is off (a recipe the
+    // colony can't use says nothing about who could craft the weapon), which
+    // is why the index keeps the recipes per product and resolves the level
+    // at lookup time, against the live settings, rather than at build time.
     //
     // Rebuilt once per play-data load via PWU_Startup.Run; an in-process reload
     // replaces every def instance, so a stale index would never match a live
     // weapon def and every weapon would fall back to its tech tier.
     public static class WeaponRecipeIndex
     {
-        private static Dictionary<ThingDef, int> minRequiredLevelByProduct =
-            new Dictionary<ThingDef, int>();
+        private struct RecipeLevel
+        {
+            public RecipeDef Recipe;
+            public int Level;
+        }
+
+        private static Dictionary<ThingDef, List<RecipeLevel>> recipesByProduct =
+            new Dictionary<ThingDef, List<RecipeLevel>>();
 
         // Builds the index from the live database. A non-null report absorbs
         // any fatal exception so the rest of the mod can still initialize;
@@ -50,7 +58,7 @@ namespace PersonaWeaponsUnbound
         // tests, which have no DefDatabase.
         internal static void Rebuild(IEnumerable<RecipeDef> recipes)
         {
-            var index = new Dictionary<ThingDef, int>();
+            var index = new Dictionary<ThingDef, List<RecipeLevel>>();
             foreach (RecipeDef recipe in recipes)
             {
                 if (recipe?.products == null)
@@ -61,11 +69,12 @@ namespace PersonaWeaponsUnbound
                     ThingDef def = product?.thingDef;
                     if (def?.IsWeapon != true)
                         continue;
-                    if (!index.TryGetValue(def, out int existing) || level < existing)
-                        index[def] = level;
+                    if (!index.TryGetValue(def, out List<RecipeLevel> list))
+                        index[def] = list = new List<RecipeLevel>();
+                    list.Add(new RecipeLevel { Recipe = recipe, Level = level });
                 }
             }
-            minRequiredLevelByProduct = index;
+            recipesByProduct = index;
         }
 
         // The highest level among the recipe's skill requirements (a recipe
@@ -85,16 +94,23 @@ namespace PersonaWeaponsUnbound
             return level;
         }
 
-        // Whether any recipe produces the weapon, and if so the lowest skill
-        // level such a recipe demands (0 when a recipe demands none).
+        // Whether any enabled recipe produces the weapon, and if so the lowest
+        // skill level such a recipe demands (0 when a recipe demands none).
         public static bool TryGetRequiredLevel(ThingDef weaponDef, out int level)
         {
-            if (weaponDef == null)
-            {
-                level = 0;
+            level = 0;
+            if (weaponDef == null || !recipesByProduct.TryGetValue(weaponDef, out List<RecipeLevel> list))
                 return false;
+            bool found = false;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (RecipeDef_AvailableNow_Patch.IsDisabledBySettings(list[i].Recipe))
+                    continue;
+                if (!found || list[i].Level < level)
+                    level = list[i].Level;
+                found = true;
             }
-            return minRequiredLevelByProduct.TryGetValue(weaponDef, out level);
+            return found;
         }
     }
 }

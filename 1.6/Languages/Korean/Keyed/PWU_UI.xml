@@ -351,8 +351,8 @@
   <!-- EN: Based on the weapon's crafting recipe -->
   <PWU_SkillCheckKindRecipe>무기의 제작 레시피 기준</PWU_SkillCheckKindRecipe>
   <!-- {0} = comma-separated list of tech-tier entries, each formatted with PWU_SkillCheckTierEntry -->
-  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe require a minimum set by tech level: {0}. -->
-  <PWU_SkillCheckKindRecipeDesc>무기의 제작 레시피가 요구하는 기술 등급을 그대로 요구하므로, 무기를 제작할 수 있는 사람이라면 자아도 재프로그래밍할 수 있습니다. 레시피가 없는 무기는 기술 수준에 따라 정해진 최소 등급이 요구됩니다: {0}.</PWU_SkillCheckKindRecipeDesc>
+  <!-- EN: Require the skill level the weapon's crafting recipe demands, so whoever could craft a weapon could reprogram its persona. Weapons without a recipe, or whose only recipe is disabled above, require a minimum set by tech level: {0}. -->
+  <PWU_SkillCheckKindRecipeDesc>무기의 제작 레시피가 요구하는 기술 등급을 그대로 요구하므로, 무기를 제작할 수 있는 사람이라면 자아도 재프로그래밍할 수 있습니다. 레시피가 없거나 유일한 레시피가 위에서 비활성화된 무기는 기술 수준에 따라 정해진 최소 등급이 요구됩니다: {0}.</PWU_SkillCheckKindRecipeDesc>
   <!-- {0} = tech level (lowercase), {1} = required level -->
   <!-- EN: {0} {1} -->
   <PWU_SkillCheckTierEntry>{0} {1}</PWU_SkillCheckTierEntry>

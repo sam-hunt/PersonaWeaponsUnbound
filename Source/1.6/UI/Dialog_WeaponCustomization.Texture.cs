@@ -50,11 +50,21 @@ namespace PersonaWeaponsUnbound
         private int cachedCellPathsPart = -1;
 
         // Memoized ContentFinder<Texture2D> lookups, shared across all dialog
-        // instances and cells. Content is fixed at load time — including
-        // misses, so a missing/renamed asset doesn't re-search every frame —
-        // so this never needs invalidating.
+        // instances and cells. Content is fixed for one play-data load —
+        // including misses, so a missing/renamed asset doesn't re-search every
+        // frame — so within a load this never needs invalidating. A reload
+        // (main-menu language switch) destroys every mod texture
+        // (ModContentHolder.ClearDestroy), so PWU_Startup clears it per load
+        // before the entries can serve destroyed Texture2Ds as hits.
         private static readonly Dictionary<string, Texture2D> TextureLookupCache =
             new Dictionary<string, Texture2D>();
+
+        // Drops memo state from a previous play-data load. Called once per
+        // load by PWU_Startup.Run.
+        public static void ResetPerLoadCaches()
+        {
+            TextureLookupCache.Clear();
+        }
 
         // Gates both the tab's presence in DrawTabs and the dispatch guard in
         // DrawControlsPanel. Recomputed every frame — cheap, since
