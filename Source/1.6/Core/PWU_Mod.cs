@@ -407,8 +407,10 @@ namespace PersonaWeaponsUnbound
             SkillCheckSkill skill = Settings.skillCheckSkill;
             Color prevColor = GUI.color;
 
-            // Which skill. Radio labels are vanilla's own skill labels so they
-            // match the skills tab in every language.
+            // Which skill. Radio labels are vanilla's own skill labels, taken
+            // from skillLabel exactly as the skills tab (SkillUI) does, so the
+            // rows match it in every language and agree with the lowercase
+            // {0} the requirement row and rejection messages inject.
             if (!enabled)
                 GUI.color = Color.gray;
             listing.Label("PWU_SkillCheckSkill".Translate(),
@@ -417,7 +419,7 @@ namespace PersonaWeaponsUnbound
             listing.Gap(4f);
 
             if (DrawRadioOption(listing,
-                SkillCheckRules.SkillDefFor(SkillCheckSkill.Intellectual).LabelCap
+                SkillCheckRules.SkillDefFor(SkillCheckSkill.Intellectual).skillLabel.CapitalizeFirst()
                     + "PWU_DefaultSuffix".Translate(),
                 enabled ? "PWU_SkillCheckSkillIntellectualDesc".Translate() : inertTip,
                 active: skill == SkillCheckSkill.Intellectual,
@@ -427,7 +429,7 @@ namespace PersonaWeaponsUnbound
             }
 
             if (DrawRadioOption(listing,
-                SkillCheckRules.SkillDefFor(SkillCheckSkill.Crafting).LabelCap,
+                SkillCheckRules.SkillDefFor(SkillCheckSkill.Crafting).skillLabel.CapitalizeFirst(),
                 enabled ? "PWU_SkillCheckSkillCraftingDesc".Translate() : inertTip,
                 active: skill == SkillCheckSkill.Crafting,
                 enabled: enabled, tabIn: optionTab))
