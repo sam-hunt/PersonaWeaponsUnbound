@@ -59,6 +59,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <!-- xunit.runner.console is a fallback standalone runner. The everyday
+         path is plain `dotnet test`: on Linux/WSL vstest hosts the net472
+         suite via mono automatically. The console runner remains useful for
+         running the built test DLL directly under mono (bypassing vstest)
+         when diagnosing host-level problems. -->
+    <PackageReference Include="xunit.runner.console" Version="2.9.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
