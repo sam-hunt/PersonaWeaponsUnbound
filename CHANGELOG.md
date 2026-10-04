@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Customization keeps working after switching language without restarting the game.
+- Trait tooltips show raw stat modifiers in the game's own units (for example +3.0 melee hit chance, not +300%).
 
 ## [1.2.1] - 2026-10-04
 

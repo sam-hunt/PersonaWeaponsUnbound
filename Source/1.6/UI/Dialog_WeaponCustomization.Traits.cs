@@ -332,25 +332,36 @@ namespace PersonaWeaponsUnbound
 
             var effectLines = new List<string>();
 
+            // finalized: false on every stat row below. A trait's modifiers are
+            // RAW, pre-curve deltas, so they have to render in the stat's
+            // unfinalized style, which is how vanilla prints them wherever it
+            // lists trait modifiers (StatWorker's explanation rows, Odyssey's
+            // CompUniqueWeapon tooltip). StatDef.ValueToString defaults to
+            // finalized: true and formats with toStringStyle instead, which
+            // turned More Persona Traits' "conclusive" MeleeHitChance +3 into a
+            // nonsense "+300%" where its toStringStyleUnfinalized of FloatOne
+            // gives the honest "+3.0". That stat ships
+            // finalizeEquippedStatOffset=false precisely because the offset
+            // feeds the skill curve raw. Ported from UniqueWeaponsUnbound 8269eaf.
             if (trait.statOffsets != null)
             {
                 foreach (StatModifier mod in trait.statOffsets)
-                    effectLines.Add("  " + mod.stat.LabelCap + ": "
-                        + mod.stat.ValueToString(mod.value, ToStringNumberSense.Offset));
+                    effectLines.Add("  " + mod.stat.LabelCap + ": " + mod.stat.Worker.ValueToString(
+                        mod.value, finalized: false, ToStringNumberSense.Offset));
             }
 
             if (trait.statFactors != null)
             {
                 foreach (StatModifier mod in trait.statFactors)
-                    effectLines.Add("  " + mod.stat.LabelCap + ": "
-                        + mod.stat.ValueToString(mod.value, ToStringNumberSense.Factor));
+                    effectLines.Add("  " + mod.stat.LabelCap + ": " + mod.stat.Worker.ValueToString(
+                        mod.value, finalized: false, ToStringNumberSense.Factor));
             }
 
             if (trait.equippedStatOffsets != null)
             {
                 foreach (StatModifier mod in trait.equippedStatOffsets)
-                    effectLines.Add("  " + mod.stat.LabelCap + ": "
-                        + mod.stat.ValueToString(mod.value, ToStringNumberSense.Offset));
+                    effectLines.Add("  " + mod.stat.LabelCap + ": " + mod.stat.Worker.ValueToString(
+                        mod.value, finalized: false, ToStringNumberSense.Offset));
             }
 
             if (trait.damageDefOverride != null)
