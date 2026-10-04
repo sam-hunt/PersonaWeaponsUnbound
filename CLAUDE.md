@@ -33,6 +33,8 @@ Every local build auto-deploys into the RimWorld `Mods/` folder (when a local in
 
 A gitignored Stop hook (`.claude/hooks/sync-mod.sh`) rebuilds + redeploys after any turn that touched mod source/content. Its `find` watch list must cover every content root `StageMod` ships (root, any version folder, and the compat roots `Mods/` and `*/Mods/`), or edits under a missed root silently stop redeploying.
 
+**Release tags:** `vX.Y.Z` stable releases and `vX.Y.Z-rc.N` candidates (the `v*.*.*` trigger matches both). A candidate is a GitHub prerelease with the staged zip: no CHANGELOG section, never uploaded to the Workshop, and its suffix lives only in `modVersion` and `AssemblyInformationalVersion` (`AssemblyVersion`/`AssemblyFileVersion` stay `X.Y.Z.0`); `release.yml` treats any suffixed tag as a prerelease to match, and the `/release` skill (step 6 especially) encodes the scheme, so change them together.
+
 **WSL Setup:** Requires `RIMWORLD_PATH` env var in `~/.bashrc` pointing to the Windows RimWorld install (e.g., `/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld`).
 
 ### Tests
