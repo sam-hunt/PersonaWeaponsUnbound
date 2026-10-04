@@ -411,12 +411,7 @@ namespace PersonaWeaponsUnbound
             // from skillLabel exactly as the skills tab (SkillUI) does, so the
             // rows match it in every language and agree with the lowercase
             // {0} the requirement row and rejection messages inject.
-            if (!enabled)
-                GUI.color = Color.gray;
-            listing.Label("PWU_SkillCheckSkill".Translate(),
-                tooltip: enabled ? "PWU_SkillCheckSkillDesc".Translate() : inertTip);
-            GUI.color = prevColor;
-            listing.Gap(4f);
+            DrawGroupLabel(listing, "PWU_SkillCheckSkill", "PWU_SkillCheckSkillDesc", enabled, inertTip);
 
             if (DrawRadioOption(listing,
                 SkillCheckRules.SkillDefFor(SkillCheckSkill.Intellectual).skillLabel.CapitalizeFirst()
@@ -444,12 +439,7 @@ namespace PersonaWeaponsUnbound
             SkillCheckKind effective = SkillCheckRules.EffectiveKind(out int flatLevel);
             string skillLabel = SkillCheckRules.SkillDefFor(skill).skillLabel;
 
-            if (!enabled)
-                GUI.color = Color.gray;
-            listing.Label("PWU_SkillCheckKind".Translate(),
-                tooltip: enabled ? "PWU_SkillCheckKindDesc".Translate() : inertTip);
-            GUI.color = prevColor;
-            listing.Gap(4f);
+            DrawGroupLabel(listing, "PWU_SkillCheckKind", "PWU_SkillCheckKindDesc", enabled, inertTip);
 
             // Hidden when the paired expertise can't be checked; a stored
             // expertise selection then shows as the flat row active at the
@@ -474,10 +464,15 @@ namespace PersonaWeaponsUnbound
             // default option rather than the default level).
             string flatLabel = "PWU_SkillCheckKindFlat".Translate(skillLabel, flatLevel).CapitalizeFirst();
             string flatTip = enabled ? "PWU_SkillCheckKindFlatDesc".Translate(skillLabel) : inertTip;
+            // Clicking the row also writes the displayed level: under the
+            // expertise fallback that is the fallback level, not the slider's,
+            // and silently dropping to the slider value on "confirm" would
+            // change what the check enforces.
             if (DrawRadioOption(listing, flatLabel, flatTip,
                 active: effective == SkillCheckKind.FlatMinimum,
                 enabled: enabled, tabIn: optionTab))
             {
+                Settings.skillCheckMinimumLevel = flatLevel;
                 Settings.skillCheckKind = SkillCheckKind.FlatMinimum;
             }
 
@@ -516,6 +511,19 @@ namespace PersonaWeaponsUnbound
 
             listing.ColumnWidth += SkillCheckLabelIndent;
             listing.Outdent(SkillCheckLabelIndent);
+        }
+
+        // Heading of a radio group that renders inert (grey, with the inert
+        // tip) while the skill check applies to no one.
+        private static void DrawGroupLabel(
+            Listing_Standard listing, string labelKey, string descKey, bool enabled, string inertTip)
+        {
+            Color prevColor = GUI.color;
+            if (!enabled)
+                GUI.color = Color.gray;
+            listing.Label(labelKey.Translate(), tooltip: enabled ? descKey.Translate() : inertTip);
+            GUI.color = prevColor;
+            listing.Gap(4f);
         }
 
         private static void DrawSubjectOption(

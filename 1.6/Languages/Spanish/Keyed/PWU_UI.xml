@@ -16,9 +16,9 @@
        {0} = skill label (lowercase, e.g. intellectual) or expertise label; {1} = required level -->
   <!-- EN: requires {0} expertise -->
   <PWU_RequiresExpertise>requiere pericia en {0}</PWU_RequiresExpertise>
-  <!-- EN: no colonist has {0} {1} -->
+  <!-- EN: no colonist has {0} level {1} -->
   <PWU_NoColonistWithSkill>ningún colono tiene {0} de nivel {1}</PWU_NoColonistWithSkill>
-  <!-- EN: no colonist on this map has {0} {1} -->
+  <!-- EN: no colonist on this map has {0} level {1} -->
   <PWU_NoColonistOnMapWithSkill>ningún colono de este mapa tiene {0} de nivel {1}</PWU_NoColonistOnMapWithSkill>
   <!-- EN: no colonist has {0} expertise -->
   <PWU_NoColonistWithExpertise>ningún colono tiene pericia en {0}</PWU_NoColonistWithExpertise>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -261,14 +262,19 @@ namespace PersonaWeaponsUnbound
         }
 
         // The pawn's displayed level in a skill: the skill record's level, or a
-        // player mech's fixed level, or 0 when the pawn has neither.
+        // player mech's fixed level when the mech can do work that uses the
+        // skill (the same condition SkillRequirement.PawnSatisfies applies, so
+        // the shortfall can't read "need level 10, have 10"), or 0 otherwise.
         private static int SkillLevel(Pawn pawn, SkillDef skill)
         {
             SkillRecord record = pawn.skills?.GetSkill(skill);
             if (record != null)
                 return record.Level;
-            if (pawn.IsColonyMechPlayerControlled)
+            if (pawn.IsColonyMechPlayerControlled
+                && pawn.RaceProps.mechEnabledWorkTypes.Any(w => w.relevantSkills.NotNullAndContains(skill)))
+            {
                 return pawn.RaceProps.mechFixedSkillLevel;
+            }
             return 0;
         }
 

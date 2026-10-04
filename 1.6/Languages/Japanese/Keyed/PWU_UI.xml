@@ -16,9 +16,9 @@
        {0} = skill label (lowercase, e.g. intellectual) or expertise label; {1} = required level -->
   <!-- EN: requires {0} expertise -->
   <PWU_RequiresExpertise>{0}の専門知識が必要</PWU_RequiresExpertise>
-  <!-- EN: no colonist has {0} {1} -->
+  <!-- EN: no colonist has {0} level {1} -->
   <PWU_NoColonistWithSkill>{0}レベル{1}以上の入植者がいない</PWU_NoColonistWithSkill>
-  <!-- EN: no colonist on this map has {0} {1} -->
+  <!-- EN: no colonist on this map has {0} level {1} -->
   <PWU_NoColonistOnMapWithSkill>このマップに{0}レベル{1}以上の入植者がいない</PWU_NoColonistOnMapWithSkill>
   <!-- EN: no colonist has {0} expertise -->
   <PWU_NoColonistWithExpertise>{0}の専門知識を持つ入植者がいない</PWU_NoColonistWithExpertise>

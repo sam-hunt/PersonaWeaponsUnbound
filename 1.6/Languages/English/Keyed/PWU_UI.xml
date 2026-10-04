@@ -10,8 +10,8 @@
   <!-- Skill check rejections (a pawn's own skill shortfall reuses vanilla SkillTooLow).
        {0} = skill label (lowercase, e.g. intellectual) or expertise label; {1} = required level -->
   <PWU_RequiresExpertise>requires {0} expertise</PWU_RequiresExpertise>
-  <PWU_NoColonistWithSkill>no colonist has {0} {1}</PWU_NoColonistWithSkill>
-  <PWU_NoColonistOnMapWithSkill>no colonist on this map has {0} {1}</PWU_NoColonistOnMapWithSkill>
+  <PWU_NoColonistWithSkill>no colonist has {0} level {1}</PWU_NoColonistWithSkill>
+  <PWU_NoColonistOnMapWithSkill>no colonist on this map has {0} level {1}</PWU_NoColonistOnMapWithSkill>
   <PWU_NoColonistWithExpertise>no colonist has {0} expertise</PWU_NoColonistWithExpertise>
   <PWU_NoColonistOnMapWithExpertise>no colonist on this map has {0} expertise</PWU_NoColonistOnMapWithExpertise>
   <!-- Used in place of the Vanilla Skills Expanded expertise label when it cannot be read -->

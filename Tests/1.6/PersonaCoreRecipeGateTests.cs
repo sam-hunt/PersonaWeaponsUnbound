@@ -8,7 +8,9 @@ namespace PersonaWeaponsUnbound.Tests
     // recipe. The gate's own logic is the only thing under test: the nested
     // operation is a recording stub, so no XPath, DirectXmlToObject, or live
     // def database is involved. PWU_Mod.Settings has an internal setter for
-    // exactly this (see Source/1.6/Properties/AssemblyInfo.cs).
+    // exactly this (see Source/1.6/Properties/AssemblyInfo.cs); the shared
+    // collection keeps other settings-touching classes from running alongside.
+    [Collection("PWU_Mod.Settings")]
     public class PersonaCoreRecipeGateTests
     {
         private sealed class RecordingOperation : PatchOperation

@@ -16,9 +16,9 @@
        {0} = skill label (lowercase, e.g. intellectual) or expertise label; {1} = required level -->
   <!-- EN: requires {0} expertise -->
   <PWU_RequiresExpertise>{0} 전문성 필요</PWU_RequiresExpertise>
-  <!-- EN: no colonist has {0} {1} -->
+  <!-- EN: no colonist has {0} level {1} -->
   <PWU_NoColonistWithSkill>{0} {1}등급을 갖춘 정착민 없음</PWU_NoColonistWithSkill>
-  <!-- EN: no colonist on this map has {0} {1} -->
+  <!-- EN: no colonist on this map has {0} level {1} -->
   <PWU_NoColonistOnMapWithSkill>이 지도에 {0} {1}등급을 갖춘 정착민 없음</PWU_NoColonistOnMapWithSkill>
   <!-- EN: no colonist has {0} expertise -->
   <PWU_NoColonistWithExpertise>{0} 전문성을 가진 정착민 없음</PWU_NoColonistWithExpertise>

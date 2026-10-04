@@ -15,7 +15,9 @@ namespace PersonaWeaponsUnbound.Tests
     // state the fallback tests need.
     //
     // PWU_Mod.Settings is process-global, so every test that reads it runs
-    // inside a SettingsScope; xunit runs the facts of one class serially.
+    // inside a SettingsScope, and every class that touches that static shares
+    // the "PWU_Mod.Settings" xunit collection so they never run in parallel.
+    [Collection("PWU_Mod.Settings")]
     public class SkillCheckRulesTests
     {
         private static readonly SkillDef Intellectual =
