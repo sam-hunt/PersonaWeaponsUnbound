@@ -7,20 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Entries are short one-liners ready to paste as Steam Workshop change notes: what changed for the player, no rationale, no def names, no sub-bullets. -->
 
-## [Unreleased]
+## [1.3.0] - 2026-10-06
 
 ### Added
 
-- Optional skill check for customization (off by default): require the customizing pawn, or the best colonist on the map or anywhere, to meet an Intellectual or Crafting level set by the weapon's recipe, its tech level, or a flat minimum, or to hold the matching Vanilla Skills Expanded expertise (hacking or weaponsmithing).
+- Optional skill check for customization (off by default).
+- Skill check skill: Intellectual (default) or Crafting.
+- Skill check subject: the customizing pawn, or the best colonist on the map or anywhere.
+- Skill requirement: recipe, tech level, flat minimum, or VSE hacking or weaponsmithing expertise.
 
 ### Changed
 
-- Declared incompatible with RimWorld Multiplayer.
+- RimWorld Multiplayer marked incompatible: client-local cost settings can desync.
 
 ### Fixed
 
-- Customization keeps working after switching language without restarting the game.
-- Trait tooltips show raw stat modifiers in the game's own units (for example +3.0 melee hit chance, not +300%).
+- Customization keeps working after switching language mid-session.
+- Trait tooltip stat rows show raw modifiers; +3 melee hit chance no longer shows as +300%.
 
 ## [1.2.1] - 2026-10-04
 
@@ -85,6 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - VEF recipe-inheritance benches (e.g. VFE's compact fabrication bench) are recognized as customization benches automatically
 - Deep Vanilla Persona Weapons Expanded / Vanilla Expanded Framework integration: preserves composed weapon skins across persona conversion and dialog previews, adds a Texture tab to PWU's customization dialog for editing appearance parts directly (suppressing VEF's redundant float-menu entry), and links cross-mod persona weapons to their base by reused art when defName conventions don't match
 
+[1.3.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.3.0
 [1.2.1]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.2.1
 [1.2.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.2.0
 [1.1.1]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.1.1
