@@ -25,7 +25,7 @@ RIMWORLD_PATH="/path/to/RimWorld" dotnet build PersonaWeaponsUnbound.sln -c Rele
 # Or: dotnet build -p:RimWorldPath="/path/to/RimWorld"
 ```
 
-The build system auto-detects the RimWorld installation path on Windows/Linux/Mac (including WSL targeting a Windows install). For CI builds without RimWorld installed, it falls back to the `Krafs.Rimworld.Ref` NuGet package. For local development and api inspection (monodis, ilspycmd etc), the local installation should be preferred as the source of truth.
+The build compiles against the `Krafs.Rimworld.Ref` NuGet package (pinned to the final 1.6 build, `1.6.4871`) everywhere, locally and in CI; the local RimWorld install is never referenced, only deployed to and decompiled. The install path (auto-detected on Windows/Linux/Mac including WSL targeting a Windows install, or `RIMWORLD_PATH`) decides only whether the build deploys, gated on the game's `Mods/` folder existing so it works on the 1.6 Unity layout and the flat 1.7 Waylith layout alike. For api inspection (monodis, ilspycmd etc), the local installation is the source of truth, but its assembly is whichever Steam branch is installed (now 1.7), so a decompile-verified call path recorded against 1.6 should say which version it was verified on, and say so again if a re-verification on 1.7 differs. The `rimworld-logs` skill has the per-version paths.
 
 ### Deployment
 
@@ -35,11 +35,13 @@ A tracked Stop hook (`.claude/hooks/sync-mod.sh`, wired by the tracked `.claude/
 
 **Release tags:** `vX.Y.Z` stable releases and `vX.Y.Z-rc.N` candidates (the `v*.*.*` trigger matches both). A candidate is a GitHub prerelease with the staged zip: no CHANGELOG section, never uploaded to the Workshop, and its suffix lives only in `modVersion` and `AssemblyInformationalVersion` (`AssemblyVersion`/`AssemblyFileVersion` stay `X.Y.Z.0`); `release.yml` treats any suffixed tag as a prerelease to match, and the `/release` skill (step 7 especially) encodes the scheme, so change them together.
 
-**WSL Setup:** Requires `RIMWORLD_PATH` env var in `~/.bashrc` pointing to the Windows RimWorld install (e.g., `/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld`).
+**WSL Setup:** Requires `RIMWORLD_PATH` env var in `~/.bashrc` pointing to the Windows RimWorld install (e.g., `/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld`). The test suite's 1.6 runtime assemblies come from `~/.local/share/RimWorld-1.6/Managed` by default, or `RIMWORLD_MANAGED_1_6` (see Tests).
 
 ### Tests
 
 xUnit suite under `Tests/1.6/` (a separate project, never shipped). Run natively with `dotnet test Tests/1.6/PersonaWeaponsUnbound.Tests.csproj` — vstest hosts the net472 suite through Mono on Linux/WSL (requires `mono` on PATH). Debug builds don't redeploy (`DeployToModFolder` is Release-gated). CI builds the suite but can't run it (tests need a live RimWorld install; the Krafs ref assemblies are compile-only). The release skill runs the suite and a Release build as its first gate.
+
+The suite loads the game's real 1.6 runtime assemblies (Krafs's reference-only stubs cannot be loaded at run time). The Tests csproj resolves their folder in order: `RIMWORLD_MANAGED_1_6`, then a 1.6 install's `<Data>/Managed/`, then the frozen copy at `~/.local/share/RimWorld-1.6/Managed` (its README.txt records provenance). A 1.7 install has no 1.6 assemblies at all, so on 1.7 the frozen copy is the only source; without one the build still succeeds on the Krafs fallback but every test fails with `TypeLoadException` on Assembly-CSharp, and that fallback run overwrites any real DLLs an earlier build had copied into the test bin.
 
 **Startup smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots PWU plus its integration mods (VEF, VPWE) and family siblings on a pinned list, then classifies Player.log errors by origin and fails on anything attributed to PWU or an integration seam. Run before every release (wired into the release skill); thin shim over the shared engine in `l10n/smoke/` (born from the BetterTradersGuild v1.1.0 CWTL incident).
 
