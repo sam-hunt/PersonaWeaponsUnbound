@@ -52,7 +52,7 @@ namespace PersonaWeaponsUnbound
             bool active;
             try
             {
-                active = ModsConfig.IsActive(PackageId);
+                active = ModDetection.IsActive(PackageId);
                 if (!active)
                     return;
 
