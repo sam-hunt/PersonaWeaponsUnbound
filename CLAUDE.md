@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Persona Weapons Unbound** (PWU) is a RimWorld 1.6 mod that allows players to customize Royalty's bladelink/persona weapons — add/remove persona traits, rename, and convert base weapons to/from their persona variants. Requires the Harmony mod and the Royalty DLC.
+**Persona Weapons Unbound** (PWU) is a RimWorld 1.6 and 1.7 mod that allows players to customize Royalty's bladelink/persona weapons — add/remove persona traits, rename, and convert base weapons to/from their persona variants. Requires the Harmony mod and the Royalty DLC.
 
 This repo is a fork of **Unique Weapons Unbound** (UWU, Odyssey unique weapons), carrying its git history. Design: `Docs/DESIGN.md`. Conversion spec: `Docs/Specs/PERSONA_FORK.md`. Bladelink internals research: `Docs/Research/BLADELINK_WEAPONS.md`.
 
@@ -86,9 +86,16 @@ The suite loads the game's real 1.6 runtime assemblies (Krafs's reference-only s
 ## Debugging
 
 1. **Enable RimWorld Dev Mode:** Settings → Dev Mode → Logging
-2. **Log locations:**
-   - **Windows:** `%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Player.log`
-   - **WSL:** `/mnt/c/Users/*/AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
-   - **Linux (Steam):** `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
+2. **Log:** under `%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\`
+   (WSL: `/mnt/c/Users/*/AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/`; Linux:
+   `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/`). On 1.7 it is `Logs/Player.log`,
+   with a timestamp and level (`ERROR`, `WARN`, `INFO`) on every entry and `    at ...` stack frames
+   under it; on 1.6 it is `Player.log` one level up. A 1.7 install leaves the 1.6 file in place,
+   stale.
 3. **Logging:** Use `Log.Message("[Persona Weapons Unbound] ...")` for mod-specific logs
-4. **Inspect RimWorld API:** `monodis "/mnt/c/.../RimWorldWin64_Data/Managed/Assembly-CSharp.dll"`
+4. **Inspect RimWorld API:** `monodis "$RIMWORLD_PATH/Assembly-CSharp.dll"` (or `ilspycmd ... -t
+   "Namespace.ClassName"` for method bodies) on 1.7, where the assembly sits flat in the install
+   root with `UnityStubs.dll` beside it for Unity-facing signatures; on 1.6 it is under
+   `RimWorldWin64_Data/Managed/`. The local install's assembly is now the 1.7 one, so a
+   decompile-verified call path in a def or code header that was verified on 1.6 should say so if
+   it is re-verified on 1.7 and differs. The `rimworld-logs` skill covers both.

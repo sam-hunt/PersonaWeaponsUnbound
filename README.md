@@ -2,7 +2,7 @@
 
 > A RimWorld mod for customizing Royalty's persona (bladelink) weapons
 
-[![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
+[![RimWorld](https://img.shields.io/badge/RimWorld-1.6%20%7C%201.7-blue.svg)](https://rimworldgame.com/)
 [![Royalty DLC](https://img.shields.io/badge/DLC-Royalty-red.svg)](https://store.steampowered.com/app/1178350/RimWorld__Royalty/)
 [![Subscribers](https://img.shields.io/steam/subscriptions/3766728761?logo=steam&label=subscribers)](https://steamcommunity.com/sharedfiles/filedetails/?id=3766728761)
 [![Downloads](https://img.shields.io/steam/downloads/3766728761?logo=steam&label=downloads)](https://steamcommunity.com/sharedfiles/filedetails/?id=3766728761)
@@ -72,7 +72,7 @@ Designed for automatic compatibility with modded persona weapons and traits — 
 
 ## Requirements
 
-- **RimWorld 1.6** or later
+- **RimWorld 1.6** or **1.7**
 - **Royalty DLC** (required — depends on Royalty's bladelink weapon system)
 - **Harmony** (auto-download from Steam Workshop if you don't have it)
 
