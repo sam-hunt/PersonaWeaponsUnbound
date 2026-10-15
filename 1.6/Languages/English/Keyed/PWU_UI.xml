@@ -29,7 +29,6 @@
   <PWU_Reset>Reset</PWU_Reset>
   <PWU_Confirm>Confirm</PWU_Confirm>
   <PWU_Randomize>Randomize</PWU_Randomize>
-  <PWU_ResetToDefaults>Reset to defaults</PWU_ResetToDefaults>
 
   <!-- Dialog: Tabs -->
   <PWU_TabTraits>Traits</PWU_TabTraits>

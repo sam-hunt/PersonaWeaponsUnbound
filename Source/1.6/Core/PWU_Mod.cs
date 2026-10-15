@@ -334,7 +334,7 @@ namespace PersonaWeaponsUnbound
             listing.End();
             Widgets.EndScrollView();
 
-            if (Widgets.ButtonText(buttonRect, "PWU_ResetToDefaults".Translate()))
+            if (Widgets.ButtonText(buttonRect, "RestoreToDefaultSettings".Translate()))
             {
                 Settings.ResetToDefaults();
                 skillCheckExpanded = null;

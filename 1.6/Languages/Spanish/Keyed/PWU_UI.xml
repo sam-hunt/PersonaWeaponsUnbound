@@ -49,8 +49,6 @@
   <PWU_Confirm>Confirmar</PWU_Confirm>
   <!-- EN: Randomize -->
   <PWU_Randomize>Aleatorizar</PWU_Randomize>
-  <!-- EN: Reset to defaults -->
-  <PWU_ResetToDefaults>Restablecer valores por defecto</PWU_ResetToDefaults>
 
   <!-- Dialog: Tabs -->
   <!-- EN: Traits -->

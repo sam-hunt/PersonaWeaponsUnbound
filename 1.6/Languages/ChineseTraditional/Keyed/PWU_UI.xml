@@ -49,8 +49,6 @@
   <PWU_Confirm>確定</PWU_Confirm>
   <!-- EN: Randomize -->
   <PWU_Randomize>隨機生成</PWU_Randomize>
-  <!-- EN: Reset to defaults -->
-  <PWU_ResetToDefaults>恢復為預設值</PWU_ResetToDefaults>
 
   <!-- Dialog: Tabs -->
   <!-- EN: Traits -->

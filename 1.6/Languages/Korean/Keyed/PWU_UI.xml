@@ -49,8 +49,6 @@
   <PWU_Confirm>확인</PWU_Confirm>
   <!-- EN: Randomize -->
   <PWU_Randomize>섞기</PWU_Randomize>
-  <!-- EN: Reset to defaults -->
-  <PWU_ResetToDefaults>기본값 복원</PWU_ResetToDefaults>
 
   <!-- Dialog: Tabs -->
   <!-- EN: Traits -->
