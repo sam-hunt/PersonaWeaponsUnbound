@@ -210,24 +210,28 @@ namespace PersonaWeaponsUnbound
             Rect innerRect = new Rect(0f, 0f, innerWidth, contentHeight);
 
             Widgets.BeginScrollView(rect, ref textureGridScroll, innerRect);
-
-            int[] selected = VPWETexPathMath.SelectedIndices(vpweTexPaths, catalog);
-            int selectedIndex = (selected != null && texturePartIndex < selected.Length)
-                ? selected[texturePartIndex]
-                : -1;
-
-            for (int v = 0; v < variants.Count; v++)
+            try
             {
-                int col = v % columns;
-                int row = v / columns;
-                Rect cellRect = new Rect(
-                    col * (ThumbCellSize + ThumbCellGap),
-                    row * (ThumbCellSize + ThumbCellGap),
-                    ThumbCellSize, ThumbCellSize);
-                DrawTextureCell(cellRect, catalog, v, variants[v], v == selectedIndex);
-            }
+                int[] selected = VPWETexPathMath.SelectedIndices(vpweTexPaths, catalog);
+                int selectedIndex = (selected != null && texturePartIndex < selected.Length)
+                    ? selected[texturePartIndex]
+                    : -1;
 
-            Widgets.EndScrollView();
+                for (int v = 0; v < variants.Count; v++)
+                {
+                    int col = v % columns;
+                    int row = v / columns;
+                    Rect cellRect = new Rect(
+                        col * (ThumbCellSize + ThumbCellGap),
+                        row * (ThumbCellSize + ThumbCellGap),
+                        ThumbCellSize, ThumbCellSize);
+                    DrawTextureCell(cellRect, catalog, v, variants[v], v == selectedIndex);
+                }
+            }
+            finally
+            {
+                Widgets.EndScrollView();
+            }
         }
 
         // Rebuilds cachedCellPaths — one full layer-stack path list per

@@ -109,118 +109,122 @@ namespace PersonaWeaponsUnbound
                     Rect chipsInnerRect = new Rect(0f, 0f, innerWidth, chipsContentHeight);
 
                     Widgets.BeginScrollView(chipsOuterRect, ref desiredTraitsScroll, chipsInnerRect);
-
-                    float chipY = 0f;
-                    foreach (WeaponTraitDef trait in desiredTraits)
+                    try
                     {
-                        Rect chipRect = new Rect(0f, chipY, innerWidth, TraitRowHeight);
-
-                        // Chip background with hover highlight
-                        bool hovered = Mouse.IsOver(chipRect);
-                        Widgets.DrawBoxSolid(chipRect, hovered
-                            ? new Color(0.3f, 0.3f, 0.3f, 0.5f)
-                            : new Color(0.2f, 0.2f, 0.2f, 0.4f));
-
-                        // Label — yellow when removing this trait would empty the
-                        // player's pool of available sources for it (progression mode).
-                        bool isLastSource = progressionPool?.IsLastNonHostileSource(trait, originalTraits) == true;
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        Rect labelRect = new Rect(
-                            chipRect.x + 4f, chipRect.y,
-                            chipRect.width * 0.7f, chipRect.height);
-                        Color prevLabelColor = GUI.color;
-                        if (isLastSource)
-                            GUI.color = ColorLibrary.Yellow;
-                        Widgets.Label(labelRect, trait.LabelCap);
-                        GUI.color = prevLabelColor;
-
-                        // Cost icons (right-aligned) — only for newly added traits.
-                        // Every chip here is already staged, so use its real
-                        // sequenced cost rather than an isolated hypothetical.
-                        if (!originalTraits.Contains(trait))
+                        float chipY = 0f;
+                        foreach (WeaponTraitDef trait in desiredTraits)
                         {
-                            List<ThingDefCountClass> chipCosts = StagedAdditionCost(trait);
+                            Rect chipRect = new Rect(0f, chipY, innerWidth, TraitRowHeight);
+
+                            // Chip background with hover highlight
+                            bool hovered = Mouse.IsOver(chipRect);
+                            Widgets.DrawBoxSolid(chipRect, hovered
+                                ? new Color(0.3f, 0.3f, 0.3f, 0.5f)
+                                : new Color(0.2f, 0.2f, 0.2f, 0.4f));
+
+                            // Label — yellow when removing this trait would empty the
+                            // player's pool of available sources for it (progression mode).
+                            bool isLastSource = progressionPool?.IsLastNonHostileSource(trait, originalTraits) == true;
+                            Text.Anchor = TextAnchor.MiddleLeft;
+                            Rect labelRect = new Rect(
+                                chipRect.x + 4f, chipRect.y,
+                                chipRect.width * 0.7f, chipRect.height);
+                            Color prevLabelColor = GUI.color;
+                            if (isLastSource)
+                                GUI.color = ColorLibrary.Yellow;
+                            Widgets.Label(labelRect, trait.LabelCap);
+                            GUI.color = prevLabelColor;
+
+                            // Cost icons (right-aligned) — only for newly added traits.
+                            // Every chip here is already staged, so use its real
+                            // sequenced cost rather than an isolated hypothetical.
+                            if (!originalTraits.Contains(trait))
+                            {
+                                List<ThingDefCountClass> chipCosts = StagedAdditionCost(trait);
+                                Rect chipCostRect = new Rect(
+                                    labelRect.xMax, chipRect.y,
+                                    chipRect.xMax - labelRect.xMax - 4f, chipRect.height);
+                                DrawCostIcons(chipCostRect, chipCosts, rightAlign: true,
+                                    insufficientResources: insufficientResources);
+                            }
+
+                            Text.Anchor = TextAnchor.UpperLeft;
+
+                            // Tooltip (same as traits tab). The "last source" warning
+                            // gets its own tooltip box stacked alongside, so it reads as
+                            // a distinct alert rather than being lost at the bottom of
+                            // a long stat block.
+                            string tooltip = BuildTraitTooltip(trait);
+                            if (!string.IsNullOrEmpty(tooltip))
+                                TooltipHandler.TipRegion(chipRect, tooltip);
+                            if (isLastSource)
+                            {
+                                // Color the tooltip body to match the chip's yellow label,
+                                // so the visual cue and the explanatory tip share an identity.
+                                // Hex matches ColorLibrary.Yellow (#ffff14).
+                                TooltipHandler.TipRegion(chipRect,
+                                    "<color=#ffff14>" + "PWU_LastTraitSourceWarning".Translate() + "</color>");
+                            }
+
+                            // Click: switch to traits tab and scroll trait into view
+                            if (Widgets.ButtonInvisible(chipRect))
+                            {
+                                activeTab = 0;
+                                int traitIndex = compatibleTraits.IndexOf(trait);
+                                if (traitIndex >= 0)
+                                    traitListScroll.y = traitIndex * (TraitRowHeight + TraitRowGap);
+                            }
+
+                            chipY += chipStride;
+                        }
+
+                        // Memory-op chip (§4): the selected wipe (at most one, by
+                        // the radio model) renders as one chip after the trait
+                        // chips, styled identically. It's a one-time operation —
+                        // never an "original" — so it always shows its cost.
+                        if (desiredMemoryOp != MemoryOpKind.None)
+                        {
+                            Rect chipRect = new Rect(0f, chipY, innerWidth, TraitRowHeight);
+
+                            bool hovered = Mouse.IsOver(chipRect);
+                            Widgets.DrawBoxSolid(chipRect, hovered
+                                ? new Color(0.3f, 0.3f, 0.3f, 0.5f)
+                                : new Color(0.2f, 0.2f, 0.2f, 0.4f));
+
+                            Text.Anchor = TextAnchor.MiddleLeft;
+                            Rect labelRect = new Rect(
+                                chipRect.x + 4f, chipRect.y,
+                                chipRect.width * 0.7f, chipRect.height);
+                            Widgets.Label(labelRect, MemoryOpLabel(desiredMemoryOp));
+
+                            List<ThingDefCountClass> chipCosts = MemoryWipeCost(desiredMemoryOp);
                             Rect chipCostRect = new Rect(
                                 labelRect.xMax, chipRect.y,
                                 chipRect.xMax - labelRect.xMax - 4f, chipRect.height);
                             DrawCostIcons(chipCostRect, chipCosts, rightAlign: true,
                                 insufficientResources: insufficientResources);
+
+                            Text.Anchor = TextAnchor.UpperLeft;
+
+                            string opTooltip = BuildMemoryOpTooltip(desiredMemoryOp);
+                            if (!string.IsNullOrEmpty(opTooltip))
+                                TooltipHandler.TipRegion(chipRect, opTooltip);
+
+                            // Click: jump to the Memory tab (mirrors trait chips
+                            // jumping to the Traits tab; no scroll-to needed — the
+                            // tab holds three rows).
+                            if (Widgets.ButtonInvisible(chipRect))
+                                activeTab = 1;
                         }
-
-                        Text.Anchor = TextAnchor.UpperLeft;
-
-                        // Tooltip (same as traits tab). The "last source" warning
-                        // gets its own tooltip box stacked alongside, so it reads as
-                        // a distinct alert rather than being lost at the bottom of
-                        // a long stat block.
-                        string tooltip = BuildTraitTooltip(trait);
-                        if (!string.IsNullOrEmpty(tooltip))
-                            TooltipHandler.TipRegion(chipRect, tooltip);
-                        if (isLastSource)
-                        {
-                            // Color the tooltip body to match the chip's yellow label,
-                            // so the visual cue and the explanatory tip share an identity.
-                            // Hex matches ColorLibrary.Yellow (#ffff14).
-                            TooltipHandler.TipRegion(chipRect,
-                                "<color=#ffff14>" + "PWU_LastTraitSourceWarning".Translate() + "</color>");
-                        }
-
-                        // Click: switch to traits tab and scroll trait into view
-                        if (Widgets.ButtonInvisible(chipRect))
-                        {
-                            activeTab = 0;
-                            int traitIndex = compatibleTraits.IndexOf(trait);
-                            if (traitIndex >= 0)
-                                traitListScroll.y = traitIndex * (TraitRowHeight + TraitRowGap);
-                        }
-
-                        chipY += chipStride;
+                        // A pending texture restyle (VPWE/VEF texture tab) deliberately
+                        // gets NO chip: the chip list exists to itemize cost-bearing
+                        // ops, and OpType.Restyle never carries a cost. The Texture
+                        // tab's own controls are the only staging surface it needs.
                     }
-
-                    // Memory-op chip (§4): the selected wipe (at most one, by
-                    // the radio model) renders as one chip after the trait
-                    // chips, styled identically. It's a one-time operation —
-                    // never an "original" — so it always shows its cost.
-                    if (desiredMemoryOp != MemoryOpKind.None)
+                    finally
                     {
-                        Rect chipRect = new Rect(0f, chipY, innerWidth, TraitRowHeight);
-
-                        bool hovered = Mouse.IsOver(chipRect);
-                        Widgets.DrawBoxSolid(chipRect, hovered
-                            ? new Color(0.3f, 0.3f, 0.3f, 0.5f)
-                            : new Color(0.2f, 0.2f, 0.2f, 0.4f));
-
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        Rect labelRect = new Rect(
-                            chipRect.x + 4f, chipRect.y,
-                            chipRect.width * 0.7f, chipRect.height);
-                        Widgets.Label(labelRect, MemoryOpLabel(desiredMemoryOp));
-
-                        List<ThingDefCountClass> chipCosts = MemoryWipeCost(desiredMemoryOp);
-                        Rect chipCostRect = new Rect(
-                            labelRect.xMax, chipRect.y,
-                            chipRect.xMax - labelRect.xMax - 4f, chipRect.height);
-                        DrawCostIcons(chipCostRect, chipCosts, rightAlign: true,
-                            insufficientResources: insufficientResources);
-
-                        Text.Anchor = TextAnchor.UpperLeft;
-
-                        string opTooltip = BuildMemoryOpTooltip(desiredMemoryOp);
-                        if (!string.IsNullOrEmpty(opTooltip))
-                            TooltipHandler.TipRegion(chipRect, opTooltip);
-
-                        // Click: jump to the Memory tab (mirrors trait chips
-                        // jumping to the Traits tab; no scroll-to needed — the
-                        // tab holds three rows).
-                        if (Widgets.ButtonInvisible(chipRect))
-                            activeTab = 1;
+                        Widgets.EndScrollView();
                     }
-                    // A pending texture restyle (VPWE/VEF texture tab) deliberately
-                    // gets NO chip: the chip list exists to itemize cost-bearing
-                    // ops, and OpType.Restyle never carries a cost. The Texture
-                    // tab's own controls are the only staging surface it needs.
-
-                    Widgets.EndScrollView();
                 }
 
                 bool hasSurplus = currentSurplus?.Count > 0;
