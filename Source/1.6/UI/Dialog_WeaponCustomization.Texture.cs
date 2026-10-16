@@ -22,7 +22,7 @@ namespace PersonaWeaponsUnbound
         // for the selected part (see DrawTextureCell). Edits recompute
         // vpweTexPaths via the pure VPWETexPathMath helper and always assign a
         // fresh list — see SelectPartVariant — so preview/reference-equality
-        // checks elsewhere (DrawPreviewIcon's rebuild condition) see every
+        // checks elsewhere (SyncPreviewThing's staleness key) see every
         // change.
 
         private const float TexturePartRowGap = 6f;
@@ -86,7 +86,7 @@ namespace PersonaWeaponsUnbound
         // True once the weapon's VPWE/VEF skin has actually been edited from
         // its captured baseline (originalVpweTexPaths). Both sides are
         // established together (ctor, or the lazy preview capture in
-        // BuildPreviewGraphic) so a null/null pair (no VPWE/VEF, or nothing
+        // StampPreviewThing) so a null/null pair (no VPWE/VEF, or nothing
         // rolled yet) correctly reads as "unchanged".
         private bool TextureChanged =>
             originalVpweTexPaths != null && vpweTexPaths != null
@@ -117,7 +117,7 @@ namespace PersonaWeaponsUnbound
             float curY = rect.y + 6f;
 
             // vpweTexPaths is captured lazily by the first preview build (see
-            // BuildPreviewGraphic) — for a base weapon being upgraded, that
+            // StampPreviewThing) — for a base weapon being upgraded, that
             // happens within the same frame's preview draw (which runs before
             // this tab), but show a placeholder for the rare case it hasn't
             // landed yet rather than draw a grid with a stale/-1 selection.
@@ -361,7 +361,7 @@ namespace PersonaWeaponsUnbound
 
             // Belt-and-suspenders: in the ordinary case originalVpweTexPaths is
             // already set by the ctor/lazy preview capture well before the
-            // player can click anything (see BuildPreviewGraphic). But if that
+            // player can click anything (see StampPreviewThing). But if that
             // capture ever failed to land (e.g. a runtime reflection error)
             // while the tab is still showing (its gate is the def's catalog,
             // not whether a skin got captured), establish the pre-edit

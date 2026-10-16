@@ -7,31 +7,26 @@ namespace PersonaWeaponsUnbound
 {
     public partial class Dialog_WeaponCustomization
     {
-        private const int PreviewRTSize = 256;
-
-        // Cached preview render — rebuilt only when preview state changes.
-        // The trait snapshot is part of the key because appearance is now
-        // trait-dependent: a trait can drive color two (or any override reachable
-        // through the thing's graphic), so toggling one must rebuild even when the
-        // def is unchanged.
-        private RenderTexture previewRT;
+        // One prospective Thing, kept in the dialog's desired state (def, trait
+        // list, VPWE/VEF skin) and drawn through vanilla's own Widgets.ThingIcon.
+        // The thing is re-made only on def change and re-stamped only when the
+        // appearance key below changes, because ThingMaker.MakeThing mutates
+        // global sim state (Thing.PostMake draws a UniqueIDsManager id,
+        // PostPostMake rolls off the global Rand). The trait snapshot is part of
+        // the key because appearance is trait-dependent: a trait can drive color
+        // two (or any override reachable through the thing's graphic).
+        private Thing previewThing;
         private ThingDef cachedPreviewDef;
         private List<WeaponTraitDef> cachedPreviewTraits;
 
-        // VPWE/VEF texPaths snapshot the preview render was last built from —
-        // included in the rebuild key alongside def/traits so a Texture-tab
-        // variant edit (which reassigns vpweTexPaths to a fresh list) refreshes
-        // the preview icon, not just the confirmed job's appearance.
+        // VPWE/VEF texPaths snapshot the preview thing was last synced to —
+        // included in the key alongside def/traits so a Texture-tab variant edit
+        // (which reassigns vpweTexPaths to a fresh list) refreshes the preview
+        // icon, not just the confirmed job's appearance.
         private List<string> cachedPreviewTexPaths;
 
-        // One prospective Thing reused across rebuilds (re-made only on def change).
-        // ThingMaker.MakeThing mutates global sim state — Thing.PostMake draws a
-        // UniqueIDsManager id and PostPostMake rolls off the global Rand — so caching
-        // it bounds those draws to def changes instead of firing on every rebuild.
-        private Thing previewThing;
-
         // What vpweTexPaths previewThing's comp was last stamped with (see
-        // BuildPreviewGraphic) — null when never stamped (fresh Thing, or a
+        // StampPreviewThing) — null when never stamped (fresh Thing, or a
         // def with no VPWE/VEF comp). Distinct from cachedPreviewTexPaths:
         // this tracks the reused previewThing's own state, so a Texture-tab
         // edit re-stamps the same Thing rather than only affecting a future
@@ -56,10 +51,10 @@ namespace PersonaWeaponsUnbound
             // Vanilla "i" stats button — opens the info card for the prospective
             // weapon, so the player reads the final trait roster and stats rather
             // than summing modifiers by hand. Most of the thing's identity state is
-            // stamped when it's (re)built (see BuildPreviewGraphic); name and bond
-            // are stamped here instead because neither triggers a rebuild — a name
+            // stamped when it's (re)built (see StampPreviewThing); name and bond
+            // are stamped here instead because neither triggers a re-stamp — a name
             // edit doesn't affect appearance, and the bond turns partly on the
-            // memory-op radio, which isn't in the rebuild key.
+            // memory-op radio, which isn't in the sync key.
             //
             // Placement: right edge flush with the pane itself, bottom flush with
             // the right pane's tab headers — both panes share contentRect.y, and
@@ -322,54 +317,70 @@ namespace PersonaWeaponsUnbound
         private void DrawPreviewIcon(Rect rect)
         {
             ThingDef resultDef = ResultingDef;
+            SyncPreviewThing(resultDef);
 
-            bool needsRebuild = previewRT == null
+            if (previewThing != null && previewThing.def == resultDef)
+                Widgets.ThingIcon(rect, previewThing, scale: FittedIconScale(resultDef));
+            else
+                Widgets.ThingIcon(rect, resultDef, scale: FittedIconScale(resultDef));
+        }
+
+        // Widgets.ThingIcon multiplies in GenUI.IconDrawScale(def) — uiIconScale
+        // times the graphic's drawSize over the def's footprint — which is sized
+        // for map-placed things in small list rows. Weapons commonly draw at 1.5
+        // to 2.0 and have a 1x1 footprint, so left alone the sprite overflows the
+        // preview box. Cancel it so every weapon fits its rect the same way.
+        private static float FittedIconScale(ThingDef def)
+        {
+            float scale = GenUI.IconDrawScale(def);
+            return scale > 0f ? 1f / scale : 1f;
+        }
+
+        // Brings previewThing into the prospective customization state — the
+        // desired def, trait set and VPWE/VEF skin — when any of them changed
+        // since the last sync, so the icon draw above reads a Thing that
+        // describes itself rather than a hand-predicted appearance.
+        private void SyncPreviewThing(ThingDef resultDef)
+        {
+            bool stale = previewThing == null
                 || cachedPreviewDef != resultDef
                 || !SameTraits(cachedPreviewTraits, desiredTraits)
                 || !SameTexPaths(cachedPreviewTexPaths, vpweTexPaths);
+            if (!stale)
+                return;
 
-            // Rebuild during Layout to avoid disrupting Repaint's active rendering.
-            // Graphics.Blit changes RenderTexture.active, which during Repaint would
-            // redirect subsequent UI draws into our texture instead of the screen.
-            if (needsRebuild && Event.current.type == EventType.Layout)
-            {
-                RebuildPreviewRT(resultDef);
-                cachedPreviewDef = resultDef;
-                cachedPreviewTraits = new List<WeaponTraitDef>(desiredTraits);
-                cachedPreviewTexPaths = vpweTexPaths != null ? new List<string>(vpweTexPaths) : null;
-            }
-
-            if (previewRT != null)
-                GUI.DrawTexture(rect, previewRT, ScaleMode.ScaleToFit, true);
-            else
-                Widgets.ThingIcon(rect, resultDef);
+            StampPreviewThing(resultDef);
+            cachedPreviewDef = resultDef;
+            cachedPreviewTraits = new List<WeaponTraitDef>(desiredTraits);
+            // Snapshot after the stamp: it may have just captured the first
+            // rolled skin into vpweTexPaths.
+            cachedPreviewTexPaths = vpweTexPaths != null ? new List<string>(vpweTexPaths) : null;
         }
 
-        private void RebuildPreviewRT(ThingDef resultDef)
-        {
-            DestroyPreviewRT();
-            Graphic topLevel = BuildPreviewGraphic(resultDef);
-            // No player-facing variant-index concept (persona weapons render via
-            // Graphic_Single) — fall back to the weapon's own override, if any,
-            // as harmless preservation for modded weapons that still vary by index.
-            previewRT = BuildVariantPreview(topLevel, weapon.overrideGraphicIndex ?? 0, PreviewRTSize);
-        }
-
-        // Resolves the weapon's top-level (collection-level) graphic for a
-        // prospective customization state — the desired def and trait set —
-        // by building a Thing in that state and asking it, rather than
-        // predicting the appearance by hand.
+        // Puts a Thing into a prospective customization state — the desired
+        // def and trait set — so vanilla's icon widget can ask it how it looks,
+        // rather than predicting the appearance by hand.
         //
-        // We let the actual object describe itself: Thing.Graphic resolves
-        // through GraphicData.GraphicColoredFor using the thing's own
-        // DrawColor/DrawColorTwo, so the weapon's own Thing/Comp graphic
-        // overrides run against the prospective trait list. That keeps the
-        // preview decoupled from how a given weapon (vanilla or a downstream
-        // mod) maps state to appearance — any override reachable through the
-        // thing's graphic comes through for free, with no knowledge of its
-        // mechanism here. (The one ceiling: an override that lives purely in
-        // a draw-time patch and never changes the thing's graphic can't be
-        // reconstructed by anything short of invoking that draw path.)
+        // We let the actual object describe itself: Widgets.ThingIcon resolves
+        // Thing.Graphic through GraphicData.GraphicColoredFor using the thing's
+        // own DrawColor/DrawColorTwo, and draws the material through the
+        // shader's UI variant (the ShaderTypeDef's uiShaderPath) when it has
+        // one, so the weapon's own Thing/Comp graphic overrides run against the
+        // prospective trait list and render the way vanilla draws any item
+        // icon. That keeps the preview decoupled from how a given weapon
+        // (vanilla or a downstream mod) maps state to appearance — any override
+        // reachable through the thing's graphic comes through for free, with no
+        // knowledge of its mechanism here. Two ceilings, both shared with
+        // vanilla's own inventory icons: an override that lives purely in a
+        // draw-time patch and never changes the thing's graphic can't be
+        // reconstructed here, and a shader whose ShaderTypeDef declares no
+        // uiShaderPath draws as a flat tint without its mask. Vanilla's and
+        // VPWE's bladelink weapons use plain Cutout (no mask, no UI variant),
+        // so for them the flat DrawColor tint is the whole shader; a VEF
+        // composed skin draws its combined texture the same way, since
+        // CompGraphicCustomization builds a Graphic_Single whose material
+        // carries that texture (verified against VEF source and the 1.7
+        // Widgets.GetIconFor, 2026-10-16).
         //
         // For appearance, only the trait list needs setting: color two is
         // derived from the trait list (+ stuff) by the weapon's own
@@ -382,16 +393,15 @@ namespace PersonaWeaponsUnbound
         // conversion pipeline's ownership transfers, so the live weapon's
         // state is never disturbed.
         //
-        // Building a Thing mutates global sim state, which the old
-        // graphic-only path never touched: Thing.PostMake pulls a
+        // Building a Thing mutates global sim state: Thing.PostMake pulls a
         // UniqueIDsManager id and CompBladelinkWeapon.PostPostMake rolls
         // random traits/name off the global Rand. Two guards keep that from
-        // leaking (a multiplayer desync risk, since rebuilds run during GUI
-        // layout, off the synchronized tick): the make is wrapped in
+        // leaking (a multiplayer desync risk, since syncs run during GUI
+        // drawing, off the synchronized tick): the make is wrapped in
         // Rand.Push/PopState so the throwaway rolls don't perturb the shared
         // Rand stream, and the Thing is cached on previewThing and re-made
         // only when the result def changes — so the id draw fires per def,
-        // not per rebuild. Re-stamping traits below touches no global state.
+        // not per sync. Re-stamping traits below touches no global state.
         // The cached thing is never spawned, never scribed, and never
         // destroyed — simply dropped with the dialog. That lifecycle is also
         // what makes the identity stamp's shared references (art TaleReference,
@@ -401,10 +411,10 @@ namespace PersonaWeaponsUnbound
         // CompArt.PostDestroy against the live weapon's tale,
         // Precept_Relic.Notify_ThingLost against its precept, and
         // CompBladelinkWeapon.PostDestroy's UnCode against its bond.
-        private Graphic BuildPreviewGraphic(ThingDef resultDef)
+        private void StampPreviewThing(ThingDef resultDef)
         {
             if (resultDef?.graphicData == null)
-                return null;
+                return;
 
             bool madeThisCall = false;
             if (previewThing == null || previewThing.def != resultDef)
@@ -456,10 +466,10 @@ namespace PersonaWeaponsUnbound
                 WeaponDefConversion.CopyRelicStatus(weapon, previewThing);
 
                 // Same harmless preservation ConvertWeaponDef does for modded
-                // weapons that still vary by index — it also fixes the info
-                // card's icon, which resolves through the thing
-                // (Widgets.ThingIcon → ExtractInnerGraphicFor →
-                // Graphic_Random.SubGraphicFor) and without an override falls
+                // weapons that still vary by index — it also pins the preview
+                // icon and the info card's icon, which both resolve through the
+                // thing (Widgets.ThingIcon → ExtractInnerGraphicFor →
+                // Graphic_Random.SubGraphicFor) and without an override fall
                 // back to hashing the throwaway thingIDNumber.
                 previewThing.overrideGraphicIndex = weapon.overrideGraphicIndex;
             }
@@ -489,16 +499,18 @@ namespace PersonaWeaponsUnbound
             // Resolving .Graphic can trigger VEF's lazy skin roll — when customizing a
             // base weapon there's no captured skin to stamp, so VEF rolls off the
             // global Rand on this first access. Contain it in Rand.Push/PopState like
-            // the MakeThing rolls above, so a rebuild during GUI layout can't perturb
-            // the synchronized Rand stream (MP-desync guard). Then capture that roll
-            // so every later preview and the confirmed job reproduce the same skin
-            // instead of rerolling. With a captured skin already stamped, texPaths is
-            // non-empty and VEF doesn't roll at all here.
-            Graphic graphic;
+            // the MakeThing rolls above, so a sync during GUI drawing can't perturb
+            // the synchronized Rand stream (MP-desync guard). Resolving it here,
+            // rather than leaving the first access to the icon widget, is what
+            // keeps the roll inside the guard; the widget then reads the cached
+            // graphic. Then capture that roll so every later preview and the
+            // confirmed job reproduce the same skin instead of rerolling. With a
+            // captured skin already stamped, texPaths is non-empty and VEF doesn't
+            // roll at all here.
             Rand.PushState();
             try
             {
-                graphic = previewThing.Graphic;
+                _ = previewThing.Graphic;
                 if (madeThisCall && vpweTexPaths == null)
                 {
                     vpweTexPaths = VPWEIntegration.CaptureTexPaths(previewThing);
@@ -517,14 +529,12 @@ namespace PersonaWeaponsUnbound
             {
                 Rand.PopState();
             }
-
-            return graphic;
         }
 
         // Ordered equality for the two preview caches' texPaths snapshots
         // (and the reused previewThing's stamp check). Unlike SameTraits, a
         // null/null pair matches — no VPWE/VEF, or nothing rolled yet, is a
-        // stable "unchanged" state that must not force a rebuild every frame.
+        // stable "unchanged" state that must not force a re-stamp every frame.
         private static bool SameTexPaths(List<string> cached, List<string> current)
         {
             if (cached == null && current == null)
@@ -541,56 +551,10 @@ namespace PersonaWeaponsUnbound
             return true;
         }
 
-        // Blits one texture variant of a prebuilt, already-colored top-level
-        // graphic into a fresh RenderTexture. textureIndex only matters for
-        // modded weapons whose graphic is still a Graphic_Random — persona
-        // weapons render via Graphic_Single, with no variant concept.
-        private RenderTexture BuildVariantPreview(Graphic topLevel, int textureIndex, int rtSize)
-        {
-            if (topLevel == null)
-                return null;
-
-            // Select the texture variant, mirroring Graphic_Random.SubGraphicFor at
-            // draw time. The coloring preserves the wrapper types, so unwrap rotation
-            // then index into the variants.
-            Graphic graphic = topLevel;
-            if (graphic is Graphic_RandomRotated rotated)
-                graphic = rotated.SubGraphic;
-            if (graphic is Graphic_Random random)
-                graphic = random.SubGraphicAtIndex(textureIndex);
-
-            // Unity-overloaded == (not ?.) so a destroyed Material also bails out
-            // instead of throwing MissingReferenceException on .mainTexture (UNT0008).
-            Material mat = graphic.MatSingle;
-            if (mat == null)
-                return null;
-            Texture mainTex = mat.mainTexture;
-            if (mainTex == null)
-                return null;
-
-            RenderTexture rt = new RenderTexture(rtSize, rtSize, 0, RenderTextureFormat.ARGB32);
-
-            // Save and restore RenderTexture.active around the entire operation.
-            // Graphics.Blit sets it to the destination and does NOT restore it —
-            // leaving it set would redirect all subsequent UI rendering into our texture.
-            RenderTexture prev = RenderTexture.active;
-
-            // Clear to transparent so clipped pixels (alpha < cutoff) stay transparent
-            RenderTexture.active = rt;
-            GL.Clear(true, true, Color.clear);
-
-            // Blit through the material's shader — CutoutComplex reads the mask
-            // texture to selectively apply the color, matching in-game rendering
-            Graphics.Blit(mainTex, rt, mat);
-
-            RenderTexture.active = prev;
-            return rt;
-        }
-
-        // Ordered equality for the two preview caches' trait snapshots. Order
-        // matters — color resolution is order-sensitive (e.g. "last forced color
-        // wins" / "first body-color trait wins"). A null cached snapshot (first
-        // build) never matches, forcing the initial rebuild.
+        // Ordered equality for the preview's trait snapshot. Order matters —
+        // color resolution is order-sensitive (e.g. "last forced color wins" /
+        // "first body-color trait wins"). A null cached snapshot (first sync)
+        // never matches, forcing the initial stamp.
         private static bool SameTraits(List<WeaponTraitDef> cached, List<WeaponTraitDef> current)
         {
             if (cached == null)
@@ -603,22 +567,6 @@ namespace PersonaWeaponsUnbound
                     return false;
             }
             return true;
-        }
-
-        private void DestroyPreviewRT()
-        {
-            if (previewRT != null)
-            {
-                previewRT.Release();
-                UnityEngine.Object.Destroy(previewRT);
-                previewRT = null;
-            }
-        }
-
-        public override void PreClose()
-        {
-            base.PreClose();
-            DestroyPreviewRT();
         }
     }
 }

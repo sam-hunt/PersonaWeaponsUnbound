@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Hardened the customization dialog so an error inside it no longer breaks the rest of the UI.
+- Preview now uses the game's own icon renderer.
+- Reset button now uses vanilla's translated "Restore defaults" label.
 
 ## [1.4.0] - 2026-10-15
 

@@ -73,7 +73,7 @@ namespace PersonaWeaponsUnbound
 
         // Snapshot of vpweTexPaths taken the moment it's first established —
         // in the ctor (already-VPWE weapon) or by the lazy preview capture
-        // (base weapon rolling its first persona skin; see BuildPreviewGraphic).
+        // (base weapon rolling its first persona skin; see StampPreviewThing).
         // Never mutated afterward. Compared against the live vpweTexPaths by
         // TextureChanged (Dialog_WeaponCustomization.Texture.cs) to drive the
         // Texture tab's dirty-tracking, LHS chip, and confirm-button gating —
