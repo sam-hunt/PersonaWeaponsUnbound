@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Entries are short one-liners ready to paste as Steam Workshop change notes: what changed for the player, no rationale, no def names, no sub-bullets. -->
 
+## [1.4.2] - 2026-10-18
+
+### Changed
+
+- Preview image badge updated to RimWorld 1.7.
+
 ## [1.4.1] - 2026-10-16
 
 ### Changed
@@ -102,6 +108,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - VEF recipe-inheritance benches (e.g. VFE's compact fabrication bench) are recognized as customization benches automatically
 - Deep Vanilla Persona Weapons Expanded / Vanilla Expanded Framework integration: preserves composed weapon skins across persona conversion and dialog previews, adds a Texture tab to PWU's customization dialog for editing appearance parts directly (suppressing VEF's redundant float-menu entry), and links cross-mod persona weapons to their base by reused art when defName conventions don't match
 
+[1.4.2]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.4.2
 [1.4.1]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.4.1
 [1.4.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.4.0
 [1.3.0]: https://github.com/sam-hunt/PersonaWeaponsUnbound/releases/tag/v1.3.0
