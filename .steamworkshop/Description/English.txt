@@ -54,10 +54,10 @@ A single ultratech research project, Bladelink Customization, gates everything b
 [*]Requires Royalty DLC
 [*]Safe to add to existing saves
 [*]Safe to remove from saves (safe-to-ignore red errors only)
-[*]Coexists cleanly with Unique Weapons Unbound (this mod's sibling for Odyssey Unique Weapons) - disjoint identifiers and complementary trait filters, so both can run together
+[*]Coexists cleanly with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3707263149]Unique Weapons Unbound[/url] (this mod's sibling for Odyssey Unique Weapons) - disjoint identifiers and complementary trait filters, so both can run together
 [*]Automatically compatible with most mods that add new persona weapons or bladelink traits e.g. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2863308112]More Persona Traits[/url]. No hard-coded def references
 [*]Modded workbenches that inherit fabrication bench recipes (VEF's RecipeInheritanceExtension, e.g. VFE's compact fabrication bench) are detected automatically
-[*]Works with CE, PUAH, Ideology, integrates with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2826922787]Vanilla Persona Weapons Expanded[/url]
+[*]Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2890901044]CE[/url], [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1279012058]PUAH[/url], Ideology, integrates with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2826922787]Vanilla Persona Weapons Expanded[/url]
 [/list]
 
 [hr][/hr]
